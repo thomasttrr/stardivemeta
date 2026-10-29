@@ -1,0 +1,8 @@
+[package]
+name = "mongil-core"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "mongil_core"
+path = "src/lib.rs"

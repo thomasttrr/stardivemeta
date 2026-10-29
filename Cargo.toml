@@ -1,0 +1,7 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/mongil-core",
+    "crates/mongil-render",
+    "crates/mongil-build",
+]

@@ -1,0 +1,63 @@
+
+=== Low ===
+S (4): Brisshell, Chloe, Isabella, Narae
+A (6): Esther, Francis, Francis: Summer Dive!, Mina, Ophelia, Verna: Summer Dive!
+B (11): Benjamin, Cloud, Ellie, Flare, Gabi, Jiwon, Mabel, Nagi, Penny, Vivian, Yeonhwa
+C (6): Bonnie, Leeho, Reina, Sangun, Sera, Verna
+D (1): Daisy
+MODE-SPLIT (1): Angel
+Labels: {'Contested': 12, 'Solid': 17}
+
+=== High ===
+S (7): Brisshell, Chloe, Esther, Francis: Summer Dive!, Isabella, Mina, Narae
+A (6): Francis, Jiwon, Mabel, Ophelia, Verna: Summer Dive!, Vivian
+B (8): Benjamin, Cloud, Ellie, Flare, Gabi, Nagi, Penny, Yeonhwa
+C (6): Bonnie, Leeho, Reina, Sangun, Sera, Verna
+D (1): Daisy
+MODE-SPLIT (1): Angel
+Labels: {'Solid': 25, 'Contested': 4}
+
+=== Max ===
+S (7): Brisshell, Chloe, Esther, Francis: Summer Dive!, Isabella, Mina, Narae
+A (7): Francis, Jiwon, Mabel, Nagi, Ophelia, Verna: Summer Dive!, Vivian
+B (8): Benjamin, Cloud, Ellie, Flare, Gabi, Penny, Sangun, Yeonhwa
+C (5): Bonnie, Leeho, Reina, Sera, Verna
+D (1): Daisy
+MODE-SPLIT (1): Angel
+Labels: {'Solid': 25, 'Contested': 4}
+
+=== Full table (tier/label per level) ===
+Angel: Low: MODE-SPLIT/Solid (2.17, spread 0.5, cov 3, votes [2.5, 2, 2]) | High: MODE-SPLIT/Solid (2.17, spread 0.5, cov 3, votes [2.5, 2, 2]) | Max: MODE-SPLIT/Solid (2.17, spread 0.5, cov 3, votes [2.5, 2, 2])
+Benjamin: Low: B/Solid (2.83, spread 0.5, cov 3, votes [2.5, 3, 3]) | High: B/Solid (2.83, spread 0.5, cov 3, votes [2.5, 3, 3]) | Max: B/Solid (2.83, spread 0.5, cov 3, votes [2.5, 3, 3])
+Bonnie: Low: C/Solid (1.0, spread 0.0, cov 2, votes [1.0, 1]) | High: C/Solid (1.0, spread 0.0, cov 2, votes [1.0, 1]) | Max: C/Solid (1.0, spread 0.0, cov 2, votes [1.0, 1])
+Brisshell: Low: S/Solid (3.5, spread 1, cov 2, votes [3, 4]) | High: S/Solid (3.75, spread 0.5, cov 2, votes [3.5, 4]) | Max: S/Solid (3.75, spread 0.5, cov 2, votes [3.5, 4])
+Chloe: Low: S/Solid (4.0, spread 0.0, cov 2, votes [4.0, 4]) | High: S/Solid (4.0, spread 0.0, cov 2, votes [4.0, 4]) | Max: S/Solid (4.0, spread 0.0, cov 2, votes [4.0, 4])
+Cloud: Low: B/Solid (2.33, spread 1.0, cov 3, votes [2.0, 2, 3]) | High: B/Solid (2.33, spread 1.0, cov 3, votes [2.0, 2, 3]) | Max: B/Solid (2.33, spread 1.0, cov 3, votes [2.0, 2, 3])
+Daisy: Low: D/Solid (0.5, spread 1.0, cov 2, votes [1.0, 0]) | High: D/Solid (0.5, spread 1.0, cov 2, votes [1.0, 0]) | Max: D/Solid (0.5, spread 1.0, cov 2, votes [1.0, 0])
+Ellie: Low: B/Solid (2.25, spread 0.5, cov 2, votes [2.5, 2]) | High: B/Solid (2.25, spread 0.5, cov 2, votes [2.5, 2]) | Max: B/Solid (2.25, spread 0.5, cov 2, votes [2.5, 2])
+Esther: Low: A/Contested (3.17, spread 2, cov 3, votes [3.5, 2, 4]) | High: S/Solid (3.5, spread 1, cov 3, votes [3.5, 3, 4]) | Max: S/Solid (3.5, spread 1, cov 3, votes [3.5, 3, 4])
+Flare: Low: B/Contested (2.17, spread 2.5, cov 3, votes [3.5, 1, 2]) | High: B/Contested (2.5, spread 1.5, cov 3, votes [3.5, 2, 2]) | Max: B/Contested (2.83, spread 1.5, cov 3, votes [3.5, 3, 2])
+Francis: Low: A/Contested (3.17, spread 2.0, cov 3, votes [2.0, 3.5, 4]) | High: A/Contested (3.17, spread 2.0, cov 3, votes [2.0, 3.5, 4]) | Max: A/Contested (3.17, spread 2.0, cov 3, votes [2.0, 3.5, 4])
+Francis: Summer Dive!: Low: A/Contested (3.0, spread 2, cov 2, votes [2, 4]) | High: S/Solid (3.75, spread 0.5, cov 2, votes [3.5, 4]) | Max: S/Solid (4.0, spread 0, cov 2, votes [4, 4])
+Gabi: Low: B/Contested (2.0, spread 2.0, cov 3, votes [3.0, 1, 2]) | High: B/Solid (2.67, spread 1.0, cov 3, votes [3.0, 3, 2]) | Max: B/Solid (2.67, spread 1.0, cov 3, votes [3.0, 3, 2])
+Isabella: Low: S/Solid (3.5, spread 1, cov 3, votes [3.5, 3, 4]) | High: S/Solid (3.67, spread 0.5, cov 3, votes [3.5, 3.5, 4]) | Max: S/Solid (3.67, spread 0.5, cov 3, votes [3.5, 3.5, 4])
+Jiwon: Low: B/Contested (2.5, spread 2.5, cov 3, votes [3.5, 1, 3]) | High: A/Solid (3.17, spread 0.5, cov 3, votes [3.5, 3, 3]) | Max: A/Solid (3.17, spread 0.5, cov 3, votes [3.5, 3, 3])
+Leeho: Low: C/Solid (1.0, spread 0.0, cov 2, votes [1.0, 1]) | High: C/Solid (1.0, spread 0.0, cov 2, votes [1.0, 1]) | Max: C/Solid (1.0, spread 0.0, cov 2, votes [1.0, 1])
+Mabel: Low: B/Solid (2.5, spread 1, cov 2, votes [2, 3]) | High: A/Solid (3.0, spread 0, cov 2, votes [3, 3]) | Max: A/Solid (3.0, spread 0, cov 2, votes [3, 3])
+Mina: Low: A/Contested (3.33, spread 2.0, cov 3, votes [4.0, 2, 4]) | High: S/Solid (3.83, spread 0.5, cov 3, votes [4.0, 3.5, 4]) | Max: S/Solid (3.83, spread 0.5, cov 3, votes [4.0, 3.5, 4])
+Nagi: Low: B/Contested (2.0, spread 2, cov 2, votes [1, 3]) | High: B/Solid (2.5, spread 1, cov 2, votes [2, 3]) | Max: A/Solid (3.0, spread 0, cov 2, votes [3, 3])
+Narae: Low: S/Solid (4.0, spread 0.0, cov 3, votes [4.0, 4, 4]) | High: S/Solid (4.0, spread 0.0, cov 3, votes [4.0, 4, 4]) | Max: S/Solid (4.0, spread 0.0, cov 3, votes [4.0, 4, 4])
+Ophelia: Low: A/Contested (3.0, spread 2, cov 3, votes [3.0, 2, 4]) | High: A/Solid (3.33, spread 1.0, cov 3, votes [3.0, 3, 4]) | Max: A/Solid (3.33, spread 1.0, cov 3, votes [3.0, 3, 4])
+Penny: Low: B/Contested (2.0, spread 2, cov 3, votes [2.0, 1, 3]) | High: B/Solid (2.33, spread 1.0, cov 3, votes [2.0, 2, 3]) | Max: B/Solid (2.67, spread 1.0, cov 3, votes [2.0, 3, 3])
+Reina: Low: C/Solid (1.83, spread 0.5, cov 3, votes [1.5, 2, 2]) | High: C/Solid (1.83, spread 0.5, cov 3, votes [1.5, 2, 2]) | Max: C/Solid (1.83, spread 0.5, cov 3, votes [1.5, 2, 2])
+Sangun: Low: C/Contested (1.75, spread 3.5, cov 2, votes [3.5, 0]) | High: C/Contested (1.75, spread 3.5, cov 2, votes [3.5, 0]) | Max: B/Contested (2.25, spread 2.5, cov 2, votes [3.5, 1])
+Sera: Low: C/Solid (1.5, spread 1, cov 3, votes [1.5, 1, 2]) | High: C/Solid (1.83, spread 0.5, cov 3, votes [1.5, 2, 2]) | Max: C/Solid (1.83, spread 0.5, cov 3, votes [1.5, 2, 2])
+Verna: Low: C/Solid (1.0, spread 0.0, cov 2, votes [1.0, 1]) | High: C/Solid (1.0, spread 0.0, cov 2, votes [1.0, 1]) | Max: C/Solid (1.0, spread 0.0, cov 2, votes [1.0, 1])
+Verna: Summer Dive!: Low: A/Solid (3.25, spread 0.5, cov 2, votes [3.5, 3]) | High: A/Solid (3.25, spread 0.5, cov 2, votes [3.5, 3]) | Max: A/Solid (3.25, spread 0.5, cov 2, votes [3.5, 3])
+Vivian: Low: B/Solid (2.5, spread 1, cov 2, votes [2, 3]) | High: A/Solid (3.25, spread 0.5, cov 2, votes [3.5, 3]) | Max: A/Solid (3.25, spread 0.5, cov 2, votes [3.5, 3])
+Yeonhwa: Low: B/Contested (2.5, spread 2.5, cov 3, votes [1.0, 3.5, 3]) | High: B/Contested (2.5, spread 2.5, cov 3, votes [1.0, 3.5, 3]) | Max: B/Contested (2.5, spread 2.5, cov 3, votes [1.0, 3.5, 3])
+
+=== Widest spreads ===
+Low [('Sangun', 3.5), ('Jiwon', 2.5), ('Flare', 2.5), ('Yeonhwa', 2.5), ('Mina', 2.0)]
+High [('Sangun', 3.5), ('Yeonhwa', 2.5), ('Francis', 2.0), ('Flare', 1.5), ('Penny', 1.0)]
+Max [('Sangun', 2.5), ('Yeonhwa', 2.5), ('Francis', 2.0), ('Flare', 1.5), ('Penny', 1.0)]
