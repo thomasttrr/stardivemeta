@@ -19,4 +19,4 @@ Format: one line per task — task id, date, commit, how it was checked (plan A.
 
 - T0.1 · 2026-10-29 · initial commit · `docs/PLAN-v1.md` copied byte-identical; sha256 verified equal to the approved plan hash (above). 8 input files copied to `docs/inputs/`; approval record filed as `docs/APPROVAL-v1.md`.
 - T1.1 (scaffold portion) · 2026-10-29 · initial commit · Repo tree per §B.1 created; workspace with 3 member crates; `cargo build --workspace` result recorded below. Remaining T1.1 acceptance (site build on CI + Windows) is checked when the Astro site exists.
-- T1.1 build check · 2026-10-29 · `cargo build --workspace` — see the verification note appended at the bottom of this file after the first run.
+- T1.1 build check · 2026-10-29 · commit d04ddd9 · `cargo build --workspace` exit 0 — mongil-core, mongil-render, mongil-build all compiled (dev profile, 1.90s compile after the pinned 1.99.1 toolchain auto-installed on first run).
