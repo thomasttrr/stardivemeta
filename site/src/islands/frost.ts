@@ -9,6 +9,10 @@ export interface Frost {
   frost: number;
   /** Legibility tint scale, (1 + frost) / 2. */
   tint: number;
+  /** Chrome floor: floating elements (the dock lens) never drop below
+   *  Balanced, mirroring --frost-chrome in tokens.css, so content
+   *  scrolling underneath blurs out instead of slicing through. */
+  chrome: number;
 }
 
 export function readFrost(): Frost {
@@ -16,5 +20,9 @@ export function readFrost(): Frost {
   const f = parseFloat(cs.getPropertyValue('--frost'));
   const frost = Number.isFinite(f) && f > 0 ? f : 1;
   const t = parseFloat(cs.getPropertyValue('--frost-tint'));
-  return { frost, tint: Number.isFinite(t) && t > 0 ? t : (1 + frost) / 2 };
+  return {
+    frost,
+    tint: Number.isFinite(t) && t > 0 ? t : (1 + frost) / 2,
+    chrome: Math.max(frost, 1),
+  };
 }

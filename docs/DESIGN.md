@@ -106,7 +106,7 @@ keeps text legible. Both paths read it:
 
 | Stop | `--frost` | tint | CSS blur / strong | panel fill | overlay fill | dock fill | chip fill | GL frost | GL tint | dock lens blur |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| **Clear** (shipped) | **0.3** | **0.65** | **6.6 / 9.6px** | **.377** | **.507** | **.364** | **.042** | **.186** | **.273** | **0.42** |
+| **Clear** (shipped) | **0.3** | **0.65** | **6.6 / 9.6px** | **.377** | **.78 †** | **.56 †** | **.042** | **.186** | **.273** | **1.4 †** |
 | Balanced | 1 | 1 | 22 / 32px | .58 | .78 | .56 | .065 | .62 | .42 | 1.4 |
 | Frosted | 2 | 1.5 | 44 / 64px | .87 | .92 (cap) | .84 | .0975 | 1.0 (cap) | .63 | 2.8 |
 
@@ -114,8 +114,19 @@ Clear is the owner's pick (2026-10-30), locked — chosen from the three-stop
 screenshots after Balanced shipped as the default. Balanced reproduces the
 pre-dial look exactly: with motion frozen, home and /c/francis/ screenshots
 at Balanced are byte-identical to the previous build on both the WebGL and
-the CSS path. Known trade-off at Clear: below ~0.6 the dock lets text
-behind it show through. Screenshots at each stop are in
+the CSS path.
+
+† Chrome-floored values, see "Chrome floor" below.
+
+**Chrome floor.** Floating chrome — the header capsule, the dock and the
+evidence dialogs — never drops below Balanced, whatever the dial says:
+`--frost-chrome = max(--frost, 1)` drives `--glass-fill-strong`,
+`--glass-blur-strong`, `--dock-fill` and the dock lens (via
+`readFrost().chrome`). Board panels and chips follow `--frost` exactly.
+Reason: at Clear, page content scrolling under the near-transparent
+header stayed sharp enough to slice across the nav pill, reading as
+clipping. The board keeps the Clear look; the chrome keeps Balanced
+strength so what passes underneath blurs out. Screenshots at each stop are in
 `docs/design/screenshots/frost/`: `{stop}-*.png` is the WebGL path,
 `css-{stop}-*.png` the CSS path. To lock a different stop, change the one
 `--frost` line.

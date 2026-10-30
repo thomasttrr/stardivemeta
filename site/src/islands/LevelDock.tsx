@@ -119,7 +119,7 @@ export default function LevelDock() {
             >
               <feImage href={lens.href} x="0" y="0" width={lens.w} height={lens.h} result="map" preserveAspectRatio="none" />
               <feDisplacementMap in="SourceGraphic" in2="map" scale="34" xChannelSelector="R" yChannelSelector="G" result="bent" />
-              <feGaussianBlur in="bent" stdDeviation={1.4 * readFrost().frost} />
+              <feGaussianBlur in="bent" stdDeviation={1.4 * readFrost().chrome} />
             </filter>
           </svg>
         )}
