@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MONGIL: STAR DIVE tier list – StarDiveMeta</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+body{margin:0;background:#061013}
+:root{
+  --base:#061013;
+  --bone:#f4f6f1;--sub:#b8c5c8;--mk:rgba(244,246,241,.8);
+  --gold:#ffcf5a;--copper:#ff9e6e;--mint:#86e0b5;--sky:#93c6ff;--ash:#b3bdc1;--split:#ece4cf;
+  --glass:rgba(20,32,36,.52);--rim:rgba(255,255,255,.16);
+  --spring:cubic-bezier(.34,1.56,.64,1);--ease:cubic-bezier(.22,1,.36,1);
+  --body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+.page{position:relative;min-height:100%;background:var(--base);color:var(--bone);font-family:var(--body);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
+.page a{color:inherit}
+.page a:focus-visible,.page button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* ambient colour field the glass refracts */
+.ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.blob{position:absolute;border-radius:50%;filter:blur(72px);will-change:transform}
+.b1{width:max(46vw,340px);height:max(46vw,340px);left:-10vw;top:-12vw;background:#b9791c;opacity:.55;animation:d1 38s var(--ease) infinite alternate}
+.b2{width:max(40vw,300px);height:max(40vw,300px);right:-12vw;top:22vh;background:#0e8a80;opacity:.6;animation:d2 46s var(--ease) infinite alternate}
+.b3{width:max(34vw,260px);height:max(34vw,260px);left:18vw;bottom:-14vw;background:#b24a39;opacity:.42;animation:d3 54s var(--ease) infinite alternate}
+.b4{width:max(22vw,200px);height:max(22vw,200px);right:24vw;top:-6vw;background:#2c7a5c;opacity:.45;animation:d2 60s var(--ease) infinite alternate-reverse}
+.ambient::after{content:'';position:absolute;inset:0;background:radial-gradient(130% 80% at 50% 0%,rgba(6,16,19,0) 0,rgba(6,16,19,.62) 72%)}
+@keyframes d1{to{transform:translate(9vw,7vh) scale(1.14)}}
+@keyframes d2{to{transform:translate(-8vw,10vh) scale(.9)}}
+@keyframes d3{to{transform:translate(6vw,-9vh) scale(1.2)}}
+
+.content{position:relative;z-index:1}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px;box-sizing:border-box}
+
+/* the glass material */
+.glass{
+  background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.025)),var(--glass);
+  -webkit-backdrop-filter:blur(24px) saturate(170%);backdrop-filter:blur(24px) saturate(170%);
+  border:1px solid var(--rim);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 1px 0 0 rgba(255,255,255,.05),inset 0 -1px 0 rgba(0,0,0,.25),0 14px 34px rgba(0,0,0,.32);
+}
+
+/* header capsule */
+.top{position:sticky;top:12px;z-index:10;padding:12px 16px 0}
+.cap{max-width:1080px;margin:0 auto;box-sizing:border-box;border-radius:999px;display:flex;align-items:center;gap:12px;padding:6px 6px 6px 20px}
+.logo{font-weight:800;font-size:18px;letter-spacing:-.02em;text-decoration:none;min-height:44px;display:inline-flex;align-items:center;white-space:nowrap}
+.logo span{color:var(--gold)}
+.nav{display:flex;gap:2px;flex:1;justify-content:flex-end;min-width:0;overflow-x:auto;scrollbar-width:none}
+.nav a{white-space:nowrap;text-decoration:none;color:var(--sub);font-weight:600;font-size:14px;padding:0 13px;min-height:44px;display:inline-flex;align-items:center;border-radius:999px;transition:background 200ms,color 200ms}
+.nav a:hover{color:var(--bone);background:rgba(255,255,255,.06)}
+.nav a[aria-current="page"]{color:var(--bone);background:rgba(255,255,255,.13);box-shadow:inset 0 1px 0 rgba(255,255,255,.22)}
+
+/* hero */
+.hero{padding-top:60px}
+.hero h1{font-size:62px;font-weight:800;letter-spacing:-.045em;line-height:1;margin:0;animation:rise 700ms var(--ease) backwards}
+.hero h1 span{color:var(--gold)}
+.tag{font-size:19px;font-weight:500;margin:16px 0 0;letter-spacing:-.01em;animation:rise 700ms 80ms var(--ease) backwards}
+.built{font-size:14.5px;color:var(--sub);margin:6px 0 0;max-width:62ch;animation:rise 700ms 140ms var(--ease) backwards}
+.note{font-size:13px;color:var(--sub);margin:4px 0 0;animation:rise 700ms 180ms var(--ease) backwards}
+.note a{color:var(--bone);text-underline-offset:3px}
+
+/* tier board */
+.board{margin-top:36px;display:flex;flex-direction:column;gap:14px}
+.tier{position:relative;border-radius:28px;padding:14px;display:grid;grid-template-columns:84px 1fr;gap:16px;align-items:start;animation:rise 650ms var(--ease) backwards}
+.tier:nth-child(2){animation-delay:60ms}.tier:nth-child(3){animation-delay:120ms}.tier:nth-child(4){animation-delay:180ms}.tier:nth-child(5){animation-delay:240ms}.tier:nth-child(6){animation-delay:300ms}
+.tier::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(110% 120% at 0% 0%,color-mix(in srgb,var(--c) 15%,transparent),transparent 52%)}
+.tier[data-tier="S"]{--c:var(--gold)}
+.tier[data-tier="A"]{--c:var(--copper)}
+.tier[data-tier="B"]{--c:var(--mint)}
+.tier[data-tier="C"]{--c:var(--sky)}
+.tier[data-tier="D"]{--c:var(--ash)}
+.tier[data-tier="MODE_SPLIT"]{--c:var(--split)}
+.head{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px}
+.lens{width:72px;height:72px;box-sizing:border-box;border-radius:24px;display:grid;place-items:center;color:var(--c);font-weight:800;font-size:38px;letter-spacing:-.03em;line-height:1;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--c) 24%,rgba(255,255,255,.06)),color-mix(in srgb,var(--c) 10%,rgba(255,255,255,.02)));
+  border:1px solid color-mix(in srgb,var(--c) 48%,transparent);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.34),inset 0 -10px 18px color-mix(in srgb,var(--c) 12%,transparent),0 6px 18px rgba(0,0,0,.25)}
+.lens svg{width:34px;height:34px}
+.cnt{font-size:12.5px;font-weight:600;color:var(--sub);font-variant-numeric:tabular-nums}
+.chips{position:relative;list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(176px,1fr));gap:8px;align-content:start}
+.cell{display:flex}
+.chip{position:relative;overflow:hidden;flex:1;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:50px;box-sizing:border-box;padding:8px 14px 8px 16px;border-radius:17px;
+  background:rgba(255,255,255,.065);border:1px solid rgba(255,255,255,.11);box-shadow:inset 0 1px 0 rgba(255,255,255,.14);
+  text-decoration:none;font-weight:600;font-size:15px;line-height:1.2;letter-spacing:-.01em;
+  transition:transform 380ms var(--spring),background 200ms,border-color 200ms}
+.chip::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.16) 48%,transparent 66%);transform:translateX(-120%);transition:transform 750ms var(--ease)}
+.chip:hover{background:rgba(255,255,255,.11);border-color:color-mix(in srgb,var(--c) 60%,transparent)}
+.chip:hover::after{transform:translateX(120%)}
+.chip:active{transform:scale(.96)}
+.mk{flex:none;display:inline-flex;color:var(--mk)}
+/* re-flow on level change: swapping the animation name restarts it */
+.board[data-lv="low"] .chip{animation:inA 460ms var(--ease) backwards}
+.board[data-lv="high"] .chip{animation:inB 460ms var(--ease) backwards}
+.board[data-lv="max"] .chip{animation:inC 460ms var(--ease) backwards}
+.cell:nth-child(2) .chip{animation-delay:22ms}.cell:nth-child(3) .chip{animation-delay:44ms}.cell:nth-child(4) .chip{animation-delay:66ms}
+.cell:nth-child(5) .chip{animation-delay:88ms}.cell:nth-child(6) .chip{animation-delay:110ms}.cell:nth-child(7) .chip{animation-delay:132ms}
+.cell:nth-child(8) .chip{animation-delay:154ms}.cell:nth-child(9) .chip{animation-delay:176ms}.cell:nth-child(10) .chip{animation-delay:198ms}
+.cell:nth-child(11) .chip{animation-delay:220ms}
+@keyframes inA{from{opacity:0;transform:translateY(8px) scale(.97);filter:blur(4px)}}
+@keyframes inB{from{opacity:0;transform:translateY(8px) scale(.97);filter:blur(4px)}}
+@keyframes inC{from{opacity:0;transform:translateY(8px) scale(.97);filter:blur(4px)}}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}}
+
+/* legend, stamp, links */
+.legend{list-style:none;margin:22px 0 0;padding:18px 22px;border-radius:24px;display:grid;grid-template-columns:1fr 1fr;gap:12px 28px;font-size:13px;color:var(--sub)}
+.legend li{display:flex;gap:10px;align-items:flex-start}
+.legend svg{flex:none;margin-top:3px;color:var(--bone)}
+.legend b{color:var(--bone);font-weight:600}
+.stamp{font-size:12.5px;color:var(--sub);margin:22px 0 0;font-variant-numeric:tabular-nums}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+.plink{min-height:44px;display:inline-flex;align-items:center;padding:0 16px;border-radius:999px;text-decoration:none;font-weight:600;font-size:14px;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);box-shadow:inset 0 1px 0 rgba(255,255,255,.14);transition:background 200ms}
+.plink:hover{background:rgba(255,255,255,.12)}
+
+/* footer */
+.foot{margin-top:52px;padding-bottom:140px}
+.footin{border-top:1px solid rgba(255,255,255,.1);padding-top:6px}
+.fnav{display:flex;flex-wrap:wrap;gap:0 20px}
+.fnav a{min-height:44px;display:inline-flex;align-items:center;color:var(--sub);font-size:14px;text-decoration:none}
+.fnav a:hover{color:var(--bone)}
+.disc{font-size:12.5px;color:var(--sub);margin:4px 0 0}
+.disc p{margin:0}
+
+/* floating level dock */
+.dock{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:20;display:flex;align-items:center;gap:14px;padding:6px 6px 6px 20px;border-radius:999px;
+  -webkit-backdrop-filter:blur(30px) saturate(190%);backdrop-filter:blur(30px) saturate(190%);animation:dockin 800ms 250ms var(--spring) backwards}
+.dlbl{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--sub)}
+.segs{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:300px;padding:4px;box-sizing:border-box;border-radius:999px;background:rgba(0,0,0,.2)}
+.slider{position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px) / 3);box-sizing:border-box;border-radius:999px;
+  background:linear-gradient(180deg,rgba(255,207,90,.36),rgba(255,207,90,.16));border:1px solid rgba(255,207,90,.55);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 -6px 12px rgba(255,207,90,.12),0 4px 14px rgba(0,0,0,.28);
+  transition:transform 560ms var(--spring)}
+.segs[data-lv="high"] .slider{transform:translateX(100%)}
+.segs[data-lv="max"] .slider{transform:translateX(200%)}
+.segs[data-lv="low"] .slider{animation:squishA 560ms var(--ease)}
+.segs[data-lv="high"] .slider{animation:squishB 560ms var(--ease)}
+.segs[data-lv="max"] .slider{animation:squishC 560ms var(--ease)}
+@keyframes squishA{35%{scale:1.16 .88}70%{scale:.97 1.03}}
+@keyframes squishB{35%{scale:1.16 .88}70%{scale:.97 1.03}}
+@keyframes squishC{35%{scale:1.16 .88}70%{scale:.97 1.03}}
+@keyframes dockin{from{opacity:0;translate:0 30px;scale:.92}}
+.seg{position:relative;z-index:1;appearance:none;border:0;background:transparent;color:var(--sub);font:600 15px var(--body);min-height:44px;border-radius:999px;cursor:pointer;transition:color 250ms}
+.seg:hover{color:var(--bone)}
+.seg.on{color:#fff;font-weight:700}
+
+@media (max-width:620px){
+  .wrap{padding:0 14px}
+  .top{position:relative;top:0;padding:10px 10px 0}
+  .cap{border-radius:26px;flex-wrap:wrap;padding:6px;gap:2px}
+  .logo{padding-left:12px}
+  .nav{flex:1 1 100%;justify-content:flex-start}
+  .hero{padding-top:34px}
+  .hero h1{font-size:40px}
+  .tag{font-size:17px}
+  .tier{grid-template-columns:1fr;gap:12px;padding:12px;border-radius:24px}
+  .head{flex-direction:row;justify-content:space-between;align-items:center;padding-right:6px}
+  .lens{width:48px;height:48px;border-radius:16px;font-size:26px}
+  .lens svg{width:24px;height:24px}
+  .cnt{font-size:13px}
+  .chips{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cell.wide{grid-column:span 2}
+  .legend{grid-template-columns:1fr;padding:16px 18px}
+  .dock{left:12px;right:12px;bottom:12px;transform:none;padding:6px 6px 6px 16px;gap:10px}
+  .segs{width:auto;flex:1}
+}
+@media (prefers-reduced-motion:reduce){
+  .page *,.page *::before,.page *::after{animation:none !important;transition:none !important}
+}
+</style>
+</helmet>
+<div class="page">
+  <div class="ambient" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="blob b4"></div>
+  </div>
+
+  <div class="content">
+    <header class="top">
+      <div class="cap glass">
+        <a class="logo" href="#">StarDive<span>Meta</span></a>
+        <nav class="nav" aria-label="Main">
+          <a href="#" aria-current="page">Tier list</a>
+          <a href="#">Conquest</a>
+          <a href="#">Rift</a>
+          <a href="#">Table</a>
+          <a href="#">Beginner</a>
+          <a href="#">Codes</a>
+          <a href="#">New characters</a>
+          <a href="#">Rules</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <section class="hero">
+        <h1>MONGIL: STAR DIVE <span>tier list</span></h1>
+        <p class="tag">Every list disagrees. We show you by how much.</p>
+        <p class="built">Combined from Pocket Gamer, Kaiden and GameWith JP. Tap a character to see what each list says.</p>
+        <p class="note">Only Kaiden rates by investment — the other lists stay fixed. Kaiden's levels are defined on the <a href="#">Rules page</a>.</p>
+      </section>
+
+      <div class="board" data-lv="{{lv}}">
+        <sc-for list="{{rows}}" as="row" hint-placeholder-count="6">
+          <section class="tier glass" data-tier="{{row.key}}" aria-label="{{row.aria}}">
+            <div class="head">
+              <div class="lens" aria-hidden="true">
+                <sc-if value="{{row.isSplit}}" hint-placeholder-val="{{false}}">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h17M16 4l4 4-4 4M21 16H4M8 12l-4 4 4 4"/></svg>
+                </sc-if>
+                <sc-if value="{{row.isLetter}}" hint-placeholder-val="{{true}}">{{row.letter}}</sc-if>
+              </div>
+              <div class="cnt" aria-hidden="true">{{row.count}}</div>
+            </div>
+            <ul class="chips">
+              <sc-for list="{{row.chars}}" as="c" hint-placeholder-count="4">
+                <li class="cell {{c.cls}}">
+                  <a class="chip" href="#" aria-label="{{c.aria}}">
+                    <span>{{c.name}}</span>
+                    <span class="mk" aria-hidden="true">
+                      <sc-if value="{{c.solid}}" hint-placeholder-val="{{true}}">
+                        <svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.2" fill="currentColor"/></svg>
+                      </sc-if>
+                      <sc-if value="{{c.contested}}" hint-placeholder-val="{{false}}">
+                        <svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 1.8a5.2 5.2 0 0 0 0 10.4z" fill="currentColor"/></svg>
+                      </sc-if>
+                      <sc-if value="{{c.spec}}" hint-placeholder-val="{{false}}">
+                        <svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2.4 2.2"/></svg>
+                      </sc-if>
+                      <sc-if value="{{c.split}}" hint-placeholder-val="{{false}}">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h17M16 4l4 4-4 4M21 16H4M8 12l-4 4 4 4"/></svg>
+                      </sc-if>
+                    </span>
+                  </a>
+                </li>
+              </sc-for>
+            </ul>
+          </section>
+        </sc-for>
+      </div>
+
+      <ul class="legend glass">
+        <li><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5.2" fill="currentColor"/></svg><span><b>Solid</b> — the lists agree within 1 tier.</span></li>
+        <li><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 1.8a5.2 5.2 0 0 0 0 10.4z" fill="currentColor"/></svg><span><b>Contested</b> — the lists are more than 1 tier apart.</span></li>
+        <li><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2.4 2.2"/></svg><span><b>Speculation</b> — only 1 list has placed them so far.</span></li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h17M16 4l4 4-4 4M21 16H4M8 12l-4 4 4 4"/></svg><span><b>Mode-split</b> — strong in one mode, weak in the other. See Conquest and Rift.</span></li>
+      </ul>
+
+      <p class="stamp">Lists last checked Oct 29, 11:26 PM ET · Method v1.0 · Game version 1.4</p>
+      <p class="links">
+        <a class="plink" href="#">See the full table</a>
+        <a class="plink" href="#">How we score</a>
+        <a class="plink" href="#">What moved this week</a>
+        <a class="plink" href="#">Download this list (PNG)</a>
+      </p>
+    </main>
+
+    <footer class="foot">
+      <div class="wrap">
+        <div class="footin">
+          <nav class="fnav" aria-label="Footer">
+            <a href="#">History</a>
+            <a href="#">Notes</a>
+            <a href="#">Corrections</a>
+            <a href="#">Data</a>
+            <a href="#">About</a>
+          </nav>
+          <div class="disc">
+            <p>Fan-made site. Not an official MONGIL: STAR DIVE or Netmarble site.</p>
+            <p>Game names and terms belong to their owners.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div class="dock glass">
+    <span class="dlbl" id="lvl-lbl">Investment</span>
+    <div class="segs" role="group" aria-labelledby="lvl-lbl" data-lv="{{lv}}">
+      <span class="slider" aria-hidden="true"></span>
+      <sc-for list="{{segs}}" as="s" hint-placeholder-count="3">
+        <button type="button" class="seg {{s.cls}}" aria-pressed="{{s.pressed}}" onClick="{{s.pick}}">{{s.label}}</button>
+      </sc-for>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1900}}'>
+// Emitted values only (tierlist.json, 2026-10-30 build): board order, tier,
+// label, score and list count come straight from the Rust output.
+// Label codes: S Solid, C Contested, P Speculation, M Mode-split.
+const CH={"mina":["Mina",["C|A|3.3|3","S|S|3.8|3","S|S|3.8|3"]],"penny":["Penny",["C|B|2.0|3","S|B|2.3|3","S|B|2.7|3"]],"narae":["Narae",["S|S|4.0|3","S|S|4.0|3","S|S|4.0|3"]],"sangun":["Sangun",["C|C|1.8|2","C|C|1.8|2","C|B|2.3|2"]],"jiwon":["Jiwon",["C|B|2.5|3","S|A|3.2|3","S|A|3.2|3"]],"gabi":["Gabi",["C|B|2.0|3","S|B|2.7|3","S|B|2.7|3"]],"isabella":["Isabella",["S|S|3.5|3","S|S|3.7|3","S|S|3.7|3"]],"flare":["Flare",["C|B|2.2|3","C|B|2.5|3","C|B|2.8|3"]],"chloe":["Chloe",["S|S|4.0|2","S|S|4.0|2","S|S|4.0|2"]],"ophelia":["Ophelia",["C|A|3.0|3","S|A|3.3|3","S|A|3.3|3"]],"esther":["Esther",["C|A|3.2|3","S|S|3.5|3","S|S|3.5|3"]],"nagi":["Nagi",["C|B|2.0|2","S|B|2.5|2","S|A|3.0|2"]],"brisshell":["Brisshell",["S|S|3.5|2","S|S|3.8|2","S|S|3.8|2"]],"mabel":["Mabel",["S|B|2.5|2","S|A|3.0|2","S|A|3.0|2"]],"verna-summer-dive":["Verna: Summer Dive!",["S|A|3.3|2","S|A|3.3|2","S|A|3.3|2"]],"francis-summer-dive":["Francis: Summer Dive!",["C|A|3.0|2","S|S|3.8|2","S|S|4.0|2"]],"vivian":["Vivian",["S|B|2.5|2","S|A|3.3|2","S|A|3.3|2"]],"verna":["Verna",["S|C|1.0|2","S|C|1.0|2","S|C|1.0|2"]],"cloud":["Cloud",["S|B|2.3|3","S|B|2.3|3","S|B|2.3|3"]],"francis":["Francis",["C|A|3.2|3","C|A|3.2|3","C|A|3.2|3"]],"yeonhwa":["Yeonhwa",["C|B|2.5|3","C|B|2.5|3","C|B|2.5|3"]],"daisy":["Daisy",["S|D|0.5|2","S|D|0.5|2","S|D|0.5|2"]],"leeho":["Leeho",["S|C|1.0|2","S|C|1.0|2","S|C|1.0|2"]],"benjamin":["Benjamin",["S|B|2.8|3","S|B|2.8|3","S|B|2.8|3"]],"sera":["Sera",["S|C|1.5|3","S|C|1.8|3","S|C|1.8|3"]],"ellie":["Ellie",["S|B|2.3|2","S|B|2.3|2","S|B|2.3|2"]],"reina":["Reina",["S|C|1.8|3","S|C|1.8|3","S|C|1.8|3"]],"bonnie":["Bonnie",["S|C|1.0|2","S|C|1.0|2","S|C|1.0|2"]],"angel":["Angel",["M|MODE_SPLIT|2.2|3","M|MODE_SPLIT|2.2|3","M|MODE_SPLIT|2.2|3"]]};
+const BOARDS={"low":{"S":["narae","chloe","isabella","brisshell"],"A":["mina","verna-summer-dive","esther","francis","ophelia","francis-summer-dive"],"B":["benjamin","jiwon","yeonhwa","mabel","vivian","cloud","ellie","flare","gabi","penny","nagi"],"C":["reina","sangun","sera","bonnie","leeho","verna"],"D":["daisy"],"MODE_SPLIT":["angel"]},"high":{"S":["narae","chloe","mina","brisshell","francis-summer-dive","isabella","esther"],"A":["ophelia","verna-summer-dive","vivian","francis","jiwon","mabel"],"B":["benjamin","gabi","flare","yeonhwa","nagi","cloud","penny","ellie"],"C":["reina","sera","sangun","bonnie","leeho","verna"],"D":["daisy"],"MODE_SPLIT":["angel"]},"max":{"S":["narae","chloe","francis-summer-dive","mina","brisshell","isabella","esther"],"A":["ophelia","verna-summer-dive","vivian","francis","jiwon","mabel","nagi"],"B":["benjamin","flare","gabi","penny","yeonhwa","cloud","ellie","sangun"],"C":["reina","sera","bonnie","leeho","verna"],"D":["daisy"],"MODE_SPLIT":["angel"]}};
+const LEVELS=[["low","Low"],["high","High"],["max","Max"]];
+const ROWS=["S","A","B","C","D","MODE_SPLIT"];
+const WORD={S:"Solid",C:"Contested",P:"Speculation",M:"Mode-split"};
+class Component extends DCLogic {
+  renderVals() {
+    const lv = (this.state && this.state.level) || "low";
+    const li = LEVELS.findIndex((l) => l[0] === lv);
+    const board = BOARDS[lv];
+    const rows = ROWS.filter((k) => board[k] && board[k].length).map((k) => {
+      const chars = board[k].map((id) => {
+        const [name, lvls] = CH[id];
+        const [code, tier, score, cov] = lvls[li].split("|");
+        const tierWord = tier === "MODE_SPLIT" ? "mode-split" : tier;
+        return {
+          name,
+          cls: name.length > 14 ? "wide" : "",
+          solid: code === "S",
+          contested: code === "C",
+          spec: code === "P",
+          split: code === "M",
+          aria: name + ": tier " + tierWord + ", " + WORD[code] + ", score " + score + " of 4, " + cov + " lists"
+        };
+      });
+      return {
+        key: k,
+        letter: k,
+        isSplit: k === "MODE_SPLIT",
+        isLetter: k !== "MODE_SPLIT",
+        count: chars.length,
+        aria: "Tier " + (k === "MODE_SPLIT" ? "mode-split" : k) + ", " + chars.length + (chars.length === 1 ? " character" : " characters"),
+        chars
+      };
+    });
+    const segs = LEVELS.map(([id, label]) => ({
+      label,
+      cls: id === lv ? "on" : "",
+      pressed: id === lv,
+      pick: () => this.setState({ level: id })
+    }));
+    return { lv, rows, segs };
+  }
+}
+</script>
+</body>
+</html>

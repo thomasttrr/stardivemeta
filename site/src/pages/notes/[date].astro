@@ -19,18 +19,19 @@ const { note } = Astro.props;
 const html = renderNoteBody(note.body);
 ---
 
-<Base title={`${note.title} – StarDiveMeta`} path={`/notes/${note.date}/`}>
-  <article class="note" set:html={html} />
+<Base title={`${note.title} – StarDiveMeta`} path={`/notes/${note.date}/`} width="prose">
+  <article class="note" data-glass set:html={html} />
   <p class="back"><a href="/notes/">All notes</a></p>
 </Base>
 
 <style>
+  .note {
+    margin-top: 28px;
+    border-radius: var(--radius-xl);
+    padding: 6px var(--space-panel) 24px;
+  }
   .note :global(.page-title) {
-    font-size: var(--text-h1);
-    line-height: var(--leading-tight);
-    margin: 18px 0 4px;
-    font-weight: var(--weight-extrabold);
-    letter-spacing: -0.01em;
+    margin-top: 20px;
   }
   .note :global(h2) {
     font-size: var(--text-h2);
@@ -51,20 +52,21 @@ const html = renderNoteBody(note.body);
     gap: 6px;
   }
   .note :global(.moves li) {
-    background: var(--panel);
-    border: 1px solid var(--line);
+    background: var(--chip-fill);
+    border: 1px solid var(--chip-rim);
+    box-shadow: var(--chip-edge);
     border-radius: var(--radius-md);
-    padding: 8px 12px;
+    padding: 10px 14px;
     font-size: var(--text-body-sm);
   }
   .note :global(a) {
-    color: var(--teal);
+    color: var(--link);
   }
   .back {
     margin-top: 22px;
     font-size: var(--text-body-sm);
   }
   .back a {
-    color: var(--teal);
+    color: var(--link);
   }
 </style>

@@ -55,7 +55,8 @@ export function loadNotes(): Note[] {
     if (!file.endsWith('.md')) continue;
     const note = parseNote(
       file.slice(0, -3),
-      readFileSync(join(dir, file), 'utf8'),
+      // CRLF checkouts (Windows, core.autocrlf) must parse like LF.
+      readFileSync(join(dir, file), 'utf8').replace(/\r\n/g, '\n'),
     );
     if (note && (note.status === 'approved' || note.status === 'auto')) {
       notes.push(note);

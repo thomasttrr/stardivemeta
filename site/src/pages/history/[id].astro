@@ -76,7 +76,7 @@ const linked: ErrataEntry[] = errata.filter((e) =>
     <h2>Changes from the previous snapshot</h2>
     {
       diff === null && (
-        <p class="empty">
+        <p class="empty" data-glass>
           This is the first snapshot — the baseline. There is no earlier
           snapshot to compare with.
         </p>
@@ -84,14 +84,14 @@ const linked: ErrataEntry[] = errata.filter((e) =>
     }
     {
       diff !== null && diffEmpty && (
-        <p class="empty">No changes from the previous snapshot.</p>
+        <p class="empty" data-glass>No changes from the previous snapshot.</p>
       )
     }
     {
       diff !== null && diff.tier_changes.length > 0 && (
         <>
           <h3>Tier changes</h3>
-          <ul class="changes">
+          <ul class="glass-list flat changes">
             {diff.tier_changes.map((c) => (
               <li>
                 {charName(c.character)}: {c.from} → {c.to} at{' '}
@@ -106,7 +106,7 @@ const linked: ErrataEntry[] = errata.filter((e) =>
       diff !== null && diff.label_changes.length > 0 && (
         <>
           <h3>Label changes</h3>
-          <ul class="changes">
+          <ul class="glass-list flat changes">
             {diff.label_changes.map((c) => (
               <li>
                 {charName(c.character)}:{' '}
@@ -122,7 +122,7 @@ const linked: ErrataEntry[] = errata.filter((e) =>
       diff !== null && diff.coverage_changes.length > 0 && (
         <>
           <h3>Coverage changes</h3>
-          <ul class="changes">
+          <ul class="glass-list flat changes">
             {diff.coverage_changes.map((c) => (
               <li>
                 {charName(c.character)}: {c.from} → {c.to} lists at{' '}
@@ -137,7 +137,7 @@ const linked: ErrataEntry[] = errata.filter((e) =>
       diff !== null && diff.placement_changes.length > 0 && (
         <>
           <h3>Placement changes</h3>
-          <ul class="changes">
+          <ul class="glass-list flat changes">
             {diff.placement_changes.map((c) => (
               <li>
                 {sourceName(c.source)} · {charName(c.character)} · {c.field}:{' '}
@@ -154,7 +154,7 @@ const linked: ErrataEntry[] = errata.filter((e) =>
     linked.length > 0 && (
       <section>
         <h2>Corrections linked to this snapshot</h2>
-        <ul class="changes">
+        <ul class="glass-list flat changes">
           {linked.map((e) => (
             <li>
               {fmtDate(e.found_at)}: {e.what}{' '}
@@ -168,58 +168,12 @@ const linked: ErrataEntry[] = errata.filter((e) =>
 </Base>
 
 <style>
-  .page-title {
-    font-size: var(--text-h1);
-    line-height: var(--leading-tight);
-    margin: 18px 0 4px;
-    font-weight: var(--weight-extrabold);
-    letter-spacing: -0.01em;
-  }
-  .built {
-    color: var(--sub);
-    font-size: var(--text-body-sm);
-    margin: 10px 0 14px;
-  }
-  .built a {
-    color: var(--teal);
-  }
-  section {
-    margin-top: 28px;
-  }
-  h2 {
-    font-size: var(--text-h2);
-    font-weight: var(--weight-bold);
-    margin: 0 0 8px;
-  }
   h3 {
-    font-size: var(--text-body);
+    font-size: var(--text-base);
     font-weight: var(--weight-bold);
     margin: 14px 0 4px;
   }
-  .changes {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .changes li {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-md);
-    padding: 8px 12px;
-    font-size: var(--text-body-sm);
-  }
   .changes a {
-    color: var(--teal);
-  }
-  .empty {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-md);
-    padding: 12px;
-    color: var(--sub);
-    font-size: var(--text-body-sm);
+    color: var(--link);
   }
 </style>

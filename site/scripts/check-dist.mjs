@@ -12,12 +12,16 @@
 // can gate everything else honestly in the meantime; drop entries as
 // the routes land. Every other failure exits 1.
 import { readdirSync, readFileSync, statSync, existsSync } from 'node:fs';
-import { join, relative } from 'node:path';
+import { dirname, join, relative } from 'node:path';
 import { gzipSync } from 'node:zlib';
 
 const DISCLAIMER =
   'Fan-made site. Not an official MONGIL: STAR DIVE or Netmarble site.';
 const JS_LIMIT = 6 * 1024;
+// Deferred React islands per page (gzip): the WebGL glass layer
+// (client:idle) + the level dock (client:load). Pages render completely
+// without them. See docs/DESIGN.md "Stack and budgets".
+const ISLAND_JS_LIMIT = 420 * 1024;
 const IMAGE_EXT = /\.(png|jpe?g|gif|webp|svg|avif|ico)$/i;
 
 const args = process.argv.slice(2);
@@ -66,6 +70,24 @@ function draftNoteDates() {
     .map((f) => f.replace(/\.md$/, ''));
 }
 
+const gzCache = new Map();
+function gzipSize(file) {
+  if (!gzCache.has(file)) gzCache.set(file, gzipSync(readFileSync(file)).length);
+  return gzCache.get(file);
+}
+
+// One ES module plus everything it statically imports (relative paths).
+function collectModule(file, out) {
+  if (out.has(file) || !existsSync(file)) return;
+  out.add(file);
+  const src = readFileSync(file, 'utf8');
+  const dir = dirname(file);
+  for (const m of src.matchAll(/(?:from|import)\s*["'](\.{1,2}\/[^"']+\.js)["']/g)) {
+    collectModule(join(dir, m[1]), out);
+  }
+}
+const islandTotals = [];
+
 const files = walk(distDir);
 const htmlFiles = files.filter((f) => f.endsWith('.html'));
 
@@ -95,6 +117,23 @@ for (const file of htmlFiles) {
   }
   if (jsBytes > JS_LIMIT) {
     fail(`G12: dist page ${rel} ships ${jsBytes} gzip JS bytes (limit ${JS_LIMIT})`);
+  }
+  // Island JS budget (theme revamp, 2026-10-30): React islands load
+  // through <astro-island component-url/renderer-url>, which the
+  // blocking-JS rule above never sees. Count every module they reach
+  // (static imports, transitively) so the decorative WebGL layer and
+  // the level dock stay inside a stated, enforced budget.
+  const islandFiles = new Set();
+  for (const m of html.matchAll(/<astro-island\b[^>]*>/g)) {
+    for (const a of m[0].matchAll(/(?:component|renderer)-url="(\/[^"]+)"/g)) {
+      collectModule(join(distDir, a[1].replace(/^\//, '')), islandFiles);
+    }
+  }
+  let islandBytes = 0;
+  for (const f of islandFiles) islandBytes += gzipSize(f);
+  islandTotals.push([rel, islandBytes]);
+  if (islandBytes > ISLAND_JS_LIMIT) {
+    fail(`G12: dist page ${rel} loads ${islandBytes} gzip island JS bytes (limit ${ISLAND_JS_LIMIT})`);
   }
 }
 
@@ -130,7 +169,8 @@ if (failures.length > 0) {
   console.log(`check-dist: ${failures.length} check(s) failed`);
   process.exit(1);
 }
+const maxIsland = islandTotals.reduce((a, b) => (b[1] > a[1] ? b : a), ['', 0]);
 console.log(
-  `check-dist: OK — ${htmlFiles.length} pages (disclaimer, links, JS budget, draft notes), G14 images clean` +
+  `check-dist: OK — ${htmlFiles.length} pages (disclaimer, links, JS budget, island JS ≤ ${ISLAND_JS_LIMIT} B gz — max ${maxIsland[1]} B on ${maxIsland[0]}, draft notes), G14 images clean` +
     (allowMissing.length ? ` [allow-missing: ${allowMissing.join(', ')}]` : ''),
 );

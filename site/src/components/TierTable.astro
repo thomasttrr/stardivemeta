@@ -1,14 +1,17 @@
 ---
 // The full table (plan T3.5): one row per character, sorted by Low
-// score desc with mode-split rows last. No JS.
+// score desc with mode-split rows last. No JS of its own.
 import { data, LABEL_WORD, tierDisplay } from '../lib/data';
 import type { Character } from '../types/contract/Character';
 import type { Level } from '../types/contract/Level';
 
-function cell(c: Character, lv: Level): string {
+function cell(c: Character, lv: Level): { tier: string; text: string } {
   const r = c.results[lv];
-  if (r.label === 'MODE_SPLIT') return '⇄';
-  return `${tierDisplay(r.tier)} ${LABEL_WORD[r.label]} ${r.score_display ?? '—'}`;
+  if (r.label === 'MODE_SPLIT') return { tier: 'MODE_SPLIT', text: '⇄' };
+  return {
+    tier: r.tier,
+    text: `${tierDisplay(r.tier)} ${LABEL_WORD[r.label]} ${r.score_display ?? '—'}`,
+  };
 }
 function modeCell(c: Character, mode: 'conquest' | 'rift'): string {
   const t = c.modes[mode].tier;
@@ -21,9 +24,10 @@ const rows = [...data.characters].sort((a, b) => {
   if (am !== bm) return am ? 1 : -1;
   return (b.results.low.score ?? -1) - (a.results.low.score ?? -1);
 });
+const LEVEL_COLS: Level[] = ['low', 'high', 'max'];
 ---
 
-<div class="tablewrap">
+<div class="tablewrap" data-glass>
   <table>
     <caption>
       MONGIL: STAR DIVE tier list — all {rows.length} characters, three investment
@@ -47,9 +51,10 @@ const rows = [...data.characters].sort((a, b) => {
             <th scope="row">
               <a href={`/c/${c.id}/`}>{c.name}</a>
             </th>
-            <td>{cell(c, 'low')}</td>
-            <td>{cell(c, 'high')}</td>
-            <td>{cell(c, 'max')}</td>
+            {LEVEL_COLS.map((lv) => {
+              const v = cell(c, lv);
+              return <td data-tier={v.tier}>{v.text}</td>;
+            })}
             <td>{modeCell(c, 'conquest')}</td>
             <td>{modeCell(c, 'rift')}</td>
             <td>{c.results.low.coverage}</td>
@@ -63,38 +68,46 @@ const rows = [...data.characters].sort((a, b) => {
 <style>
   .tablewrap {
     overflow-x: auto;
-    margin-top: 18px;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    background: var(--panel);
+    margin-top: var(--space-section);
+    border-radius: var(--radius-xl);
+    scrollbar-width: thin;
   }
   table {
     border-collapse: collapse;
     width: 100%;
     font-size: var(--text-body-sm);
+    font-variant-numeric: tabular-nums;
   }
   caption {
     text-align: left;
-    padding: 12px var(--space-legend-x);
+    padding: 16px 18px 10px;
     color: var(--sub);
     font-size: var(--text-note);
   }
   th,
   td {
     text-align: left;
-    padding: 8px 10px;
-    border-top: 1px solid var(--line);
+    padding: 11px 14px;
+    border-top: 1px solid var(--hairline);
     white-space: nowrap;
   }
   thead th {
     border-top: none;
     color: var(--sub);
-    font-size: var(--text-note);
+    font-size: 11.5px;
+    font-weight: var(--weight-bold);
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
+  }
+  tbody tr {
+    transition: background-color var(--duration-fast);
+  }
+  tbody tr:hover {
+    background: rgb(255 255 255 / 0.045);
   }
   tbody th {
     font-weight: var(--weight-bold);
+    padding-left: 18px;
   }
   tbody th a {
     color: var(--text);
@@ -103,4 +116,13 @@ const rows = [...data.characters].sort((a, b) => {
   tbody th a:hover {
     text-decoration: underline;
   }
+  td[data-tier]::first-letter {
+    font-weight: var(--weight-extrabold);
+  }
+  td[data-tier="S"]::first-letter { color: var(--tier-s); }
+  td[data-tier="A"]::first-letter { color: var(--tier-a); }
+  td[data-tier="B"]::first-letter { color: var(--tier-b); }
+  td[data-tier="C"]::first-letter { color: var(--tier-c); }
+  td[data-tier="D"]::first-letter { color: var(--tier-d); }
+  td[data-tier="MODE_SPLIT"] { color: var(--tier-mode-split); }
 </style>

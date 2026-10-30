@@ -26,7 +26,7 @@ const expiredRecent = expired.filter((entry) => {
 
 <Base
   title={`MONGIL: STAR DIVE Codes (${titleMonth()}) – StarDiveMeta`}
-  path="/codes/"
+  path="/codes/" width="prose"
 >
   <h1 class="page-title">MONGIL: STAR DIVE codes</h1>
   {
@@ -46,7 +46,7 @@ const expiredRecent = expired.filter((entry) => {
           <CodeList entries={active} variant="active" names={names} now={now} />
         </>
       ) : (
-        <p class="empty">
+        <p class="empty" data-glass>
           No codes are confirmed right now.
           {checked && ` Last checked ${fmtDate(checked.slice(0, 10))}.`}
         </p>
@@ -96,43 +96,26 @@ const expiredRecent = expired.filter((entry) => {
 </Base>
 
 <style>
-  .page-title {
-    font-size: var(--text-h1);
-    line-height: var(--leading-tight);
-    margin: 18px 0 4px;
-    font-weight: var(--weight-extrabold);
-    letter-spacing: -0.01em;
-  }
   .stamp {
     color: var(--sub);
     font-size: var(--text-body-sm);
     margin: 6px 0 0;
   }
-  section {
-    margin-top: 24px;
-  }
-  h2 {
-    font-size: var(--text-h2);
-    font-weight: var(--weight-bold);
-    margin: 0 0 4px;
-  }
-  .rule {
-    color: var(--sub);
-    font-size: var(--text-body-sm);
-    margin: 0 0 10px;
-  }
-  .empty {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-md);
-    padding: 12px;
-    color: var(--sub);
-    font-size: var(--text-body-sm);
-  }
   details summary {
-    font-size: var(--text-h2);
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: var(--radius-pill);
+    background: var(--chip-fill);
+    border: 1px solid var(--chip-rim);
+    box-shadow: var(--chip-edge);
+    font-size: var(--text-base);
     font-weight: var(--weight-bold);
     cursor: pointer;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+  }
+  details summary:hover {
+    background: var(--chip-fill-hover);
   }
 </style>

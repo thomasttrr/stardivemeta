@@ -9,7 +9,7 @@ import { loadNotes } from '../../lib/notes';
 const notes = loadNotes();
 ---
 
-<Base title="Notes – StarDiveMeta" path="/notes/">
+<Base title="Notes – StarDiveMeta" path="/notes/" width="prose">
   <h1 class="page-title">What moved</h1>
   <p class="built">
     Each week we publish what changed between snapshots. Every note is
@@ -18,15 +18,15 @@ const notes = loadNotes();
   </p>
   {
     notes.length === 0 ? (
-      <p class="empty">
+      <p class="empty" data-glass>
         No notes yet. The first note comes after the first full week of
         checks.
       </p>
     ) : (
-      <ul class="notes">
+      <ul class="glass-list notes">
         {notes.map((n) => (
           <li>
-            <a class="row" href={`/notes/${n.date}/`}>
+            <a class="row glass-row" data-glass href={`/notes/${n.date}/`}>
               <span class="date">{fmtDate(n.date)}</span>
               <span class="title">{n.title}</span>
             </a>
@@ -38,45 +38,6 @@ const notes = loadNotes();
 </Base>
 
 <style>
-  .page-title {
-    font-size: var(--text-h1);
-    line-height: var(--leading-tight);
-    margin: 18px 0 4px;
-    font-weight: var(--weight-extrabold);
-    letter-spacing: -0.01em;
-  }
-  .built {
-    color: var(--sub);
-    font-size: var(--text-body-sm);
-    margin: 10px 0 0;
-  }
-  .empty {
-    margin: 18px 0 0;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-md);
-    padding: 12px;
-    color: var(--sub);
-    font-size: var(--text-body-sm);
-  }
-  .notes {
-    list-style: none;
-    margin: 18px 0 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .notes .row {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-md);
-    padding: 10px 12px;
-    text-decoration: none;
-  }
   .notes .date {
     color: var(--sub);
     font-size: var(--text-body-sm);

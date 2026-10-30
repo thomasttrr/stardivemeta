@@ -1,0 +1,62 @@
+---
+// The confidence-label mark as an inline SVG (DESIGN.md "Label marks"):
+// filled = Solid, half = Contested, dashed ring = Speculation, arrows =
+// Mode-split, dash = Unranked. Always decorative (aria-hidden): the label
+// word is carried by the surrounding text or the element's aria-label,
+// so a label is never shown by shape or colour alone.
+import type { Label } from '../types/contract/Label';
+
+interface Props {
+  label: Label;
+  size?: number;
+}
+const { label, size = 14 } = Astro.props;
+---
+
+{
+  label === 'SOLID' && (
+    <svg class="mark" width={size} height={size} viewBox="0 0 14 14" aria-hidden="true">
+      <circle cx="7" cy="7" r="5.2" fill="currentColor" />
+    </svg>
+  )
+}
+{
+  label === 'CONTESTED' && (
+    <svg class="mark" width={size} height={size} viewBox="0 0 14 14" aria-hidden="true">
+      <circle cx="7" cy="7" r="5.2" fill="none" stroke="currentColor" stroke-width="1.6" />
+      <path d="M7 1.8a5.2 5.2 0 0 0 0 10.4z" fill="currentColor" />
+    </svg>
+  )
+}
+{
+  label === 'SPECULATION' && (
+    <svg class="mark" width={size} height={size} viewBox="0 0 14 14" aria-hidden="true">
+      <circle cx="7" cy="7" r="5.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2.4 2.2" />
+    </svg>
+  )
+}
+{
+  label === 'MODE_SPLIT' && (
+    <svg
+      class="mark"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.4"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M3 8h17M16 4l4 4-4 4M21 16H4M8 12l-4 4 4 4" />
+    </svg>
+  )
+}
+{
+  label === 'UNRANKED' && (
+    <svg class="mark" width={size} height={size} viewBox="0 0 14 14" aria-hidden="true">
+      <path d="M3 7h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+    </svg>
+  )
+}

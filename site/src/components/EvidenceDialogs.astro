@@ -2,6 +2,8 @@
 // All 29 evidence dialogs for a board page (plan T3.3). Pre-rendered,
 // one <dialog> per character; dialog.ts wires chip clicks to them.
 // Without JS the chips simply link to /c/<slug>/.
+// The dialog is a glass sheet: centred on wide screens, a bottom sheet
+// on phones; it springs in, the page behind blurs.
 import { data } from '../lib/data';
 import EvidencePanel from './EvidencePanel.astro';
 ---
@@ -10,7 +12,9 @@ import EvidencePanel from './EvidencePanel.astro';
   data.characters.map((c) => (
     <dialog class="ev-dialog" id={`ev-${c.id}`} aria-label={`${c.name} evidence`}>
       <button class="ev-close" type="button" data-close aria-label="Close evidence">
-        ✕
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+        </svg>
       </button>
       <EvidencePanel character={c} />
     </dialog>
@@ -19,36 +23,90 @@ import EvidencePanel from './EvidencePanel.astro';
 
 <style>
   .ev-dialog {
-    background: var(--panel);
     color: var(--text);
-    border: 1px solid var(--line);
+    background-color: var(--glass-fill-strong);
+    background-image: var(--glass-sheen);
+    -webkit-backdrop-filter: var(--glass-blur-strong);
+    backdrop-filter: var(--glass-blur-strong);
+    border: 1px solid var(--glass-rim-strong);
+    box-shadow:
+      var(--glass-edge),
+      0 30px 80px rgb(0 0 0 / 0.5);
     border-radius: var(--radius-xl);
     padding: 0;
     width: calc(100% - 28px);
-    max-width: var(--content-max);
-    max-height: calc(100vh - 40px);
+    max-width: var(--prose-max);
+    max-height: calc(100dvh - 48px);
     overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  .ev-dialog[open] {
+    animation: sheet-in var(--duration-base) var(--ease-spring);
   }
   .ev-dialog::backdrop {
-    background: rgb(0 0 0 / 0.6);
+    background: var(--scrim);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    animation: fade-in var(--duration-fast) var(--ease-out);
   }
   .ev-dialog :global(.dossier) {
     border: none;
     border-radius: 0;
+    background: none;
+    box-shadow: none;
   }
   .ev-close {
     position: sticky;
-    top: 10px;
+    top: 12px;
     float: right;
-    margin: 10px 10px 0 0;
-    background: var(--panel-2);
+    margin: 12px 12px 0 0;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
     color: var(--text);
-    border: 1px solid var(--line);
+    background: var(--chip-fill);
+    border: 1px solid var(--chip-rim);
+    box-shadow: var(--chip-edge);
     border-radius: var(--radius-pill);
-    width: 34px;
-    height: 34px;
-    font-size: 14px;
     cursor: pointer;
     z-index: 1;
+    transition:
+      transform var(--duration-base) var(--ease-spring),
+      background-color var(--duration-fast);
+  }
+  .ev-close:hover {
+    background: var(--chip-fill-hover);
+    transform: rotate(90deg);
+  }
+  @keyframes sheet-in {
+    from {
+      opacity: 0;
+      transform: translateY(24px) scale(0.97);
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+  @media (max-width: 620px) {
+    .ev-dialog {
+      width: 100%;
+      max-width: none;
+      margin: auto 0 0;
+      max-height: 88dvh;
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      border-bottom: 0;
+    }
+    .ev-dialog[open] {
+      animation: sheet-up var(--duration-base) var(--ease-out);
+    }
+    @keyframes sheet-up {
+      from {
+        transform: translateY(100%);
+      }
+    }
   }
 </style>

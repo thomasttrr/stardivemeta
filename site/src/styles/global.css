@@ -1,5 +1,6 @@
-/* StarDiveMeta global styles. Tokens live in tokens.css (docs/DESIGN.md);
-   this file only wires them up: font, base element styles, motion rules. */
+/* StarDiveMeta global styles. Tokens live in tokens.css (docs/DESIGN.md).
+   This file wires them up: font, base elements, the glass material,
+   the shared page/board/chip patterns, and the motion rules. */
 @import "./tokens.css";
 
 @font-face {
@@ -13,6 +14,11 @@
   box-sizing: border-box;
 }
 
+html {
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -20,12 +26,477 @@ body {
   font-family: var(--font-sans);
   font-size: var(--text-base);
   line-height: var(--leading-base);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "cv11", "ss01";
+}
+
+a {
+  color: var(--link);
+  text-underline-offset: 3px;
+}
+
+/* ---------- Ambient field --------------------------------------------
+   The page sits on a fixed colour field. WebGL (GlassScene island)
+   paints it as a live shader and refracts it through every [data-glass]
+   panel; until it starts — or where WebGL is unavailable — these CSS
+   blobs stand in, and the panels fall back to CSS backdrop blur. */
+.scene {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.scene canvas {
+  display: block;
+}
+.ambient {
+  position: absolute;
+  inset: 0;
+  transition: opacity var(--duration-slow) var(--ease-out);
+}
+.ambient::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(130% 80% at 50% 0%, rgb(5 13 16 / 0) 0, rgb(5 13 16 / 0.66) 72%);
+}
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+  /* Each blob is a radial gradient that reaches full transparency well
+     inside its own box — never a solid disc under a blur filter. Safari
+     clips a blur filter near the element's box, which drew a hard arc
+     where the glow should fade (visible top-left while scrolling). A
+     gradient has no edge to clip, and it is far cheaper to repaint. */
+}
+.blob-1 {
+  width: max(46vw, 340px);
+  aspect-ratio: 1;
+  left: -10vw;
+  top: -12vw;
+  background: radial-gradient(closest-side, var(--amb-amber) 55%, transparent 100%);
+  opacity: 0.5;
+  animation: drift-1 38s var(--ease-out) infinite alternate;
+}
+.blob-2 {
+  width: max(40vw, 300px);
+  aspect-ratio: 1;
+  right: -12vw;
+  top: 22vh;
+  background: radial-gradient(closest-side, var(--amb-teal) 55%, transparent 100%);
+  opacity: 0.55;
+  animation: drift-2 46s var(--ease-out) infinite alternate;
+}
+.blob-3 {
+  width: max(34vw, 260px);
+  aspect-ratio: 1;
+  left: 18vw;
+  bottom: -14vw;
+  background: radial-gradient(closest-side, var(--amb-coral) 55%, transparent 100%);
+  opacity: 0.4;
+  animation: drift-3 54s var(--ease-out) infinite alternate;
+}
+.blob-4 {
+  width: max(22vw, 200px);
+  aspect-ratio: 1;
+  right: 24vw;
+  top: -6vw;
+  background: radial-gradient(closest-side, var(--amb-moss) 55%, transparent 100%);
+  opacity: 0.42;
+  animation: drift-2 60s var(--ease-out) infinite alternate-reverse;
+}
+html.gl .ambient {
+  opacity: 0;
+}
+@keyframes drift-1 {
+  to { transform: translate(9vw, 7vh) scale(1.14); }
+}
+@keyframes drift-2 {
+  to { transform: translate(-8vw, 10vh) scale(0.9); }
+}
+@keyframes drift-3 {
+  to { transform: translate(6vw, -9vh) scale(1.2); }
+}
+
+/* ---------- The glass material ----------------------------------------
+   [data-glass]          a panel the WebGL scene refracts (CSS fallback
+                         until it runs).
+   [data-glass=overlay]  floats over page content (header, dock), so it
+                         always keeps its CSS blur — WebGL can't see DOM. */
+[data-glass] {
+  background-color: var(--glass-fill);
+  background-image: var(--glass-sheen);
+  border: 1px solid var(--glass-rim);
+  box-shadow: var(--glass-shadow);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  transition:
+    background-color var(--duration-slow) var(--ease-out),
+    border-color var(--duration-slow) var(--ease-out),
+    box-shadow var(--duration-slow) var(--ease-out);
+}
+[data-glass="overlay"] {
+  background-color: var(--glass-fill-strong);
+  -webkit-backdrop-filter: var(--glass-blur-strong);
+  backdrop-filter: var(--glass-blur-strong);
+}
+html.gl [data-glass]:not([data-glass="overlay"]) {
+  background-color: rgb(255 255 255 / 0.01);
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* ---------- Page patterns ---------------------------------------------- */
+.page-title {
+  font-size: var(--text-h1);
+  font-weight: var(--weight-extrabold);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-tight);
+  margin: 44px 0 0;
+  animation: rise var(--duration-slow) var(--ease-out) backwards;
+}
+.page-title + .built,
+.page-title + .stamp {
+  margin-top: 14px;
+}
+.built {
+  color: var(--sub);
+  font-size: var(--text-body-sm);
+  margin: 10px 0 0;
+  max-width: 64ch;
+  animation: rise var(--duration-slow) 80ms var(--ease-out) backwards;
+}
+.built a {
+  color: var(--link);
+}
+main h2 {
+  font-size: var(--text-h2);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.25;
+  margin: 0 0 8px;
+}
+main section {
+  margin-top: var(--space-section);
+}
+.rule {
+  color: var(--sub);
+  font-size: var(--text-body-sm);
+  margin: 0 0 12px;
+}
+.empty {
+  margin: 18px 0 0;
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  color: var(--sub);
+  font-size: var(--text-body-sm);
+}
+
+/* Stacked glass rows (notes, history, corrections, data, banner,
+   snapshot changes, beginner rise list). */
+.glass-list {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.glass-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  border-radius: var(--radius-lg);
+  padding: 14px 18px;
+  font-size: var(--text-body-sm);
+  color: var(--text);
+  text-decoration: none;
+}
+a.glass-row {
+  transition: transform var(--duration-base) var(--ease-spring);
+}
+a.glass-row:hover {
+  transform: translateY(-2px);
+}
+a.glass-row:active {
+  transform: scale(0.985);
+}
+.glass-row .dim,
+.glass-row .meta {
+  color: var(--sub);
+}
+.glass-row .strong {
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-base);
+}
+.glass-row.split {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 4px 14px;
+}
+
+/* Many small rows (snapshot changes): lighter chip glass, not tracked
+   by WebGL. */
+.glass-list.flat {
+  gap: 6px;
+}
+.glass-list.flat > li {
+  background: var(--chip-fill);
+  border: 1px solid var(--chip-rim);
+  box-shadow: var(--chip-edge);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  font-size: var(--text-body-sm);
+}
+
+/* Glass link pills (page links under boards). */
+.pill-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.pill-link {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 18px;
+  border-radius: var(--radius-pill);
+  color: var(--text);
+  text-decoration: none;
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-body-sm);
+  transition: transform var(--duration-base) var(--ease-spring);
+}
+.pill-link:hover {
+  transform: translateY(-2px);
+}
+.pill-link:active {
+  transform: scale(0.96);
+}
+
+/* ---------- Tier boards (home, history snapshots, mode pages) ---------- */
+.tierboard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-stack);
+  margin-top: var(--space-section);
+}
+.rack {
+  position: relative;
+  margin: 0;
+  border-radius: var(--radius-xl);
+  padding: var(--space-panel-sm);
+  display: grid;
+  grid-template-columns: var(--rail-width) 1fr;
+  gap: 16px;
+  align-items: start;
+  animation: rise var(--duration-base) var(--ease-out) backwards;
+}
+.rack:nth-child(2) { animation-delay: 50ms; }
+.rack:nth-child(3) { animation-delay: 100ms; }
+.rack:nth-child(4) { animation-delay: 150ms; }
+.rack:nth-child(5) { animation-delay: 200ms; }
+.rack:nth-child(6) { animation-delay: 250ms; }
+.rack:nth-child(7) { animation-delay: 300ms; }
+.rack::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(110% 120% at 0% 0%, color-mix(in srgb, var(--c) 14%, transparent), transparent 52%);
+}
+.rack[data-tier="S"] { --c: var(--tier-s); }
+.rack[data-tier="A"] { --c: var(--tier-a); }
+.rack[data-tier="B"] { --c: var(--tier-b); }
+.rack[data-tier="C"] { --c: var(--tier-c); }
+.rack[data-tier="D"] { --c: var(--tier-d); }
+.rack[data-tier="MODE_SPLIT"] { --c: var(--tier-mode-split); }
+.rack[data-tier="UNRANKED"] { --c: var(--tier-unranked); }
+.rack-head {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.lens {
+  width: var(--lens-size);
+  height: var(--lens-size);
+  border-radius: 24px;
+  display: grid;
+  place-items: center;
+  color: var(--c);
+  font-weight: var(--weight-extrabold);
+  font-size: var(--text-lens);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--c) 24%, rgb(255 255 255 / 0.06)),
+    color-mix(in srgb, var(--c) 9%, rgb(255 255 255 / 0.02))
+  );
+  border: 1px solid color-mix(in srgb, var(--c) 48%, transparent);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.34),
+    inset 0 -10px 18px color-mix(in srgb, var(--c) 12%, transparent),
+    0 6px 18px rgb(0 0 0 / 0.25);
+}
+.lens svg {
+  width: 34px;
+  height: 34px;
+}
+.rack-count {
+  font-size: var(--text-note);
+  font-weight: var(--weight-semibold);
+  color: var(--sub);
+  font-variant-numeric: tabular-nums;
+}
+.cards {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--card-min-width), 1fr));
+  gap: var(--space-grid-gap);
+  align-content: start;
+}
+.rack-title {
+  font-size: var(--text-h2);
+  font-weight: var(--weight-bold);
+  margin: var(--space-section) 0 0;
+}
+
+/* ---------- Character chip ---------------------------------------------- */
+.chip {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: var(--card-min-height);
+  padding: var(--space-card-y) 14px var(--space-card-y) var(--space-card-x);
+  border-radius: var(--radius-md);
+  background: var(--chip-fill);
+  border: 1px solid var(--chip-rim);
+  box-shadow: var(--chip-edge);
+  color: var(--text);
+  text-decoration: none;
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-card-name);
+  line-height: var(--leading-card);
+  letter-spacing: -0.01em;
+  transition:
+    transform var(--duration-base) var(--ease-spring),
+    background-color var(--duration-fast),
+    border-color var(--duration-fast);
+}
+.chip::after {
+  /* specular glint; follows the pointer via --mx/--my (GlassScene) */
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(160px circle at var(--mx, 30%) var(--my, 0%), rgb(255 255 255 / 0.16), transparent 60%);
+  transition: opacity var(--duration-fast);
+}
+.chip:hover {
+  background: var(--chip-fill-hover);
+  border-color: color-mix(in srgb, var(--c, var(--text)) 60%, transparent);
+}
+.chip:hover::after {
+  opacity: 1;
+}
+.chip:active {
+  transform: scale(0.96);
+}
+.chip[data-label="SPECULATION"] {
+  border-style: dashed;
+}
+.chip-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.chip-sub {
+  font-size: var(--text-pill);
+  font-weight: var(--weight-semibold);
+  color: var(--sub);
+}
+.chip .mk {
+  flex: none;
+  display: inline-flex;
+  color: var(--mark);
+}
+/* chips settle in whenever their board appears (load + level switch:
+   display:none → block restarts the animation) */
+.cards > .chip {
+  animation: settle var(--duration-base) var(--ease-out) backwards;
+}
+.cards > .chip:nth-child(2) { animation-delay: calc(var(--stagger) * 1); }
+.cards > .chip:nth-child(3) { animation-delay: calc(var(--stagger) * 2); }
+.cards > .chip:nth-child(4) { animation-delay: calc(var(--stagger) * 3); }
+.cards > .chip:nth-child(5) { animation-delay: calc(var(--stagger) * 4); }
+.cards > .chip:nth-child(6) { animation-delay: calc(var(--stagger) * 5); }
+.cards > .chip:nth-child(7) { animation-delay: calc(var(--stagger) * 6); }
+.cards > .chip:nth-child(8) { animation-delay: calc(var(--stagger) * 7); }
+.cards > .chip:nth-child(9) { animation-delay: calc(var(--stagger) * 8); }
+.cards > .chip:nth-child(10) { animation-delay: calc(var(--stagger) * 9); }
+.cards > .chip:nth-child(n + 11) { animation-delay: calc(var(--stagger) * 10); }
+
+@media (max-width: 620px) {
+  .rack {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 24px;
+  }
+  .rack-head {
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 6px;
+  }
+  .lens {
+    width: var(--lens-size-sm);
+    height: var(--lens-size-sm);
+    border-radius: 16px;
+    font-size: var(--text-lens-sm);
+  }
+  .lens svg {
+    width: 24px;
+    height: 24px;
+  }
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .cards > .chip.wide {
+    grid-column: span 2;
+  }
+}
+
+/* ---------- Keyframes ---------------------------------------------------- */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+}
+@keyframes settle {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); filter: blur(4px); }
 }
 
 /* Investment-level switching (plan D-2): all three level boards are
    static HTML; <html data-level> decides which one shows. The inline
    head script in Base.astro restores the saved level before paint;
-   level.ts keeps it in sync with the toggle. Default (no JS): Low. */
+   the LevelDock island keeps it in sync. Default (no JS): Low. */
 .lvl {
   display: none;
 }
@@ -54,22 +525,19 @@ body {
 
 /* Visible focus for keyboard users (all interactive elements). */
 :focus-visible {
-  outline: 2px solid var(--teal);
+  outline: 2px solid var(--gold);
   outline-offset: 2px;
 }
 
-a {
-  color: var(--teal);
-}
-
-/* Motion: CSS only, never longer than --duration-max, and fully off
-   when the user prefers reduced motion (plan T1.8 / DESIGN.md). */
+/* Motion: fully off when the user prefers reduced motion. The WebGL
+   scene also freezes (GlassScene reads the same media query). */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
   }
 }

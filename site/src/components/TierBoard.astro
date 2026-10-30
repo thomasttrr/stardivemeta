@@ -1,11 +1,13 @@
 ---
-// One investment level's tier board (plan T3.2): a rack per tier —
-// badge rail + card grid (DESIGN.md "Tier rack"). Empty rows hide.
+// One investment level's tier board (plan T3.2): a glass rack per tier —
+// a tinted lens with the tier letter and count, then the chip grid
+// (DESIGN.md "Tier rack"). Empty rows hide. Styles: global.css.
 import type { Character } from '../types/contract/Character';
 import type { Level } from '../types/contract/Level';
 import type { TierBoard as TierBoardData } from '../types/contract/TierBoard';
 import { charactersById } from '../lib/data';
 import CharacterChip from './CharacterChip.astro';
+import TierLens from './TierLens.astro';
 
 interface Props {
   board: TierBoardData;
@@ -16,32 +18,19 @@ interface Props {
 }
 const { board, level, characters = charactersById } = Astro.props;
 
-const ROWS: { key: keyof TierBoardData; letter: string }[] = [
-  { key: 'S', letter: 'S' },
-  { key: 'A', letter: 'A' },
-  { key: 'B', letter: 'B' },
-  { key: 'C', letter: 'C' },
-  { key: 'D', letter: 'D' },
-  { key: 'MODE_SPLIT', letter: '⇄' },
-  { key: 'UNRANKED', letter: '—' },
-];
+const ROWS: (keyof TierBoardData)[] = ['S', 'A', 'B', 'C', 'D', 'MODE_SPLIT', 'UNRANKED'];
+const heading = (k: keyof TierBoardData) =>
+  k === 'MODE_SPLIT' ? 'mode-split' : k === 'UNRANKED' ? 'unranked' : k;
 ---
 
-<div class="board">
+<div class="tierboard">
   {
-    ROWS.filter((row) => board[row.key].length > 0).map((row) => (
-      <section class="rack">
-        <h2 class="sr-only">Tier {row.key === 'MODE_SPLIT' ? 'mode-split' : row.key}</h2>
-        <div class="badge" data-tier={row.key}>
-          <span class="t" aria-hidden="true">
-            {row.letter}
-          </span>
-          <span class="n">
-            {board[row.key].length} {board[row.key].length === 1 ? 'char' : 'chars'}
-          </span>
-        </div>
+    ROWS.filter((key) => board[key].length > 0).map((key) => (
+      <section class="rack" data-tier={key} data-glass>
+        <h2 class="sr-only">Tier {heading(key)}</h2>
+        <TierLens tier={key} count={board[key].length} />
         <div class="cards">
-          {board[row.key].map((id) => {
+          {board[key].map((id) => {
             const c = characters.get(id)!;
             return <CharacterChip character={c} result={c.results[level]} />;
           })}
@@ -50,60 +39,3 @@ const ROWS: { key: keyof TierBoardData; letter: string }[] = [
     ))
   }
 </div>
-
-<style>
-  .rack {
-    display: flex;
-    gap: var(--space-rack-gap);
-    margin-top: var(--space-section);
-  }
-  .badge {
-    flex: 0 0 var(--badge-width);
-    border-radius: var(--radius-lg);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1px;
-    padding: 10px 2px;
-    color: var(--on-tier);
-    background: var(--grey);
-  }
-  .badge .t {
-    font-size: var(--badge-tier-size);
-    font-weight: var(--weight-black);
-    line-height: 1;
-  }
-  .badge .n {
-    font-size: var(--text-badge-count);
-    font-weight: var(--weight-bold);
-  }
-  .badge[data-tier="S"] {
-    background: var(--tier-s);
-  }
-  .badge[data-tier="A"] {
-    background: var(--tier-a);
-  }
-  .badge[data-tier="B"] {
-    background: var(--tier-b);
-  }
-  .badge[data-tier="C"] {
-    background: var(--tier-c);
-  }
-  .badge[data-tier="D"] {
-    background: var(--tier-d);
-  }
-  .badge[data-tier="MODE_SPLIT"] {
-    background: var(--tier-mode-split);
-  }
-  .badge[data-tier="MODE_SPLIT"] .t {
-    font-size: var(--badge-tier-size-split);
-  }
-  .cards {
-    flex: 1;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(var(--card-min-width), 1fr));
-    gap: var(--space-grid-gap);
-    align-content: start;
-  }
-</style>
