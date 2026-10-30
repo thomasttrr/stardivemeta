@@ -1,0 +1,85 @@
+# Source registry — as of the 2026-10-29 dataset.
+# Source: docs/inputs/mongil-tier-list-consensus-2026-10-29.md and
+# docs/inputs/mongil-consensus-math-proposal-v1.md §1.
+# Status values are assigned by T2.3 in the live data; the fixture records
+# the three voting sources as current and the rest by their standing role.
+
+[[source]]
+id = "pg"
+name = "Pocket Gamer"
+role = "voting"
+kind = "per_mode"
+url = "https://www.pocketgamer.com/mongil-star-dive/tier-list/"
+list_date = "2026-10-05"
+game_version = "1.04"
+status = "current"
+criteria_caveat = "Conquest = boss, single target. Rift = dungeon, AoE. World/Story list not used (Summer variants unlabeled)."
+
+[[source]]
+id = "kaiden"
+name = "Kaiden"
+role = "voting"
+kind = "overall_by_investment"
+url = "https://www.kaiden.gg/mongil/characters/"
+status = "current"
+criteria_caveat = "Rates each character at Low, High and Max investment. Where a level has two tiers, we count the first one listed."
+
+[[source]]
+id = "gamewith-jp"
+name = "GameWith JP"
+role = "voting"
+kind = "overall"
+url = "https://gamewith.jp/stardive/552850"
+list_date = "2026-10-21"
+status = "current"
+criteria_caveat = "Rates limited 5★ at A0, permanent 5★ up to A2, 4★ at A6. Its text lists show SS, S and A only."
+
+[[source]]
+id = "urgametips"
+name = "urgametips"
+role = "check_only"
+kind = "per_mode"
+url = "https://urgametips.com/mongil-star-dive-conquest-character-tier-list/"
+list_date = "2026-09-07"
+criteria_caveat = "Conquest list only. Near-identical to Pocket Gamer's Conquest rows — corroboration, not an independent method."
+
+[[source]]
+id = "gacha-gg"
+name = "gacha.gg"
+role = "check_only"
+kind = "overall"
+url = "https://www.gacha.gg/mongil-star-dive/tier-list"
+list_date = "2026-10-29"
+criteria_caveat = "Aggregate of 9 community lists including Kaiden and mongil.gg. Counting it would count those lists twice."
+
+[[source]]
+id = "gamewith-en"
+name = "GameWith EN"
+role = "check_only"
+kind = "overall"
+url = "https://gamewith.net/mongil-stardive/73714"
+criteria_caveat = "Launch-era list (21 characters). Superseded by GameWith JP."
+
+[[source]]
+id = "mongil-gg"
+name = "mongil.gg"
+role = "check_only"
+kind = "per_mode"
+url = "https://mongil.gg/tierlist"
+criteria_caveat = "Placements are rendered as images and have not been read. Not counted."
+
+[[source]]
+id = "pocket-tactics"
+name = "Pocket Tactics"
+role = "excluded"
+kind = "overall"
+url = "https://www.pockettactics.com/mongil-star-dive/tier-list"
+criteria_caveat = "Stale (~Aug 2026, pre-patch). Kept for the record; never shown."
+
+[[source]]
+id = "driffle"
+name = "Driffle"
+role = "excluded"
+kind = "overall"
+url = "https://driffle.com/blog/mongil-star-dive-tier-list/"
+criteria_caveat = "Stale (~Jun 2026, 21 characters). Kept for the record; never shown."

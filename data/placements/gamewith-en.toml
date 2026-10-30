@@ -1,0 +1,70 @@
+# Working dataset — GameWith EN check-only placements (launch-era list),
+# transcribed from docs/inputs/mongil-tier-list-consensus-2026-10-29.md
+# lines 46-48. Covers 15 of the 21 launch characters in its tiers.
+# Superseded by GameWith JP. Never counted.
+
+kind = "single_tier"
+
+[meta]
+source = "gamewith-en"
+harvest = "2026-10-29"
+
+[[placement]]
+character = "mina"
+tier = "SS"
+
+[[placement]]
+character = "flare"
+tier = "SS"
+
+[[placement]]
+character = "jiwon"
+tier = "SS"
+
+[[placement]]
+character = "esther"
+tier = "SS"
+
+[[placement]]
+character = "ophelia"
+tier = "S"
+
+[[placement]]
+character = "penny"
+tier = "S"
+
+[[placement]]
+character = "gabi"
+tier = "S"
+
+[[placement]]
+character = "francis"
+tier = "S"
+
+[[placement]]
+character = "sangun"
+tier = "A"
+
+[[placement]]
+character = "leeho"
+tier = "A"
+
+[[placement]]
+character = "angel"
+tier = "A"
+
+[[placement]]
+character = "cloud"
+tier = "A"
+
+[[placement]]
+character = "yeonhwa"
+tier = "A"
+
+[[placement]]
+character = "benjamin"
+tier = "A"
+
+[[placement]]
+character = "ellie"
+tier = "A"

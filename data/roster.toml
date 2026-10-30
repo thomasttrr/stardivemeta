@@ -1,0 +1,122 @@
+# Roster — the 29 characters of the 2026-10-29 dataset.
+# Source: docs/inputs/mongil-tier-list-consensus-2026-10-29.md (Kaiden
+# character list, last updated Oct 19, 2026). released_on is a T2.8 field
+# and is intentionally absent here.
+
+[[character]]
+id = "mina"
+name = "Mina"
+
+[[character]]
+id = "penny"
+name = "Penny"
+
+[[character]]
+id = "narae"
+name = "Narae"
+
+[[character]]
+id = "sangun"
+name = "Sangun"
+
+[[character]]
+id = "jiwon"
+name = "Jiwon"
+
+[[character]]
+id = "gabi"
+name = "Gabi"
+
+[[character]]
+id = "isabella"
+name = "Isabella"
+
+[[character]]
+id = "flare"
+name = "Flare"
+
+[[character]]
+id = "chloe"
+name = "Chloe"
+
+[[character]]
+id = "ophelia"
+name = "Ophelia"
+
+[[character]]
+id = "esther"
+name = "Esther"
+
+[[character]]
+id = "nagi"
+name = "Nagi"
+
+[[character]]
+id = "brisshell"
+name = "Brisshell"
+
+[[character]]
+id = "mabel"
+name = "Mabel"
+
+[[character]]
+id = "verna-summer-dive"
+name = "Verna: Summer Dive!"
+base_of = "verna"
+
+[[character]]
+id = "francis-summer-dive"
+name = "Francis: Summer Dive!"
+base_of = "francis"
+
+[[character]]
+id = "vivian"
+name = "Vivian"
+
+[[character]]
+id = "verna"
+name = "Verna"
+
+[[character]]
+id = "cloud"
+name = "Cloud"
+
+[[character]]
+id = "francis"
+name = "Francis"
+
+[[character]]
+id = "yeonhwa"
+name = "Yeonhwa"
+
+[[character]]
+id = "daisy"
+name = "Daisy"
+
+[[character]]
+id = "leeho"
+name = "Leeho"
+
+[[character]]
+id = "benjamin"
+name = "Benjamin"
+
+[[character]]
+id = "sera"
+name = "Sera"
+
+[[character]]
+id = "ellie"
+name = "Ellie"
+
+[[character]]
+id = "reina"
+name = "Reina"
+
+[[character]]
+id = "bonnie"
+name = "Bonnie"
+
+[[character]]
+id = "angel"
+name = "Angel"

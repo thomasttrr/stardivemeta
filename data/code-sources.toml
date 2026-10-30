@@ -1,0 +1,7 @@
+# Code-listing source registry (plan §B.3). Populated by the T2.7 codes
+# harvest: at least 4 code-listing sites plus official channels, each
+# with its independence group. The §B.3 example entries ("site-a",
+# "official-discord") are illustrative placeholders — gate G2 rejects
+# placeholder URLs, so no entries are written until T2.7 records the
+# real sites.
+code_source = []

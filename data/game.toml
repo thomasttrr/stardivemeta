@@ -1,0 +1,7 @@
+# Game version table (plan §B.3). Settled from official patch notes by
+# T2.3 — plan item X7: Pocket Gamer states "1.04", Kaiden states "1.4"
+# for the same era, and the official string wins when T2.3 reads it.
+# Until then current_version holds Pocket Gamer's stated string (the
+# only version any voting source prints) so emit has a value; the
+# release list is filled in by T2.3.
+current_version = "1.04"
