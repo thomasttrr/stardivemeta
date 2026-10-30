@@ -1,0 +1,127 @@
+---
+// Pocket Gamer's per-mode board (plan T3.4): rows S–C plus the
+// "Not ranked by mode" row, sorted by name. Chips carry the small
+// Overall-at-Low line and open the same evidence dialog.
+import type { ModeBoard as ModeBoardData } from '../types/contract/ModeBoard';
+import { charactersById } from '../lib/data';
+import CharacterChip from './CharacterChip.astro';
+
+interface Props {
+  board: ModeBoardData;
+}
+const { board } = Astro.props;
+
+const ROWS: { key: 'S' | 'A' | 'B' | 'C'; letter: string }[] = [
+  { key: 'S', letter: 'S' },
+  { key: 'A', letter: 'A' },
+  { key: 'B', letter: 'B' },
+  { key: 'C', letter: 'C' },
+];
+const byName = (ids: string[]) =>
+  [...ids].sort((a, b) =>
+    charactersById.get(a)!.name.localeCompare(charactersById.get(b)!.name),
+  );
+---
+
+<div class="board">
+  {
+    ROWS.filter((row) => board[row.key].length > 0).map((row) => (
+      <section class="rack">
+        <h2 class="sr-only">Tier {row.key}</h2>
+        <div class="badge" data-tier={row.key}>
+          <span class="t" aria-hidden="true">
+            {row.letter}
+          </span>
+          <span class="n">
+            {board[row.key].length} {board[row.key].length === 1 ? 'char' : 'chars'}
+          </span>
+        </div>
+        <div class="cards">
+          {byName(board[row.key]).map((id) => {
+            const c = charactersById.get(id)!;
+            return <CharacterChip character={c} result={c.results.low} overallLine />;
+          })}
+        </div>
+      </section>
+    ))
+  }
+  {
+    board.UNRANKED.length > 0 && (
+      <>
+        <h2 class="unranked-title">Not ranked by mode</h2>
+        <section class="rack">
+          <div class="badge" data-tier="UNRANKED">
+            <span class="t" aria-hidden="true">
+              —
+            </span>
+            <span class="n">{board.UNRANKED.length} chars</span>
+          </div>
+          <div class="cards">
+            {byName(board.UNRANKED).map((id) => {
+              const c = charactersById.get(id)!;
+              return <CharacterChip character={c} result={c.results.low} overallLine />;
+            })}
+          </div>
+        </section>
+      </>
+    )
+  }
+</div>
+
+<style>
+  .rack {
+    display: flex;
+    gap: var(--space-rack-gap);
+    margin-top: var(--space-section);
+  }
+  .badge {
+    flex: 0 0 var(--badge-width);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    padding: 10px 2px;
+    color: var(--on-tier);
+    background: var(--grey);
+  }
+  .badge .t {
+    font-size: var(--badge-tier-size);
+    font-weight: var(--weight-black);
+    line-height: 1;
+  }
+  .badge .n {
+    font-size: var(--text-badge-count);
+    font-weight: var(--weight-bold);
+  }
+  .badge[data-tier="S"] {
+    background: var(--tier-s);
+  }
+  .badge[data-tier="A"] {
+    background: var(--tier-a);
+  }
+  .badge[data-tier="B"] {
+    background: var(--tier-b);
+  }
+  .badge[data-tier="C"] {
+    background: var(--tier-c);
+  }
+  .badge[data-tier="UNRANKED"] {
+    background: var(--panel-2);
+    color: var(--sub);
+    border: 1px solid var(--line);
+  }
+  .cards {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--card-min-width), 1fr));
+    gap: var(--space-grid-gap);
+    align-content: start;
+  }
+  .unranked-title {
+    font-size: var(--text-h2);
+    font-weight: var(--weight-extrabold);
+    margin: 30px 0 0;
+  }
+</style>
