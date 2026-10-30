@@ -1,0 +1,65 @@
+# CI (plan T1.7): the `rust` job gates code (fmt, clippy, tests, and
+# the T1.6 contract-drift check); the `data` job gates the dataset
+# (`mongil-build validate` + gate G9 snapshot immutability).
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  rust:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install the pinned toolchain (rust-toolchain.toml)
+        run: |
+          rustup toolchain install
+          rustup component add rustfmt clippy
+          rustup show
+      - uses: Swatinem/rust-cache@v2
+      - name: Format
+        run: cargo fmt --all --check
+      - name: Clippy
+        run: cargo clippy --workspace --all-targets -- -D warnings
+      - name: Tests
+        run: cargo test --workspace
+      - name: Contract types cannot drift from Rust (plan T1.6 acceptance b)
+        run: git diff --exit-code site/src/types/contract
+
+  data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install the pinned toolchain (rust-toolchain.toml)
+        run: |
+          rustup toolchain install
+          rustup show
+      - uses: Swatinem/rust-cache@v2
+      - name: Validate the dataset (plan §B.7 gates)
+        run: cargo run --quiet -p mongil-build -- validate --data data
+      - name: G9 — committed snapshots are immutable
+        run: |
+          changed="$(git diff --diff-filter=MDR --name-only origin/main -- data/snapshots/)"
+          if [ -n "$changed" ]; then
+            echo "G9: committed snapshots were modified, deleted or renamed:"
+            echo "$changed"
+            exit 1
+          fi
+          echo "G9: no committed snapshot modified or deleted"
+      - name: G9 — method files are immutable once launched
+        run: |
+          if [ -f data/ops/autodeploy.toml ] && grep -q 'launch_date' data/ops/autodeploy.toml; then
+            changed="$(git diff --diff-filter=MDR --name-only origin/main -- 'data/method/v*.toml')"
+            if [ -n "$changed" ]; then
+              echo "G9: method files changed after launch:"
+              echo "$changed"
+              exit 1
+            fi
+            echo "G9: method files unchanged since launch"
+          else
+            echo "G9: launch_date not set yet — the method-file half of G9 is dormant"
+          fi
