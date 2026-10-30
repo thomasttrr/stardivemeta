@@ -1,8 +1,16 @@
 # T2.5 — GameWith JP visual quick table (最強キャラ早見表)
 
+## CP2 DECISION — 2026-10-29 — CHECK-ONLY EVIDENCE (NOT VOTES)
+
+**Decision (Tom, CP2, 2026-10-29): NO.** The GameWith JP visual-table cells do **not** count as votes in Method v1.0. This file and `t25-jp-visual.toml` are retained permanently in the harvest record as **check-only evidence** only; they are not in `data/` and must never be merged as placements under Method v1.0.
+
+**Rationale (one line):** JP's conversion is top-shifted (JP A = 2 vs PG A = 3), so extending it downward would put Verna/Leeho in D despite all three lists rating them C — a conversion artifact; the visual cells' per-cell awakenings don't match JP's stated text criteria; and JP D has no defined value in the v1.0 conversion table.
+
+Revisit path: "JP lower tiers and their conversion" is logged as a v1.1 candidate in `docs/V1.1-CANDIDATES.md` (re-simulation with a candidate mapping such as JP B = 2, C = 1, as a Method change requiring Tom's approval), next to the mongil.gg promotion item.
+
 Source: https://gamewith.jp/stardive/552850
 Visual read: B-read #1, 2026-10-29. Page update shown: 2026-10-21 11:41.
-Status: staging only. These cells are not in `data/` and are not counted unless Tom approves the extension at CP2.
+Status: check-only evidence per the CP2 decision above. (Originally staged pending Tom's CP2 tap; the before/after analysis below is the record of what was considered.)
 
 ## Full visual table, in the read's reading order
 

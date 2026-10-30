@@ -1,6 +1,10 @@
-# T2.5 staging only — GameWith JP visual quick-table cells for the six
-# characters absent from the SS/S/A text tiers. NOT part of data/ and NOT
-# counted unless Tom approves the method extension at CP2.
+# T2.5 CHECK-ONLY EVIDENCE — GameWith JP visual quick-table cells for the
+# six characters absent from the SS/S/A text tiers.
+# CP2 DECISION (Tom, 2026-10-29): NO — these cells do NOT count as votes in
+# Method v1.0. Retained permanently in the harvest record as check-only
+# evidence only; NOT part of data/ and never to be merged as placements
+# under Method v1.0. See t25-jp-visual-note.md for the decision rationale
+# and docs/V1.1-CANDIDATES.md for the revisit item.
 
 [meta]
 source = "gamewith-jp"
@@ -10,7 +14,7 @@ read_mode = "screenshot"
 read_at = "2026-10-29T21:16:00-04:00"
 page_updated = "2026-10-21"
 visual_read = true
-status = "staging_only_not_counted"
+status = "check_only_evidence_not_counted"
 
 [[placement]]
 character = "sangun"
