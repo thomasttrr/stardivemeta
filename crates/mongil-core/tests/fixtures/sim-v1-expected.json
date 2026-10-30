@@ -1,0 +1,701 @@
+{
+  "source": "Plan v1 §B.6, from docs/inputs/mongil-consensus-simulation-v1.txt (2026-10-29 dataset, Method v1.0). Angel label is MODE_SPLIT per X10.",
+  "characters": {
+    "angel": {
+      "name": "Angel",
+      "low": {
+        "tier": "MODE_SPLIT",
+        "label": "MODE_SPLIT",
+        "score": 2.17,
+        "spread": 0.5,
+        "coverage": 3
+      },
+      "high": {
+        "tier": "MODE_SPLIT",
+        "label": "MODE_SPLIT",
+        "score": 2.17,
+        "spread": 0.5,
+        "coverage": 3
+      },
+      "max": {
+        "tier": "MODE_SPLIT",
+        "label": "MODE_SPLIT",
+        "score": 2.17,
+        "spread": 0.5,
+        "coverage": 3
+      }
+    },
+    "benjamin": {
+      "name": "Benjamin",
+      "low": {
+        "tier": "B",
+        "label": "SOLID",
+        "score": 2.83,
+        "spread": 0.5,
+        "coverage": 3
+      },
+      "high": {
+        "tier": "B",
+        "label": "SOLID",
+        "score": 2.83,
+        "spread": 0.5,
+        "coverage": 3
+      },
+      "max": {
+        "tier": "B",
+        "label": "SOLID",
+        "score": 2.83,
+        "spread": 0.5,
+        "coverage": 3
+      }
+    },
+    "bonnie": {
+      "name": "Bonnie",
+      "low": {
+        "tier": "C",
+        "label": "SOLID",
+        "score": 1.0,
+        "spread": 0.0,
+        "coverage": 2
+      },
+      "high": {
+        "tier": "C",
+        "label": "SOLID",
+        "score": 1.0,
+        "spread": 0.0,
+        "coverage": 2
+      },
+      "max": {
+        "tier": "C",
+        "label": "SOLID",
+        "score": 1.0,
+        "spread": 0.0,
+        "coverage": 2
+      }
+    },
+    "brisshell": {
+      "name": "Brisshell",
+      "low": {
+        "tier": "S",
+        "label": "SOLID",
+        "score": 3.5,
+        "spread": 1.0,
+        "coverage": 2
+      },
+      "high": {
+        "tier": "S",
+        "label": "SOLID",
+        "score": 3.75,
+        "spread": 0.5,
+        "coverage": 2
+      },
+      "max": {
+        "tier": "S",
+        "label": "SOLID",
+        "score": 3.75,
+        "spread": 0.5,
+        "coverage": 2
+      }
+    },
+    "chloe": {
+      "name": "Chloe",
+      "low": {
+        "tier": "S",
+        "label": "SOLID",
+        "score": 4.0,
+        "spread": 0.0,
+        "coverage": 2
+      },
+      "high": {
+        "tier": "S",
+        "label": "SOLID",
+        "score": 4.0,
+        "spread": 0.0,
+        "coverage": 2
+      },
+      "max": {
+        "tier": "S",
+        "label": "SOLID",
+        "score": 4.0,
+        "spread": 0.0,
+        "coverage": 2
+      }
+    },
+    "cloud": {
+      "name": "Cloud",
+      "low": {
+        "tier": "B",
+        "label": "SOLID",
+        "score": 2.33,
+        "spread": 1.0,
+        "coverage": 3
+      },
+      "high": {
+        "tier": "B",
+        "label": "SOLID",
+        "score": 2.33,
+        "spread": 1.0,
+        "coverage": 3
+      },
+      "max": {
+        "tier": "B",
+        "label": "SOLID",
+        "score": 2.33,
+        "spread": 1.0,
+        "coverage": 3
+      }
+    },
+    "daisy": {
+      "name": "Daisy",
+      "low": {
+        "tier": "D",
+        "label": "SOLID",
+        "score": 0.5,
+        "spread": 1.0,
+        "coverage": 2
+      },
+      "high": {
+        "tier": "D",
+        "label": "SOLID",
+        "score": 0.5,
+        "spread": 1.0,
+        "coverage": 2
+      },
+      "max": {
+        "tier": "D",
+        "label": "SOLID",
+        "score": 0.5,
+        "spread": 1.0,
+        "coverage": 2
+      }
+    },
+    "ellie": {
+      "name": "Ellie",
+      "low": {
+        "tier": "B",
+        "label": "SOLID",
+        "score": 2.25,
+        "spread": 0.5,
+        "coverage": 2
+      },
+      "high": {
+        "tier": "B",
+        "label": "SOLID",
+        "score": 2.25,
+        "spread": 0.5,
+        "coverage": 2
+      },
+      "max": {
+        "tier": "B",
+        "label": "SOLID",
+        "score": 2.25,
+        "spread": 0.5,
+        "coverage": 2
+      }
+    },
+    "esther": {
+      "name": "Esther",
+      "low": {
+        "tier": "A",
+        "label": "CONTESTED",
+        "score": 3.17,
+        "spread": 2.0,
+        "coverage": 3
+      },
+      "high": {
+        "tier": "S",
+        "label": "SOLID",
+        "score": 3.5,
+        "spread": 1.0,
+        "coverage": 3
+      },
+      "max": {
+        "tier": "S",
+        "label": "SOLID",
+        "score": 3.5,
+        "spread": 1.0,
+        "coverage": 3
+      }
+    },
+    "flare": {
+      "name": "Flare",
+      "low": {
+        "tier": "B",
+        "label": "CONTESTED",
+        "score": 2.17,
+        "spread": 2.5,
+        "coverage": 3
+      },
+      "high": {
+        "tier": "B",
+        "label": "CONTESTED",
+        "score": 2.5,
+        "spread": 1.5,
+        "coverage": 3
+      },
+      "max": {
+        "tier": "B",
+        "label": "CONTESTED",
+        "score": 2.83,
+        "spread": 1.5,
+        "coverage": 3
+      }
+    },
+    "francis": {
+      "name": "Francis",
+      "low": {
+        "tier": "A",
+        "label": "CONTESTED",
+        "score": 3.17,
+        "spread": 2.0,
+        "coverage": 3
+      },
+      "high": {
+        "tier": "A",
+        "label": "CONTESTED",
+        "score": 3.17,
+        "spread": 2.0,
+        "coverage": 3
+      },
+      "max": {
+        "tier": "A",
+        "label": "CONTESTED",
+        "score": 3.17,
+        "spread": 2.0,
+        "coverage": 3
+      }
+    },
+    "francis-summer-dive": {
+      "name": "Francis: Summer Dive!",
+      "low": {
+        "tier": "A",
+        "label": "CONTESTED",
+        "score": 3.0,
+        "spread": 2.0,
+        "coverage": 2
+      },
+      "high": {
+        "tier": "S",
+        "label": "SOLID",
+        "score": 3.75,
+        "spread": 0.5,
+        "coverage": 2
+      },
+      "max": {
+        "tier": "S",
+        "label": "SOLID",
+        "score": 4.0,
+        "spread": 0.0,
+        "coverage": 2
+      }
+    },
+    "gabi": {
+      "name": "Gabi",
+      "low": {
+        "tier": "B",
+        "label": "CONTESTED",
+        "score": 2.0,
+        "spread": 2.0,
+        "coverage": 3
+      },
+      "high": {
+        "tier": "B",
+        "label": "SOLID",
+        "score": 2.67,
+        "spread": 1.0,
+        "coverage": 3
+      },
+      "max": {
+        "tier": "B",
+        "label": "SOLID",
+        "score": 2.67,
+        "spread": 1.0,
+        "coverage": 3
+      }
+    },
+    "isabella": {
+      "name": "Isabella",
+      "low": {
+        "tier": "S",
+        "label": "SOLID",
+        "score": 3.5,
+        "spread": 1.0,
+        "coverage": 3
+      },
+      "high": {
+        "tier": "S",
+        "label": "SOLID",
+        "score": 3.67,
+        "spread": 0.5,
+        "coverage": 3
+      },
+      "max": {
+        "tier": "S",
+        "label": "SOLID",
+        "score": 3.67,
+        "spread": 0.5,
+        "coverage": 3
+      }
+    },
+    "jiwon": {
+      "name": "Jiwon",
+      "low": {
+        "tier": "B",
+        "label": "CONTESTED",
+        "score": 2.5,
+        "spread": 2.5,
+        "coverage": 3
+      },
+      "high": {
+        "tier": "A",
+        "label": "SOLID",
+        "score": 3.17,
+        "spread": 0.5,
+        "coverage": 3
+      },
+      "max": {
+        "tier": "A",
+        "label": "SOLID",
+        "score": 3.17,
+        "spread": 0.5,
+        "coverage": 3
+      }
+    },
+    "leeho": {
+      "name": "Leeho",
+      "low": {
+        "tier": "C",
+        "label": "SOLID",
+        "score": 1.0,
+        "spread": 0.0,
+        "coverage": 2
+      },
+      "high": {
+        "tier": "C",
+        "label": "SOLID",
+        "score": 1.0,
+        "spread": 0.0,
+        "coverage": 2
+      },
+      "max": {
+        "tier": "C",
+        "label": "SOLID",
+        "score": 1.0,
+        "spread": 0.0,
+        "coverage": 2
+      }
+    },
+    "mabel": {
+      "name": "Mabel",
+      "low": {
+        "tier": "B",
+        "label": "SOLID",
+        "score": 2.5,
+        "spread": 1.0,
+        "coverage": 2
+      },
+      "high": {
+        "tier": "A",
+        "label": "SOLID",
+        "score": 3.0,
+        "spread": 0.0,
+        "coverage": 2
+      },
+      "max": {
+        "tier": "A",
+        "label": "SOLID",
+        "score": 3.0,
+        "spread": 0.0,
+        "coverage": 2
+      }
+    },
+    "mina": {
+      "name": "Mina",
+      "low": {
+        "tier": "A",
+        "label": "CONTESTED",
+        "score": 3.33,
+        "spread": 2.0,
+        "coverage": 3
+      },
+      "high": {
+        "tier": "S",
+        "label": "SOLID",
+        "score": 3.83,
+        "spread": 0.5,
+        "coverage": 3
+      },
+      "max": {
+        "tier": "S",
+        "label": "SOLID",
+        "score": 3.83,
+        "spread": 0.5,
+        "coverage": 3
+      }
+    },
+    "nagi": {
+      "name": "Nagi",
+      "low": {
+        "tier": "B",
+        "label": "CONTESTED",
+        "score": 2.0,
+        "spread": 2.0,
+        "coverage": 2
+      },
+      "high": {
+        "tier": "B",
+        "label": "SOLID",
+        "score": 2.5,
+        "spread": 1.0,
+        "coverage": 2
+      },
+      "max": {
+        "tier": "A",
+        "label": "SOLID",
+        "score": 3.0,
+        "spread": 0.0,
+        "coverage": 2
+      }
+    },
+    "narae": {
+      "name": "Narae",
+      "low": {
+        "tier": "S",
+        "label": "SOLID",
+        "score": 4.0,
+        "spread": 0.0,
+        "coverage": 3
+      },
+      "high": {
+        "tier": "S",
+        "label": "SOLID",
+        "score": 4.0,
+        "spread": 0.0,
+        "coverage": 3
+      },
+      "max": {
+        "tier": "S",
+        "label": "SOLID",
+        "score": 4.0,
+        "spread": 0.0,
+        "coverage": 3
+      }
+    },
+    "ophelia": {
+      "name": "Ophelia",
+      "low": {
+        "tier": "A",
+        "label": "CONTESTED",
+        "score": 3.0,
+        "spread": 2.0,
+        "coverage": 3
+      },
+      "high": {
+        "tier": "A",
+        "label": "SOLID",
+        "score": 3.33,
+        "spread": 1.0,
+        "coverage": 3
+      },
+      "max": {
+        "tier": "A",
+        "label": "SOLID",
+        "score": 3.33,
+        "spread": 1.0,
+        "coverage": 3
+      }
+    },
+    "penny": {
+      "name": "Penny",
+      "low": {
+        "tier": "B",
+        "label": "CONTESTED",
+        "score": 2.0,
+        "spread": 2.0,
+        "coverage": 3
+      },
+      "high": {
+        "tier": "B",
+        "label": "SOLID",
+        "score": 2.33,
+        "spread": 1.0,
+        "coverage": 3
+      },
+      "max": {
+        "tier": "B",
+        "label": "SOLID",
+        "score": 2.67,
+        "spread": 1.0,
+        "coverage": 3
+      }
+    },
+    "reina": {
+      "name": "Reina",
+      "low": {
+        "tier": "C",
+        "label": "SOLID",
+        "score": 1.83,
+        "spread": 0.5,
+        "coverage": 3
+      },
+      "high": {
+        "tier": "C",
+        "label": "SOLID",
+        "score": 1.83,
+        "spread": 0.5,
+        "coverage": 3
+      },
+      "max": {
+        "tier": "C",
+        "label": "SOLID",
+        "score": 1.83,
+        "spread": 0.5,
+        "coverage": 3
+      }
+    },
+    "sangun": {
+      "name": "Sangun",
+      "low": {
+        "tier": "C",
+        "label": "CONTESTED",
+        "score": 1.75,
+        "spread": 3.5,
+        "coverage": 2
+      },
+      "high": {
+        "tier": "C",
+        "label": "CONTESTED",
+        "score": 1.75,
+        "spread": 3.5,
+        "coverage": 2
+      },
+      "max": {
+        "tier": "B",
+        "label": "CONTESTED",
+        "score": 2.25,
+        "spread": 2.5,
+        "coverage": 2
+      }
+    },
+    "sera": {
+      "name": "Sera",
+      "low": {
+        "tier": "C",
+        "label": "SOLID",
+        "score": 1.5,
+        "spread": 1.0,
+        "coverage": 3
+      },
+      "high": {
+        "tier": "C",
+        "label": "SOLID",
+        "score": 1.83,
+        "spread": 0.5,
+        "coverage": 3
+      },
+      "max": {
+        "tier": "C",
+        "label": "SOLID",
+        "score": 1.83,
+        "spread": 0.5,
+        "coverage": 3
+      }
+    },
+    "verna": {
+      "name": "Verna",
+      "low": {
+        "tier": "C",
+        "label": "SOLID",
+        "score": 1.0,
+        "spread": 0.0,
+        "coverage": 2
+      },
+      "high": {
+        "tier": "C",
+        "label": "SOLID",
+        "score": 1.0,
+        "spread": 0.0,
+        "coverage": 2
+      },
+      "max": {
+        "tier": "C",
+        "label": "SOLID",
+        "score": 1.0,
+        "spread": 0.0,
+        "coverage": 2
+      }
+    },
+    "verna-summer-dive": {
+      "name": "Verna: Summer Dive!",
+      "low": {
+        "tier": "A",
+        "label": "SOLID",
+        "score": 3.25,
+        "spread": 0.5,
+        "coverage": 2
+      },
+      "high": {
+        "tier": "A",
+        "label": "SOLID",
+        "score": 3.25,
+        "spread": 0.5,
+        "coverage": 2
+      },
+      "max": {
+        "tier": "A",
+        "label": "SOLID",
+        "score": 3.25,
+        "spread": 0.5,
+        "coverage": 2
+      }
+    },
+    "vivian": {
+      "name": "Vivian",
+      "low": {
+        "tier": "B",
+        "label": "SOLID",
+        "score": 2.5,
+        "spread": 1.0,
+        "coverage": 2
+      },
+      "high": {
+        "tier": "A",
+        "label": "SOLID",
+        "score": 3.25,
+        "spread": 0.5,
+        "coverage": 2
+      },
+      "max": {
+        "tier": "A",
+        "label": "SOLID",
+        "score": 3.25,
+        "spread": 0.5,
+        "coverage": 2
+      }
+    },
+    "yeonhwa": {
+      "name": "Yeonhwa",
+      "low": {
+        "tier": "B",
+        "label": "CONTESTED",
+        "score": 2.5,
+        "spread": 2.5,
+        "coverage": 3
+      },
+      "high": {
+        "tier": "B",
+        "label": "CONTESTED",
+        "score": 2.5,
+        "spread": 2.5,
+        "coverage": 3
+      },
+      "max": {
+        "tier": "B",
+        "label": "CONTESTED",
+        "score": 2.5,
+        "spread": 2.5,
+        "coverage": 3
+      }
+    }
+  }
+}
