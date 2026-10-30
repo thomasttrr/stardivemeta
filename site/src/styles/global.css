@@ -1,0 +1,35 @@
+/* StarDiveMeta global styles. Tokens live in tokens.css (docs/DESIGN.md);
+   this file only wires them up: font, base element styles, motion rules. */
+@import "./tokens.css";
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-Variable.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-base);
+}
+
+/* Motion: CSS only, never longer than --duration-max, and fully off
+   when the user prefers reduced motion (plan T1.8 / DESIGN.md). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

@@ -1,0 +1,89 @@
+/* StarDiveMeta design tokens — Direction C "Arcade Board" (docs/DESIGN.md).
+   Every token named in DESIGN.md is defined here, and only those tokens.
+   All components must use these; no hard-coded colours, sizes or radii. */
+:root {
+  /* Colour — surfaces and text */
+  --bg: #10131a;
+  --panel: #171c28;
+  --panel-2: #1f2637;
+  --line: #2c3549;
+  --text: #f2f4f8;
+  --sub: #aeb8c9;
+  --pill-bg: #0d1017;
+  --why-bg: #241a26;
+  --why-line: #4a2c3f;
+
+  /* Colour — palette accents */
+  --gold: #ffd166;
+  --pink: #ef6aa5;
+  --teal: #3fd0c9;
+  --violet: #9d8cff;
+  --grey: #8d99ae;
+  --green: #7bd88f;
+
+  /* Colour — tier rails */
+  --tier-s: var(--gold);
+  --tier-a: var(--pink);
+  --tier-b: var(--teal);
+  --tier-c: var(--violet);
+  --tier-d: var(--grey);
+  --tier-mode-split: var(--green);
+
+  /* Colour — text on coloured fills */
+  --on-tier: #12141c;
+  --on-teal: #0b2b29;
+  --on-gold: #221a02;
+
+  /* Type */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --text-base: 15px;
+  --leading-base: 1.45;
+  --leading-tight: 1.15;
+  --leading-card: 1.25;
+  --text-h1: 27px;
+  --text-h2: 21px;
+  --text-tagline: 16.5px;
+  --text-dossier-name: 24px;
+  --text-card-name: 14.5px;
+  --text-body-sm: 13.5px;
+  --text-note: 12.5px;
+  --text-pill: 11px;
+  --text-badge-count: 10.5px;
+  --badge-tier-size: 24px;
+  --badge-tier-size-split: 19px;
+  --stat-value-size: 16px;
+  --text-stat-key: 10.5px;
+  --text-kicker: 11px;
+  --text-section-label: 12px;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-extrabold: 800;
+  --weight-black: 900;
+
+  /* Spacing and layout */
+  --content-max: 680px;
+  --space-page-x: 14px;
+  --space-page-top: 18px;
+  --space-page-bottom: 44px;
+  --space-rack-gap: 10px;
+  --space-grid-gap: 8px;
+  --space-section: 22px;
+  --badge-width: 52px;
+  --card-min-width: 118px;
+  --card-min-height: 64px;
+  --space-card-x: 11px;
+  --space-card-y: 10px;
+  --space-panel: 16px;
+  --space-legend-x: 14px;
+  --space-legend-y: 12px;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 999px;
+
+  /* Motion (CSS only; disabled under prefers-reduced-motion in global.css) */
+  --duration-max: 200ms;
+}
