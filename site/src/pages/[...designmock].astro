@@ -1,0 +1,21 @@
+---
+// T1.8 mocks route shim — temporary, deleted with the mocks after CP1.
+// Astro does not route files/dirs whose name starts with "_", so the mock
+// pages live in src/pages/_design/ (the plan's paths) as components and are
+// rendered here at their intended URLs: /_design/a/, /_design/b/, /_design/c/.
+import MockA from './_design/a.astro';
+import MockB from './_design/b.astro';
+import MockC from './_design/c.astro';
+
+export function getStaticPaths() {
+  return ['a', 'b', 'c'].map((mock) => ({
+    params: { designmock: `_design/${mock}` },
+    props: { mock },
+  }));
+}
+
+const mocks = { a: MockA, b: MockB, c: MockC } as const;
+const Mock = mocks[Astro.props.mock as keyof typeof mocks];
+---
+
+<Mock />

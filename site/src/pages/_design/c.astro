@@ -1,0 +1,186 @@
+---
+// Direction C — "Arcade Board" (see HTML comment below for rationale).
+import { lowRows, francis, LEGEND, stamp } from '../../lib/mock-data';
+---
+
+<!--
+  Direction C: "Arcade Board" — a card / board-game direction.
+  Rationale: speaks the players' language — chunky tier racks, character tiles like game
+  cards and a dossier-style evidence card — while staying flat and fast (CSS only, no art).
+  Layout: badge rail + card grid per tier on a dark board; nothing like a table or an article.
+-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mock C — Arcade Board · StarDiveMeta</title>
+    <style>
+      :root {
+        --bg: #10131a;
+        --panel: #171c28;
+        --panel2: #1f2637;
+        --line: #2c3549;
+        --text: #f2f4f8;
+        --sub: #aeb8c9;
+        --gold: #ffd166;
+        --pink: #ef6aa5;
+        --teal: #3fd0c9;
+        --violet: #9d8cff;
+        --green: #7bd88f;
+        --grey: #8d99ae;
+        --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 15px; line-height: 1.45; }
+      main { max-width: 680px; margin: 0 auto; padding: 18px 14px 44px; }
+      .topbar { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+      .logo { font-weight: 800; letter-spacing: 0.02em; font-size: 17px; }
+      .logo em { font-style: normal; color: var(--teal); }
+      .mocktag { font-size: 11px; color: var(--sub); border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px; white-space: nowrap; }
+      h1 { font-size: 27px; line-height: 1.15; margin: 18px 0 4px; font-weight: 800; letter-spacing: -0.01em; }
+      .sub { font-size: 16.5px; margin: 0; color: var(--gold); font-weight: 600; }
+      .built { color: var(--sub); font-size: 13.5px; margin: 6px 0 0; }
+      .toggle { display: flex; gap: 6px; margin: 18px 0 0; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 5px; width: fit-content; }
+      .toggle span { padding: 6px 16px; border-radius: 8px; color: var(--sub); font-weight: 600; font-size: 14px; }
+      .toggle b { padding: 6px 16px; border-radius: 8px; background: var(--teal); color: #0b2b29; font-size: 14px; }
+      .tnote { color: var(--sub); font-size: 12.5px; margin: 9px 0 0; }
+      .rack { display: flex; gap: 10px; margin-top: 22px; }
+      .badge {
+        flex: 0 0 52px; border-radius: 12px; display: flex; flex-direction: column; align-items: center;
+        justify-content: center; gap: 1px; padding: 10px 2px; color: #12141c;
+      }
+      .badge .t { font-size: 24px; font-weight: 900; line-height: 1; }
+      .badge .n { font-size: 10.5px; font-weight: 700; }
+      .badge[data-tier="S"] { background: var(--gold); }
+      .badge[data-tier="A"] { background: var(--pink); }
+      .badge[data-tier="B"] { background: var(--teal); }
+      .badge[data-tier="C"] { background: var(--violet); }
+      .badge[data-tier="D"] { background: var(--grey); }
+      .badge[data-tier="MODE_SPLIT"] { background: var(--green); }
+      .badge[data-tier="MODE_SPLIT"] .t { font-size: 19px; }
+      .cards { flex: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
+      .card {
+        background: var(--panel2); border: 1px solid var(--line); border-radius: 12px;
+        padding: 10px 11px 9px; min-height: 64px; display: flex; flex-direction: column; gap: 5px;
+      }
+      .card .nm { font-weight: 700; font-size: 14.5px; line-height: 1.25; }
+      .pill {
+        align-self: flex-start; display: inline-flex; gap: 5px; align-items: center;
+        font-size: 11px; font-weight: 700; border-radius: 999px; padding: 2.5px 8px;
+        background: #0d1017; color: var(--text); border: 1px solid var(--line);
+      }
+      .pill .sc { color: var(--sub); font-weight: 600; }
+      .card[data-label="CONTESTED"] .pill { border-color: var(--pink); }
+      .card[data-label="SPECULATION"] { border-style: dashed; }
+      .legend { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; margin-top: 26px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; font-size: 12.5px; color: var(--sub); }
+      .legend b { color: var(--text); }
+      @media (max-width: 480px) { .legend { grid-template-columns: 1fr; } }
+      h2 { font-size: 21px; font-weight: 800; margin: 34px 0 4px; }
+      .dossier { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin-top: 12px; }
+      .dossier .evkicker { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal); font-weight: 800; }
+      .dossier h3 { font-size: 24px; margin: 4px 0 10px; font-weight: 800; }
+      .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .stat { background: var(--panel2); border: 1px solid var(--line); border-radius: 10px; padding: 9px 10px; }
+      .stat .k { font-size: 10.5px; color: var(--sub); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; }
+      .stat .v { font-size: 16px; font-weight: 800; margin-top: 2px; }
+      .stat .v small { font-size: 11.5px; color: var(--sub); font-weight: 600; }
+      .levels { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+      .levels span { border: 1px solid var(--line); border-radius: 999px; padding: 4px 11px; font-size: 12.5px; color: var(--sub); }
+      .levels span.cur { background: var(--gold); border-color: var(--gold); color: #221a02; font-weight: 800; }
+      .why { margin: 14px 0 0; font-size: 14.5px; background: #241a26; border: 1px solid #4a2c3f; border-radius: 10px; padding: 11px 12px; }
+      .why b { color: var(--pink); }
+      .evrow { display: flex; gap: 10px; align-items: baseline; padding: 10px 0; border-top: 1px solid var(--line); }
+      .evrow .src { flex: 0 0 92px; font-weight: 700; font-size: 13.5px; }
+      .evrow .plc { flex: 1; font-size: 13.5px; }
+      .evrow .plc .note, .evrow .plc .reason { display: block; color: var(--sub); font-size: 12px; margin-top: 1px; }
+      .evrow .num { flex: 0 0 auto; font-weight: 800; font-size: 15px; }
+      .evrow .dt { flex: 0 0 auto; color: var(--sub); font-size: 12px; }
+      @media (max-width: 480px) { .evrow { flex-wrap: wrap; } .evrow .src { flex-basis: 100%; } }
+      .dossier h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sub); margin: 20px 0 4px; }
+      .crit { font-size: 13px; color: var(--sub); margin: 4px 0; }
+      .crit b { color: var(--text); }
+      .stamp { margin-top: 28px; color: var(--sub); font-size: 12.5px; text-align: center; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="topbar"><span class="logo">StarDive<em>Meta</em></span><span class="mocktag">Design mock C — Arcade Board</span></div>
+      <h1>MONGIL: STAR DIVE tier list</h1>
+      <p class="sub">Every list disagrees. We show you by how much.</p>
+      <p class="built">Built from 3 tier lists: Pocket Gamer, Kaiden and GameWith JP. Tap a character to see what each list says.</p>
+
+      <div class="toggle" role="group" aria-label="Investment level"><span>Investment</span><b>Low</b><span>High</span><span>Max</span></div>
+      <p class="tnote">Only Kaiden rates by investment. The other two lists stay the same at every level. Watch who climbs as investment rises.</p>
+
+      {lowRows.map((row) => (
+        <div class="rack">
+          <div class="badge" data-tier={row.tierKey}>
+            <span class="t">{row.tierKey === 'MODE_SPLIT' ? '⇄' : row.tierLabel}</span>
+            <span class="n">{row.chips.length} char{row.chips.length === 1 ? '' : 's'}</span>
+          </div>
+          <div class="cards">
+            {row.chips.map((chip) => (
+              <div class="card" data-label={chip.label}>
+                <span class="nm">{chip.name}</span>
+                <span class="pill"><span aria-hidden="true">{chip.glyph}</span> {chip.labelWord}{chip.score && <span class="sc">{chip.score}</span>}{chip.label === 'SPECULATION' && <span class="sc">1 list</span>}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <div class="legend">
+        {LEGEND.map((l) => (
+          <div><span aria-hidden="true">{l.glyph}</span> <b>{l.word}</b> — {l.text}</div>
+        ))}
+      </div>
+
+      <h2>Evidence card</h2>
+      <div class="dossier">
+        <span class="evkicker">Character file</span>
+        <h3>{francis.name}</h3>
+        <div class="stats">
+          <div class="stat"><div class="k">Tier · Low</div><div class="v">A <small>Contested ◐</small></div></div>
+          <div class="stat"><div class="k">Score</div><div class="v">3.2 <small>of 4</small></div></div>
+          <div class="stat"><div class="k">Lists · gap</div><div class="v">3 <small>· gap 2.0</small></div></div>
+        </div>
+        <div class="levels">
+          {francis.summary.map((s) => (
+            <span class={s.current ? 'cur' : undefined}>{s.word}: {s.tier} · {s.labelWord}</span>
+          ))}
+        </div>
+        <p class="why"><b>Why Contested:</b> {francis.why}</p>
+
+        <h4>What each list says</h4>
+        {francis.counted.map((line) => (
+          <div class="evrow">
+            <span class="src">{line.sourceName}</span>
+            <span class="plc">{line.placementText}{line.note && <span class="note">{line.note}</span>}</span>
+            <span class="num">{line.convertedText}</span>
+            <span class="dt">{line.dateText}</span>
+          </div>
+        ))}
+
+        <h4>Criteria notes</h4>
+        {francis.criteria.map((c) => (
+          <p class="crit"><b>{c.name}:</b> {c.text}</p>
+        ))}
+
+        <h4>Not counted (shown for context)</h4>
+        {francis.notCounted.map((line) => (
+          <div class="evrow">
+            <span class="src">{line.sourceName}</span>
+            <span class="plc">{line.placementText}<span class="reason">{line.reason}</span></span>
+            <span class="num">—</span>
+            <span class="dt">{line.dateText}</span>
+          </div>
+        ))}
+
+        <p class="crit" style="margin-top:16px"><b>Modes:</b> {francis.modes}</p>
+      </div>
+
+      <p class="stamp">{stamp}</p>
+    </main>
+  </body>
+</html>
