@@ -1,0 +1,82 @@
+---
+// History index (plan T3.8 scope + §B.5 History index). Renders the
+// snapshot index from history.json, newest first. The per-snapshot
+// pages (/history/{id}/, with the frozen board and the diff) are
+// T4.3 in P4 — this index deliberately does not link to pages that
+// don't exist yet.
+import Base from '../../layouts/Base.astro';
+import { fmtDate, history } from '../../lib/data';
+
+const snapshots = [...history.snapshots].sort((a, b) =>
+  b.created_at.localeCompare(a.created_at),
+);
+const earliestId = snapshots.length
+  ? snapshots[snapshots.length - 1].id
+  : null;
+
+/** The sweep date out of a snapshot id (YYYY-MM-DDT…), falling back
+ * to the creation timestamp. */
+const snapDate = (id: string, createdAt: string) =>
+  fmtDate(/^\d{4}-\d{2}-\d{2}/.test(id) ? id.slice(0, 10) : createdAt.slice(0, 10));
+---
+
+<Base title="History – StarDiveMeta" path="/history/">
+  <h1 class="page-title">History</h1>
+  <p class="built">
+    Each time the data changes, we save a snapshot. We never edit old
+    snapshots.
+  </p>
+
+  <ul class="snaps">
+    {
+      snapshots.map((s) => (
+        <li>
+          <span class="date">{snapDate(s.id, s.created_at)}</span>
+          <span class="meta">
+            Method v{s.method_version} · Game version {s.game_version}
+            {s.id === earliestId && ' · First snapshot — the baseline'}
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+</Base>
+
+<style>
+  .page-title {
+    font-size: var(--text-h1);
+    line-height: var(--leading-tight);
+    margin: 18px 0 4px;
+    font-weight: var(--weight-extrabold);
+    letter-spacing: -0.01em;
+  }
+  .built {
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+    margin: 10px 0 0;
+  }
+  .snaps {
+    list-style: none;
+    margin: 16px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .snaps li {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .snaps .date {
+    font-weight: var(--weight-semibold);
+  }
+  .snaps .meta {
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+  }
+</style>

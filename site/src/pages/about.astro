@@ -1,21 +1,23 @@
 ---
-// About page. Full §B.5 copy lands with T3.8; this page carries the
-// site's own description plus the mandatory disclaimer (in the footer
-// and stated here) so the shell's About link resolves from T3.1 on.
+// About page (plan T3.8 + §B.5 About). Part E Q4 answered "none"
+// (D-9 vetoed), so there is deliberately no corrections email line.
+// The disclaimer is repeated in full in the body, per §B.5 item 6
+// (it also runs in the footer of every page).
 import Base from '../layouts/Base.astro';
+import Disclaimer from '../components/Disclaimer.astro';
 ---
 
 <Base title="About – StarDiveMeta" path="/about/">
-  <h1 class="page-title">About StarDiveMeta</h1>
+  <h1 class="page-title">About</h1>
+  <p class="built">StarDiveMeta is a fan project by one player.</p>
   <p class="built">
-    StarDiveMeta is a fan-made site that combines three published MONGIL:
-    STAR DIVE tier lists — Pocket Gamer, Kaiden and GameWith JP — into one
-    consensus board, and shows the evidence behind every placement: what
-    each list said, when it said it, and how far apart the lists are.
+    It combines public tier lists and shows where they agree and where
+    they don't.
   </p>
-  <p class="built">
-    Fan-made site. Not an official MONGIL: STAR DIVE or Netmarble site.
-  </p>
+  <p class="built">No ads. No accounts.</p>
+  <div class="disclaimer-block">
+    <Disclaimer />
+  </div>
 </Base>
 
 <style>
@@ -30,5 +32,10 @@ import Base from '../layouts/Base.astro';
     color: var(--sub);
     font-size: var(--text-body-sm);
     margin: 10px 0 0;
+  }
+  .disclaimer-block {
+    margin-top: 22px;
+    border-top: 1px solid var(--line);
+    padding-top: 14px;
   }
 </style>

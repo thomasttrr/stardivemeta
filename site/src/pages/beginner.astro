@@ -1,0 +1,155 @@
+---
+// Beginner page (plan T3.7 + §B.5 Beginner; lists computed in
+// mongil-core/src/derive.rs and emitted as tierlist.json.derived).
+// Per D-3 there is NO reroll section: rarity/pool data is not
+// two-source verified, so `derived.beginner.reroll` is null and the
+// section below renders only if that ever changes.
+import Base from '../layouts/Base.astro';
+import CharacterChip from '../components/CharacterChip.astro';
+import EvidenceDialogs from '../components/EvidenceDialogs.astro';
+import { charactersById, data, tierDisplay } from '../lib/data';
+
+const beginner = data.derived.beginner;
+const byId = (id: string) => charactersById.get(id)!;
+---
+
+<Base title="Beginner – StarDiveMeta" path="/beginner/">
+  <h1 class="page-title">Starting out</h1>
+  <p class="built">
+    This is not pull advice. It's what the lists say about low investment.
+  </p>
+
+  <section>
+    <h2>Lists agree these are strong at Low</h2>
+    <p class="rule">Low tier S or A, and the lists agree (Solid).</p>
+    <div class="cards">
+      {
+        beginner.agreed_low.map((id) => {
+          const c = byId(id);
+          return <CharacterChip character={c} result={c.results.low} />;
+        })
+      }
+    </div>
+  </section>
+
+  <section>
+    <h2>Get better with investment</h2>
+    <p class="rule">Their Max tier is higher than their Low tier.</p>
+    <ul class="rise">
+      {
+        beginner.rise.map((r) => (
+          <li>
+            <a href={`/c/${r.id}/`}>{byId(r.id).name}</a>
+            <span class="arrow">
+              {tierDisplay(r.low)} → {tierDisplay(r.max)}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section>
+    <h2>Lists disagree on these at Low</h2>
+    <p class="rule">
+      Contested at Low. Tap one to see what each list says.
+    </p>
+    <div class="cards">
+      {
+        beginner.contested_low.map((id) => {
+          const c = byId(id);
+          return <CharacterChip character={c} result={c.results.low} />;
+        })
+      }
+    </div>
+  </section>
+
+  {
+    beginner.reroll && (
+      <section>
+        <h2>On the permanent banner and strong at Low</h2>
+        <div class="cards">
+          {beginner.reroll.map((entry) => {
+            const c = byId(entry.id);
+            return <CharacterChip character={c} result={c.results.low} />;
+          })}
+        </div>
+      </section>
+    )
+  }
+
+  <p class="built">
+    How this page is built: the three lists above are derived from the
+    same scores as the tier list, by the rules in each heading. The full
+    method is on the <a href="/rules/">Rules page</a>.
+  </p>
+
+  <EvidenceDialogs />
+</Base>
+
+<style>
+  .page-title {
+    font-size: var(--text-h1);
+    line-height: var(--leading-tight);
+    margin: 18px 0 4px;
+    font-weight: var(--weight-extrabold);
+    letter-spacing: -0.01em;
+  }
+  .built {
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+    margin: 10px 0 0;
+  }
+  .built a {
+    color: var(--teal);
+  }
+  section {
+    margin-top: 24px;
+  }
+  h2 {
+    font-size: var(--text-h2);
+    font-weight: var(--weight-bold);
+    margin: 0 0 4px;
+  }
+  .rule {
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+    margin: 0 0 10px;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(var(--card-min-width), 1fr)
+    );
+    gap: var(--space-grid-gap);
+  }
+  .rise {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .rise li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 8px 12px;
+  }
+  .rise a {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: var(--weight-semibold);
+  }
+  .rise .arrow {
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+    white-space: nowrap;
+  }
+</style>

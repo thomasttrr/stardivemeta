@@ -2,10 +2,15 @@
 // Pages and components read ONLY these files (plan P3 rule) — never data/.
 import tierlistJson from '../generated/tierlist.json';
 import metaJson from '../generated/meta.json';
+import historyJson from '../generated/history.json';
+import errataJson from '../generated/errata.json';
 import type { Character } from '../types/contract/Character';
+import type { Derived } from '../types/contract/Derived';
 import type { EvidenceRow } from '../types/contract/EvidenceRow';
+import type { History } from '../types/contract/History';
 import type { Label } from '../types/contract/Label';
 import type { Level } from '../types/contract/Level';
+import type { MethodInfo } from '../types/contract/MethodInfo';
 import type { Source } from '../types/contract/Source';
 import type { Tier } from '../types/contract/Tier';
 import type { TierBoard } from '../types/contract/TierBoard';
@@ -13,14 +18,32 @@ import type { ModeBoard } from '../types/contract/ModeBoard';
 
 export interface TierListData {
   contract_version: number;
-  method: { version: string };
+  method: MethodInfo;
   game_version: string;
   snapshot_id: string;
   sources: Source[];
   characters: Character[];
   boards: Record<Level, TierBoard>;
   mode_boards: { conquest: ModeBoard; rift: ModeBoard };
+  derived: Derived;
 }
+
+export const history = historyJson as unknown as History;
+
+/** One corrections record from errata.json (emitted from
+ * data/errata.toml; plan T3.8). */
+export interface ErrataEntry {
+  id: string;
+  found_at: string;
+  fixed_at: string | null;
+  severity: 'minor' | 'major';
+  what: string;
+  characters: string[];
+  snapshots: string[];
+}
+
+export const errata = (errataJson as unknown as { errata: ErrataEntry[] })
+  .errata;
 
 export const data = tierlistJson as unknown as TierListData;
 export const meta = metaJson as unknown as {

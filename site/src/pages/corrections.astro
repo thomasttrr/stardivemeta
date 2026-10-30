@@ -1,0 +1,104 @@
+---
+// Corrections page (plan T3.8 + §B.5 Corrections). Renders the errata
+// record (data/errata.toml, emitted as errata.json). The record is
+// currently empty — nothing has been published and then corrected —
+// so the page shows the §B.5 empty state.
+import Base from '../layouts/Base.astro';
+import { charactersById, errata, fmtDate } from '../lib/data';
+
+const entries = [...errata].sort((a, b) =>
+  b.found_at.localeCompare(a.found_at),
+);
+const datePart = (iso: string) => iso.slice(0, 10);
+---
+
+<Base title="Corrections – StarDiveMeta" path="/corrections/">
+  <h1 class="page-title">Corrections</h1>
+  <p class="built">
+    When we get something wrong, we fix it the same day and list it
+    here.
+  </p>
+
+  {
+    entries.length === 0 ? (
+      <p class="empty">No corrections yet.</p>
+    ) : (
+      <ul class="entries">
+        {entries.map((e) => (
+          <li>
+            <span class="when">{fmtDate(datePart(e.found_at))}</span>
+            <span class="what">
+              {e.what}
+              {e.characters.length > 0 && (
+                <>
+                  {' '}
+                  (
+                  {e.characters
+                    .map((id) => charactersById.get(id)?.name ?? id)
+                    .join(', ')}
+                  )
+                </>
+              )}
+            </span>
+            <span class="fixed">
+              {e.fixed_at
+                ? `fixed ${fmtDate(datePart(e.fixed_at))}`
+                : 'not fixed yet'}
+            </span>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</Base>
+
+<style>
+  .page-title {
+    font-size: var(--text-h1);
+    line-height: var(--leading-tight);
+    margin: 18px 0 4px;
+    font-weight: var(--weight-extrabold);
+    letter-spacing: -0.01em;
+  }
+  .built {
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+    margin: 10px 0 0;
+  }
+  .empty {
+    margin: 18px 0 0;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+  }
+  .entries {
+    list-style: none;
+    margin: 16px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .entries li {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: var(--text-body-sm);
+  }
+  .entries .when {
+    font-weight: var(--weight-semibold);
+  }
+  .entries .what {
+    color: var(--sub);
+  }
+  .entries .fixed {
+    color: var(--sub);
+  }
+</style>

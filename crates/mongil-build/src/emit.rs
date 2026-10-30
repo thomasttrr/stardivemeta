@@ -927,6 +927,51 @@ fn write_json<T: serde::Serialize>(path: &Path, value: &T) -> Result<(), String>
         .map_err(|e| format!("cannot write {}: {e}", path.display()))
 }
 
+/// One corrections record for `errata.json` (the /corrections/ page's
+/// data; plan T3.8). Auxiliary site file — not part of the §B.2
+/// contract. Mirrors `data/errata.toml` entries (plan D-10: errata
+/// live outside snapshots and are never edited into them).
+#[derive(serde::Serialize)]
+struct ErrataFile {
+    errata: Vec<ErrataEntry>,
+}
+
+#[derive(serde::Serialize)]
+struct ErrataEntry {
+    id: String,
+    found_at: String,
+    fixed_at: Option<String>,
+    severity: &'static str,
+    what: String,
+    characters: Vec<String>,
+    snapshots: Vec<String>,
+}
+
+fn build_errata(ds: &Dataset) -> ErrataFile {
+    let errata = ds
+        .errata
+        .as_ref()
+        .map(|e| {
+            e.errata
+                .iter()
+                .map(|erratum| ErrataEntry {
+                    id: erratum.id.clone(),
+                    found_at: erratum.found_at.clone(),
+                    fixed_at: erratum.fixed_at.clone(),
+                    severity: match erratum.severity {
+                        mongil_core::model::ErratumSeverity::Minor => "minor",
+                        mongil_core::model::ErratumSeverity::Major => "major",
+                    },
+                    what: erratum.what.clone(),
+                    characters: erratum.characters.clone(),
+                    snapshots: erratum.snapshots.clone(),
+                })
+                .collect()
+        })
+        .unwrap_or_default();
+    ErrataFile { errata }
+}
+
 pub fn run(data_dir: &Path, out_dir: &Path) -> Result<(), String> {
     let ds = mongil_core::load_dataset(data_dir).map_err(|e| e.to_string())?;
 
@@ -934,14 +979,16 @@ pub fn run(data_dir: &Path, out_dir: &Path) -> Result<(), String> {
     let codes = build_codes(&ds)?;
     let history = build_history(data_dir)?;
     let meta = build_meta(&ds);
+    let errata = build_errata(&ds);
 
     fs::create_dir_all(out_dir).map_err(|e| format!("cannot create {}: {e}", out_dir.display()))?;
     write_json(&out_dir.join("tierlist.json"), &tierlist)?;
     write_json(&out_dir.join("codes.json"), &codes)?;
     write_json(&out_dir.join("history.json"), &history)?;
     write_json(&out_dir.join("meta.json"), &meta)?;
+    write_json(&out_dir.join("errata.json"), &errata)?;
     println!(
-        "emit: wrote tierlist.json ({} characters), codes.json, history.json, meta.json to {}",
+        "emit: wrote tierlist.json ({} characters), codes.json, history.json, meta.json, errata.json to {}",
         tierlist.characters.len(),
         out_dir.display()
     );

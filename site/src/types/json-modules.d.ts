@@ -18,3 +18,11 @@ declare module '*/generated/history.json' {
   const value: unknown;
   export default value;
 }
+declare module '*/generated/errata.json' {
+  const value: unknown;
+  export default value;
+}
+declare module '*?raw' {
+  const value: string;
+  export default value;
+}

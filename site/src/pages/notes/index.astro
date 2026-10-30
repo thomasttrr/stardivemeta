@@ -1,0 +1,41 @@
+---
+// Notes index (plan T3.8 scope). The movers-note generator lands in
+// P4 (T4.4: notes are generated from the snapshot diff, D-13, and
+// zero-change weeks auto-publish, D-12). Until the first note exists
+// this page renders an honest empty state — no fabricated archive.
+import Base from '../../layouts/Base.astro';
+---
+
+<Base title="Notes – StarDiveMeta" path="/notes/">
+  <h1 class="page-title">What moved</h1>
+  <p class="built">
+    Each week we publish what changed between snapshots. Every note is
+    generated from the snapshot diff, with a link to the list behind
+    each move.
+  </p>
+  <p class="empty">No notes yet. The first note comes after the first full week of checks.</p>
+</Base>
+
+<style>
+  .page-title {
+    font-size: var(--text-h1);
+    line-height: var(--leading-tight);
+    margin: 18px 0 4px;
+    font-weight: var(--weight-extrabold);
+    letter-spacing: -0.01em;
+  }
+  .built {
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+    margin: 10px 0 0;
+  }
+  .empty {
+    margin: 18px 0 0;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+  }
+</style>

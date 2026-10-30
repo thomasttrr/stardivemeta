@@ -1,0 +1,254 @@
+---
+// Rules page (plan T3.6 + §B.5 Rules). Every number on this page is
+// read from tierlist.json's method block (generated from
+// data/method/v1.0.toml) — nothing is typed by hand, so the page can
+// never drift from the engine. The codes section states the §B.3
+// status rules plus the CP2 freshness-guard clarification
+// (Tom-approved 2026-10-29), cross-checked against
+// crates/mongil-build/src/emit.rs.
+import Base from '../layouts/Base.astro';
+import { data, fmtSpread, fmtVal } from '../lib/data';
+
+const m = data.method;
+const conv = m.conversion;
+const pgRows: [string, number][] = ['S', 'A', 'B', 'C'].map((t) => [
+  t,
+  conv['pg']?.[t] ?? 0,
+]);
+const jpRows: [string, number][] = ['SS', 'S', 'A'].map((t) => [
+  t,
+  conv['gamewith-jp']?.[t] ?? 0,
+]);
+const kaidenRows: [string, number][] = ['T0', 'T0.5', 'T1', 'T2', 'T3', 'T4'].map(
+  (t) => [t, conv['kaiden']?.[t] ?? 0],
+);
+const joinRows = (rows: [string, number][]) =>
+  rows.map(([t, v]) => `${t} ${fmtSpread(v)}`).join(' · ');
+---
+
+<Base title="Rules – StarDiveMeta" path="/rules/">
+  <h1 class="page-title">How we score</h1>
+
+  <section>
+    <h2>What we count</h2>
+    <p>
+      We count 3 tier lists: Pocket Gamer, Kaiden and GameWith JP. Each
+      counts the same. We don't weight one list over another.
+    </p>
+  </section>
+
+  <section>
+    <h2>What we don't count</h2>
+    <ul>
+      <li>
+        gacha.gg combines other lists, including Kaiden, so counting it
+        would count Kaiden twice.
+      </li>
+      <li>urgametips' Conquest list is close to a copy of Pocket Gamer's.</li>
+      <li>GameWith's English list is from launch.</li>
+      <li>We show these on each character's page, but they don't change scores.</li>
+      <li>
+        Pocket Tactics and Driffle are from before recent patches, so we
+        leave them out.
+      </li>
+      <li>
+        mongil.gg's lists are images. We read them and show them, but
+        don't count them yet.
+      </li>
+      <li>
+        GameWith JP also publishes a picture table that covers the
+        characters its text tiers skip. We read those cells as evidence,
+        but they don't count as votes in Method v{m.version}: JP's scale
+        starts a step higher than the others, so extending it downward
+        would invent tiers no list gave.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>One scale</h2>
+    <p>
+      Every list's tiers go on a 0–4 scale. We assume one tier step is
+      worth one point on every list.
+    </p>
+    <ul>
+      <li>Pocket Gamer: {joinRows(pgRows)}</li>
+      <li>GameWith JP: {joinRows(jpRows)}</li>
+      <li>Kaiden: {joinRows(kaidenRows)}</li>
+    </ul>
+    <p>If a list hasn't placed a character, that's no vote, not a zero.</p>
+  </section>
+
+  <section>
+    <h2>Score and tier</h2>
+    <ul>
+      <li>Score = the average of the votes.</li>
+      <li>Pocket Gamer's vote is the average of its Conquest and Rift tiers.</li>
+      <li>
+        S is {fmtVal(m.s_min)} and up · A {fmtVal(m.a_min)} · B{' '}
+        {fmtVal(m.b_min)} · C {fmtVal(m.c_min)} · D below {fmtVal(m.c_min)}.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Labels</h2>
+    <ul>
+      <li>
+        Solid: at least 2 lists, all within {fmtVal(m.solid_max_spread)} of
+        each other.
+      </li>
+      <li>
+        Contested: at least 2 lists, more than {fmtVal(m.solid_max_spread)}{' '}
+        apart.
+      </li>
+      <li>Speculation: only 1 list.</li>
+      <li>Unranked: no list yet.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Modes</h2>
+    <ul>
+      <li>
+        Only Pocket Gamer ranks by mode, so the Conquest and Rift pages
+        show its calls alone.
+      </li>
+      <li>
+        If its Conquest and Rift tiers are {fmtVal(m.mode_split_min)} or
+        more apart, we don't give one Overall tier. We mark the character
+        Mode-split.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Investment</h2>
+    <ul>
+      <li>
+        Kaiden rates each character at Low, High and Max. When you switch
+        levels, only Kaiden's vote changes. Pocket Gamer and GameWith JP
+        publish one list, so their votes stay the same.
+      </li>
+      <li>
+        Where Kaiden gives two tiers for one level, we count the first one
+        it lists.
+      </li>
+      <li>
+        GameWith JP rates limited 5★ at A0, permanent 5★ up to A2, and 4★
+        at A6.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Codes</h2>
+    <ul>
+      <li>
+        A code needs two separate sites saying the same thing. Sites that
+        copy another site's list count as one witness, not two.
+      </li>
+      <li>
+        A code shows as Active when at least two separate sites say it
+        works, each sighting is no more than 7 days old, and no site says
+        it's expired.
+      </li>
+      <li>
+        A code shows as Expired when its stated expiry date has passed,
+        or at least two separate sites say it's expired.
+      </li>
+      <li>
+        Anything else is Unconfirmed: we show it, but we don't claim it
+        works.
+      </li>
+      <li>
+        Freshness guard (clarified Oct 29, 2026): each claim carries the
+        date its own page was last updated — not the day we read it. If a
+        dated “expired” claim is older than a dated “active” claim for
+        the same code, the old claim can't make the code Expired; it only
+        keeps the code Unconfirmed until a fresher check settles it. A
+        claim with no date never overrides a dated one.
+      </li>
+      <li>
+        If no claim for a code carries a date, the plain rules above
+        decide. The worst case is Unconfirmed, never a wrongly Active
+        code.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Known limits</h2>
+    <ul>
+      <li>
+        At Low, many characters are Contested. Part of that is real
+        disagreement. Part of it comes from the two fixed lists not
+        rating at Low.
+      </li>
+      <li>Mode views rest on one list.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>When a list goes out of date</h2>
+    <ul>
+      <li>We go by game version, not by calendar age.</li>
+      <li>
+        If a list predates a balance patch, it stops counting until it
+        updates.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Checks</h2>
+    <ul>
+      <li>
+        We check the lists twice a day. Each change is read twice, by two
+        separate checks, before it goes live.
+      </li>
+      <li>Codes need two separate sites.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Changes</h2>
+    <p>
+      This is Method v{m.version}. If the rules change, the version
+      number changes. Old snapshots keep the rules they were made with.
+    </p>
+  </section>
+</Base>
+
+<style>
+  .page-title {
+    font-size: var(--text-h1);
+    line-height: var(--leading-tight);
+    margin: 18px 0 4px;
+    font-weight: var(--weight-extrabold);
+    letter-spacing: -0.01em;
+  }
+  section {
+    margin-top: 22px;
+  }
+  h2 {
+    font-size: var(--text-h2);
+    font-weight: var(--weight-bold);
+    margin: 0 0 6px;
+  }
+  p,
+  li {
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+  }
+  p {
+    margin: 0;
+  }
+  ul {
+    margin: 0;
+    padding-left: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+</style>
