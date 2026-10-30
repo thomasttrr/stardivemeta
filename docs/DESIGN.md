@@ -46,6 +46,12 @@ The tier list sits on dark glass over a slow, deep-sea colour field.
     (`#sdm-dock-lens`).
 - **The emitted JSON is still the contract.** Pages render emitted values
   only. Neither island does ranking math, and neither touches data.
+- **Scroll fades:** once the page scrolls, fixed gradient fades (page
+  ground → transparent) sit between the content and the chrome, so
+  panels dissolve before they reach the sticky header or the dock
+  instead of drawing a hard sliced line across the glass. They live
+  inside `.shell` (z 5, under the header's 10 and the dock's 20) and
+  are switched by a tiny inline scroll script (`html[data-scrolled]`).
 - **Touch devices:** the WebGL scene does not mount on coarse pointers
   (phones/tablets). It repaints panel glass from live rects each frame,
   which trails iOS Safari's compositor scrolling and reads as bouncing;

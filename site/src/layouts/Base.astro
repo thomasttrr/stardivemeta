@@ -97,6 +97,28 @@ const current = (href: string) =>
     <GlassScene client:idle />
 
     <div class={`shell shell-${width}`}>
+      <div class="scroll-fade fade-top" aria-hidden="true"></div>
+      <div class="scroll-fade fade-bottom" aria-hidden="true"></div>
+      <script is:inline>
+        // Scroll fades: once the page moves, content must dissolve into
+        // the page ground before it reaches the sticky header / the
+        // dock, instead of drawing a hard sliced line across the glass.
+        // The fades live inside .shell on purpose: the header (z 10) and
+        // the dock (z 20) share its stacking context, so z 5 lands
+        // exactly between the page content and the chrome.
+        (function () {
+          var on = false;
+          function set() {
+            var s = window.scrollY > 4;
+            if (s !== on) {
+              on = s;
+              document.documentElement.dataset.scrolled = s ? 'true' : '';
+            }
+          }
+          window.addEventListener('scroll', set, { passive: true });
+          set();
+        })();
+      </script>
       <header class="site-header">
         <div class="cap" data-glass="overlay">
           <a class="logo" href="/">
@@ -170,6 +192,34 @@ const current = (href: string) =>
   }
   main {
     flex: 1;
+  }
+
+  /* scroll fades (see the inline script in the body) */
+  .scroll-fade {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--duration-slow) var(--ease-out);
+  }
+  html[data-scrolled='true'] .scroll-fade {
+    opacity: 1;
+  }
+  .fade-top {
+    top: 0;
+    height: 136px;
+    background: linear-gradient(to bottom, var(--bg) 52%, transparent);
+  }
+  .fade-bottom {
+    bottom: 0;
+    height: 124px;
+    background: linear-gradient(to top, var(--bg) 46%, transparent);
+    display: none;
+  }
+  body:has(.dock) .fade-bottom {
+    display: block;
   }
 
   /* header capsule */
@@ -281,6 +331,10 @@ const current = (href: string) =>
   }
 
   @media (max-width: 620px) {
+    /* the header is not sticky on phones, so nothing slides under it */
+    .fade-top {
+      display: none;
+    }
     .shell {
       padding: 10px 12px 0;
     }
