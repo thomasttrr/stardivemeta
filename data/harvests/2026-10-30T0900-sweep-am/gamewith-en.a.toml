@@ -1,0 +1,75 @@
+# A-read (rendered text) — GameWith EN check-only placements, sweep
+# 2026-10-30T0900-sweep-am. SS / S / A text sections only; 15 characters.
+# Page metadata: Published 2026-04-03T04:35:02-04:00,
+# Updated 2026-10-29T12:59:29-04:00. Body text describes the list as
+# "for April 2026". Never counted.
+
+kind = "single_tier"
+
+[meta]
+source = "gamewith-en"
+harvest = "2026-10-30T0900-sweep-am"
+worker = "A"
+read_mode = "text"
+read_at = "2026-10-30T09:04:00-04:00"
+page_updated = "2026-10-29"
+
+[[placement]]
+character = "mina"
+tier = "SS"
+
+[[placement]]
+character = "flare"
+tier = "SS"
+
+[[placement]]
+character = "jiwon"
+tier = "SS"
+
+[[placement]]
+character = "esther"
+tier = "SS"
+
+[[placement]]
+character = "ophelia"
+tier = "S"
+
+[[placement]]
+character = "penny"
+tier = "S"
+
+[[placement]]
+character = "gabi"
+tier = "S"
+
+[[placement]]
+character = "francis"
+tier = "S"
+
+[[placement]]
+character = "sangun"
+tier = "A"
+
+[[placement]]
+character = "leeho"
+tier = "A"
+
+[[placement]]
+character = "angel"
+tier = "A"
+
+[[placement]]
+character = "cloud"
+tier = "A"
+
+[[placement]]
+character = "yeonhwa"
+tier = "A"
+
+[[placement]]
+character = "benjamin"
+tier = "A"
+
+[[placement]]
+character = "ellie"
+tier = "A"
