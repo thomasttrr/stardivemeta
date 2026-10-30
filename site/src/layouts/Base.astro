@@ -183,7 +183,7 @@ const current = (href: string) =>
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 6px 6px 6px 16px;
+    padding: 8px 6px 8px 16px;
   }
   .logo {
     display: inline-flex;
@@ -218,6 +218,12 @@ const current = (href: string) =>
     min-width: 0;
     overflow-x: auto;
     scrollbar-width: none;
+    /* The scroll container clips at its padding box, which was exactly
+       the pills' height — zero slack, so any paint overshoot in the
+       current pill read as clipping. Padding grows the clip box;
+       the negative margin keeps the layout identical. */
+    padding-block: 5px;
+    margin-block: -5px;
   }
   .site-nav a {
     white-space: nowrap;
@@ -285,7 +291,7 @@ const current = (href: string) =>
     .cap {
       border-radius: 26px;
       flex-wrap: wrap;
-      padding: 6px;
+      padding: 8px 6px;
       gap: 2px;
     }
     .logo {
