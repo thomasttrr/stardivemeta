@@ -33,20 +33,20 @@ const changeCount = (id: string): number | null => {
 };
 ---
 
-<Base title="History – StarDiveMeta" path="/history/">
+<Base title="History – StarDiveMeta" path="/history/" width="prose">
   <h1 class="page-title">History</h1>
   <p class="built">
     Each time the data changes, we save a snapshot. We never edit old
     snapshots.
   </p>
 
-  <ul class="snaps">
+  <ul class="glass-list snaps">
     {
       snapshots.map((s) => {
         const n = changeCount(s.id);
         return (
           <li>
-            <a class="row" href={`/history/${s.id}/`}>
+            <a class="row glass-row" data-glass href={`/history/${s.id}/`}>
               <span class="date">{snapDate(s.id, s.created_at)}</span>
               <span class="meta">
                 Method v{s.method_version} · Game version {s.game_version}
@@ -62,36 +62,6 @@ const changeCount = (id: string): number | null => {
 </Base>
 
 <style>
-  .page-title {
-    font-size: var(--text-h1);
-    line-height: var(--leading-tight);
-    margin: 18px 0 4px;
-    font-weight: var(--weight-extrabold);
-    letter-spacing: -0.01em;
-  }
-  .built {
-    color: var(--sub);
-    font-size: var(--text-body-sm);
-    margin: 10px 0 0;
-  }
-  .snaps {
-    list-style: none;
-    margin: 16px 0 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .snaps .row {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-md);
-    padding: 10px 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    text-decoration: none;
-  }
   .snaps .date {
     color: var(--text);
     font-weight: var(--weight-semibold);

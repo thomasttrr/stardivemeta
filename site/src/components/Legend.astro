@@ -1,23 +1,29 @@
 ---
-// Label legend (plan §B.5 Home item 6). Glyph + word + plain meaning —
+// Label legend (plan §B.5 Home item 6). Mark + word + plain meaning —
 // never colour alone.
-const items = [
-  { glyph: '●', word: 'Solid', text: 'the lists agree within 1 tier.' },
-  { glyph: '◐', word: 'Contested', text: 'the lists are more than 1 tier apart.' },
-  { glyph: '○', word: 'Speculation', text: 'only 1 list has placed them so far.' },
+import LabelMark from './LabelMark.astro';
+import type { Label } from '../types/contract/Label';
+
+const items: { label: Label; word: string; text: string }[] = [
+  { label: 'SOLID', word: 'Solid', text: 'the lists agree within 1 tier.' },
+  { label: 'CONTESTED', word: 'Contested', text: 'the lists are more than 1 tier apart.' },
+  { label: 'SPECULATION', word: 'Speculation', text: 'only 1 list has placed them so far.' },
   {
-    glyph: '⇄',
+    label: 'MODE_SPLIT',
     word: 'Mode-split',
     text: 'strong in one mode, weak in the other. See Conquest and Rift.',
   },
 ];
 ---
 
-<div class="legend">
+<div class="legend" data-glass>
   {
     items.map((i) => (
       <p>
-        <span aria-hidden="true">{i.glyph}</span> <b>{i.word}</b> — {i.text}
+        <LabelMark label={i.label} />
+        <span>
+          <b>{i.word}</b> — {i.text}
+        </span>
       </p>
     ))
   }
@@ -27,24 +33,32 @@ const items = [
   .legend {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px 14px;
-    margin-top: 26px;
-    background: var(--panel);
-    border: 1px solid var(--line);
+    gap: 12px 28px;
+    margin-top: var(--space-section);
     border-radius: var(--radius-lg);
-    padding: var(--space-legend-y) var(--space-legend-x);
+    padding: 18px var(--space-panel);
     font-size: var(--text-note);
     color: var(--sub);
   }
   .legend p {
     margin: 0;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .legend :global(.mark) {
+    flex: none;
+    margin-top: 2px;
+    color: var(--text);
   }
   .legend b {
     color: var(--text);
+    font-weight: var(--weight-semibold);
   }
-  @media (max-width: 480px) {
+  @media (max-width: 620px) {
     .legend {
       grid-template-columns: 1fr;
+      padding: 16px 18px;
     }
   }
 </style>

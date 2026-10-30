@@ -6,7 +6,7 @@
 import Base from '../layouts/Base.astro';
 ---
 
-<Base title="About – StarDiveMeta" path="/about/">
+<Base title="About – StarDiveMeta" path="/about/" width="prose">
   <h1 class="page-title">About</h1>
   <p class="built">StarDiveMeta is a fan project by one player.</p>
   <p class="built">
@@ -16,17 +16,3 @@ import Base from '../layouts/Base.astro';
   <p class="built">No ads. No accounts.</p>
 </Base>
 
-<style>
-  .page-title {
-    font-size: var(--text-h1);
-    line-height: var(--leading-tight);
-    margin: 18px 0 4px;
-    font-weight: var(--weight-extrabold);
-    letter-spacing: -0.01em;
-  }
-  .built {
-    color: var(--sub);
-    font-size: var(--text-body-sm);
-    margin: 10px 0 0;
-  }
-</style>

@@ -1,6 +1,7 @@
 ---
 // Home tier board (plan T3.2 + §B.5 Home). All three level boards are
 // static HTML; <html data-level> + CSS decide which one shows (D-2).
+// The hero's [data-star] box is where the WebGL glass star floats.
 import Base from '../layouts/Base.astro';
 import TierBoard from '../components/TierBoard.astro';
 import LevelToggle from '../components/LevelToggle.astro';
@@ -16,14 +17,18 @@ const stamp = `Lists last checked ${stampChecked()} · Method v${data.method.ver
   title={`MONGIL: STAR DIVE Tier List (${titleMonth()}) – StarDiveMeta`}
   path="/"
 >
-  <h1 class="page-title">MONGIL: STAR DIVE tier list</h1>
-  <p class="tagline">Every list disagrees. We show you by how much.</p>
-  <p class="built">
-    Combined from Pocket Gamer, Kaiden and GameWith JP. Tap a character to
-    see what each list says.
-  </p>
-
-  <LevelToggle />
+  <section class="hero">
+    <div class="hero-text">
+      <h1 class="display">MONGIL: STAR DIVE <span>tier list</span></h1>
+      <p class="tagline">Every list disagrees. We show you by how much.</p>
+      <p class="built">
+        Combined from Pocket Gamer, Kaiden and GameWith JP. Tap a character to
+        see what each list says.
+      </p>
+      <LevelToggle />
+    </div>
+    <div class="star" data-star aria-hidden="true"></div>
+  </section>
 
   {
     LEVELS.map((lv) => (
@@ -36,36 +41,73 @@ const stamp = `Lists last checked ${stampChecked()} · Method v${data.method.ver
   <Legend />
   <Stamp text={stamp} />
 
-  <p class="pagelinks">
-    <a href="/table/">See the full table</a> · <a href="/rules/">How we score</a> ·{' '}
-    <a href="/notes/">What moved this week</a> ·{' '}
-    <a href="/img/generated/tierlist-low.png">Download this list (PNG)</a>
-  </p>
+  <ul class="pill-links">
+    <li><a class="pill-link" data-glass href="/table/">See the full table</a></li>
+    <li><a class="pill-link" data-glass href="/rules/">How we score</a></li>
+    <li><a class="pill-link" data-glass href="/notes/">What moved this week</a></li>
+    <li>
+      <a class="pill-link" data-glass href="/img/generated/tierlist-low.png">Download this list (PNG)</a>
+    </li>
+  </ul>
 
   <EvidenceDialogs />
 </Base>
 
 <style>
-  .page-title {
-    font-size: var(--text-h1);
-    line-height: var(--leading-tight);
-    margin: 18px 0 4px;
+  .hero {
+    margin-top: 0;
+    padding-top: 56px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 220px;
+    gap: 24px;
+    align-items: center;
+  }
+  .display {
+    font-size: var(--text-display);
     font-weight: var(--weight-extrabold);
-    letter-spacing: -0.01em;
+    letter-spacing: var(--tracking-display);
+    line-height: var(--leading-tight);
+    margin: 0;
+    animation: rise var(--duration-slow) var(--ease-out) backwards;
+  }
+  .display span {
+    color: var(--gold);
   }
   .tagline {
     font-size: var(--text-tagline);
-    margin: 0;
-    color: var(--gold);
-    font-weight: var(--weight-semibold);
+    font-weight: var(--weight-medium);
+    letter-spacing: -0.01em;
+    margin: 16px 0 0;
+    animation: rise var(--duration-slow) 60ms var(--ease-out) backwards;
   }
-  .built {
-    color: var(--sub);
-    font-size: var(--text-body-sm);
-    margin: 6px 0 0;
+  .star {
+    width: 220px;
+    height: 220px;
   }
-  .pagelinks {
-    margin: 14px 0 0;
-    font-size: var(--text-body-sm);
+  @media (max-width: 620px) {
+    .hero {
+      padding-top: 30px;
+      grid-template-columns: minmax(0, 1fr) 86px;
+      gap: 6px;
+      align-items: start;
+    }
+    .hero-text {
+      display: contents;
+    }
+    .display {
+      grid-column: 1;
+      grid-row: 1;
+    }
+    .star {
+      grid-column: 2;
+      grid-row: 1;
+      width: 86px;
+      height: 86px;
+    }
+    .tagline,
+    .built,
+    .hero :global(.tnote) {
+      grid-column: 1 / -1;
+    }
   }
 </style>

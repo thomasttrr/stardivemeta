@@ -10,7 +10,6 @@ import type { Level } from '../types/contract/Level';
 import {
   LEVELS,
   LEVEL_NAME,
-  LABEL_GLYPH,
   LABEL_WORD,
   CRITERIA_SHORT,
   NONE_REASON_TEXT,
@@ -26,6 +25,7 @@ import {
   tierDisplay,
   whyText,
 } from '../lib/data';
+import LabelMark from './LabelMark.astro';
 
 interface Props {
   character: Character;
@@ -116,7 +116,7 @@ const criteria = c.evidence
 const NameTag = asPage ? 'h1' : 'h2';
 ---
 
-<article class="dossier">
+<article class="dossier" data-glass={asPage ? '' : undefined}>
   <p class="evkicker">Character file</p>
   <NameTag class="dname">
     {c.name}
@@ -145,11 +145,10 @@ const NameTag = asPage ? 'h1' : 'h2';
           <div class="stats">
             <div class="stat">
               <span class="k">Tier</span>
-              <span class="v">
+              <span class="v" data-tier={r.tier}>
                 {tierDisplay(r.tier)}{' '}
                 <small>
-                  <span aria-hidden="true">{LABEL_GLYPH[r.label]}</span>{' '}
-                  {LABEL_WORD[r.label]}
+                  <LabelMark label={r.label} size={12} /> {LABEL_WORD[r.label]}
                 </small>
               </span>
             </div>
@@ -291,39 +290,43 @@ const NameTag = asPage ? 'h1' : 'h2';
 
 <style>
   .dossier {
-    background: var(--panel);
-    border: 1px solid var(--line);
+    position: relative;
     border-radius: var(--radius-xl);
-    padding: var(--space-panel);
+    padding: 26px var(--space-panel) 22px;
   }
   .evkicker {
     font-size: var(--text-kicker);
-    letter-spacing: 0.14em;
+    letter-spacing: var(--tracking-caps);
     text-transform: uppercase;
-    color: var(--teal);
+    color: var(--mint);
     font-weight: var(--weight-extrabold);
     margin: 0;
   }
   .dname {
     font-size: var(--text-dossier-name);
-    margin: 4px 0 10px;
+    margin: 6px 0 12px;
     font-weight: var(--weight-extrabold);
-    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
+    line-height: 1.05;
   }
   .newtag {
+    display: inline-block;
     font-size: var(--text-pill);
     font-weight: var(--weight-bold);
-    background: var(--gold);
-    color: var(--on-gold);
+    letter-spacing: 0.02em;
+    background: var(--gold-glass);
+    border: 1px solid var(--gold-rim);
+    box-shadow: var(--chip-edge);
+    color: var(--text);
     border-radius: var(--radius-pill);
-    padding: 2.5px 8px;
+    padding: 3px 10px;
     vertical-align: middle;
-    margin-left: 8px;
+    margin-left: 10px;
   }
   .summary {
     color: var(--sub);
     font-size: var(--text-body-sm);
-    margin: 0 0 12px;
+    margin: 0 0 14px;
     white-space: pre-wrap;
   }
   .sumseg {
@@ -333,18 +336,20 @@ const NameTag = asPage ? 'h1' : 'h2';
   :global([data-level="high"]) .sumseg[data-lvl="high"],
   :global([data-level="max"]) .sumseg[data-lvl="max"] {
     color: var(--text);
-    font-weight: var(--weight-extrabold);
+    font-weight: var(--weight-bold);
   }
   .stats {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--space-grid-gap);
   }
   .stat {
-    background: var(--panel-2);
-    border: 1px solid var(--line);
+    background: var(--chip-fill);
+    border: 1px solid var(--chip-rim);
+    box-shadow: var(--chip-edge);
     border-radius: var(--radius-md);
-    padding: 9px 10px;
+    padding: 12px 14px;
+    min-width: 0;
   }
   .stat .k {
     display: block;
@@ -358,62 +363,79 @@ const NameTag = asPage ? 'h1' : 'h2';
     display: block;
     font-size: var(--stat-value-size);
     font-weight: var(--weight-extrabold);
-    margin-top: 2px;
+    letter-spacing: var(--tracking-tight);
+    margin-top: 4px;
+    font-variant-numeric: tabular-nums;
   }
+  .stat .v[data-tier="S"] { color: var(--tier-s); }
+  .stat .v[data-tier="A"] { color: var(--tier-a); }
+  .stat .v[data-tier="B"] { color: var(--tier-b); }
+  .stat .v[data-tier="C"] { color: var(--tier-c); }
+  .stat .v[data-tier="D"] { color: var(--tier-d); }
+  .stat .v[data-tier="MODE_SPLIT"] { color: var(--tier-mode-split); }
   .stat .v small {
-    font-size: 11.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
     color: var(--sub);
     font-weight: var(--weight-semibold);
+    letter-spacing: 0;
   }
   .levels {
     display: flex;
     gap: 6px;
-    margin-top: 10px;
+    margin-top: 12px;
     flex-wrap: wrap;
   }
   .lvlchip {
-    border: 1px solid var(--line);
+    border: 1px solid var(--chip-rim);
+    background: var(--chip-fill);
     border-radius: var(--radius-pill);
-    padding: 4px 11px;
+    padding: 5px 12px;
     font-size: var(--text-note);
     color: var(--sub);
+    transition:
+      background-color var(--duration-fast),
+      color var(--duration-fast);
   }
   :global([data-level="low"]) .lvlchip[data-lvl="low"],
   :global([data-level="high"]) .lvlchip[data-lvl="high"],
   :global([data-level="max"]) .lvlchip[data-lvl="max"] {
-    background: var(--gold);
-    border-color: var(--gold);
-    color: var(--on-gold);
-    font-weight: var(--weight-extrabold);
+    background: var(--gold-glass);
+    border-color: var(--gold-rim);
+    box-shadow: var(--chip-edge);
+    color: var(--text);
+    font-weight: var(--weight-bold);
   }
   .why {
-    margin: 14px 0 0;
-    font-size: 14.5px;
-    background: var(--why-bg);
-    border: 1px solid var(--why-line);
+    margin: 16px 0 0;
+    font-size: var(--text-body-sm);
+    background: var(--copper-glass);
+    border: 1px solid var(--copper-rim);
     border-radius: var(--radius-md);
-    padding: 11px 12px;
+    padding: 13px 15px;
   }
   .why b {
-    color: var(--pink);
+    color: var(--copper);
   }
   .seclabel {
-    font-size: var(--text-section-label);
+    font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--sub);
-    margin: 20px 0 4px;
+    margin: 26px 0 6px;
     font-weight: var(--weight-bold);
   }
   .evrow {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     align-items: baseline;
-    padding: 10px 0;
-    border-top: 1px solid var(--line);
+    padding: 12px 0;
+    border-top: 1px solid var(--hairline);
   }
   .evrow .src {
-    flex: 0 0 92px;
+    flex: 0 0 104px;
     font-weight: var(--weight-bold);
     font-size: var(--text-body-sm);
   }
@@ -427,35 +449,49 @@ const NameTag = asPage ? 'h1' : 'h2';
   .evrow .plc {
     flex: 1;
     font-size: var(--text-body-sm);
+    min-width: 0;
   }
   .evrow .plc .note,
   .evrow .plc .reason {
     display: block;
     color: var(--sub);
-    font-size: 12px;
-    margin-top: 1px;
+    font-size: 12.5px;
+    margin-top: 2px;
   }
   :global([data-level="low"]) .seg[data-lvl="low"],
   :global([data-level="high"]) .seg[data-lvl="high"],
   :global([data-level="max"]) .seg[data-lvl="max"] {
     font-weight: var(--weight-extrabold);
+    color: var(--gold);
   }
   .evrow .num {
     flex: 0 0 auto;
     font-weight: var(--weight-extrabold);
-    font-size: 15px;
+    font-size: var(--text-base);
+    font-variant-numeric: tabular-nums;
   }
   .evrow .dt {
     flex: 0 0 auto;
     color: var(--sub);
     font-size: 12px;
+    font-variant-numeric: tabular-nums;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 520px) {
+    .dossier {
+      padding: 22px 16px 18px;
+    }
     .evrow {
       flex-wrap: wrap;
+      gap: 4px 12px;
     }
     .evrow .src {
       flex-basis: 100%;
+    }
+    .stat {
+      padding: 10px 11px;
+    }
+    .stat .v {
+      font-size: 19px;
     }
   }
   .criteria {
@@ -467,11 +503,15 @@ const NameTag = asPage ? 'h1' : 'h2';
     color: var(--text);
   }
   .modes {
-    margin: 16px 0 0;
+    margin: 18px 0 0;
     font-size: var(--text-body-sm);
   }
   .howlink {
-    margin: 16px 0 0;
+    margin: 14px 0 0;
     font-size: var(--text-body-sm);
+  }
+  .howlink a {
+    color: var(--link);
+    font-weight: var(--weight-semibold);
   }
 </style>

@@ -6,28 +6,28 @@ import Base from '../../layouts/Base.astro';
 import { data } from '../../lib/data';
 ---
 
-<Base title="Data – StarDiveMeta" path="/data/">
+<Base title="Data – StarDiveMeta" path="/data/" width="prose">
   <h1 class="page-title">Data</h1>
   <p class="built">
     Everything on this site comes from these files. They are rebuilt
     with every update.
   </p>
-  <ul class="files">
-    <li>
+  <ul class="glass-list files">
+    <li class="glass-row" data-glass>
       <a href="/data/tierlist.json">tierlist.json</a>
       <span>
         The consensus board: every character, every list's placement,
         the scores and labels.
       </span>
     </li>
-    <li>
+    <li class="glass-row" data-glass>
       <a href="/data/codes.json">codes.json</a>
       <span>
         The codes, with each site's claim and the status we computed
         from them.
       </span>
     </li>
-    <li>
+    <li class="glass-row" data-glass>
       <a href="/data/history.json">history.json</a>
       <span>The snapshot index — one entry per saved snapshot.</span>
     </li>
@@ -39,37 +39,8 @@ import { data } from '../../lib/data';
 </Base>
 
 <style>
-  .page-title {
-    font-size: var(--text-h1);
-    line-height: var(--leading-tight);
-    margin: 18px 0 4px;
-    font-weight: var(--weight-extrabold);
-    letter-spacing: -0.01em;
-  }
-  .built {
-    color: var(--sub);
-    font-size: var(--text-body-sm);
-    margin: 10px 0 0;
-  }
-  .files {
-    list-style: none;
-    margin: 16px 0 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .files li {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-md);
-    padding: 10px 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
   .files a {
-    color: var(--teal);
+    color: var(--link);
     font-weight: var(--weight-semibold);
     text-decoration: none;
     font-variant-numeric: tabular-nums;

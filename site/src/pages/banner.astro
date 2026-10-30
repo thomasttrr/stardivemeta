@@ -32,7 +32,7 @@ const currentChar = current ? charactersById.get(current.character) : undefined;
 const debuts = [...banners].sort((a, b) => b.start.localeCompare(a.start));
 ---
 
-<Base title="New characters – StarDiveMeta" path="/banner/">
+<Base title="New characters – StarDiveMeta" path="/banner/" width="prose">
   <h1 class="page-title">New characters</h1>
   <p class="built">
     We add a new character's placements as each list ranks them. No
@@ -43,7 +43,7 @@ const debuts = [...banners].sort((a, b) => b.start.localeCompare(a.start));
     current && (
       <section class="banner-now">
         <h2>Current banner</h2>
-        <p class="banner-line">
+        <p class="banner-line glass-row split" data-glass>
           <a href={`/c/${current.character}/`}>{current.name}</a>
           <span class="dim">
             {fmtDate(current.start)}
@@ -65,13 +65,13 @@ const debuts = [...banners].sort((a, b) => b.start.localeCompare(a.start));
     <h2>New and still settling</h2>
     {
       listed.length === 0 ? (
-        <p class="empty">No new characters right now.</p>
+        <p class="empty" data-glass>No new characters right now.</p>
       ) : (
-        <ul class="chars">
+        <ul class="glass-list chars">
           {listed.map((c) => {
             const r = c.results.low;
             return (
-              <li>
+              <li class="glass-row split" data-glass>
                 <span class="nm">{c.name}</span>
                 <span class="facts">
                   {r.coverage} of 3 lists have placed them
@@ -95,10 +95,10 @@ const debuts = [...banners].sort((a, b) => b.start.localeCompare(a.start));
 
   <section>
     <h2>Debut history</h2>
-    <ul class="chars">
+    <ul class="glass-list chars">
       {
         debuts.map((b) => (
-          <li>
+          <li class="glass-row split" data-glass>
             <span class="nm">
               <a href={`/c/${b.character}/`}>{b.name}</a>
             </span>
@@ -119,42 +119,10 @@ const debuts = [...banners].sort((a, b) => b.start.localeCompare(a.start));
 </Base>
 
 <style>
-  .page-title {
-    font-size: var(--text-h1);
-    line-height: var(--leading-tight);
-    margin: 18px 0 4px;
-    font-weight: var(--weight-extrabold);
-    letter-spacing: -0.01em;
-  }
-  .built {
-    color: var(--sub);
-    font-size: var(--text-body-sm);
-    margin: 10px 0 0;
-  }
-  section {
-    margin-top: 24px;
-  }
-  h2 {
-    font-size: var(--text-h2);
-    font-weight: var(--weight-bold);
-    margin: 0 0 8px;
-  }
   .rule {
     color: var(--sub);
     font-size: var(--text-body-sm);
     margin: 6px 0 0;
-  }
-  .banner-line {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-md);
-    padding: 10px 12px;
-    margin: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 12px;
-    flex-wrap: wrap;
   }
   .banner-line a {
     color: var(--text);
@@ -164,25 +132,6 @@ const debuts = [...banners].sort((a, b) => b.start.localeCompare(a.start));
   .banner-line .dim {
     color: var(--sub);
     font-size: var(--text-body-sm);
-  }
-  .chars {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .chars li {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-md);
-    padding: 10px 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 12px;
-    flex-wrap: wrap;
   }
   .chars .nm {
     font-weight: var(--weight-semibold);
@@ -196,14 +145,6 @@ const debuts = [...banners].sort((a, b) => b.start.localeCompare(a.start));
     font-size: var(--text-body-sm);
   }
   .chars .facts a {
-    color: var(--teal);
-  }
-  .empty {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-md);
-    padding: 12px;
-    color: var(--sub);
-    font-size: var(--text-body-sm);
+    color: var(--link);
   }
 </style>
