@@ -1,6 +1,9 @@
 # CI (plan T1.7): the `rust` job gates code (fmt, clippy, tests, and
 # the T1.6 contract-drift check); the `data` job gates the dataset
-# (`mongil-build validate` + gate G9 snapshot immutability).
+# (`mongil-build validate` + gate G9 snapshot immutability). The
+# `site` job (plan T3.10) builds the whole site and runs the dist
+# checks; the `preview` job deploys each PR to its own Cloudflare
+# Pages branch and posts the URL.
 name: CI
 
 on:
@@ -63,3 +66,71 @@ jobs:
           else
             echo "G9: launch_date not set yet — the method-file half of G9 is dormant"
           fi
+
+  site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install the pinned toolchain (rust-toolchain.toml)
+        run: |
+          rustup toolchain install
+          rustup show
+      - uses: Swatinem/rust-cache@v2
+      - name: Emit + render PNGs
+        run: |
+          cargo run --quiet -p mongil-build -- emit --data data --out site/src/generated
+          cargo run --quiet -p mongil-build -- png --data data --out site/public/img/generated
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Build the site
+        working-directory: site
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+          pnpm build
+      - name: Dist checks (G12 + G14; /codes/ + /banner/ are P4 routes — drop the allowance when T4.1/T4.2 land)
+        run: node site/scripts/check-dist.mjs --dist site/dist --data data --allow-missing /codes/,/banner/
+
+  preview:
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install the pinned toolchain (rust-toolchain.toml)
+        run: |
+          rustup toolchain install
+          rustup show
+      - uses: Swatinem/rust-cache@v2
+      - name: Emit + render PNGs
+        run: |
+          cargo run --quiet -p mongil-build -- emit --data data --out site/src/generated
+          cargo run --quiet -p mongil-build -- png --data data --out site/public/img/generated
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Build the site
+        working-directory: site
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+          pnpm build
+      - name: Deploy the PR preview
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx --yes wrangler@4 pages deploy site/dist --project-name stardivemeta --branch "pr-${{ github.event.pull_request.number }}"
+      - name: Post the preview URL
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const url = `https://pr-${context.issue.number}.stardivemeta.pages.dev`;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `Preview deployed: ${url}`,
+            });

@@ -1,0 +1,74 @@
+# Deploy (plan T3.10 + D-14 + D-16): on push to main, run the full
+# pipeline (tests, gates, emit, PNG, site build, dist checks), stamp
+# dist/build.json, then deploy the finished dist/ to Cloudflare Pages
+# by direct upload (`wrangler pages deploy`). Cloudflare runs no
+# build of its own.
+#
+# Until launch, every deploy goes to the `staging` branch
+# (staging.stardivemeta.pages.dev). The production deploy runs only
+# when the repo variable LAUNCHED == "true" (set in T6.4).
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install the pinned toolchain (rust-toolchain.toml)
+        run: |
+          rustup toolchain install
+          rustup show
+      - uses: Swatinem/rust-cache@v2
+      - name: Full Rust pipeline (tests)
+        run: cargo test --workspace
+      - name: Validate the dataset (plan §B.7 gates)
+        run: cargo run --quiet -p mongil-build -- validate --data data --site site
+      - name: Emit the contract JSON
+        run: cargo run --quiet -p mongil-build -- emit --data data --out site/src/generated
+      - name: Render the official PNGs + OG image (T3.9)
+        run: cargo run --quiet -p mongil-build -- png --data data --out site/public/img/generated
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install site dependencies
+        working-directory: site
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+      - name: Build the site
+        working-directory: site
+        run: pnpm build
+      - name: Dist checks (G12 + G14; /codes/ + /banner/ are P4 routes — drop the allowance when T4.1/T4.2 land)
+        run: node site/scripts/check-dist.mjs --dist site/dist --data data --allow-missing /codes/,/banner/
+      - name: Write dist/build.json
+        run: |
+          META=site/src/generated/meta.json
+          jq -n \
+            --arg commit "$GITHUB_SHA" \
+            --arg built_at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            --arg method_version "$(jq -r .method_version $META)" \
+            --arg snapshot_id "$(jq -r .snapshot_id $META)" \
+            --arg sources_checked_at "$(jq -r .sources_checked_at $META)" \
+            --arg codes_checked_at "$(jq -r .codes_checked_at $META)" \
+            '{commit: $commit, built_at: $built_at, method_version: $method_version, snapshot_id: $snapshot_id, sources_checked_at: $sources_checked_at, codes_checked_at: $codes_checked_at}' \
+            > site/dist/build.json
+          cat site/dist/build.json
+      - name: Deploy to Cloudflare Pages (staging until LAUNCHED=true)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ "${{ vars.LAUNCHED }}" = "true" ]; then
+            BRANCH="main"
+          else
+            BRANCH="staging"
+          fi
+          echo "Deploying to branch: $BRANCH"
+          npx --yes wrangler@4 pages deploy site/dist --project-name stardivemeta --branch "$BRANCH"

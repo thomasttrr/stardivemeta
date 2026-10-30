@@ -1,0 +1,18 @@
+# Cloudflare access test (plan T0.3): manual-only workflow proving
+# the repo secrets can drive wrangler against Tom's account. Run it
+# from the Actions tab ("Run workflow") whenever the token or the
+# Pages project changes.
+name: CF access test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: wrangler pages project list
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx --yes wrangler@4 pages project list

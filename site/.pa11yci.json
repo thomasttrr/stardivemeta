@@ -1,0 +1,1 @@
+{"defaults":{"chromeLaunchConfig":{"args":["--no-sandbox","--disable-dev-shm-usage"]},"standard":"WCAG2AA","timeout":30000},"urls":["http://localhost:4321/","http://localhost:4321/c/francis/","http://localhost:4321/codes/","http://localhost:4321/rules/","http://localhost:4321/table/"]}

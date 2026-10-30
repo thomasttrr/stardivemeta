@@ -60,39 +60,6 @@ pub fn valid_sweep_id(id: &str) -> bool {
     false
 }
 
-#[cfg(test)]
-mod tests {
-    use super::valid_sweep_id;
-
-    #[test]
-    fn sweep_id_forms() {
-        for ok in [
-            "2026-11-03-am",
-            "2026-11-03-pm",
-            "2026-11-06-patch1",
-            "2026-11-03-x2",
-            "2026-10-29T2105-sweep-pm",
-            "2026-10-29T0900-sweep-am",
-        ] {
-            assert!(valid_sweep_id(ok), "{ok} should be a valid sweep id");
-        }
-        for bad in [
-            "2026-10-29",
-            "2026-10-29-sweep-pm",
-            "2026-10-29T2105-pm",
-            "2026-10-29T2105-sweep-xx",
-            "2026-1-03-am",
-            "working",
-            "",
-        ] {
-            assert!(
-                !valid_sweep_id(bad),
-                "{bad:?} should not be a valid sweep id"
-            );
-        }
-    }
-}
-
 fn snapshot_path(data_dir: &Path, id: &str) -> PathBuf {
     data_dir.join("snapshots").join(format!("{id}.json"))
 }
@@ -235,4 +202,37 @@ pub fn run_diff(data_dir: &Path, from: &str, to: &str, format: &str) -> ExitCode
         _ => print!("{}", render_md(&diff)),
     }
     ExitCode::SUCCESS
+}
+
+#[cfg(test)]
+mod tests {
+    use super::valid_sweep_id;
+
+    #[test]
+    fn sweep_id_forms() {
+        for ok in [
+            "2026-11-03-am",
+            "2026-11-03-pm",
+            "2026-11-06-patch1",
+            "2026-11-03-x2",
+            "2026-10-29T2105-sweep-pm",
+            "2026-10-29T0900-sweep-am",
+        ] {
+            assert!(valid_sweep_id(ok), "{ok} should be a valid sweep id");
+        }
+        for bad in [
+            "2026-10-29",
+            "2026-10-29-sweep-pm",
+            "2026-10-29T2105-pm",
+            "2026-10-29T2105-sweep-xx",
+            "2026-1-03-am",
+            "working",
+            "",
+        ] {
+            assert!(
+                !valid_sweep_id(bad),
+                "{bad:?} should not be a valid sweep id"
+            );
+        }
+    }
 }
