@@ -6,3 +6,9 @@ edition = "2021"
 [[bin]]
 name = "mongil-build"
 path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+mongil-core = { path = "../mongil-core" }
+serde = "1"
+serde_json = "1"

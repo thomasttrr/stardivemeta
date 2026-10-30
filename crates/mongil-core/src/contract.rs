@@ -16,7 +16,6 @@ use serde::Serialize;
 use std::collections::BTreeMap;
 use ts_rs::TS;
 
-
 /// Investment level (the site's toggle).
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, TS)]
 #[serde(rename_all = "lowercase")]
@@ -236,6 +235,9 @@ pub enum NoneReason {
 }
 
 /// What a source published for a character, in the source's own shape.
+// Wire data assembled once per character per build; boxing the Levels
+// cells would complicate every constructor for no measurable gain.
+#[allow(clippy::large_enum_variant)]
 #[derive(Clone, Debug, PartialEq, Serialize, TS)]
 #[serde(tag = "kind", rename_all = "snake_case")]
 #[ts(export, export_to = "../../../site/src/types/contract/")]
