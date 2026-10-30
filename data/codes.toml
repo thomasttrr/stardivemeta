@@ -1,4 +1,830 @@
-# Redeem codes (plan §B.3). Starts empty on purpose: the input files
-# contain no code data (plan item X1), so codes are harvested fresh by
-# T2.7 under the two-source rule. Nothing is carried over from chat
-# notes or memory.
+# Redeem codes (plan §B.3, T2.7) — merged from sweep
+# 2026-10-29T2105-sweep-pm (harvest codes-candidates.md; 12 listing
+# sources + official checked). One observation per code per source
+# that LISTS the code (status as that source states it, seen_at =
+# when this sweep read it). Statuses are computed by the §B.3 engine
+# in `mongil-build emit` — never stored. GamsGo rows it flags
+# "reported active / conflicting" are recorded as active here; the
+# conflict flag lives in the harvest file and, where it matters, in
+# the per-code comments below.
+
+# Officially announced in the Oct 14, 2026 Developer Lounge Talk (official forum write-up, read via Kaiden's recap). Expiry as announced: "Valid until Nov. 10, 2026, 23:30 (UTC)"; COSM agrees. COSM's status is from its reward/date-mapped row + tag cloud (its strings are JS-hidden in text).
+[[code]]
+code = "HAPPYHALF1014"
+reward = "Compass of Destiny ×3, Compass of Memory ×3, Compass of Promise ×3, Special Gold Upgrade Stone ×1"
+reward_source = "official"
+expires_at = "2026-11-10T23:30:00Z"
+expires_source = "official"
+[[code.observation]]
+source = "official"
+status = "active"
+seen_at = "2026-10-29T21:07:00-04:00"
+url = "https://www.kaiden.gg/blog/mongil-october-14-developer-lounge-talk-recap/"
+[[code.observation]]
+source = "cosm-game"
+status = "active"
+seen_at = "2026-10-29T21:14:00-04:00"
+url = "https://cosm-game.com/codes/mongil-star-dive-redeem-codes/"
+
+# SuperCheats prints "5 Compass of Promise" against the majority's 3 — reward text above is the majority wording (reward_source = pocket-gamer).
+[[code]]
+code = "REGINULAUPDATE"
+reward = "10 Premium Salmon Puree, 1 Purple Upgrade Stone, 3 Compass of Promise"
+reward_source = "pocket-gamer"
+[[code.observation]]
+source = "pocket-gamer"
+status = "active"
+seen_at = "2026-10-29T21:06:00-04:00"
+url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
+[[code.observation]]
+source = "ldshop"
+status = "active"
+seen_at = "2026-10-29T21:08:00-04:00"
+url = "https://www.ldshop.gg/blog/mongil-star-dive/mongil-star-dive-code.html"
+[[code.observation]]
+source = "dexerto"
+status = "active"
+seen_at = "2026-10-29T21:09:00-04:00"
+url = "https://www.dexerto.com/codes/mongil-star-dive-codes-3352116/"
+[[code.observation]]
+source = "supercheats"
+status = "active"
+seen_at = "2026-10-29T21:12:00-04:00"
+url = "https://www.supercheats.com/mongil-star-dive-codes"
+[[code.observation]]
+source = "gamsgo"
+status = "active"
+seen_at = "2026-10-29T21:13:00-04:00"
+url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
+[[code.observation]]
+source = "cosm-game"
+status = "active"
+seen_at = "2026-10-29T21:14:00-04:00"
+url = "https://cosm-game.com/codes/mongil-star-dive-redeem-codes/"
+[[code.observation]]
+source = "pocket-tactics"
+status = "active"
+seen_at = "2026-10-29T21:17:00-04:00"
+url = "https://www.pockettactics.com/mongil-star-dive/codes"
+
+[[code]]
+code = "LETSPLAYEP6"
+reward = "10 Premium Salmon Puree, 1 Purple Upgrade Stone, 3 Compass of Promise"
+reward_source = "pocket-gamer"
+[[code.observation]]
+source = "pocket-gamer"
+status = "active"
+seen_at = "2026-10-29T21:06:00-04:00"
+url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
+[[code.observation]]
+source = "ldshop"
+status = "active"
+seen_at = "2026-10-29T21:08:00-04:00"
+url = "https://www.ldshop.gg/blog/mongil-star-dive/mongil-star-dive-code.html"
+[[code.observation]]
+source = "dexerto"
+status = "active"
+seen_at = "2026-10-29T21:09:00-04:00"
+url = "https://www.dexerto.com/codes/mongil-star-dive-codes-3352116/"
+[[code.observation]]
+source = "supercheats"
+status = "active"
+seen_at = "2026-10-29T21:12:00-04:00"
+url = "https://www.supercheats.com/mongil-star-dive-codes"
+[[code.observation]]
+source = "gamsgo"
+status = "active"
+seen_at = "2026-10-29T21:13:00-04:00"
+url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
+[[code.observation]]
+source = "cosm-game"
+status = "active"
+seen_at = "2026-10-29T21:14:00-04:00"
+url = "https://cosm-game.com/codes/mongil-star-dive-redeem-codes/"
+
+# Harvest classification was CONFIRMED ACTIVE, but GamingOnPhone's recorded expired claim (its page is an Aug 3, 2026 snapshot; every fresher source says active) blocks §B.3 rule 2 ("no group says expired"), so the computed status is UNCONFIRMED until a re-check resolves the dissent. Recorded faithfully, not suppressed.
+[[code]]
+code = "LOVEMONGIL"
+reward = "Overflowing Love ×1 (artifact)"
+reward_source = "pocket-gamer"
+[[code.observation]]
+source = "pocket-gamer"
+status = "active"
+seen_at = "2026-10-29T21:06:00-04:00"
+url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
+[[code.observation]]
+source = "ldshop"
+status = "active"
+seen_at = "2026-10-29T21:08:00-04:00"
+url = "https://www.ldshop.gg/blog/mongil-star-dive/mongil-star-dive-code.html"
+[[code.observation]]
+source = "dexerto"
+status = "active"
+seen_at = "2026-10-29T21:09:00-04:00"
+url = "https://www.dexerto.com/codes/mongil-star-dive-codes-3352116/"
+[[code.observation]]
+source = "gamewith-en"
+status = "active"
+seen_at = "2026-10-29T21:10:00-04:00"
+url = "https://gamewith.net/mongil-stardive/73780"
+[[code.observation]]
+source = "supercheats"
+status = "active"
+seen_at = "2026-10-29T21:12:00-04:00"
+url = "https://www.supercheats.com/mongil-star-dive-codes"
+[[code.observation]]
+source = "gamsgo"
+status = "active"
+seen_at = "2026-10-29T21:13:00-04:00"
+url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
+[[code.observation]]
+source = "cosm-game"
+status = "active"
+seen_at = "2026-10-29T21:14:00-04:00"
+url = "https://cosm-game.com/codes/mongil-star-dive-redeem-codes/"
+[[code.observation]]
+source = "gamesradar"
+status = "active"
+seen_at = "2026-10-29T21:16:00-04:00"
+url = "https://www.gamesradar.com/games/rpg/mongil-star-dive-codes/"
+[[code.observation]]
+source = "pocket-tactics"
+status = "active"
+seen_at = "2026-10-29T21:17:00-04:00"
+url = "https://www.pockettactics.com/mongil-star-dive/codes"
+[[code.observation]]
+source = "gamingonphone"
+status = "expired"
+seen_at = "2026-10-29T21:18:00-04:00"
+url = "https://gamingonphone.com/guides/mongil-star-dive-redeem-codes-and-how-to-use-them/"
+
+# SuperCheats' status is counted but its reward text is not used (it prints WINDSOFFATE/NAGIUPDATE's reward for this code). GamsGo flags its own listing "reported active".
+[[code]]
+code = "MEMOLMONGIL"
+reward = "Green Cappy Papa ×1, 25 Keys, 10,000 Gold"
+reward_source = "pocket-gamer"
+[[code.observation]]
+source = "pocket-gamer"
+status = "active"
+seen_at = "2026-10-29T21:06:00-04:00"
+url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
+[[code.observation]]
+source = "ldshop"
+status = "active"
+seen_at = "2026-10-29T21:08:00-04:00"
+url = "https://www.ldshop.gg/blog/mongil-star-dive/mongil-star-dive-code.html"
+[[code.observation]]
+source = "dexerto"
+status = "active"
+seen_at = "2026-10-29T21:09:00-04:00"
+url = "https://www.dexerto.com/codes/mongil-star-dive-codes-3352116/"
+[[code.observation]]
+source = "supercheats"
+status = "active"
+seen_at = "2026-10-29T21:12:00-04:00"
+url = "https://www.supercheats.com/mongil-star-dive-codes"
+[[code.observation]]
+source = "gamsgo"
+status = "active"
+seen_at = "2026-10-29T21:13:00-04:00"
+url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
+[[code.observation]]
+source = "cosm-game"
+status = "active"
+seen_at = "2026-10-29T21:14:00-04:00"
+url = "https://cosm-game.com/codes/mongil-star-dive-redeem-codes/"
+[[code.observation]]
+source = "gamesradar"
+status = "active"
+seen_at = "2026-10-29T21:16:00-04:00"
+url = "https://www.gamesradar.com/games/rpg/mongil-star-dive-codes/"
+[[code.observation]]
+source = "pocket-tactics"
+status = "active"
+seen_at = "2026-10-29T21:17:00-04:00"
+url = "https://www.pockettactics.com/mongil-star-dive/codes"
+[[code.observation]]
+source = "gamingonphone"
+status = "active"
+seen_at = "2026-10-29T21:18:00-04:00"
+url = "https://gamingonphone.com/guides/mongil-star-dive-redeem-codes-and-how-to-use-them/"
+
+# Freshness caveat from the harvest: only COSM (Oct 27) and GamsGo (Sep 30) are recent witnesses; GW-EN's confirmation is from April and GamesRadar's page is stale.
+[[code]]
+code = "GSBGMONGIL"
+reward = "Uncle Cappy ×1, 10,000 Gold"
+reward_source = "gamsgo"
+[[code.observation]]
+source = "gamewith-en"
+status = "active"
+seen_at = "2026-10-29T21:10:00-04:00"
+url = "https://gamewith.net/mongil-stardive/73780"
+[[code.observation]]
+source = "gamsgo"
+status = "active"
+seen_at = "2026-10-29T21:13:00-04:00"
+url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
+[[code.observation]]
+source = "cosm-game"
+status = "active"
+seen_at = "2026-10-29T21:14:00-04:00"
+url = "https://cosm-game.com/codes/mongil-star-dive-redeem-codes/"
+[[code.observation]]
+source = "gamesradar"
+status = "active"
+seen_at = "2026-10-29T21:16:00-04:00"
+url = "https://www.gamesradar.com/games/rpg/mongil-star-dive-codes/"
+
+# Same freshness caveat as GSBGMONGIL.
+[[code]]
+code = "JOINMONGIL"
+reward = "Leafymander ×1"
+reward_source = "gamsgo"
+[[code.observation]]
+source = "gamewith-en"
+status = "active"
+seen_at = "2026-10-29T21:10:00-04:00"
+url = "https://gamewith.net/mongil-stardive/73780"
+[[code.observation]]
+source = "gamsgo"
+status = "active"
+seen_at = "2026-10-29T21:13:00-04:00"
+url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
+[[code.observation]]
+source = "cosm-game"
+status = "active"
+seen_at = "2026-10-29T21:14:00-04:00"
+url = "https://cosm-game.com/codes/mongil-star-dive-redeem-codes/"
+[[code.observation]]
+source = "gamesradar"
+status = "active"
+seen_at = "2026-10-29T21:16:00-04:00"
+url = "https://www.gamesradar.com/games/rpg/mongil-star-dive-codes/"
+
+# April launch trio — conflicted: SuperCheats + GamingOnPhone say expired, GamsGo flags it "reported active / conflicting". Reward text not recorded in this harvest (empty).
+[[code]]
+code = "MONGILREPORT"
+reward = ""
+reward_source = "pocket-gamer"
+[[code.observation]]
+source = "pocket-gamer"
+status = "active"
+seen_at = "2026-10-29T21:06:00-04:00"
+url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
+[[code.observation]]
+source = "ldshop"
+status = "active"
+seen_at = "2026-10-29T21:08:00-04:00"
+url = "https://www.ldshop.gg/blog/mongil-star-dive/mongil-star-dive-code.html"
+[[code.observation]]
+source = "dexerto"
+status = "active"
+seen_at = "2026-10-29T21:09:00-04:00"
+url = "https://www.dexerto.com/codes/mongil-star-dive-codes-3352116/"
+[[code.observation]]
+source = "gamewith-en"
+status = "active"
+seen_at = "2026-10-29T21:10:00-04:00"
+url = "https://gamewith.net/mongil-stardive/73780"
+[[code.observation]]
+source = "supercheats"
+status = "expired"
+seen_at = "2026-10-29T21:12:00-04:00"
+url = "https://www.supercheats.com/mongil-star-dive-codes"
+[[code.observation]]
+source = "gamsgo"
+status = "active"
+seen_at = "2026-10-29T21:13:00-04:00"
+url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
+[[code.observation]]
+source = "cosm-game"
+status = "active"
+seen_at = "2026-10-29T21:14:00-04:00"
+url = "https://cosm-game.com/codes/mongil-star-dive-redeem-codes/"
+[[code.observation]]
+source = "gamesradar"
+status = "active"
+seen_at = "2026-10-29T21:16:00-04:00"
+url = "https://www.gamesradar.com/games/rpg/mongil-star-dive-codes/"
+[[code.observation]]
+source = "pocket-tactics"
+status = "active"
+seen_at = "2026-10-29T21:17:00-04:00"
+url = "https://www.pockettactics.com/mongil-star-dive/codes"
+[[code.observation]]
+source = "gamingonphone"
+status = "expired"
+seen_at = "2026-10-29T21:18:00-04:00"
+url = "https://gamingonphone.com/guides/mongil-star-dive-redeem-codes-and-how-to-use-them/"
+
+# April launch trio — same conflict as MONGILREPORT. Reward text not recorded (empty).
+[[code]]
+code = "MONGILPRESENT"
+reward = ""
+reward_source = "pocket-gamer"
+[[code.observation]]
+source = "pocket-gamer"
+status = "active"
+seen_at = "2026-10-29T21:06:00-04:00"
+url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
+[[code.observation]]
+source = "ldshop"
+status = "active"
+seen_at = "2026-10-29T21:08:00-04:00"
+url = "https://www.ldshop.gg/blog/mongil-star-dive/mongil-star-dive-code.html"
+[[code.observation]]
+source = "dexerto"
+status = "active"
+seen_at = "2026-10-29T21:09:00-04:00"
+url = "https://www.dexerto.com/codes/mongil-star-dive-codes-3352116/"
+[[code.observation]]
+source = "gamewith-en"
+status = "active"
+seen_at = "2026-10-29T21:10:00-04:00"
+url = "https://gamewith.net/mongil-stardive/73780"
+[[code.observation]]
+source = "supercheats"
+status = "expired"
+seen_at = "2026-10-29T21:12:00-04:00"
+url = "https://www.supercheats.com/mongil-star-dive-codes"
+[[code.observation]]
+source = "gamsgo"
+status = "active"
+seen_at = "2026-10-29T21:13:00-04:00"
+url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
+[[code.observation]]
+source = "cosm-game"
+status = "active"
+seen_at = "2026-10-29T21:14:00-04:00"
+url = "https://cosm-game.com/codes/mongil-star-dive-redeem-codes/"
+[[code.observation]]
+source = "gamesradar"
+status = "active"
+seen_at = "2026-10-29T21:16:00-04:00"
+url = "https://www.gamesradar.com/games/rpg/mongil-star-dive-codes/"
+[[code.observation]]
+source = "pocket-tactics"
+status = "active"
+seen_at = "2026-10-29T21:17:00-04:00"
+url = "https://www.pockettactics.com/mongil-star-dive/codes"
+[[code.observation]]
+source = "gamingonphone"
+status = "expired"
+seen_at = "2026-10-29T21:18:00-04:00"
+url = "https://gamingonphone.com/guides/mongil-star-dive-redeem-codes-and-how-to-use-them/"
+
+# April launch trio — same conflict as MONGILREPORT. Reward text not recorded (empty).
+[[code]]
+code = "DINDINISDINDIN"
+reward = ""
+reward_source = "pocket-gamer"
+[[code.observation]]
+source = "pocket-gamer"
+status = "active"
+seen_at = "2026-10-29T21:06:00-04:00"
+url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
+[[code.observation]]
+source = "ldshop"
+status = "active"
+seen_at = "2026-10-29T21:08:00-04:00"
+url = "https://www.ldshop.gg/blog/mongil-star-dive/mongil-star-dive-code.html"
+[[code.observation]]
+source = "dexerto"
+status = "active"
+seen_at = "2026-10-29T21:09:00-04:00"
+url = "https://www.dexerto.com/codes/mongil-star-dive-codes-3352116/"
+[[code.observation]]
+source = "gamewith-en"
+status = "active"
+seen_at = "2026-10-29T21:10:00-04:00"
+url = "https://gamewith.net/mongil-stardive/73780"
+[[code.observation]]
+source = "supercheats"
+status = "expired"
+seen_at = "2026-10-29T21:12:00-04:00"
+url = "https://www.supercheats.com/mongil-star-dive-codes"
+[[code.observation]]
+source = "gamsgo"
+status = "active"
+seen_at = "2026-10-29T21:13:00-04:00"
+url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
+[[code.observation]]
+source = "cosm-game"
+status = "active"
+seen_at = "2026-10-29T21:14:00-04:00"
+url = "https://cosm-game.com/codes/mongil-star-dive-redeem-codes/"
+[[code.observation]]
+source = "gamesradar"
+status = "active"
+seen_at = "2026-10-29T21:16:00-04:00"
+url = "https://www.gamesradar.com/games/rpg/mongil-star-dive-codes/"
+[[code.observation]]
+source = "pocket-tactics"
+status = "active"
+seen_at = "2026-10-29T21:17:00-04:00"
+url = "https://www.pockettactics.com/mongil-star-dive/codes"
+[[code.observation]]
+source = "gamingonphone"
+status = "expired"
+seen_at = "2026-10-29T21:18:00-04:00"
+url = "https://gamingonphone.com/guides/mongil-star-dive-redeem-codes-and-how-to-use-them/"
+
+# Conflicted: SuperCheats + GamingOnPhone expired; GamesRadar prints "[expired May 13, 2026]". Reward text not recorded (empty).
+[[code]]
+code = "DEVLIVE0410"
+reward = ""
+reward_source = "pocket-gamer"
+[[code.observation]]
+source = "pocket-gamer"
+status = "active"
+seen_at = "2026-10-29T21:06:00-04:00"
+url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
+[[code.observation]]
+source = "ldshop"
+status = "active"
+seen_at = "2026-10-29T21:08:00-04:00"
+url = "https://www.ldshop.gg/blog/mongil-star-dive/mongil-star-dive-code.html"
+[[code.observation]]
+source = "dexerto"
+status = "active"
+seen_at = "2026-10-29T21:09:00-04:00"
+url = "https://www.dexerto.com/codes/mongil-star-dive-codes-3352116/"
+[[code.observation]]
+source = "gamewith-en"
+status = "active"
+seen_at = "2026-10-29T21:10:00-04:00"
+url = "https://gamewith.net/mongil-stardive/73780"
+[[code.observation]]
+source = "supercheats"
+status = "expired"
+seen_at = "2026-10-29T21:12:00-04:00"
+url = "https://www.supercheats.com/mongil-star-dive-codes"
+[[code.observation]]
+source = "cosm-game"
+status = "active"
+seen_at = "2026-10-29T21:14:00-04:00"
+url = "https://cosm-game.com/codes/mongil-star-dive-redeem-codes/"
+[[code.observation]]
+source = "gamesradar"
+status = "expired"
+seen_at = "2026-10-29T21:16:00-04:00"
+url = "https://www.gamesradar.com/games/rpg/mongil-star-dive-codes/"
+[[code.observation]]
+source = "pocket-tactics"
+status = "active"
+seen_at = "2026-10-29T21:17:00-04:00"
+url = "https://www.pockettactics.com/mongil-star-dive/codes"
+[[code.observation]]
+source = "gamingonphone"
+status = "expired"
+seen_at = "2026-10-29T21:18:00-04:00"
+url = "https://gamingonphone.com/guides/mongil-star-dive-redeem-codes-and-how-to-use-them/"
+
+# The plan's X1 conflict, confirmed real: six groups say active, SuperCheats + GamingOnPhone say expired. Dexerto's reward text differs and is not used.
+[[code]]
+code = "MONGILDISCORD"
+reward = "30 Starlight Crystal, 3 Glimmering Stardust, 300,000 Gold"
+reward_source = "pocket-gamer"
+[[code.observation]]
+source = "pocket-gamer"
+status = "active"
+seen_at = "2026-10-29T21:06:00-04:00"
+url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
+[[code.observation]]
+source = "ldshop"
+status = "active"
+seen_at = "2026-10-29T21:08:00-04:00"
+url = "https://www.ldshop.gg/blog/mongil-star-dive/mongil-star-dive-code.html"
+[[code.observation]]
+source = "dexerto"
+status = "active"
+seen_at = "2026-10-29T21:09:00-04:00"
+url = "https://www.dexerto.com/codes/mongil-star-dive-codes-3352116/"
+[[code.observation]]
+source = "gamewith-en"
+status = "active"
+seen_at = "2026-10-29T21:10:00-04:00"
+url = "https://gamewith.net/mongil-stardive/73780"
+[[code.observation]]
+source = "supercheats"
+status = "expired"
+seen_at = "2026-10-29T21:12:00-04:00"
+url = "https://www.supercheats.com/mongil-star-dive-codes"
+[[code.observation]]
+source = "gamsgo"
+status = "active"
+seen_at = "2026-10-29T21:13:00-04:00"
+url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
+[[code.observation]]
+source = "cosm-game"
+status = "active"
+seen_at = "2026-10-29T21:14:00-04:00"
+url = "https://cosm-game.com/codes/mongil-star-dive-redeem-codes/"
+[[code.observation]]
+source = "gamesradar"
+status = "active"
+seen_at = "2026-10-29T21:16:00-04:00"
+url = "https://www.gamesradar.com/games/rpg/mongil-star-dive-codes/"
+[[code.observation]]
+source = "pocket-tactics"
+status = "active"
+seen_at = "2026-10-29T21:17:00-04:00"
+url = "https://www.pockettactics.com/mongil-star-dive/codes"
+[[code.observation]]
+source = "gamingonphone"
+status = "expired"
+seen_at = "2026-10-29T21:18:00-04:00"
+url = "https://gamingonphone.com/guides/mongil-star-dive-redeem-codes-and-how-to-use-them/"
+
+# Conflicted: Dexerto lists it expired. Reward text not recorded (empty).
+[[code]]
+code = "LETS"
+reward = ""
+reward_source = "gamsgo"
+[[code.observation]]
+source = "dexerto"
+status = "expired"
+seen_at = "2026-10-29T21:09:00-04:00"
+url = "https://www.dexerto.com/codes/mongil-star-dive-codes-3352116/"
+[[code.observation]]
+source = "gamewith-en"
+status = "active"
+seen_at = "2026-10-29T21:10:00-04:00"
+url = "https://gamewith.net/mongil-stardive/73780"
+[[code.observation]]
+source = "supercheats"
+status = "active"
+seen_at = "2026-10-29T21:12:00-04:00"
+url = "https://www.supercheats.com/mongil-star-dive-codes"
+[[code.observation]]
+source = "gamsgo"
+status = "active"
+seen_at = "2026-10-29T21:13:00-04:00"
+url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
+[[code.observation]]
+source = "cosm-game"
+status = "active"
+seen_at = "2026-10-29T21:14:00-04:00"
+url = "https://cosm-game.com/codes/mongil-star-dive-redeem-codes/"
+[[code.observation]]
+source = "gamesradar"
+status = "active"
+seen_at = "2026-10-29T21:16:00-04:00"
+url = "https://www.gamesradar.com/games/rpg/mongil-star-dive-codes/"
+
+# Conflicted: Dexerto lists it expired. Reward text not recorded (empty).
+[[code]]
+code = "PLAY"
+reward = ""
+reward_source = "gamsgo"
+[[code.observation]]
+source = "dexerto"
+status = "expired"
+seen_at = "2026-10-29T21:09:00-04:00"
+url = "https://www.dexerto.com/codes/mongil-star-dive-codes-3352116/"
+[[code.observation]]
+source = "gamewith-en"
+status = "active"
+seen_at = "2026-10-29T21:10:00-04:00"
+url = "https://gamewith.net/mongil-stardive/73780"
+[[code.observation]]
+source = "supercheats"
+status = "active"
+seen_at = "2026-10-29T21:12:00-04:00"
+url = "https://www.supercheats.com/mongil-star-dive-codes"
+[[code.observation]]
+source = "gamsgo"
+status = "active"
+seen_at = "2026-10-29T21:13:00-04:00"
+url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
+[[code.observation]]
+source = "cosm-game"
+status = "active"
+seen_at = "2026-10-29T21:14:00-04:00"
+url = "https://cosm-game.com/codes/mongil-star-dive-redeem-codes/"
+[[code.observation]]
+source = "gamesradar"
+status = "active"
+seen_at = "2026-10-29T21:16:00-04:00"
+url = "https://www.gamesradar.com/games/rpg/mongil-star-dive-codes/"
+
+# Held: COSM — the freshest witness — puts it in its expired table ("Expired Sep 30, 2026", reward as above).
+[[code]]
+code = "PLAYMONGIL"
+reward = "Ring Slime ×1"
+reward_source = "cosm-game"
+[[code.observation]]
+source = "gamewith-en"
+status = "active"
+seen_at = "2026-10-29T21:10:00-04:00"
+url = "https://gamewith.net/mongil-stardive/73780"
+[[code.observation]]
+source = "gamsgo"
+status = "active"
+seen_at = "2026-10-29T21:13:00-04:00"
+url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
+[[code.observation]]
+source = "cosm-game"
+status = "expired"
+seen_at = "2026-10-29T21:14:00-04:00"
+url = "https://cosm-game.com/codes/mongil-star-dive-redeem-codes/"
+[[code.observation]]
+source = "gamesradar"
+status = "active"
+seen_at = "2026-10-29T21:16:00-04:00"
+url = "https://www.gamesradar.com/games/rpg/mongil-star-dive-codes/"
+
+# String named in COSM's tag cloud (v1.4-era) but its status was not readable in text (JS-hidden rows). No observation recorded — never publish on this evidence.
+[[code]]
+code = "NEWEPISODE7"
+reward = ""
+reward_source = "cosm-game"
+
+# Same situation as NEWEPISODE7: named by COSM, status unreadable in text. No observation recorded.
+[[code]]
+code = "DIVEWITHISABELLA"
+reward = ""
+reward_source = "cosm-game"
+
+# Single witness (Kaiden's expired list). One group saying expired is not enough for §B.3's expired rule — computed status stays unconfirmed.
+[[code]]
+code = "BUNNYSHOW"
+reward = "Key ×150, Compass of Promise ×3, Premium Salmon Puree ×10"
+reward_source = "kaiden"
+[[code.observation]]
+source = "kaiden"
+status = "expired"
+seen_at = "2026-10-29T21:11:00-04:00"
+url = "https://www.kaiden.gg/mongil/"
+
+# Pocket Tactics' expired list prints "FINDSTAR" (not FINDSTAR10). Recorded as printed — likely a truncation, but copy never interprets: NOT merged into FINDSTAR10. Reward text not recorded (empty).
+[[code]]
+code = "FINDSTAR"
+reward = ""
+reward_source = "pocket-tactics"
+[[code.observation]]
+source = "pocket-tactics"
+status = "expired"
+seen_at = "2026-10-29T21:17:00-04:00"
+url = "https://www.pockettactics.com/mongil-star-dive/codes"
+
+# Expired per Kaiden + GamsGo (+ a COSM expired row matching its reward/dates). SuperCheats is the lone "still working" outlier.
+[[code]]
+code = "SUMMERDIVE2026"
+reward = "Key ×150, Premium Salmon Puree ×10, Compass of Promise ×3"
+reward_source = "kaiden"
+[[code.observation]]
+source = "kaiden"
+status = "expired"
+seen_at = "2026-10-29T21:11:00-04:00"
+url = "https://www.kaiden.gg/mongil/"
+[[code.observation]]
+source = "supercheats"
+status = "active"
+seen_at = "2026-10-29T21:12:00-04:00"
+url = "https://www.supercheats.com/mongil-star-dive-codes"
+[[code.observation]]
+source = "gamsgo"
+status = "expired"
+seen_at = "2026-10-29T21:13:00-04:00"
+url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
+[[code.observation]]
+source = "cosm-game"
+status = "expired"
+seen_at = "2026-10-29T21:14:00-04:00"
+url = "https://cosm-game.com/codes/mongil-star-dive-redeem-codes/"
+
+# Expired per Kaiden + GamsGo (+ COSM expired row matching reward; released Jun 16, expired Jul 6, 2026). SuperCheats outlier says working.
+[[code]]
+code = "WINDSOFFATE"
+reward = "Key ×100, Conquest Entry Ticket ×3, Compass of Promise ×3"
+reward_source = "kaiden"
+[[code.observation]]
+source = "kaiden"
+status = "expired"
+seen_at = "2026-10-29T21:11:00-04:00"
+url = "https://www.kaiden.gg/mongil/"
+[[code.observation]]
+source = "supercheats"
+status = "active"
+seen_at = "2026-10-29T21:12:00-04:00"
+url = "https://www.supercheats.com/mongil-star-dive-codes"
+[[code.observation]]
+source = "gamsgo"
+status = "expired"
+seen_at = "2026-10-29T21:13:00-04:00"
+url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
+[[code.observation]]
+source = "cosm-game"
+status = "expired"
+seen_at = "2026-10-29T21:14:00-04:00"
+url = "https://cosm-game.com/codes/mongil-star-dive-redeem-codes/"
+
+# Expired per Kaiden + GamsGo + SuperCheats (+ COSM row). Pocket Tactics (June, inside its window) and GamingOnPhone (Aug 3) said active — both stale.
+[[code]]
+code = "NAGIUPDATE"
+reward = "Key ×100, Conquest Entry Ticket ×3, Compass of Promise ×3"
+reward_source = "kaiden"
+[[code.observation]]
+source = "kaiden"
+status = "expired"
+seen_at = "2026-10-29T21:11:00-04:00"
+url = "https://www.kaiden.gg/mongil/"
+[[code.observation]]
+source = "supercheats"
+status = "expired"
+seen_at = "2026-10-29T21:12:00-04:00"
+url = "https://www.supercheats.com/mongil-star-dive-codes"
+[[code.observation]]
+source = "gamsgo"
+status = "expired"
+seen_at = "2026-10-29T21:13:00-04:00"
+url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
+[[code.observation]]
+source = "cosm-game"
+status = "expired"
+seen_at = "2026-10-29T21:14:00-04:00"
+url = "https://cosm-game.com/codes/mongil-star-dive-redeem-codes/"
+[[code.observation]]
+source = "pocket-tactics"
+status = "active"
+seen_at = "2026-10-29T21:17:00-04:00"
+url = "https://www.pockettactics.com/mongil-star-dive/codes"
+[[code.observation]]
+source = "gamingonphone"
+status = "active"
+seen_at = "2026-10-29T21:18:00-04:00"
+url = "https://gamingonphone.com/guides/mongil-star-dive-redeem-codes-and-how-to-use-them/"
+
+[[code]]
+code = "WELCOMENARAE"
+reward = "Premium Salmon Puree ×10, Purple Upgrade Stone ×1, Compass of Promise ×3"
+reward_source = "kaiden"
+[[code.observation]]
+source = "kaiden"
+status = "expired"
+seen_at = "2026-10-29T21:11:00-04:00"
+url = "https://www.kaiden.gg/mongil/"
+[[code.observation]]
+source = "supercheats"
+status = "expired"
+seen_at = "2026-10-29T21:12:00-04:00"
+url = "https://www.supercheats.com/mongil-star-dive-codes"
+
+# Expired per five groups; PG and GamesRadar state the May 7, 2026 expiry.
+[[code]]
+code = "SPECIALGIFT0430"
+reward = "Blue Upgrade Stone ×1"
+reward_source = "pocket-gamer"
+[[code.observation]]
+source = "pocket-gamer"
+status = "expired"
+seen_at = "2026-10-29T21:06:00-04:00"
+url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
+[[code.observation]]
+source = "supercheats"
+status = "expired"
+seen_at = "2026-10-29T21:12:00-04:00"
+url = "https://www.supercheats.com/mongil-star-dive-codes"
+[[code.observation]]
+source = "cosm-game"
+status = "expired"
+seen_at = "2026-10-29T21:14:00-04:00"
+url = "https://cosm-game.com/codes/mongil-star-dive-redeem-codes/"
+[[code.observation]]
+source = "gamesradar"
+status = "expired"
+seen_at = "2026-10-29T21:16:00-04:00"
+url = "https://www.gamesradar.com/games/rpg/mongil-star-dive-codes/"
+[[code.observation]]
+source = "pocket-tactics"
+status = "expired"
+seen_at = "2026-10-29T21:17:00-04:00"
+url = "https://www.pockettactics.com/mongil-star-dive/codes"
+
+# GW-EN still files it under "Available Codes" but its own entry states "Until the end of 07/May/2026" — a stale self-contradiction, recorded as expired evidence per the harvest.
+[[code]]
+code = "FINDSTAR10"
+reward = "Compass of Promise ×10"
+reward_source = "pocket-gamer"
+[[code.observation]]
+source = "pocket-gamer"
+status = "expired"
+seen_at = "2026-10-29T21:06:00-04:00"
+url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
+[[code.observation]]
+source = "gamewith-en"
+status = "expired"
+seen_at = "2026-10-29T21:10:00-04:00"
+url = "https://gamewith.net/mongil-stardive/73780"
+[[code.observation]]
+source = "cosm-game"
+status = "expired"
+seen_at = "2026-10-29T21:14:00-04:00"
+url = "https://cosm-game.com/codes/mongil-star-dive-redeem-codes/"
+[[code.observation]]
+source = "gamesradar"
+status = "expired"
+seen_at = "2026-10-29T21:16:00-04:00"
+url = "https://www.gamesradar.com/games/rpg/mongil-star-dive-codes/"
+

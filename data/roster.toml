@@ -1,97 +1,152 @@
 # Roster — the 29 characters of the 2026-10-29 dataset.
 # Source: docs/inputs/mongil-tier-list-consensus-2026-10-29.md (Kaiden
-# character list, last updated Oct 19, 2026). released_on is a T2.8 field
-# and is intentionally absent here.
+# character list, last updated Oct 19, 2026).
+# released_on (T2.8, merged in sweep 2026-10-29T2105-sweep-pm from
+# banners-note.md): set only where two independent sources give the
+# date — 25 of 29. Sera and Bonnie are UNVERIFIED (no launch-roster
+# source found); Leeho and Ellie rest on a single launch-era list.
+# For launch-roster characters the date is the global launch,
+# 2026-04-15 (Netmarble newsroom + Game8), with launch-roster
+# membership evidenced by the second source named. Corrections vs
+# the research file: Vivian released 2026-09-09 (not Sep 30);
+# Brisshell arrived with v1.3 on 2026-08-20 (not launch).
+# rarity / pool stay omitted: T2.8's verdict was PARTIAL (pool not
+# two-source verified per character), so the Beginner page's reroll
+# section stays off (plan D-3).
 
 [[character]]
 id = "mina"
 name = "Mina"
+released_on = "2026-04-29"
+released_on_sources = ["https://game8.co/games/mongil-star-dive/archives/592077", "https://www.pocketgamer.com/mongil-star-dive/"]
 
 [[character]]
 id = "penny"
 name = "Penny"
+released_on = "2026-04-15"
+released_on_sources = ["https://gamewith.net/mongil-stardive/73714", "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"]
 
 [[character]]
 id = "narae"
 name = "Narae"
+released_on = "2026-05-27"
+released_on_sources = ["https://www.gamedeveloper.com/press-release/mongil-star-dive-flaunches-major-update-featuring-narae-and-new-story-chapter-flowers-blooming-from-scars-", "https://game8.co/games/mongil-star-dive/archives/594868"]
 
 [[character]]
 id = "sangun"
 name = "Sangun"
+released_on = "2026-04-15"
+released_on_sources = ["https://gamewith.net/mongil-stardive/73714", "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"]
 
 [[character]]
 id = "jiwon"
 name = "Jiwon"
+released_on = "2026-04-15"
+released_on_sources = ["https://gamewith.net/mongil-stardive/73714", "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"]
 
 [[character]]
 id = "gabi"
 name = "Gabi"
+released_on = "2026-04-15"
+released_on_sources = ["https://gamewith.net/mongil-stardive/73714", "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"]
 
 [[character]]
 id = "isabella"
 name = "Isabella"
+released_on = "2026-09-30"
+released_on_sources = ["https://www.invenglobal.com/articles/26667/mongil-star-dive-version-14-update-adds-isabella-and-new-region", "https://www.capsulecomputers.com.au/2026/10/mongil-star-dive-launches-version-1-4-update-featuring-new-character-isabella/"]
 
 [[character]]
 id = "flare"
 name = "Flare"
+released_on = "2026-04-15"
+released_on_sources = ["https://gamewith.net/mongil-stardive/73714", "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"]
 
 [[character]]
 id = "chloe"
 name = "Chloe"
+released_on = "2026-10-21"
+released_on_sources = ["https://www.invenglobal.com/articles/27503/mongil-star-dive-adds-five-star-wind-fighter-chloe-in-new-update", "https://finalweapon.net/2026/10/21/mongil-star-dive-5-star-fighter-character-chloe/"]
 
 [[character]]
 id = "ophelia"
 name = "Ophelia"
+released_on = "2026-04-15"
+released_on_sources = ["https://gamewith.net/mongil-stardive/73714", "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"]
 
 [[character]]
 id = "esther"
 name = "Esther"
+released_on = "2026-04-15"
+released_on_sources = ["https://game8.co/games/mongil-star-dive/archives/592077", "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"]
 
 [[character]]
 id = "nagi"
 name = "Nagi"
+released_on = "2026-06-17"
+released_on_sources = ["https://game8.co/games/mongil-star-dive/archives/591697", "https://finalweapon.net/tag/mongil-star-dive/"]
 
 [[character]]
 id = "brisshell"
 name = "Brisshell"
+released_on = "2026-08-20"
+released_on_sources = ["https://finalweapon.net/tag/mongil-star-dive/", "https://casualoldgamer.com/2026/08/13/mongil-star-dive-version-1-3-revealed-brishell-major-qol-changes-and-a-bigger-1-4-ahead/"]
 
 [[character]]
 id = "mabel"
 name = "Mabel"
+released_on = "2026-07-29"
+released_on_sources = ["https://finalweapon.net/tag/mongil-star-dive/", "https://thisisgamesea.com/news/pr-news/mongil-star-dive-mabel-5-star-update/"]
 
 [[character]]
 id = "verna-summer-dive"
 name = "Verna: Summer Dive!"
 base_of = "verna"
+released_on = "2026-07-08"
+released_on_sources = ["https://www.gamedeveloper.com/press-release/mongil-star-dive-releases-major-version-1-2-summer-update-featuring-two-new-5-star-characters", "https://mmohuts.com/news/mongil-star-dives-version-1-2-update-adds-summer-event-two-5-star-characters"]
 
 [[character]]
 id = "francis-summer-dive"
 name = "Francis: Summer Dive!"
 base_of = "francis"
+released_on = "2026-07-08"
+released_on_sources = ["https://www.gamedeveloper.com/press-release/mongil-star-dive-releases-major-version-1-2-summer-update-featuring-two-new-5-star-characters", "https://mmohuts.com/news/mongil-star-dives-version-1-2-update-adds-summer-event-two-5-star-characters"]
 
 [[character]]
 id = "vivian"
 name = "Vivian"
+released_on = "2026-09-09"
+released_on_sources = ["https://www.invenglobal.com/tag/Mongil%3A+STAR+DIVE", "https://finalweapon.net/tag/mongil-star-dive/"]
 
 [[character]]
 id = "verna"
 name = "Verna"
+released_on = "2026-04-15"
+released_on_sources = ["https://driffle.com/blog/mongil-star-dive-tier-list/", "https://game8.co/games/mongil-star-dive/archives/592077"]
 
 [[character]]
 id = "cloud"
 name = "Cloud"
+released_on = "2026-04-15"
+released_on_sources = ["https://game8.co/games/mongil-star-dive/archives/592077", "https://gamewith.net/mongil-stardive/73714"]
 
 [[character]]
 id = "francis"
 name = "Francis"
+released_on = "2026-04-15"
+released_on_sources = ["https://game8.co/games/mongil-star-dive/archives/592077", "https://gamewith.net/mongil-stardive/73714"]
 
 [[character]]
 id = "yeonhwa"
 name = "Yeonhwa"
+released_on = "2026-04-15"
+released_on_sources = ["https://game8.co/games/mongil-star-dive/archives/592077", "https://gamewith.net/mongil-stardive/73714"]
 
 [[character]]
 id = "daisy"
 name = "Daisy"
+released_on = "2026-04-15"
+released_on_sources = ["https://game8.co/games/mongil-star-dive/archives/592077", "https://driffle.com/blog/mongil-star-dive-tier-list/"]
 
 [[character]]
 id = "leeho"
@@ -100,6 +155,8 @@ name = "Leeho"
 [[character]]
 id = "benjamin"
 name = "Benjamin"
+released_on = "2026-04-15"
+released_on_sources = ["https://gamewith.net/mongil-stardive/73714", "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"]
 
 [[character]]
 id = "sera"
@@ -112,6 +169,8 @@ name = "Ellie"
 [[character]]
 id = "reina"
 name = "Reina"
+released_on = "2026-04-15"
+released_on_sources = ["https://game8.co/games/mongil-star-dive/archives/592077", "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"]
 
 [[character]]
 id = "bonnie"
@@ -120,3 +179,6 @@ name = "Bonnie"
 [[character]]
 id = "angel"
 name = "Angel"
+released_on = "2026-04-15"
+released_on_sources = ["https://gamewith.net/mongil-stardive/73714", "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"]
+

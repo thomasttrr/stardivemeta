@@ -1,1 +1,71 @@
-# Banner schedule (plan §B.3). Populated by T2.8 from official news.
+# Banner schedule (plan §B.3, T2.8) — merged in sweep
+# 2026-10-29T2105-sweep-pm from banners-note.md's timeline (11
+# character banners). One entry per character: the debut banner.
+# (Reruns — Mina + Narae in v1.4, Esther + Nagi alongside Chloe —
+# are recorded in the harvest note; the format keys banners by
+# character.) Narae's banner window opens 2026-05-26 UTC per Game8;
+# v1.1.0 went live 2026-05-27, which is her released_on. Current
+# banner at sweep time: Chloe (Oct 21 – Nov 10, 2026).
+
+[[banner]]
+character = "esther"
+start = "2026-04-15"
+end = "2026-05-05"
+source = "https://game8.co/games/mongil-star-dive/archives/592077"
+
+[[banner]]
+character = "mina"
+start = "2026-04-29"
+end = "2026-05-26"
+source = "https://game8.co/games/mongil-star-dive/archives/592077"
+
+[[banner]]
+character = "narae"
+start = "2026-05-26"
+end = "2026-06-17"
+source = "https://game8.co/games/mongil-star-dive/archives/594868"
+
+[[banner]]
+character = "nagi"
+start = "2026-06-17"
+end = "2026-07-08"
+source = "https://game8.co/games/mongil-star-dive/archives/591697"
+
+[[banner]]
+character = "verna-summer-dive"
+start = "2026-07-08"
+end = "2026-07-28"
+source = "https://www.gamedeveloper.com/press-release/mongil-star-dive-releases-major-version-1-2-summer-update-featuring-two-new-5-star-characters"
+
+[[banner]]
+character = "francis-summer-dive"
+start = "2026-07-08"
+end = "2026-07-28"
+source = "https://www.gamedeveloper.com/press-release/mongil-star-dive-releases-major-version-1-2-summer-update-featuring-two-new-5-star-characters"
+
+[[banner]]
+character = "mabel"
+start = "2026-07-29"
+source = "https://finalweapon.net/tag/mongil-star-dive/"
+
+[[banner]]
+character = "brisshell"
+start = "2026-08-20"
+source = "https://finalweapon.net/tag/mongil-star-dive/"
+
+[[banner]]
+character = "vivian"
+start = "2026-09-09"
+source = "https://www.invenglobal.com/tag/Mongil%3A+STAR+DIVE"
+
+[[banner]]
+character = "isabella"
+start = "2026-09-30"
+source = "https://www.invenglobal.com/articles/26667/mongil-star-dive-version-14-update-adds-isabella-and-new-region"
+
+[[banner]]
+character = "chloe"
+start = "2026-10-21"
+end = "2026-11-10"
+source = "https://www.prydwen.gg/other-games/mongil-star-dive/banners"
+

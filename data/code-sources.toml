@@ -1,7 +1,83 @@
-# Code-listing source registry (plan §B.3). Populated by the T2.7 codes
-# harvest: at least 4 code-listing sites plus official channels, each
-# with its independence group. The §B.3 example entries ("site-a",
-# "official-discord") are illustrative placeholders — gate G2 rejects
-# placeholder URLs, so no entries are written until T2.7 records the
-# real sites.
-code_source = []
+# Code-listing source registry (plan §B.3, T2.7) — sweep
+# 2026-10-29T2105-sweep-pm. Independence groups per the harvest's
+# codes-candidates.md: LDShop's list is a verbatim copy of Pocket
+# Gamer's (same 9 codes, same order, character-identical reward
+# wording, PG's "(new!)" marker kept), so both sit in group
+# "pg-syndicated" and count as ONE witness. Every other site keeps
+# its own group. The official entry is Netmarble's forum/Discord/X;
+# this sweep's one official code was read through the official
+# forum's Developer Lounge Talk write-up (see the observation URL in
+# codes.toml).
+
+[[code_source]]
+id = "official"
+name = "MONGIL: STAR DIVE official channels (Netmarble forum)"
+group = "official"
+url = "https://forum.netmarble.com/"
+
+[[code_source]]
+id = "pocket-gamer"
+name = "Pocket Gamer"
+group = "pg-syndicated"
+url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
+
+[[code_source]]
+id = "ldshop"
+name = "LDShop"
+group = "pg-syndicated"
+url = "https://www.ldshop.gg/blog/mongil-star-dive/mongil-star-dive-code.html"
+
+[[code_source]]
+id = "dexerto"
+name = "Dexerto"
+group = "dexerto"
+url = "https://www.dexerto.com/codes/mongil-star-dive-codes-3352116/"
+
+[[code_source]]
+id = "gamewith-en"
+name = "GameWith EN (codes page)"
+group = "gamewith-en"
+url = "https://gamewith.net/mongil-stardive/73780"
+
+[[code_source]]
+id = "kaiden"
+name = "Kaiden"
+group = "kaiden"
+url = "https://www.kaiden.gg/mongil/"
+
+[[code_source]]
+id = "supercheats"
+name = "SuperCheats"
+group = "supercheats"
+url = "https://www.supercheats.com/mongil-star-dive-codes"
+
+[[code_source]]
+id = "gamsgo"
+name = "GamsGo"
+group = "gamsgo"
+url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
+
+[[code_source]]
+id = "cosm-game"
+name = "COSM-GAME"
+group = "cosm-game"
+url = "https://cosm-game.com/codes/mongil-star-dive-redeem-codes/"
+
+[[code_source]]
+id = "gamesradar"
+name = "GamesRadar"
+group = "gamesradar"
+url = "https://www.gamesradar.com/games/rpg/mongil-star-dive-codes/"
+
+[[code_source]]
+id = "pocket-tactics"
+name = "Pocket Tactics"
+group = "pockettactics"
+url = "https://www.pockettactics.com/mongil-star-dive/codes"
+
+[[code_source]]
+id = "gamingonphone"
+name = "GamingOnPhone"
+group = "gamingonphone"
+url = "https://gamingonphone.com/guides/mongil-star-dive-redeem-codes-and-how-to-use-them/"
+
