@@ -1,0 +1,3104 @@
+{
+  "id": "2026-10-29T2105-sweep-pm",
+  "contract_version": 1,
+  "created_at": "2026-10-30T01:35:06Z",
+  "method_version": "1.0",
+  "game_version": "1.4",
+  "sources": [
+    {
+      "id": "pg",
+      "list_date": "2026-10-05",
+      "game_version": "1.4",
+      "status": "current"
+    },
+    {
+      "id": "kaiden",
+      "list_date": null,
+      "game_version": "1.4",
+      "status": "current"
+    },
+    {
+      "id": "gamewith-jp",
+      "list_date": "2026-10-21",
+      "game_version": null,
+      "status": "current"
+    },
+    {
+      "id": "urgametips",
+      "list_date": "2026-09-07",
+      "game_version": null,
+      "status": "current"
+    },
+    {
+      "id": "gacha-gg",
+      "list_date": "2026-10-29",
+      "game_version": null,
+      "status": "current"
+    },
+    {
+      "id": "gamewith-en",
+      "list_date": null,
+      "game_version": null,
+      "status": "current"
+    },
+    {
+      "id": "mongil-gg",
+      "list_date": null,
+      "game_version": null,
+      "status": "current"
+    },
+    {
+      "id": "pocket-tactics",
+      "list_date": null,
+      "game_version": null,
+      "status": "current"
+    },
+    {
+      "id": "driffle",
+      "list_date": null,
+      "game_version": null,
+      "status": "current"
+    }
+  ],
+  "inputs_sha256": "eb6616c67701ad382b49e429e00c2987ca16d1ca5e5fba59c10280cf7c08bc76",
+  "inputs": {
+    "placements": {
+      "gacha-gg": {
+        "kind": "single_tier",
+        "meta": {
+          "harvest": "2026-10-29",
+          "read_at": "2026-10-29T21:10:00-04:00",
+          "read_mode": null,
+          "source": "gacha-gg",
+          "worker": null
+        },
+        "placement": [
+          {
+            "character": "esther",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "S",
+            "world": null
+          },
+          {
+            "character": "narae",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "S",
+            "world": null
+          },
+          {
+            "character": "mina",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "S",
+            "world": null
+          },
+          {
+            "character": "jiwon",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "S",
+            "world": null
+          },
+          {
+            "character": "flare",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "S",
+            "world": null
+          },
+          {
+            "character": "ophelia",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "A",
+            "world": null
+          },
+          {
+            "character": "verna-summer-dive",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "A",
+            "world": null
+          },
+          {
+            "character": "francis",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "A",
+            "world": null
+          },
+          {
+            "character": "gabi",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "A",
+            "world": null
+          },
+          {
+            "character": "sangun",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "A",
+            "world": null
+          },
+          {
+            "character": "benjamin",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "B",
+            "world": null
+          },
+          {
+            "character": "penny",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "B",
+            "world": null
+          },
+          {
+            "character": "francis-summer-dive",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "B",
+            "world": null
+          },
+          {
+            "character": "angel",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "C",
+            "world": null
+          },
+          {
+            "character": "nagi",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "C",
+            "world": null
+          },
+          {
+            "character": "yeonhwa",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "C",
+            "world": null
+          },
+          {
+            "character": "bonnie",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "C",
+            "world": null
+          },
+          {
+            "character": "cloud",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "C",
+            "world": null
+          },
+          {
+            "character": "ellie",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "C",
+            "world": null
+          },
+          {
+            "character": "sera",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "C",
+            "world": null
+          },
+          {
+            "character": "leeho",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "C",
+            "world": null
+          },
+          {
+            "character": "reina",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "C",
+            "world": null
+          },
+          {
+            "character": "verna",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "C",
+            "world": null
+          },
+          {
+            "character": "daisy",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "D",
+            "world": null
+          }
+        ]
+      },
+      "gamewith-en": {
+        "kind": "single_tier",
+        "meta": {
+          "harvest": "2026-10-29",
+          "read_at": null,
+          "read_mode": null,
+          "source": "gamewith-en",
+          "worker": null
+        },
+        "placement": [
+          {
+            "character": "mina",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "SS",
+            "world": null
+          },
+          {
+            "character": "flare",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "SS",
+            "world": null
+          },
+          {
+            "character": "jiwon",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "SS",
+            "world": null
+          },
+          {
+            "character": "esther",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "SS",
+            "world": null
+          },
+          {
+            "character": "ophelia",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "S",
+            "world": null
+          },
+          {
+            "character": "penny",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "S",
+            "world": null
+          },
+          {
+            "character": "gabi",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "S",
+            "world": null
+          },
+          {
+            "character": "francis",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "S",
+            "world": null
+          },
+          {
+            "character": "sangun",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "A",
+            "world": null
+          },
+          {
+            "character": "leeho",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "A",
+            "world": null
+          },
+          {
+            "character": "angel",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "A",
+            "world": null
+          },
+          {
+            "character": "cloud",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "A",
+            "world": null
+          },
+          {
+            "character": "yeonhwa",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "A",
+            "world": null
+          },
+          {
+            "character": "benjamin",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "A",
+            "world": null
+          },
+          {
+            "character": "ellie",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "tier": "A",
+            "world": null
+          }
+        ]
+      },
+      "gamewith-jp": {
+        "meta": {
+          "harvest": "2026-10-29T2105-sweep-pm",
+          "read_at": null,
+          "read_mode": null,
+          "source": "gamewith-jp",
+          "worker": null
+        },
+        "placement": [
+          {
+            "character": "mina",
+            "note": null,
+            "raw": "SS",
+            "status": null,
+            "tier": "SS"
+          },
+          {
+            "character": "penny",
+            "note": null,
+            "raw": "S",
+            "status": null,
+            "tier": "S"
+          },
+          {
+            "character": "narae",
+            "note": null,
+            "raw": "SS",
+            "status": null,
+            "tier": "SS"
+          },
+          {
+            "character": "sangun",
+            "note": null,
+            "raw": null,
+            "status": "not_in_text_tiers",
+            "tier": null
+          },
+          {
+            "character": "jiwon",
+            "note": null,
+            "raw": "S",
+            "status": null,
+            "tier": "S"
+          },
+          {
+            "character": "gabi",
+            "note": null,
+            "raw": "A",
+            "status": null,
+            "tier": "A"
+          },
+          {
+            "character": "isabella",
+            "note": null,
+            "raw": "SS",
+            "status": null,
+            "tier": "SS"
+          },
+          {
+            "character": "flare",
+            "note": null,
+            "raw": "A",
+            "status": null,
+            "tier": "A"
+          },
+          {
+            "character": "chloe",
+            "note": null,
+            "raw": "SS",
+            "status": null,
+            "tier": "SS"
+          },
+          {
+            "character": "ophelia",
+            "note": null,
+            "raw": "SS",
+            "status": null,
+            "tier": "SS"
+          },
+          {
+            "character": "esther",
+            "note": null,
+            "raw": "SS",
+            "status": null,
+            "tier": "SS"
+          },
+          {
+            "character": "nagi",
+            "note": null,
+            "raw": "S",
+            "status": null,
+            "tier": "S"
+          },
+          {
+            "character": "brisshell",
+            "note": null,
+            "raw": "SS",
+            "status": null,
+            "tier": "SS"
+          },
+          {
+            "character": "mabel",
+            "note": null,
+            "raw": "S",
+            "status": null,
+            "tier": "S"
+          },
+          {
+            "character": "verna-summer-dive",
+            "note": null,
+            "raw": "S",
+            "status": null,
+            "tier": "S"
+          },
+          {
+            "character": "francis-summer-dive",
+            "note": null,
+            "raw": "SS",
+            "status": null,
+            "tier": "SS"
+          },
+          {
+            "character": "vivian",
+            "note": null,
+            "raw": "S",
+            "status": null,
+            "tier": "S"
+          },
+          {
+            "character": "verna",
+            "note": null,
+            "raw": null,
+            "status": "not_in_text_tiers",
+            "tier": null
+          },
+          {
+            "character": "cloud",
+            "note": null,
+            "raw": "S",
+            "status": null,
+            "tier": "S"
+          },
+          {
+            "character": "francis",
+            "note": "Headline names 完凸フランシス (fully-awakened Francis) among the strongest; Francis is ★4, and the page criteria evaluate 4★ up to A6.",
+            "raw": "SS",
+            "status": null,
+            "tier": "SS"
+          },
+          {
+            "character": "yeonhwa",
+            "note": null,
+            "raw": "S",
+            "status": null,
+            "tier": "S"
+          },
+          {
+            "character": "daisy",
+            "note": null,
+            "raw": null,
+            "status": "not_in_text_tiers",
+            "tier": null
+          },
+          {
+            "character": "leeho",
+            "note": null,
+            "raw": null,
+            "status": "not_in_text_tiers",
+            "tier": null
+          },
+          {
+            "character": "benjamin",
+            "note": null,
+            "raw": "S",
+            "status": null,
+            "tier": "S"
+          },
+          {
+            "character": "sera",
+            "note": null,
+            "raw": "A",
+            "status": null,
+            "tier": "A"
+          },
+          {
+            "character": "ellie",
+            "note": null,
+            "raw": null,
+            "status": "not_in_text_tiers",
+            "tier": null
+          },
+          {
+            "character": "reina",
+            "note": null,
+            "raw": "A",
+            "status": null,
+            "tier": "A"
+          },
+          {
+            "character": "bonnie",
+            "note": null,
+            "raw": null,
+            "status": "not_in_text_tiers",
+            "tier": null
+          },
+          {
+            "character": "angel",
+            "note": null,
+            "raw": "A",
+            "status": null,
+            "tier": "A"
+          }
+        ]
+      },
+      "kaiden": {
+        "meta": {
+          "harvest": "2026-10-29T2105-sweep-pm",
+          "read_at": null,
+          "read_mode": null,
+          "source": "kaiden",
+          "worker": null
+        },
+        "placement": [
+          {
+            "character": "mina",
+            "high": {
+              "awakening": "A4",
+              "raw": "T0.5 (A4), T1 at A2",
+              "tier": "T0.5"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T2",
+              "tier": "T2"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T0.5 (A6)",
+              "tier": "T0.5"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/mina/",
+            "status": null
+          },
+          {
+            "character": "penny",
+            "high": {
+              "awakening": "A1",
+              "flags": [
+                "E"
+              ],
+              "raw": "T2 (A1) (E)",
+              "tier": "T2"
+            },
+            "low": {
+              "awakening": null,
+              "flags": [
+                "E"
+              ],
+              "raw": "T3 (E)",
+              "tier": "T3"
+            },
+            "max": {
+              "awakening": "A6",
+              "flags": [
+                "E"
+              ],
+              "raw": "T1 (A6) (E)",
+              "tier": "T1"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/penny/",
+            "status": null
+          },
+          {
+            "character": "narae",
+            "high": {
+              "awakening": null,
+              "raw": "T0",
+              "tier": "T0"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T0",
+              "tier": "T0"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T0 (A6)",
+              "tier": "T0"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/narae/",
+            "status": null
+          },
+          {
+            "character": "sangun",
+            "high": {
+              "awakening": null,
+              "raw": "T4",
+              "tier": "T4"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T4",
+              "tier": "T4"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T3 (A6)",
+              "tier": "T3"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/sangun/",
+            "status": null
+          },
+          {
+            "character": "jiwon",
+            "high": {
+              "awakening": "A4",
+              "flags": [
+                "P"
+              ],
+              "raw": "T1 (A4), T2 at A2 (P)",
+              "tier": "T1"
+            },
+            "low": {
+              "awakening": null,
+              "flags": [
+                "P"
+              ],
+              "raw": "T3 (P)",
+              "tier": "T3"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T1 (A6)",
+              "tier": "T1"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/jiwon/",
+            "status": null
+          },
+          {
+            "character": "gabi",
+            "high": {
+              "awakening": "A4",
+              "raw": "T1 (A4), T2 at A2",
+              "tier": "T1"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T3",
+              "tier": "T3"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T1 (A6)",
+              "tier": "T1"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/gabi/",
+            "status": null
+          },
+          {
+            "character": "isabella",
+            "high": {
+              "awakening": "A2",
+              "raw": "T0.5 (A2)",
+              "tier": "T0.5"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T1",
+              "tier": "T1"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T0.5 (A6)",
+              "tier": "T0.5"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/isabella/",
+            "status": null
+          },
+          {
+            "character": "flare",
+            "high": {
+              "awakening": "A2",
+              "raw": "T2 (A2)",
+              "tier": "T2"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T3",
+              "tier": "T3"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T1 (A6)",
+              "tier": "T1"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/flare/",
+            "status": null
+          },
+          {
+            "character": "chloe",
+            "high": null,
+            "low": null,
+            "max": null,
+            "note": "Page shows 'Review coming soon' and has no Tier Position section.",
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/chloe/",
+            "status": "no_placement"
+          },
+          {
+            "character": "ophelia",
+            "high": {
+              "awakening": "A2",
+              "raw": "T1 (A2)",
+              "tier": "T1"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T2",
+              "tier": "T2"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T1 (A6)",
+              "tier": "T1"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/ophelia/",
+            "status": null
+          },
+          {
+            "character": "esther",
+            "high": {
+              "awakening": null,
+              "raw": "T1",
+              "tier": "T1"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T2",
+              "tier": "T2"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T1 (A6)",
+              "tier": "T1"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/esther/",
+            "status": null
+          },
+          {
+            "character": "nagi",
+            "high": {
+              "awakening": "A2",
+              "raw": "T2 (A2)",
+              "tier": "T2"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T3",
+              "tier": "T3"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T1 (A6)",
+              "tier": "T1"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/nagi/",
+            "status": null
+          },
+          {
+            "character": "brisshell",
+            "high": {
+              "awakening": "A1",
+              "raw": "T0.5 (A1)",
+              "tier": "T0.5"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T1",
+              "tier": "T1"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T0.5 (A6)",
+              "tier": "T0.5"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/brisshell/",
+            "status": null
+          },
+          {
+            "character": "mabel",
+            "high": {
+              "awakening": "A4",
+              "raw": "T1 (A4)",
+              "tier": "T1"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T2",
+              "tier": "T2"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T1 (A6)",
+              "tier": "T1"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/mabel/",
+            "status": null
+          },
+          {
+            "character": "verna-summer-dive",
+            "high": {
+              "awakening": null,
+              "raw": "T0.5",
+              "tier": "T0.5"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T0.5",
+              "tier": "T0.5"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T0.5 (A6)",
+              "tier": "T0.5"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/verna-summer-dive/",
+            "status": null
+          },
+          {
+            "character": "francis-summer-dive",
+            "high": {
+              "awakening": "A2",
+              "raw": "T0.5 (A2), T1 at A1",
+              "tier": "T0.5"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T2",
+              "tier": "T2"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T0 (A6)",
+              "tier": "T0"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/francis-summer-dive/",
+            "status": null
+          },
+          {
+            "character": "vivian",
+            "high": {
+              "awakening": "A4",
+              "raw": "T0.5 (A4), T1 at A2",
+              "tier": "T0.5"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T2",
+              "tier": "T2"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T0.5 (A6)",
+              "tier": "T0.5"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/vivian/",
+            "status": null
+          },
+          {
+            "character": "verna",
+            "high": {
+              "awakening": null,
+              "raw": "T3",
+              "tier": "T3"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T3",
+              "tier": "T3"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T3 (A6)",
+              "tier": "T3"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/verna/",
+            "status": null
+          },
+          {
+            "character": "cloud",
+            "high": {
+              "awakening": null,
+              "raw": "T2",
+              "tier": "T2"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T2",
+              "tier": "T2"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T2 (A6)",
+              "tier": "T2"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/cloud/",
+            "status": null
+          },
+          {
+            "character": "francis",
+            "high": {
+              "awakening": null,
+              "raw": "T0.5",
+              "tier": "T0.5"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T0.5",
+              "tier": "T0.5"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T0.5 (A6)",
+              "tier": "T0.5"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/francis/",
+            "status": null
+          },
+          {
+            "character": "yeonhwa",
+            "high": {
+              "awakening": null,
+              "raw": "T0.5",
+              "tier": "T0.5"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T0.5",
+              "tier": "T0.5"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T0.5 (A6)",
+              "tier": "T0.5"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/yeonhwa/",
+            "status": null
+          },
+          {
+            "character": "daisy",
+            "high": {
+              "awakening": null,
+              "raw": "T4",
+              "tier": "T4"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T4",
+              "tier": "T4"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T4 (A6)",
+              "tier": "T4"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/daisy/",
+            "status": null
+          },
+          {
+            "character": "leeho",
+            "high": {
+              "awakening": null,
+              "raw": "T3",
+              "tier": "T3"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T3",
+              "tier": "T3"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T3 (A6)",
+              "tier": "T3"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/leeho/",
+            "status": null
+          },
+          {
+            "character": "benjamin",
+            "high": {
+              "awakening": null,
+              "raw": "T1",
+              "tier": "T1"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T1",
+              "tier": "T1"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T1 (A6)",
+              "tier": "T1"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/benjamin/",
+            "status": null
+          },
+          {
+            "character": "sera",
+            "high": {
+              "awakening": null,
+              "raw": "T2 (with signature), T3",
+              "tier": "T2"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T3",
+              "tier": "T3"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T2 (A6, with signature)",
+              "tier": "T2"
+            },
+            "note": "High and Max tiers carry the page's 'S' marker: the tier-list page legend defines S = Signature Weapon. High reads T2 with signature (Ophelia's signature, per the guide text), T3 without; Max reads T2 at A6 with signature.",
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/sera/",
+            "status": null
+          },
+          {
+            "character": "ellie",
+            "high": {
+              "awakening": null,
+              "flags": [
+                "E"
+              ],
+              "raw": "T2 (E)",
+              "tier": "T2"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T2",
+              "tier": "T2"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T2 (A6)",
+              "tier": "T2"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/ellie/",
+            "status": null
+          },
+          {
+            "character": "reina",
+            "high": {
+              "awakening": null,
+              "raw": "T2",
+              "tier": "T2"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T2",
+              "tier": "T2"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T2 (A6)",
+              "tier": "T2"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/reina/",
+            "status": null
+          },
+          {
+            "character": "bonnie",
+            "high": {
+              "awakening": null,
+              "raw": "T3",
+              "tier": "T3"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T3",
+              "tier": "T3"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T3 (A6)",
+              "tier": "T3"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/bonnie/",
+            "status": null
+          },
+          {
+            "character": "angel",
+            "high": {
+              "awakening": null,
+              "raw": "T2",
+              "tier": "T2"
+            },
+            "low": {
+              "awakening": null,
+              "raw": "T2",
+              "tier": "T2"
+            },
+            "max": {
+              "awakening": "A6",
+              "raw": "T2 (A6)",
+              "tier": "T2"
+            },
+            "note": null,
+            "page_updated": null,
+            "page_url": "https://www.kaiden.gg/mongil/characters/angel/",
+            "status": null
+          }
+        ]
+      },
+      "mongil-gg": {
+        "kind": "per_mode",
+        "meta": {
+          "harvest": "2026-10-29T2105-sweep-pm",
+          "read_at": null,
+          "read_mode": null,
+          "source": "mongil-gg",
+          "worker": null
+        },
+        "placement": [
+          {
+            "character": "mina",
+            "conquest": "S",
+            "note": null,
+            "rift": "S",
+            "tier": null,
+            "world": "S"
+          },
+          {
+            "character": "penny",
+            "conquest": "B",
+            "note": null,
+            "rift": "A",
+            "tier": null,
+            "world": "A"
+          },
+          {
+            "character": "narae",
+            "conquest": "A",
+            "note": null,
+            "rift": "S",
+            "tier": null,
+            "world": "S"
+          },
+          {
+            "character": "sangun",
+            "conquest": "A",
+            "note": null,
+            "rift": "A",
+            "tier": null,
+            "world": "S"
+          },
+          {
+            "character": "jiwon",
+            "conquest": "A",
+            "note": null,
+            "rift": "S",
+            "tier": null,
+            "world": "B"
+          },
+          {
+            "character": "gabi",
+            "conquest": "A",
+            "note": null,
+            "rift": "A",
+            "tier": null,
+            "world": "S"
+          },
+          {
+            "character": "flare",
+            "conquest": "S",
+            "note": null,
+            "rift": "S",
+            "tier": null,
+            "world": "S"
+          },
+          {
+            "character": "verna",
+            "conquest": "C",
+            "note": null,
+            "rift": "C",
+            "tier": null,
+            "world": "B"
+          },
+          {
+            "character": "cloud",
+            "conquest": "B",
+            "note": null,
+            "rift": "B",
+            "tier": null,
+            "world": "B"
+          },
+          {
+            "character": "francis",
+            "conquest": "B",
+            "note": null,
+            "rift": "B",
+            "tier": null,
+            "world": "C"
+          },
+          {
+            "character": "yeonhwa",
+            "conquest": "B",
+            "note": null,
+            "rift": "B",
+            "tier": null,
+            "world": "A"
+          },
+          {
+            "character": "daisy",
+            "conquest": "C",
+            "note": null,
+            "rift": "C",
+            "tier": null,
+            "world": "C"
+          },
+          {
+            "character": "leeho",
+            "conquest": "B",
+            "note": null,
+            "rift": "B",
+            "tier": null,
+            "world": "A"
+          },
+          {
+            "character": "benjamin",
+            "conquest": "B",
+            "note": null,
+            "rift": "A",
+            "tier": null,
+            "world": "S"
+          },
+          {
+            "character": "sera",
+            "conquest": "B",
+            "note": null,
+            "rift": "B",
+            "tier": null,
+            "world": "B"
+          },
+          {
+            "character": "ellie",
+            "conquest": "C",
+            "note": null,
+            "rift": "B",
+            "tier": null,
+            "world": "C"
+          },
+          {
+            "character": "reina",
+            "conquest": "B",
+            "note": null,
+            "rift": "B",
+            "tier": null,
+            "world": "B"
+          },
+          {
+            "character": "bonnie",
+            "conquest": "C",
+            "note": null,
+            "rift": "B",
+            "tier": null,
+            "world": "A"
+          },
+          {
+            "character": "angel",
+            "conquest": "B",
+            "note": null,
+            "rift": "A",
+            "tier": null,
+            "world": "A"
+          },
+          {
+            "character": "ophelia",
+            "conquest": "A",
+            "note": null,
+            "rift": "S",
+            "tier": null,
+            "world": "A"
+          },
+          {
+            "character": "esther",
+            "conquest": "S",
+            "note": null,
+            "rift": "S",
+            "tier": null,
+            "world": "A"
+          }
+        ]
+      },
+      "pg": {
+        "meta": {
+          "harvest": "2026-10-29T2105-sweep-pm",
+          "read_at": null,
+          "read_mode": null,
+          "source": "pg",
+          "worker": null
+        },
+        "placement": [
+          {
+            "character": "mina",
+            "conquest": "S",
+            "note": null,
+            "rift": "S",
+            "status": null
+          },
+          {
+            "character": "penny",
+            "conquest": "B",
+            "note": null,
+            "rift": "B",
+            "status": null
+          },
+          {
+            "character": "narae",
+            "conquest": "S",
+            "note": null,
+            "rift": "S",
+            "status": null
+          },
+          {
+            "character": "sangun",
+            "conquest": "A",
+            "note": null,
+            "rift": "S",
+            "status": null
+          },
+          {
+            "character": "jiwon",
+            "conquest": "A",
+            "note": null,
+            "rift": "S",
+            "status": null
+          },
+          {
+            "character": "gabi",
+            "conquest": "A",
+            "note": null,
+            "rift": "A",
+            "status": null
+          },
+          {
+            "character": "isabella",
+            "conquest": "A",
+            "note": null,
+            "rift": "S",
+            "status": null
+          },
+          {
+            "character": "flare",
+            "conquest": "S",
+            "note": null,
+            "rift": "A",
+            "status": null
+          },
+          {
+            "character": "chloe",
+            "conquest": "S",
+            "note": null,
+            "rift": "S",
+            "status": null
+          },
+          {
+            "character": "ophelia",
+            "conquest": "A",
+            "note": null,
+            "rift": "A",
+            "status": null
+          },
+          {
+            "character": "esther",
+            "conquest": "S",
+            "note": null,
+            "rift": "A",
+            "status": null
+          },
+          {
+            "character": "nagi",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "status": "not_listed"
+          },
+          {
+            "character": "brisshell",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "status": "not_listed"
+          },
+          {
+            "character": "mabel",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "status": "not_listed"
+          },
+          {
+            "character": "verna-summer-dive",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "status": "not_listed"
+          },
+          {
+            "character": "francis-summer-dive",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "status": "not_listed"
+          },
+          {
+            "character": "vivian",
+            "conquest": null,
+            "note": null,
+            "rift": null,
+            "status": "not_listed"
+          },
+          {
+            "character": "verna",
+            "conquest": "C",
+            "note": null,
+            "rift": "C",
+            "status": null
+          },
+          {
+            "character": "cloud",
+            "conquest": "B",
+            "note": null,
+            "rift": "B",
+            "status": null
+          },
+          {
+            "character": "francis",
+            "conquest": "B",
+            "note": null,
+            "rift": "B",
+            "status": null
+          },
+          {
+            "character": "yeonhwa",
+            "conquest": "C",
+            "note": null,
+            "rift": "C",
+            "status": null
+          },
+          {
+            "character": "daisy",
+            "conquest": "C",
+            "note": null,
+            "rift": "C",
+            "status": null
+          },
+          {
+            "character": "leeho",
+            "conquest": "C",
+            "note": null,
+            "rift": "C",
+            "status": null
+          },
+          {
+            "character": "benjamin",
+            "conquest": "B",
+            "note": null,
+            "rift": "A",
+            "status": null
+          },
+          {
+            "character": "sera",
+            "conquest": "B",
+            "note": null,
+            "rift": "C",
+            "status": null
+          },
+          {
+            "character": "ellie",
+            "conquest": "A",
+            "note": null,
+            "rift": "B",
+            "status": null
+          },
+          {
+            "character": "reina",
+            "conquest": "B",
+            "note": null,
+            "rift": "C",
+            "status": null
+          },
+          {
+            "character": "bonnie",
+            "conquest": "C",
+            "note": null,
+            "rift": "C",
+            "status": null
+          },
+          {
+            "character": "angel",
+            "conquest": "C",
+            "note": null,
+            "rift": "S",
+            "status": null
+          }
+        ]
+      },
+      "urgametips": {
+        "kind": "modes_conquest_only",
+        "meta": {
+          "harvest": "2026-10-29",
+          "read_at": "2026-10-29T21:10:00-04:00",
+          "read_mode": null,
+          "source": "urgametips",
+          "worker": null
+        },
+        "placement": [
+          {
+            "character": "narae",
+            "conquest": "S",
+            "note": null,
+            "rift": null,
+            "tier": null,
+            "world": null
+          },
+          {
+            "character": "mina",
+            "conquest": "S",
+            "note": null,
+            "rift": null,
+            "tier": null,
+            "world": null
+          },
+          {
+            "character": "flare",
+            "conquest": "S",
+            "note": null,
+            "rift": null,
+            "tier": null,
+            "world": null
+          },
+          {
+            "character": "esther",
+            "conquest": "S",
+            "note": null,
+            "rift": null,
+            "tier": null,
+            "world": null
+          },
+          {
+            "character": "sangun",
+            "conquest": "A",
+            "note": null,
+            "rift": null,
+            "tier": null,
+            "world": null
+          },
+          {
+            "character": "ophelia",
+            "conquest": "A",
+            "note": null,
+            "rift": null,
+            "tier": null,
+            "world": null
+          },
+          {
+            "character": "gabi",
+            "conquest": "A",
+            "note": null,
+            "rift": null,
+            "tier": null,
+            "world": null
+          },
+          {
+            "character": "jiwon",
+            "conquest": "A",
+            "note": null,
+            "rift": null,
+            "tier": null,
+            "world": null
+          },
+          {
+            "character": "ellie",
+            "conquest": "A",
+            "note": null,
+            "rift": null,
+            "tier": null,
+            "world": null
+          },
+          {
+            "character": "penny",
+            "conquest": "B",
+            "note": null,
+            "rift": null,
+            "tier": null,
+            "world": null
+          },
+          {
+            "character": "reina",
+            "conquest": "B",
+            "note": null,
+            "rift": null,
+            "tier": null,
+            "world": null
+          },
+          {
+            "character": "sera",
+            "conquest": "B",
+            "note": null,
+            "rift": null,
+            "tier": null,
+            "world": null
+          },
+          {
+            "character": "benjamin",
+            "conquest": "B",
+            "note": null,
+            "rift": null,
+            "tier": null,
+            "world": null
+          },
+          {
+            "character": "francis",
+            "conquest": "B",
+            "note": null,
+            "rift": null,
+            "tier": null,
+            "world": null
+          },
+          {
+            "character": "cloud",
+            "conquest": "B",
+            "note": null,
+            "rift": null,
+            "tier": null,
+            "world": null
+          },
+          {
+            "character": "angel",
+            "conquest": "C",
+            "note": null,
+            "rift": null,
+            "tier": null,
+            "world": null
+          },
+          {
+            "character": "bonnie",
+            "conquest": "C",
+            "note": null,
+            "rift": null,
+            "tier": null,
+            "world": null
+          },
+          {
+            "character": "leeho",
+            "conquest": "C",
+            "note": null,
+            "rift": null,
+            "tier": null,
+            "world": null
+          },
+          {
+            "character": "yeonhwa",
+            "conquest": "C",
+            "note": null,
+            "rift": null,
+            "tier": null,
+            "world": null
+          },
+          {
+            "character": "verna",
+            "conquest": "C",
+            "note": null,
+            "rift": null,
+            "tier": null,
+            "world": null
+          },
+          {
+            "character": "daisy",
+            "conquest": "C",
+            "note": null,
+            "rift": null,
+            "tier": null,
+            "world": null
+          }
+        ]
+      }
+    },
+    "roster": {
+      "character": [
+        {
+          "base_of": null,
+          "id": "mina",
+          "name": "Mina",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-04-29",
+          "released_on_sources": [
+            "https://game8.co/games/mongil-star-dive/archives/592077",
+            "https://www.pocketgamer.com/mongil-star-dive/"
+          ]
+        },
+        {
+          "base_of": null,
+          "id": "penny",
+          "name": "Penny",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-04-15",
+          "released_on_sources": [
+            "https://gamewith.net/mongil-stardive/73714",
+            "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"
+          ]
+        },
+        {
+          "base_of": null,
+          "id": "narae",
+          "name": "Narae",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-05-27",
+          "released_on_sources": [
+            "https://www.gamedeveloper.com/press-release/mongil-star-dive-flaunches-major-update-featuring-narae-and-new-story-chapter-flowers-blooming-from-scars-",
+            "https://game8.co/games/mongil-star-dive/archives/594868"
+          ]
+        },
+        {
+          "base_of": null,
+          "id": "sangun",
+          "name": "Sangun",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-04-15",
+          "released_on_sources": [
+            "https://gamewith.net/mongil-stardive/73714",
+            "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"
+          ]
+        },
+        {
+          "base_of": null,
+          "id": "jiwon",
+          "name": "Jiwon",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-04-15",
+          "released_on_sources": [
+            "https://gamewith.net/mongil-stardive/73714",
+            "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"
+          ]
+        },
+        {
+          "base_of": null,
+          "id": "gabi",
+          "name": "Gabi",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-04-15",
+          "released_on_sources": [
+            "https://gamewith.net/mongil-stardive/73714",
+            "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"
+          ]
+        },
+        {
+          "base_of": null,
+          "id": "isabella",
+          "name": "Isabella",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-09-30",
+          "released_on_sources": [
+            "https://www.invenglobal.com/articles/26667/mongil-star-dive-version-14-update-adds-isabella-and-new-region",
+            "https://www.capsulecomputers.com.au/2026/10/mongil-star-dive-launches-version-1-4-update-featuring-new-character-isabella/"
+          ]
+        },
+        {
+          "base_of": null,
+          "id": "flare",
+          "name": "Flare",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-04-15",
+          "released_on_sources": [
+            "https://gamewith.net/mongil-stardive/73714",
+            "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"
+          ]
+        },
+        {
+          "base_of": null,
+          "id": "chloe",
+          "name": "Chloe",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-10-21",
+          "released_on_sources": [
+            "https://www.invenglobal.com/articles/27503/mongil-star-dive-adds-five-star-wind-fighter-chloe-in-new-update",
+            "https://finalweapon.net/2026/10/21/mongil-star-dive-5-star-fighter-character-chloe/"
+          ]
+        },
+        {
+          "base_of": null,
+          "id": "ophelia",
+          "name": "Ophelia",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-04-15",
+          "released_on_sources": [
+            "https://gamewith.net/mongil-stardive/73714",
+            "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"
+          ]
+        },
+        {
+          "base_of": null,
+          "id": "esther",
+          "name": "Esther",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-04-15",
+          "released_on_sources": [
+            "https://game8.co/games/mongil-star-dive/archives/592077",
+            "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"
+          ]
+        },
+        {
+          "base_of": null,
+          "id": "nagi",
+          "name": "Nagi",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-06-17",
+          "released_on_sources": [
+            "https://game8.co/games/mongil-star-dive/archives/591697",
+            "https://finalweapon.net/tag/mongil-star-dive/"
+          ]
+        },
+        {
+          "base_of": null,
+          "id": "brisshell",
+          "name": "Brisshell",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-08-20",
+          "released_on_sources": [
+            "https://finalweapon.net/tag/mongil-star-dive/",
+            "https://casualoldgamer.com/2026/08/13/mongil-star-dive-version-1-3-revealed-brishell-major-qol-changes-and-a-bigger-1-4-ahead/"
+          ]
+        },
+        {
+          "base_of": null,
+          "id": "mabel",
+          "name": "Mabel",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-07-29",
+          "released_on_sources": [
+            "https://finalweapon.net/tag/mongil-star-dive/",
+            "https://thisisgamesea.com/news/pr-news/mongil-star-dive-mabel-5-star-update/"
+          ]
+        },
+        {
+          "base_of": "verna",
+          "id": "verna-summer-dive",
+          "name": "Verna: Summer Dive!",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-07-08",
+          "released_on_sources": [
+            "https://www.gamedeveloper.com/press-release/mongil-star-dive-releases-major-version-1-2-summer-update-featuring-two-new-5-star-characters",
+            "https://mmohuts.com/news/mongil-star-dives-version-1-2-update-adds-summer-event-two-5-star-characters"
+          ]
+        },
+        {
+          "base_of": "francis",
+          "id": "francis-summer-dive",
+          "name": "Francis: Summer Dive!",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-07-08",
+          "released_on_sources": [
+            "https://www.gamedeveloper.com/press-release/mongil-star-dive-releases-major-version-1-2-summer-update-featuring-two-new-5-star-characters",
+            "https://mmohuts.com/news/mongil-star-dives-version-1-2-update-adds-summer-event-two-5-star-characters"
+          ]
+        },
+        {
+          "base_of": null,
+          "id": "vivian",
+          "name": "Vivian",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-09-09",
+          "released_on_sources": [
+            "https://www.invenglobal.com/tag/Mongil%3A+STAR+DIVE",
+            "https://finalweapon.net/tag/mongil-star-dive/"
+          ]
+        },
+        {
+          "base_of": null,
+          "id": "verna",
+          "name": "Verna",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-04-15",
+          "released_on_sources": [
+            "https://driffle.com/blog/mongil-star-dive-tier-list/",
+            "https://game8.co/games/mongil-star-dive/archives/592077"
+          ]
+        },
+        {
+          "base_of": null,
+          "id": "cloud",
+          "name": "Cloud",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-04-15",
+          "released_on_sources": [
+            "https://game8.co/games/mongil-star-dive/archives/592077",
+            "https://gamewith.net/mongil-stardive/73714"
+          ]
+        },
+        {
+          "base_of": null,
+          "id": "francis",
+          "name": "Francis",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-04-15",
+          "released_on_sources": [
+            "https://game8.co/games/mongil-star-dive/archives/592077",
+            "https://gamewith.net/mongil-stardive/73714"
+          ]
+        },
+        {
+          "base_of": null,
+          "id": "yeonhwa",
+          "name": "Yeonhwa",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-04-15",
+          "released_on_sources": [
+            "https://game8.co/games/mongil-star-dive/archives/592077",
+            "https://gamewith.net/mongil-stardive/73714"
+          ]
+        },
+        {
+          "base_of": null,
+          "id": "daisy",
+          "name": "Daisy",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-04-15",
+          "released_on_sources": [
+            "https://game8.co/games/mongil-star-dive/archives/592077",
+            "https://driffle.com/blog/mongil-star-dive-tier-list/"
+          ]
+        },
+        {
+          "base_of": null,
+          "id": "leeho",
+          "name": "Leeho",
+          "pool": null,
+          "rarity": null,
+          "released_on": null
+        },
+        {
+          "base_of": null,
+          "id": "benjamin",
+          "name": "Benjamin",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-04-15",
+          "released_on_sources": [
+            "https://gamewith.net/mongil-stardive/73714",
+            "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"
+          ]
+        },
+        {
+          "base_of": null,
+          "id": "sera",
+          "name": "Sera",
+          "pool": null,
+          "rarity": null,
+          "released_on": null
+        },
+        {
+          "base_of": null,
+          "id": "ellie",
+          "name": "Ellie",
+          "pool": null,
+          "rarity": null,
+          "released_on": null
+        },
+        {
+          "base_of": null,
+          "id": "reina",
+          "name": "Reina",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-04-15",
+          "released_on_sources": [
+            "https://game8.co/games/mongil-star-dive/archives/592077",
+            "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"
+          ]
+        },
+        {
+          "base_of": null,
+          "id": "bonnie",
+          "name": "Bonnie",
+          "pool": null,
+          "rarity": null,
+          "released_on": null
+        },
+        {
+          "base_of": null,
+          "id": "angel",
+          "name": "Angel",
+          "pool": null,
+          "rarity": null,
+          "released_on": "2026-04-15",
+          "released_on_sources": [
+            "https://gamewith.net/mongil-stardive/73714",
+            "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"
+          ]
+        }
+      ]
+    },
+    "sources": {
+      "source": [
+        {
+          "criteria_caveat": "Conquest = boss, single target. Rift = dungeon, AoE. World/Story list not used (Summer variants unlabeled).",
+          "game_version": "1.4",
+          "id": "pg",
+          "kind": "per_mode",
+          "level_definitions": null,
+          "list_date": "2026-10-05",
+          "name": "Pocket Gamer",
+          "role": "voting",
+          "status": "current",
+          "url": "https://www.pocketgamer.com/mongil-star-dive/tier-list/"
+        },
+        {
+          "criteria_caveat": "Rates each character at Low, High and Max investment. Where a level has two tiers, we count the first one listed.",
+          "game_version": "1.4",
+          "id": "kaiden",
+          "kind": "overall_by_investment",
+          "level_definitions": {
+            "high": "Assumes higher awakenings and stronger signature weapon investment.",
+            "low": "Assumes accessible awakenings and limited signature weapon investment.",
+            "max": "Assumes full ascension, at A6, on every character ranked."
+          },
+          "list_date": null,
+          "name": "Kaiden",
+          "role": "voting",
+          "status": "current",
+          "url": "https://www.kaiden.gg/mongil/characters/"
+        },
+        {
+          "criteria_caveat": "Rates limited 5★ at A0, permanent 5★ up to A2, 4★ at A6. Its text lists show SS, S and A only.",
+          "game_version": null,
+          "id": "gamewith-jp",
+          "kind": "overall",
+          "level_definitions": null,
+          "list_date": "2026-10-21",
+          "name": "GameWith JP",
+          "role": "voting",
+          "status": "current",
+          "url": "https://gamewith.jp/stardive/552850"
+        },
+        {
+          "criteria_caveat": "Conquest list only. Near-identical to Pocket Gamer's Conquest rows — corroboration, not an independent method.",
+          "game_version": null,
+          "id": "urgametips",
+          "kind": "per_mode",
+          "level_definitions": null,
+          "list_date": "2026-09-07",
+          "name": "urgametips",
+          "role": "check_only",
+          "status": null,
+          "url": "https://urgametips.com/mongil-star-dive-conquest-character-tier-list/"
+        },
+        {
+          "criteria_caveat": "Aggregate of 9 community lists including Kaiden and mongil.gg. Counting it would count those lists twice.",
+          "game_version": null,
+          "id": "gacha-gg",
+          "kind": "overall",
+          "level_definitions": null,
+          "list_date": "2026-10-29",
+          "name": "gacha.gg",
+          "role": "check_only",
+          "status": null,
+          "url": "https://www.gacha.gg/mongil-star-dive/tier-list"
+        },
+        {
+          "criteria_caveat": "Launch-era list (21 characters). Superseded by GameWith JP.",
+          "game_version": null,
+          "id": "gamewith-en",
+          "kind": "overall",
+          "level_definitions": null,
+          "list_date": null,
+          "name": "GameWith EN",
+          "role": "check_only",
+          "status": null,
+          "url": "https://gamewith.net/mongil-stardive/73714"
+        },
+        {
+          "criteria_caveat": "Placements are rendered as images; read visually in sweep 2026-10-29T2105-sweep-pm (T2.6, one visual read; second read + spot-check pending at CP2). Assumes A0 unless marked A6. Not counted until a method update.",
+          "game_version": null,
+          "id": "mongil-gg",
+          "kind": "per_mode",
+          "level_definitions": null,
+          "list_date": null,
+          "name": "mongil.gg",
+          "role": "check_only",
+          "status": null,
+          "url": "https://mongil.gg/tierlist"
+        },
+        {
+          "criteria_caveat": "Stale (~Aug 2026, pre-patch). Kept for the record; never shown.",
+          "game_version": null,
+          "id": "pocket-tactics",
+          "kind": "overall",
+          "level_definitions": null,
+          "list_date": null,
+          "name": "Pocket Tactics",
+          "role": "excluded",
+          "status": null,
+          "url": "https://www.pockettactics.com/mongil-star-dive/tier-list"
+        },
+        {
+          "criteria_caveat": "Stale (~Jun 2026, 21 characters). Kept for the record; never shown.",
+          "game_version": null,
+          "id": "driffle",
+          "kind": "overall",
+          "level_definitions": null,
+          "list_date": null,
+          "name": "Driffle",
+          "role": "excluded",
+          "status": null,
+          "url": "https://driffle.com/blog/mongil-star-dive-tier-list/"
+        }
+      ]
+    }
+  },
+  "results": {
+    "boards": {
+      "high": {
+        "A": [
+          "ophelia",
+          "verna-summer-dive",
+          "vivian",
+          "francis",
+          "jiwon",
+          "mabel"
+        ],
+        "B": [
+          "benjamin",
+          "gabi",
+          "flare",
+          "yeonhwa",
+          "nagi",
+          "cloud",
+          "penny",
+          "ellie"
+        ],
+        "C": [
+          "reina",
+          "sera",
+          "sangun",
+          "bonnie",
+          "leeho",
+          "verna"
+        ],
+        "D": [
+          "daisy"
+        ],
+        "MODE_SPLIT": [
+          "angel"
+        ],
+        "S": [
+          "narae",
+          "chloe",
+          "mina",
+          "brisshell",
+          "francis-summer-dive",
+          "isabella",
+          "esther"
+        ],
+        "UNRANKED": []
+      },
+      "low": {
+        "A": [
+          "mina",
+          "verna-summer-dive",
+          "esther",
+          "francis",
+          "ophelia",
+          "francis-summer-dive"
+        ],
+        "B": [
+          "benjamin",
+          "jiwon",
+          "yeonhwa",
+          "mabel",
+          "vivian",
+          "cloud",
+          "ellie",
+          "flare",
+          "gabi",
+          "penny",
+          "nagi"
+        ],
+        "C": [
+          "reina",
+          "sangun",
+          "sera",
+          "bonnie",
+          "leeho",
+          "verna"
+        ],
+        "D": [
+          "daisy"
+        ],
+        "MODE_SPLIT": [
+          "angel"
+        ],
+        "S": [
+          "narae",
+          "chloe",
+          "isabella",
+          "brisshell"
+        ],
+        "UNRANKED": []
+      },
+      "max": {
+        "A": [
+          "ophelia",
+          "verna-summer-dive",
+          "vivian",
+          "francis",
+          "jiwon",
+          "mabel",
+          "nagi"
+        ],
+        "B": [
+          "benjamin",
+          "flare",
+          "gabi",
+          "penny",
+          "yeonhwa",
+          "cloud",
+          "ellie",
+          "sangun"
+        ],
+        "C": [
+          "reina",
+          "sera",
+          "bonnie",
+          "leeho",
+          "verna"
+        ],
+        "D": [
+          "daisy"
+        ],
+        "MODE_SPLIT": [
+          "angel"
+        ],
+        "S": [
+          "narae",
+          "chloe",
+          "francis-summer-dive",
+          "mina",
+          "brisshell",
+          "isabella",
+          "esther"
+        ],
+        "UNRANKED": []
+      }
+    },
+    "characters": {
+      "angel": {
+        "high": {
+          "tier": "MODE_SPLIT",
+          "label": "MODE_SPLIT",
+          "score": 2.1667,
+          "coverage": 3,
+          "spread": 0.5
+        },
+        "low": {
+          "tier": "MODE_SPLIT",
+          "label": "MODE_SPLIT",
+          "score": 2.1667,
+          "coverage": 3,
+          "spread": 0.5
+        },
+        "max": {
+          "tier": "MODE_SPLIT",
+          "label": "MODE_SPLIT",
+          "score": 2.1667,
+          "coverage": 3,
+          "spread": 0.5
+        }
+      },
+      "benjamin": {
+        "high": {
+          "tier": "B",
+          "label": "SOLID",
+          "score": 2.8333,
+          "coverage": 3,
+          "spread": 0.5
+        },
+        "low": {
+          "tier": "B",
+          "label": "SOLID",
+          "score": 2.8333,
+          "coverage": 3,
+          "spread": 0.5
+        },
+        "max": {
+          "tier": "B",
+          "label": "SOLID",
+          "score": 2.8333,
+          "coverage": 3,
+          "spread": 0.5
+        }
+      },
+      "bonnie": {
+        "high": {
+          "tier": "C",
+          "label": "SOLID",
+          "score": 1.0,
+          "coverage": 2,
+          "spread": 0.0
+        },
+        "low": {
+          "tier": "C",
+          "label": "SOLID",
+          "score": 1.0,
+          "coverage": 2,
+          "spread": 0.0
+        },
+        "max": {
+          "tier": "C",
+          "label": "SOLID",
+          "score": 1.0,
+          "coverage": 2,
+          "spread": 0.0
+        }
+      },
+      "brisshell": {
+        "high": {
+          "tier": "S",
+          "label": "SOLID",
+          "score": 3.75,
+          "coverage": 2,
+          "spread": 0.5
+        },
+        "low": {
+          "tier": "S",
+          "label": "SOLID",
+          "score": 3.5,
+          "coverage": 2,
+          "spread": 1.0
+        },
+        "max": {
+          "tier": "S",
+          "label": "SOLID",
+          "score": 3.75,
+          "coverage": 2,
+          "spread": 0.5
+        }
+      },
+      "chloe": {
+        "high": {
+          "tier": "S",
+          "label": "SOLID",
+          "score": 4.0,
+          "coverage": 2,
+          "spread": 0.0
+        },
+        "low": {
+          "tier": "S",
+          "label": "SOLID",
+          "score": 4.0,
+          "coverage": 2,
+          "spread": 0.0
+        },
+        "max": {
+          "tier": "S",
+          "label": "SOLID",
+          "score": 4.0,
+          "coverage": 2,
+          "spread": 0.0
+        }
+      },
+      "cloud": {
+        "high": {
+          "tier": "B",
+          "label": "SOLID",
+          "score": 2.3333,
+          "coverage": 3,
+          "spread": 1.0
+        },
+        "low": {
+          "tier": "B",
+          "label": "SOLID",
+          "score": 2.3333,
+          "coverage": 3,
+          "spread": 1.0
+        },
+        "max": {
+          "tier": "B",
+          "label": "SOLID",
+          "score": 2.3333,
+          "coverage": 3,
+          "spread": 1.0
+        }
+      },
+      "daisy": {
+        "high": {
+          "tier": "D",
+          "label": "SOLID",
+          "score": 0.5,
+          "coverage": 2,
+          "spread": 1.0
+        },
+        "low": {
+          "tier": "D",
+          "label": "SOLID",
+          "score": 0.5,
+          "coverage": 2,
+          "spread": 1.0
+        },
+        "max": {
+          "tier": "D",
+          "label": "SOLID",
+          "score": 0.5,
+          "coverage": 2,
+          "spread": 1.0
+        }
+      },
+      "ellie": {
+        "high": {
+          "tier": "B",
+          "label": "SOLID",
+          "score": 2.25,
+          "coverage": 2,
+          "spread": 0.5
+        },
+        "low": {
+          "tier": "B",
+          "label": "SOLID",
+          "score": 2.25,
+          "coverage": 2,
+          "spread": 0.5
+        },
+        "max": {
+          "tier": "B",
+          "label": "SOLID",
+          "score": 2.25,
+          "coverage": 2,
+          "spread": 0.5
+        }
+      },
+      "esther": {
+        "high": {
+          "tier": "S",
+          "label": "SOLID",
+          "score": 3.5,
+          "coverage": 3,
+          "spread": 1.0
+        },
+        "low": {
+          "tier": "A",
+          "label": "CONTESTED",
+          "score": 3.1667,
+          "coverage": 3,
+          "spread": 2.0
+        },
+        "max": {
+          "tier": "S",
+          "label": "SOLID",
+          "score": 3.5,
+          "coverage": 3,
+          "spread": 1.0
+        }
+      },
+      "flare": {
+        "high": {
+          "tier": "B",
+          "label": "CONTESTED",
+          "score": 2.5,
+          "coverage": 3,
+          "spread": 1.5
+        },
+        "low": {
+          "tier": "B",
+          "label": "CONTESTED",
+          "score": 2.1667,
+          "coverage": 3,
+          "spread": 2.5
+        },
+        "max": {
+          "tier": "B",
+          "label": "CONTESTED",
+          "score": 2.8333,
+          "coverage": 3,
+          "spread": 1.5
+        }
+      },
+      "francis": {
+        "high": {
+          "tier": "A",
+          "label": "CONTESTED",
+          "score": 3.1667,
+          "coverage": 3,
+          "spread": 2.0
+        },
+        "low": {
+          "tier": "A",
+          "label": "CONTESTED",
+          "score": 3.1667,
+          "coverage": 3,
+          "spread": 2.0
+        },
+        "max": {
+          "tier": "A",
+          "label": "CONTESTED",
+          "score": 3.1667,
+          "coverage": 3,
+          "spread": 2.0
+        }
+      },
+      "francis-summer-dive": {
+        "high": {
+          "tier": "S",
+          "label": "SOLID",
+          "score": 3.75,
+          "coverage": 2,
+          "spread": 0.5
+        },
+        "low": {
+          "tier": "A",
+          "label": "CONTESTED",
+          "score": 3.0,
+          "coverage": 2,
+          "spread": 2.0
+        },
+        "max": {
+          "tier": "S",
+          "label": "SOLID",
+          "score": 4.0,
+          "coverage": 2,
+          "spread": 0.0
+        }
+      },
+      "gabi": {
+        "high": {
+          "tier": "B",
+          "label": "SOLID",
+          "score": 2.6667,
+          "coverage": 3,
+          "spread": 1.0
+        },
+        "low": {
+          "tier": "B",
+          "label": "CONTESTED",
+          "score": 2.0,
+          "coverage": 3,
+          "spread": 2.0
+        },
+        "max": {
+          "tier": "B",
+          "label": "SOLID",
+          "score": 2.6667,
+          "coverage": 3,
+          "spread": 1.0
+        }
+      },
+      "isabella": {
+        "high": {
+          "tier": "S",
+          "label": "SOLID",
+          "score": 3.6667,
+          "coverage": 3,
+          "spread": 0.5
+        },
+        "low": {
+          "tier": "S",
+          "label": "SOLID",
+          "score": 3.5,
+          "coverage": 3,
+          "spread": 1.0
+        },
+        "max": {
+          "tier": "S",
+          "label": "SOLID",
+          "score": 3.6667,
+          "coverage": 3,
+          "spread": 0.5
+        }
+      },
+      "jiwon": {
+        "high": {
+          "tier": "A",
+          "label": "SOLID",
+          "score": 3.1667,
+          "coverage": 3,
+          "spread": 0.5
+        },
+        "low": {
+          "tier": "B",
+          "label": "CONTESTED",
+          "score": 2.5,
+          "coverage": 3,
+          "spread": 2.5
+        },
+        "max": {
+          "tier": "A",
+          "label": "SOLID",
+          "score": 3.1667,
+          "coverage": 3,
+          "spread": 0.5
+        }
+      },
+      "leeho": {
+        "high": {
+          "tier": "C",
+          "label": "SOLID",
+          "score": 1.0,
+          "coverage": 2,
+          "spread": 0.0
+        },
+        "low": {
+          "tier": "C",
+          "label": "SOLID",
+          "score": 1.0,
+          "coverage": 2,
+          "spread": 0.0
+        },
+        "max": {
+          "tier": "C",
+          "label": "SOLID",
+          "score": 1.0,
+          "coverage": 2,
+          "spread": 0.0
+        }
+      },
+      "mabel": {
+        "high": {
+          "tier": "A",
+          "label": "SOLID",
+          "score": 3.0,
+          "coverage": 2,
+          "spread": 0.0
+        },
+        "low": {
+          "tier": "B",
+          "label": "SOLID",
+          "score": 2.5,
+          "coverage": 2,
+          "spread": 1.0
+        },
+        "max": {
+          "tier": "A",
+          "label": "SOLID",
+          "score": 3.0,
+          "coverage": 2,
+          "spread": 0.0
+        }
+      },
+      "mina": {
+        "high": {
+          "tier": "S",
+          "label": "SOLID",
+          "score": 3.8333,
+          "coverage": 3,
+          "spread": 0.5
+        },
+        "low": {
+          "tier": "A",
+          "label": "CONTESTED",
+          "score": 3.3333,
+          "coverage": 3,
+          "spread": 2.0
+        },
+        "max": {
+          "tier": "S",
+          "label": "SOLID",
+          "score": 3.8333,
+          "coverage": 3,
+          "spread": 0.5
+        }
+      },
+      "nagi": {
+        "high": {
+          "tier": "B",
+          "label": "SOLID",
+          "score": 2.5,
+          "coverage": 2,
+          "spread": 1.0
+        },
+        "low": {
+          "tier": "B",
+          "label": "CONTESTED",
+          "score": 2.0,
+          "coverage": 2,
+          "spread": 2.0
+        },
+        "max": {
+          "tier": "A",
+          "label": "SOLID",
+          "score": 3.0,
+          "coverage": 2,
+          "spread": 0.0
+        }
+      },
+      "narae": {
+        "high": {
+          "tier": "S",
+          "label": "SOLID",
+          "score": 4.0,
+          "coverage": 3,
+          "spread": 0.0
+        },
+        "low": {
+          "tier": "S",
+          "label": "SOLID",
+          "score": 4.0,
+          "coverage": 3,
+          "spread": 0.0
+        },
+        "max": {
+          "tier": "S",
+          "label": "SOLID",
+          "score": 4.0,
+          "coverage": 3,
+          "spread": 0.0
+        }
+      },
+      "ophelia": {
+        "high": {
+          "tier": "A",
+          "label": "SOLID",
+          "score": 3.3333,
+          "coverage": 3,
+          "spread": 1.0
+        },
+        "low": {
+          "tier": "A",
+          "label": "CONTESTED",
+          "score": 3.0,
+          "coverage": 3,
+          "spread": 2.0
+        },
+        "max": {
+          "tier": "A",
+          "label": "SOLID",
+          "score": 3.3333,
+          "coverage": 3,
+          "spread": 1.0
+        }
+      },
+      "penny": {
+        "high": {
+          "tier": "B",
+          "label": "SOLID",
+          "score": 2.3333,
+          "coverage": 3,
+          "spread": 1.0
+        },
+        "low": {
+          "tier": "B",
+          "label": "CONTESTED",
+          "score": 2.0,
+          "coverage": 3,
+          "spread": 2.0
+        },
+        "max": {
+          "tier": "B",
+          "label": "SOLID",
+          "score": 2.6667,
+          "coverage": 3,
+          "spread": 1.0
+        }
+      },
+      "reina": {
+        "high": {
+          "tier": "C",
+          "label": "SOLID",
+          "score": 1.8333,
+          "coverage": 3,
+          "spread": 0.5
+        },
+        "low": {
+          "tier": "C",
+          "label": "SOLID",
+          "score": 1.8333,
+          "coverage": 3,
+          "spread": 0.5
+        },
+        "max": {
+          "tier": "C",
+          "label": "SOLID",
+          "score": 1.8333,
+          "coverage": 3,
+          "spread": 0.5
+        }
+      },
+      "sangun": {
+        "high": {
+          "tier": "C",
+          "label": "CONTESTED",
+          "score": 1.75,
+          "coverage": 2,
+          "spread": 3.5
+        },
+        "low": {
+          "tier": "C",
+          "label": "CONTESTED",
+          "score": 1.75,
+          "coverage": 2,
+          "spread": 3.5
+        },
+        "max": {
+          "tier": "B",
+          "label": "CONTESTED",
+          "score": 2.25,
+          "coverage": 2,
+          "spread": 2.5
+        }
+      },
+      "sera": {
+        "high": {
+          "tier": "C",
+          "label": "SOLID",
+          "score": 1.8333,
+          "coverage": 3,
+          "spread": 0.5
+        },
+        "low": {
+          "tier": "C",
+          "label": "SOLID",
+          "score": 1.5,
+          "coverage": 3,
+          "spread": 1.0
+        },
+        "max": {
+          "tier": "C",
+          "label": "SOLID",
+          "score": 1.8333,
+          "coverage": 3,
+          "spread": 0.5
+        }
+      },
+      "verna": {
+        "high": {
+          "tier": "C",
+          "label": "SOLID",
+          "score": 1.0,
+          "coverage": 2,
+          "spread": 0.0
+        },
+        "low": {
+          "tier": "C",
+          "label": "SOLID",
+          "score": 1.0,
+          "coverage": 2,
+          "spread": 0.0
+        },
+        "max": {
+          "tier": "C",
+          "label": "SOLID",
+          "score": 1.0,
+          "coverage": 2,
+          "spread": 0.0
+        }
+      },
+      "verna-summer-dive": {
+        "high": {
+          "tier": "A",
+          "label": "SOLID",
+          "score": 3.25,
+          "coverage": 2,
+          "spread": 0.5
+        },
+        "low": {
+          "tier": "A",
+          "label": "SOLID",
+          "score": 3.25,
+          "coverage": 2,
+          "spread": 0.5
+        },
+        "max": {
+          "tier": "A",
+          "label": "SOLID",
+          "score": 3.25,
+          "coverage": 2,
+          "spread": 0.5
+        }
+      },
+      "vivian": {
+        "high": {
+          "tier": "A",
+          "label": "SOLID",
+          "score": 3.25,
+          "coverage": 2,
+          "spread": 0.5
+        },
+        "low": {
+          "tier": "B",
+          "label": "SOLID",
+          "score": 2.5,
+          "coverage": 2,
+          "spread": 1.0
+        },
+        "max": {
+          "tier": "A",
+          "label": "SOLID",
+          "score": 3.25,
+          "coverage": 2,
+          "spread": 0.5
+        }
+      },
+      "yeonhwa": {
+        "high": {
+          "tier": "B",
+          "label": "CONTESTED",
+          "score": 2.5,
+          "coverage": 3,
+          "spread": 2.5
+        },
+        "low": {
+          "tier": "B",
+          "label": "CONTESTED",
+          "score": 2.5,
+          "coverage": 3,
+          "spread": 2.5
+        },
+        "max": {
+          "tier": "B",
+          "label": "CONTESTED",
+          "score": 2.5,
+          "coverage": 3,
+          "spread": 2.5
+        }
+      }
+    }
+  }
+}
