@@ -1,12 +1,16 @@
 # Working dataset — urgametips check-only placements (Conquest list only),
 # transcribed from docs/inputs/mongil-tier-list-consensus-2026-10-29.md
-# lines 180-183. Published Sep 7, 2026; 21 characters. Never counted.
+# lines 180-183. Published Sep 7, 2026 (page updated Sep 9, 2026);
+# 21 characters. Never counted.
+# Refresh check, sweep 2026-10-29T2105-sweep-pm (checkonly-refresh.md):
+# rows verified UNCHANGED; the list has not been updated since Sep 2026.
 
 kind = "modes_conquest_only"
 
 [meta]
 source = "urgametips"
 harvest = "2026-10-29"
+read_at = "2026-10-29T21:10:00-04:00"
 
 [[placement]]
 character = "narae"

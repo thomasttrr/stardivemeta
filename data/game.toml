@@ -1,7 +1,22 @@
-# Game version table (plan §B.3). Settled from official patch notes by
-# T2.3 — plan item X7: Pocket Gamer states "1.04", Kaiden states "1.4"
-# for the same era, and the official string wins when T2.3 reads it.
-# Until then current_version holds Pocket Gamer's stated string (the
-# only version any voting source prints) so emit has a value; the
-# release list is filled in by T2.3.
-current_version = "1.04"
+# Game version table (plan §B.3). Settled by T2.3 in sweep
+# 2026-10-29T2105-sweep-pm (harvest game-version-note.md): the official
+# version string is "1.4" — Netmarble's own press release of
+# 2026-09-30 announces "the Version 1.4 update". The "1.04" /
+# "1.04.00" strings Pocket Gamer prints are the App Store build
+# numbers of the same release (current build 1.04.10, 2026-10-28,
+# whose store changelog itself reads "1.4 Version Major Update"), so
+# sources.toml maps PG's stated version to the official "1.4".
+
+current_version = "1.4"
+
+[[release]]
+version = "1.4"
+date = "2026-09-30"
+balance_changes = true
+roster_change = ["isabella"]
+# Netmarble press release of 2026-09-30 (Episode 7, new character
+# Isabella, Half Anniversary events), as reproduced by Capsule
+# Computers; the 1.4 store changelog lists "Character Balance
+# Adjustments", hence balance_changes = true. Chloe followed on
+# 2026-10-20/21 as an update within 1.4 (no new version number).
+source = "https://www.capsulecomputers.com.au/2026/10/mongil-star-dive-launches-version-1-4-update-featuring-new-character-isabella/"

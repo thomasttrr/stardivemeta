@@ -1,0 +1,153 @@
+# B-read (screenshot/visual) — Pocket Gamer tier list, sweep
+# 2026-10-29T2105-sweep-pm. Conquest and Dimensional Rift sections only;
+# the World/Story list is preserved in B-READ-1-pg-jp-mongil.md but is not
+# a voting list and is intentionally excluded here.
+
+[meta]
+source = "pg"
+harvest = "2026-10-29T2105-sweep-pm"
+worker = "B"
+read_mode = "screenshot"
+read_at = "2026-10-29T21:16:00-04:00"
+page_updated = "2026-10-05"
+game_version_stated = "1.04.00"
+note = "Conquest = Boss - ST. Rift = Dimensional Rift (Dungeon - AoE)."
+
+[[placement]]
+character = "mina"
+conquest = "S"
+rift = "S"
+
+[[placement]]
+character = "penny"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "narae"
+conquest = "S"
+rift = "S"
+
+[[placement]]
+character = "sangun"
+conquest = "A"
+rift = "S"
+
+[[placement]]
+character = "jiwon"
+conquest = "A"
+rift = "S"
+
+[[placement]]
+character = "gabi"
+conquest = "A"
+rift = "A"
+
+[[placement]]
+character = "isabella"
+conquest = "A"
+rift = "S"
+
+[[placement]]
+character = "flare"
+conquest = "S"
+rift = "A"
+
+[[placement]]
+character = "chloe"
+conquest = "S"
+rift = "S"
+
+[[placement]]
+character = "ophelia"
+conquest = "A"
+rift = "A"
+
+[[placement]]
+character = "esther"
+conquest = "S"
+rift = "A"
+
+[[placement]]
+character = "nagi"
+status = "not_listed"
+
+[[placement]]
+character = "brisshell"
+status = "not_listed"
+
+[[placement]]
+character = "mabel"
+status = "not_listed"
+
+[[placement]]
+character = "verna-summer-dive"
+status = "not_listed"
+
+[[placement]]
+character = "francis-summer-dive"
+status = "not_listed"
+
+[[placement]]
+character = "vivian"
+status = "not_listed"
+
+[[placement]]
+character = "verna"
+conquest = "C"
+rift = "C"
+
+[[placement]]
+character = "cloud"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "francis"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "yeonhwa"
+conquest = "C"
+rift = "C"
+
+[[placement]]
+character = "daisy"
+conquest = "C"
+rift = "C"
+
+[[placement]]
+character = "leeho"
+conquest = "C"
+rift = "C"
+
+[[placement]]
+character = "benjamin"
+conquest = "B"
+rift = "A"
+
+[[placement]]
+character = "sera"
+conquest = "B"
+rift = "C"
+
+[[placement]]
+character = "ellie"
+conquest = "A"
+rift = "B"
+
+[[placement]]
+character = "reina"
+conquest = "B"
+rift = "C"
+
+[[placement]]
+character = "bonnie"
+conquest = "C"
+rift = "C"
+
+[[placement]]
+character = "angel"
+conquest = "C"
+rift = "S"

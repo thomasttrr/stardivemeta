@@ -1,10 +1,13 @@
-# Working dataset — Pocket Gamer placements, transcribed from
-# docs/inputs/mongil-tier-list-consensus-2026-10-29.md lines 24-34
-# (Conquest + Dimensional Rift rows; the World/Story list is not used).
+# Pocket Gamer placements — merged from the 2026-10-29T2105-sweep-pm harvest
+# (merge rule: structured fields equal worker A's read; B's screenshot
+# read agreed 0 blocking / 0 warnings). A read 2026-10-29T21:03:00-04:00
+# (rendered text); page updated 2026-10-05, page states version
+# "1.04.00" (= official 1.4, see data/game.toml). Conquest + Dimensional
+# Rift only; the World/Story list is not used.
 
 [meta]
 source = "pg"
-harvest = "2026-10-29"
+harvest = "2026-10-29T2105-sweep-pm"
 
 [[placement]]
 character = "mina"

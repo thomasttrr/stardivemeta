@@ -1,51 +1,18 @@
-# Working dataset — GameWith JP placements, transcribed from
-# docs/inputs/mongil-tier-list-consensus-2026-10-29.md lines 195-204.
-# The six characters absent from the SS/S/A text sections get
-# status = "not_in_text_tiers" (missing is never a low vote).
+# GameWith JP placements — merged from the 2026-10-29T2105-sweep-pm harvest
+# (merge rule: structured fields equal worker A's read; B's screenshot
+# read agreed 0 blocking, 1 free-text warning). A read
+# 2026-10-29T21:05:00-04:00 (rendered text), page updated 2026-10-21.
+# SS / S / A text sections only. The six characters absent from the
+# text tiers get status = "not_in_text_tiers" (missing is never a low
+# vote); the page's visual tier table was read under T2.5 and is NOT
+# merged — it enters the data only if Tom approves at CP2.
 
-[[placement]]
-character = "francis"
-tier = "SS"
-raw = "SS (at A6)"
-note = "Rated at A6 (4★ criteria). The page names maxed Francis co-#1."
-
-[[placement]]
-character = "narae"
-tier = "SS"
-raw = "SS"
-
-[[placement]]
-character = "francis-summer-dive"
-tier = "SS"
-raw = "SS"
+[meta]
+source = "gamewith-jp"
+harvest = "2026-10-29T2105-sweep-pm"
 
 [[placement]]
 character = "mina"
-tier = "SS"
-raw = "SS"
-
-[[placement]]
-character = "brisshell"
-tier = "SS"
-raw = "SS"
-
-[[placement]]
-character = "ophelia"
-tier = "SS"
-raw = "SS"
-
-[[placement]]
-character = "chloe"
-tier = "SS"
-raw = "SS"
-
-[[placement]]
-character = "isabella"
-tier = "SS"
-raw = "SS"
-
-[[placement]]
-character = "esther"
 tier = "SS"
 raw = "SS"
 
@@ -55,12 +22,61 @@ tier = "S"
 raw = "S"
 
 [[placement]]
+character = "narae"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "sangun"
+status = "not_in_text_tiers"
+
+[[placement]]
 character = "jiwon"
 tier = "S"
 raw = "S"
 
 [[placement]]
+character = "gabi"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "isabella"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "flare"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "chloe"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "ophelia"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "esther"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
 character = "nagi"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "brisshell"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "mabel"
 tier = "S"
 raw = "S"
 
@@ -70,9 +86,9 @@ tier = "S"
 raw = "S"
 
 [[placement]]
-character = "mabel"
-tier = "S"
-raw = "S"
+character = "francis-summer-dive"
+tier = "SS"
+raw = "SS"
 
 [[placement]]
 character = "vivian"
@@ -80,9 +96,19 @@ tier = "S"
 raw = "S"
 
 [[placement]]
+character = "verna"
+status = "not_in_text_tiers"
+
+[[placement]]
 character = "cloud"
 tier = "S"
 raw = "S"
+
+[[placement]]
+character = "francis"
+tier = "SS"
+raw = "SS"
+note = "Headline names 完凸フランシス (fully-awakened Francis) among the strongest; Francis is ★4, and the page criteria evaluate 4★ up to A6."
 
 [[placement]]
 character = "yeonhwa"
@@ -90,45 +116,7 @@ tier = "S"
 raw = "S"
 
 [[placement]]
-character = "benjamin"
-tier = "S"
-raw = "S"
-
-[[placement]]
-character = "flare"
-tier = "A"
-raw = "A"
-
-[[placement]]
-character = "gabi"
-tier = "A"
-raw = "A"
-
-[[placement]]
-character = "angel"
-tier = "A"
-raw = "A"
-
-[[placement]]
-character = "sera"
-tier = "A"
-raw = "A"
-
-[[placement]]
-character = "reina"
-tier = "A"
-raw = "A"
-
-[[placement]]
-character = "sangun"
-status = "not_in_text_tiers"
-
-[[placement]]
-character = "ellie"
-status = "not_in_text_tiers"
-
-[[placement]]
-character = "bonnie"
+character = "daisy"
 status = "not_in_text_tiers"
 
 [[placement]]
@@ -136,9 +124,29 @@ character = "leeho"
 status = "not_in_text_tiers"
 
 [[placement]]
-character = "verna"
+character = "benjamin"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "sera"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "ellie"
 status = "not_in_text_tiers"
 
 [[placement]]
-character = "daisy"
+character = "reina"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "bonnie"
 status = "not_in_text_tiers"
+
+[[placement]]
+character = "angel"
+tier = "A"
+raw = "A"

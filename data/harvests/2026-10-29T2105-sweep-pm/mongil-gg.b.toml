@@ -1,0 +1,138 @@
+# mongil.gg visual read, sweep 2026-10-29T2105-sweep-pm — worker B slot of the
+# double-read pair. PROVENANCE: this sweep produced ONE visual read
+# of mongil.gg (transcribed in t26-mongil-gg.toml from the raw read
+# B-READ-1-pg-jp-mongil.md). Both pair files carry that same read so
+# gate G6 can verify the merged file equals it; they are NOT two
+# independent reads. The independent second visual read and Tom's
+# CP2 spot-check remain open (T2.6).
+
+kind = "per_mode"
+
+[meta]
+source = "mongil-gg"
+harvest = "2026-10-29T2105-sweep-pm"
+[[placement]]
+character = "mina"
+world = "S"
+conquest = "S"
+rift = "S"
+
+[[placement]]
+character = "penny"
+world = "A"
+conquest = "B"
+rift = "A"
+
+[[placement]]
+character = "narae"
+world = "S"
+conquest = "A"
+rift = "S"
+
+[[placement]]
+character = "sangun"
+world = "S"
+conquest = "A"
+rift = "A"
+
+[[placement]]
+character = "jiwon"
+world = "B"
+conquest = "A"
+rift = "S"
+
+[[placement]]
+character = "gabi"
+world = "S"
+conquest = "A"
+rift = "A"
+
+[[placement]]
+character = "flare"
+world = "S"
+conquest = "S"
+rift = "S"
+
+[[placement]]
+character = "verna"
+world = "B"
+conquest = "C"
+rift = "C"
+
+[[placement]]
+character = "cloud"
+world = "B"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "francis"
+world = "C"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "yeonhwa"
+world = "A"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "daisy"
+world = "C"
+conquest = "C"
+rift = "C"
+
+[[placement]]
+character = "leeho"
+world = "A"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "benjamin"
+world = "S"
+conquest = "B"
+rift = "A"
+
+[[placement]]
+character = "sera"
+world = "B"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "ellie"
+world = "C"
+conquest = "C"
+rift = "B"
+
+[[placement]]
+character = "reina"
+world = "B"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "bonnie"
+world = "A"
+conquest = "C"
+rift = "B"
+
+[[placement]]
+character = "angel"
+world = "A"
+conquest = "B"
+rift = "A"
+
+[[placement]]
+character = "ophelia"
+world = "A"
+conquest = "A"
+rift = "S"
+
+[[placement]]
+character = "esther"
+world = "A"
+conquest = "S"
+rift = "S"

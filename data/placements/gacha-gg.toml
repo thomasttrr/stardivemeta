@@ -2,12 +2,15 @@
 # transcribed from docs/inputs/mongil-tier-list-consensus-2026-10-29.md
 # lines 216-220. Updated Oct 29, 2026; 24 characters. Never counted:
 # it aggregates Kaiden and mongil.gg, so counting it would double-count.
+# Refresh check, sweep 2026-10-29T2105-sweep-pm (checkonly-refresh.md):
+# page stamp still "Updated 29 October 2026", rows verified UNCHANGED.
 
 kind = "single_tier"
 
 [meta]
 source = "gacha-gg"
 harvest = "2026-10-29"
+read_at = "2026-10-29T21:10:00-04:00"
 
 [[placement]]
 character = "esther"

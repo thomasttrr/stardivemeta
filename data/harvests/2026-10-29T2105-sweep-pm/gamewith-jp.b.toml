@@ -1,0 +1,151 @@
+# B-read (screenshot/visual) — GameWith JP strongest-character ranking,
+# sweep 2026-10-29T2105-sweep-pm. Text/detail tiers only (SS / S / A);
+# the visual quick table is staged separately under T2.5.
+
+[meta]
+source = "gamewith-jp"
+harvest = "2026-10-29T2105-sweep-pm"
+worker = "B"
+read_mode = "screenshot"
+read_at = "2026-10-29T21:16:00-04:00"
+page_updated = "2026-10-21"
+note = "Updated shown on page: 2026-10-21 11:41. No version string shown."
+
+[[placement]]
+character = "mina"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "penny"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "narae"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "sangun"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "jiwon"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "gabi"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "isabella"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "flare"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "chloe"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "ophelia"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "esther"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "nagi"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "brisshell"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "mabel"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "verna-summer-dive"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "francis-summer-dive"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "vivian"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "verna"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "cloud"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "francis"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "yeonhwa"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "daisy"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "leeho"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "benjamin"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "sera"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "ellie"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "reina"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "bonnie"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "angel"
+tier = "A"
+raw = "A"

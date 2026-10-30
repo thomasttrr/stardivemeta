@@ -11,7 +11,9 @@ role = "voting"
 kind = "per_mode"
 url = "https://www.pocketgamer.com/mongil-star-dive/tier-list/"
 list_date = "2026-10-05"
-game_version = "1.04"
+# The page states "1.04.00" — the App Store build string of the
+# official 1.4 release (T2.3); mapped to the official string here.
+game_version = "1.4"
 status = "current"
 criteria_caveat = "Conquest = boss, single target. Rift = dungeon, AoE. World/Story list not used (Summer variants unlabeled)."
 
@@ -21,8 +23,14 @@ name = "Kaiden"
 role = "voting"
 kind = "overall_by_investment"
 url = "https://www.kaiden.gg/mongil/characters/"
+game_version = "1.4"
 status = "current"
 criteria_caveat = "Rates each character at Low, High and Max investment. Where a level has two tiers, we count the first one listed."
+# T2.4: Kaiden's own definitions, published on its tier-list page
+# (https://www.kaiden.gg/mongil/characters/tier-list/, "Ranking
+# Criteria → Investment Views"), recorded verbatim in sweep
+# 2026-10-29T2105-sweep-pm (kaiden-level-definitions.md).
+level_definitions = { low = "Assumes accessible awakenings and limited signature weapon investment.", high = "Assumes higher awakenings and stronger signature weapon investment.", max = "Assumes full ascension, at A6, on every character ranked." }
 
 [[source]]
 id = "gamewith-jp"
@@ -66,7 +74,7 @@ name = "mongil.gg"
 role = "check_only"
 kind = "per_mode"
 url = "https://mongil.gg/tierlist"
-criteria_caveat = "Placements are rendered as images and have not been read. Not counted."
+criteria_caveat = "Placements are rendered as images; read visually in sweep 2026-10-29T2105-sweep-pm (T2.6, one visual read; second read + spot-check pending at CP2). Assumes A0 unless marked A6. Not counted until a method update."
 
 [[source]]
 id = "pocket-tactics"
