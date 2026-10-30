@@ -1,0 +1,464 @@
+---
+// The "character file" dossier (plan T3.3 + §B.5 Character page +
+// DESIGN.md dossier structure). One component, two places: inside the
+// evidence <dialog> on boards and as the body of /c/<slug>/.
+// The current investment level follows <html data-level> via CSS, so
+// the same static HTML serves the toggle (D-2).
+import type { Character } from '../types/contract/Character';
+import type { EvidenceRow } from '../types/contract/EvidenceRow';
+import type { Level } from '../types/contract/Level';
+import {
+  LEVELS,
+  LEVEL_NAME,
+  LABEL_GLYPH,
+  LABEL_WORD,
+  NONE_REASON_TEXT,
+  NOT_COUNTED_REASON,
+  flagSummary,
+  fmtDate,
+  fmtSpread,
+  fmtVal,
+  sourceName,
+  sourcesById,
+  tierDisplay,
+  whyText,
+} from '../lib/data';
+
+interface Props {
+  character: Character;
+  /** Render the name as <h1> (character page) instead of <h2> (dialog). */
+  asPage?: boolean;
+}
+const { character: c, asPage = false } = Astro.props;
+
+interface RowVM {
+  name: string;
+  url: string;
+  date: string;
+  kind: string;
+  plain: string | null;
+  segments: { lvl: Level; text: string }[] | null;
+  note: string | null;
+  reason: string | null;
+  flags: string | null;
+  numText: string | null;
+  numByLevel: Record<Level, string> | null;
+}
+
+function rowVM(row: EvidenceRow, checkOnly: boolean): RowVM {
+  const p = row.placement;
+  const vm: RowVM = {
+    name: sourceName(row.source),
+    url: row.page_url,
+    date: fmtDate(row.page_date),
+    kind: p.kind,
+    plain: null,
+    segments: null,
+    note: row.note,
+    reason: null,
+    flags: flagSummary(row),
+    numText: null,
+    numByLevel: null,
+  };
+  if (p.kind === 'single') {
+    vm.plain = p.raw;
+    vm.numText = p.converted !== null ? fmtVal(p.converted) : null;
+  } else if (p.kind === 'modes') {
+    vm.plain = `Conquest ${p.conquest ?? '—'} · Rift ${p.rift ?? '—'}`;
+    vm.numText = p.converted_overall !== null ? fmtVal(p.converted_overall) : null;
+  } else if (p.kind === 'levels') {
+    vm.segments = LEVELS.map((lv) => ({
+      lvl: lv,
+      text: `${LEVEL_NAME[lv]} ${p[lv].raw}`,
+    }));
+    vm.numByLevel = {
+      low: fmtVal(p.low.converted),
+      high: fmtVal(p.high.converted),
+      max: fmtVal(p.max.converted),
+    };
+  } else if (p.kind === 'none') {
+    vm.reason = NONE_REASON_TEXT[p.reason] ?? p.reason;
+  }
+  if (checkOnly) {
+    vm.reason = NOT_COUNTED_REASON[row.source] ?? 'Not counted';
+    if (p.kind === 'none') {
+      vm.plain = 'Not listed';
+    }
+    vm.numText = null;
+    vm.numByLevel = null;
+  }
+  return vm;
+}
+
+const votingRows = c.evidence
+  .filter((r) => r.role === 'voting')
+  .map((r) => rowVM(r, false));
+const checkRows = c.evidence
+  .filter((r) => r.role === 'check_only')
+  .map((r) => rowVM(r, true));
+
+const criteria = c.evidence
+  .filter((r) => r.role === 'voting' && r.counted)
+  .map((r) => ({
+    name: sourceName(r.source),
+    caveat: sourcesById.get(r.source)?.criteria_caveat ?? null,
+  }))
+  .filter((x) => x.caveat !== null);
+
+const NameTag = asPage ? 'h1' : 'h2';
+---
+
+<article class="dossier">
+  <p class="evkicker">Character file</p>
+  <NameTag class="dname">
+    {c.name}
+    {c.is_new && <span class="newtag">New</span>}
+  </NameTag>
+
+  <p class="summary">
+    {
+      LEVELS.map((lv, i) => (
+        <>
+          {i > 0 && '   '}
+          <span class="sumseg" data-lvl={lv}>
+            {LEVEL_NAME[lv]}: {tierDisplay(c.results[lv].tier)} ·{' '}
+            {LABEL_WORD[c.results[lv].label]}
+          </span>
+        </>
+      ))
+    }
+  </p>
+
+  {
+    LEVELS.map((lv) => {
+      const r = c.results[lv];
+      return (
+        <div class={`lvl lvl-${lv}`}>
+          <div class="stats">
+            <div class="stat">
+              <span class="k">Tier</span>
+              <span class="v">
+                {tierDisplay(r.tier)}{' '}
+                <small>
+                  <span aria-hidden="true">{LABEL_GLYPH[r.label]}</span>{' '}
+                  {LABEL_WORD[r.label]}
+                </small>
+              </span>
+            </div>
+            <div class="stat">
+              <span class="k">Score</span>
+              <span class="v">
+                {r.score_display ?? '—'} <small>of 4</small>
+              </span>
+            </div>
+            <div class="stat">
+              <span class="k">Lists · gap</span>
+              <span class="v">
+                {r.coverage} <small>lists · gap {fmtSpread(r.spread)}</small>
+              </span>
+            </div>
+          </div>
+        </div>
+      );
+    })
+  }
+
+  <div class="levels" role="group" aria-label="Tier by investment level">
+    {
+      LEVELS.map((lv) => (
+        <span class="lvlchip" data-lvl={lv}>
+          {LEVEL_NAME[lv]} · {tierDisplay(c.results[lv].tier)}
+        </span>
+      ))
+    }
+  </div>
+
+  {
+    LEVELS.map((lv) => (
+      <div class={`lvl lvl-${lv}`}>
+        <p class="why">
+          <b>Why {LABEL_WORD[c.results[lv].label]}:</b> {whyText(c, lv)}
+        </p>
+      </div>
+    ))
+  }
+
+  <h3 class="seclabel">What each list says</h3>
+  {
+    votingRows.map((row) => (
+      <div class="evrow">
+        <span class="src">
+          <a href={row.url}>{row.name}</a>
+        </span>
+        <span class="plc">
+          {row.segments ? (
+            row.segments.map((seg, i) => (
+              <>
+                {i > 0 && ' · '}
+                <span class="seg" data-lvl={seg.lvl}>
+                  {seg.text}
+                </span>
+              </>
+            ))
+          ) : row.plain ? (
+            row.plain
+          ) : null}
+          {row.reason && <span class="reason">{row.reason}</span>}
+          {row.flags && <span class="note">{row.flags}</span>}
+          {row.note && <span class="note">{row.note}</span>}
+        </span>
+        <span class="num">
+          {row.numByLevel ? (
+            LEVELS.map((lv) => (
+              <span class={`lvl lvl-${lv}`}>{row.numByLevel![lv]}</span>
+            ))
+          ) : row.numText ? (
+            row.numText
+          ) : (
+            '—'
+          )}
+        </span>
+        <span class="dt">{row.date}</span>
+      </div>
+    ))
+  }
+
+  {
+    criteria.length > 0 && (
+      <>
+        <h3 class="seclabel">Criteria notes</h3>
+        {criteria.map((x) => (
+          <p class="criteria">
+            <b>{x.name}:</b> {x.caveat}
+          </p>
+        ))}
+      </>
+    )
+  }
+
+  {
+    checkRows.length > 0 && (
+      <>
+        <h3 class="seclabel">Not counted (shown for context)</h3>
+        {checkRows.map((row) => (
+          <div class="evrow">
+            <span class="src">
+              <a href={row.url}>{row.name}</a>
+            </span>
+            <span class="plc">
+              {row.plain}
+              {row.reason && <span class="reason">{row.reason}</span>}
+            </span>
+            <span class="num">—</span>
+            <span class="dt">{row.date}</span>
+          </div>
+        ))}
+      </>
+    )
+  }
+
+  <p class="modes">
+    Conquest {tierDisplay(c.modes.conquest.tier as never)} · Rift{' '}
+    {tierDisplay(c.modes.rift.tier as never)} (Pocket Gamer only)
+  </p>
+
+  {
+    c.errata.length > 0 && (
+      <>
+        <h3 class="seclabel">Corrections for this character</h3>
+        {c.errata.map((e) => (
+          <p class="criteria">{e}</p>
+        ))}
+      </>
+    )
+  }
+
+  <p class="howlink"><a href="/rules/">How we score →</a></p>
+</article>
+
+<style>
+  .dossier {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    padding: var(--space-panel);
+  }
+  .evkicker {
+    font-size: var(--text-kicker);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--teal);
+    font-weight: var(--weight-extrabold);
+    margin: 0;
+  }
+  .dname {
+    font-size: var(--text-dossier-name);
+    margin: 4px 0 10px;
+    font-weight: var(--weight-extrabold);
+    line-height: var(--leading-tight);
+  }
+  .newtag {
+    font-size: var(--text-pill);
+    font-weight: var(--weight-bold);
+    background: var(--gold);
+    color: var(--on-gold);
+    border-radius: var(--radius-pill);
+    padding: 2.5px 8px;
+    vertical-align: middle;
+    margin-left: 8px;
+  }
+  .summary {
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+    margin: 0 0 12px;
+    white-space: pre-wrap;
+  }
+  .sumseg {
+    white-space: nowrap;
+  }
+  :global([data-level="low"]) .sumseg[data-lvl="low"],
+  :global([data-level="high"]) .sumseg[data-lvl="high"],
+  :global([data-level="max"]) .sumseg[data-lvl="max"] {
+    color: var(--text);
+    font-weight: var(--weight-extrabold);
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-grid-gap);
+  }
+  .stat {
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 9px 10px;
+  }
+  .stat .k {
+    display: block;
+    font-size: var(--text-stat-key);
+    color: var(--sub);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: var(--weight-bold);
+  }
+  .stat .v {
+    display: block;
+    font-size: var(--stat-value-size);
+    font-weight: var(--weight-extrabold);
+    margin-top: 2px;
+  }
+  .stat .v small {
+    font-size: 11.5px;
+    color: var(--sub);
+    font-weight: var(--weight-semibold);
+  }
+  .levels {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  .lvlchip {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-pill);
+    padding: 4px 11px;
+    font-size: var(--text-note);
+    color: var(--sub);
+  }
+  :global([data-level="low"]) .lvlchip[data-lvl="low"],
+  :global([data-level="high"]) .lvlchip[data-lvl="high"],
+  :global([data-level="max"]) .lvlchip[data-lvl="max"] {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--on-gold);
+    font-weight: var(--weight-extrabold);
+  }
+  .why {
+    margin: 14px 0 0;
+    font-size: 14.5px;
+    background: var(--why-bg);
+    border: 1px solid var(--why-line);
+    border-radius: var(--radius-md);
+    padding: 11px 12px;
+  }
+  .why b {
+    color: var(--pink);
+  }
+  .seclabel {
+    font-size: var(--text-section-label);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--sub);
+    margin: 20px 0 4px;
+    font-weight: var(--weight-bold);
+  }
+  .evrow {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    padding: 10px 0;
+    border-top: 1px solid var(--line);
+  }
+  .evrow .src {
+    flex: 0 0 92px;
+    font-weight: var(--weight-bold);
+    font-size: var(--text-body-sm);
+  }
+  .evrow .src a {
+    color: var(--text);
+    text-decoration: none;
+  }
+  .evrow .src a:hover {
+    text-decoration: underline;
+  }
+  .evrow .plc {
+    flex: 1;
+    font-size: var(--text-body-sm);
+  }
+  .evrow .plc .note,
+  .evrow .plc .reason {
+    display: block;
+    color: var(--sub);
+    font-size: 12px;
+    margin-top: 1px;
+  }
+  :global([data-level="low"]) .seg[data-lvl="low"],
+  :global([data-level="high"]) .seg[data-lvl="high"],
+  :global([data-level="max"]) .seg[data-lvl="max"] {
+    font-weight: var(--weight-extrabold);
+  }
+  .evrow .num {
+    flex: 0 0 auto;
+    font-weight: var(--weight-extrabold);
+    font-size: 15px;
+  }
+  .evrow .dt {
+    flex: 0 0 auto;
+    color: var(--sub);
+    font-size: 12px;
+  }
+  @media (max-width: 480px) {
+    .evrow {
+      flex-wrap: wrap;
+    }
+    .evrow .src {
+      flex-basis: 100%;
+    }
+  }
+  .criteria {
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+    margin: 6px 0 0;
+  }
+  .criteria b {
+    color: var(--text);
+  }
+  .modes {
+    margin: 16px 0 0;
+    font-size: var(--text-body-sm);
+  }
+  .howlink {
+    margin: 16px 0 0;
+    font-size: var(--text-body-sm);
+  }
+</style>

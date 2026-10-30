@@ -1,0 +1,50 @@
+---
+// Label legend (plan §B.5 Home item 6). Glyph + word + plain meaning —
+// never colour alone.
+const items = [
+  { glyph: '●', word: 'Solid', text: 'the lists agree within 1 tier.' },
+  { glyph: '◐', word: 'Contested', text: 'the lists are more than 1 tier apart.' },
+  { glyph: '○', word: 'Speculation', text: 'only 1 list has placed them so far.' },
+  {
+    glyph: '⇄',
+    word: 'Mode-split',
+    text: 'strong in one mode, weak in the other. See Conquest and Rift.',
+  },
+];
+---
+
+<div class="legend">
+  {
+    items.map((i) => (
+      <p>
+        <span aria-hidden="true">{i.glyph}</span> <b>{i.word}</b> — {i.text}
+      </p>
+    ))
+  }
+</div>
+
+<style>
+  .legend {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 14px;
+    margin-top: 26px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: var(--space-legend-y) var(--space-legend-x);
+    font-size: var(--text-note);
+    color: var(--sub);
+  }
+  .legend p {
+    margin: 0;
+  }
+  .legend b {
+    color: var(--text);
+  }
+  @media (max-width: 480px) {
+    .legend {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

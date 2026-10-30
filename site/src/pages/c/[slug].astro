@@ -1,0 +1,35 @@
+---
+// Per-character evidence page (plan T3.3, D-1): the same dossier
+// component as the board dialog, as its own linkable page.
+import Base from '../../layouts/Base.astro';
+import EvidencePanel from '../../components/EvidencePanel.astro';
+import { data } from '../../lib/data';
+import type { Character } from '../../types/contract/Character';
+
+export function getStaticPaths() {
+  return data.characters.map((c) => ({
+    params: { slug: c.id },
+    props: { character: c },
+  }));
+}
+
+interface Props {
+  character: Character;
+}
+const { character: c } = Astro.props;
+---
+
+<Base
+  title={`${c.name} Tier – MONGIL: STAR DIVE – StarDiveMeta`}
+  path={`/c/${c.id}/`}
+>
+  <div class="page-panel">
+    <EvidencePanel character={c} asPage />
+  </div>
+</Base>
+
+<style>
+  .page-panel {
+    margin-top: 18px;
+  }
+</style>

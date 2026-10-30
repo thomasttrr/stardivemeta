@@ -1,0 +1,98 @@
+---
+// One character card tile (plan T3.2, DESIGN.md "Character card").
+// A link to /c/<slug>/ that dialog.ts upgrades to the evidence dialog.
+// On mode pages it also carries the small Overall-at-Low line (T3.4).
+import type { Character } from '../types/contract/Character';
+import type { Result } from '../types/contract/Result';
+import { LABEL_GLYPH, LABEL_WORD, tierDisplay } from '../lib/data';
+
+interface Props {
+  character: Character;
+  /** The result this chip summarises (board level, or Low on mode pages). */
+  result: Result;
+  /** Show the "Overall …" line (mode pages). */
+  overallLine?: boolean;
+}
+const { character: c, result: r, overallLine = false } = Astro.props;
+const glyph = LABEL_GLYPH[r.label];
+const word = LABEL_WORD[r.label];
+const srText = `${c.name}: tier ${tierDisplay(r.tier)}, ${word}, score ${r.score_display ?? '—'} of 4, ${r.coverage} lists`;
+---
+
+<a
+  class="card"
+  href={`/c/${c.id}/`}
+  data-slug={c.id}
+  data-label={r.label}
+  data-dialog={`ev-${c.id}`}
+  aria-label={srText}
+>
+  <span class="nm">{c.name}</span>
+  {
+    overallLine ? (
+      <span class="overall">
+        Overall {tierDisplay(r.tier)} <span aria-hidden="true">{glyph}</span>
+        <span class="sr-only">{word}</span>
+      </span>
+    ) : (
+      <span class="pill">
+        <span aria-hidden="true">{glyph}</span>
+        <span>{word}</span>
+        {r.score_display && <span class="sc">{r.score_display}</span>}
+        {r.label === 'SPECULATION' && <span class="sc">1 list</span>}
+      </span>
+    )
+  }
+</a>
+
+<style>
+  .card {
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: var(--space-card-y) var(--space-card-x);
+    min-height: var(--card-min-height);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color var(--duration-max);
+  }
+  .card:hover {
+    border-color: var(--sub);
+  }
+  .card[data-label="SPECULATION"] {
+    border-style: dashed;
+  }
+  .nm {
+    font-weight: var(--weight-bold);
+    font-size: var(--text-card-name);
+    line-height: var(--leading-card);
+  }
+  .pill {
+    align-self: flex-start;
+    display: inline-flex;
+    gap: 5px;
+    align-items: center;
+    font-size: var(--text-pill);
+    font-weight: var(--weight-bold);
+    border-radius: var(--radius-pill);
+    padding: 2.5px 8px;
+    background: var(--pill-bg);
+    color: var(--text);
+    border: 1px solid var(--line);
+  }
+  .pill .sc {
+    color: var(--sub);
+    font-weight: var(--weight-semibold);
+  }
+  .card[data-label="CONTESTED"] .pill {
+    border-color: var(--pink);
+  }
+  .overall {
+    color: var(--sub);
+    font-size: var(--text-pill);
+    font-weight: var(--weight-semibold);
+  }
+</style>

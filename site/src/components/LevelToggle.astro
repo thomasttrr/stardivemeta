@@ -1,0 +1,90 @@
+---
+// Investment toggle (plan T3.2 + D-4). Three radio buttons; level.ts
+// flips <html data-level>. Without JS, Low shows and the toggle falls
+// back to links to the table page's level anchors.
+import { LEVELS, LEVEL_NAME, sourcesById } from '../lib/data';
+
+const kaiden = sourcesById.get('kaiden');
+const defs = kaiden?.level_definitions ?? null;
+---
+
+<div class="toggle-form">
+  <fieldset class="toggle">
+    <legend class="sr-only">Investment level</legend>
+    {
+      LEVELS.map((lv) => (
+        <label class="seg">
+          <input type="radio" name="sdm-level" value={lv} checked={lv === 'low'} />
+          <span>{LEVEL_NAME[lv]}</span>
+        </label>
+      ))
+    }
+  </fieldset>
+</div>
+<noscript>
+  <p class="tnote">
+    Investment: <a href="/table/#low">Low</a> · <a href="/table/#high">High</a> ·{' '}
+    <a href="/table/#max">Max</a> (on the table page)
+  </p>
+</noscript>
+<p class="tnote">
+  Only Kaiden rates by investment. The other two lists stay the same at every
+  level.
+</p>
+<p class="tnote">Watch who climbs as investment rises.</p>
+{
+  defs && (
+    <p class="tnote">
+      Kaiden's levels: {defs.low} / {defs.high} / {defs.max}
+    </p>
+  )
+}
+
+<style>
+  .toggle-form {
+    margin: 18px 0 0;
+  }
+  .toggle {
+    display: flex;
+    gap: 6px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 5px;
+    width: fit-content;
+    margin: 0;
+  }
+  .seg {
+    position: relative;
+    cursor: pointer;
+  }
+  .seg input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+  .seg span {
+    display: block;
+    padding: 6px 16px;
+    border-radius: var(--radius-sm);
+    color: var(--sub);
+    font-weight: var(--weight-semibold);
+    font-size: 14px;
+  }
+  .seg input:checked + span {
+    background: var(--teal);
+    color: var(--on-teal);
+    font-weight: var(--weight-bold);
+  }
+  .seg input:focus-visible + span {
+    outline: 2px solid var(--teal);
+    outline-offset: 2px;
+  }
+  .tnote {
+    color: var(--sub);
+    font-size: var(--text-note);
+    margin: 9px 0 0;
+  }
+</style>

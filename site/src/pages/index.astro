@@ -1,19 +1,71 @@
 ---
-// Minimal scaffold page (T1.1). The real home page is built in P3 (T3.2).
-// Global styles (design tokens, docs/DESIGN.md) are wired here so every
-// future page layout builds on the same import.
-import '../styles/global.css';
+// Home tier board (plan T3.2 + §B.5 Home). All three level boards are
+// static HTML; <html data-level> + CSS decide which one shows (D-2).
+import Base from '../layouts/Base.astro';
+import TierBoard from '../components/TierBoard.astro';
+import LevelToggle from '../components/LevelToggle.astro';
+import Legend from '../components/Legend.astro';
+import Stamp from '../components/Stamp.astro';
+import EvidenceDialogs from '../components/EvidenceDialogs.astro';
+import { LEVELS, data, stampChecked, titleMonth } from '../lib/data';
+
+const stamp = `Lists last checked ${stampChecked()} · Method v${data.method.version} · Game version ${data.game_version}`;
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>StarDiveMeta</title>
-  </head>
-  <body>
-    <h1>StarDiveMeta</h1>
-    <p>Every list disagrees. We show you by how much.</p>
-  </body>
-</html>
+<Base
+  title={`MONGIL: STAR DIVE Tier List (${titleMonth()}) – StarDiveMeta`}
+  path="/"
+>
+  <h1 class="page-title">MONGIL: STAR DIVE tier list</h1>
+  <p class="tagline">Every list disagrees. We show you by how much.</p>
+  <p class="built">
+    Built from 3 tier lists: Pocket Gamer, Kaiden and GameWith JP. Tap a
+    character to see what each list says.
+  </p>
+
+  <LevelToggle />
+
+  {
+    LEVELS.map((lv) => (
+      <div class={`lvl lvl-${lv}`}>
+        <TierBoard board={data.boards[lv]} level={lv} />
+      </div>
+    ))
+  }
+
+  <Legend />
+  <Stamp text={stamp} />
+
+  <p class="pagelinks">
+    <a href="/table/">See the full table</a> · <a href="/rules/">How we score</a> ·{' '}
+    <a href="/notes/">What moved this week</a> ·{' '}
+    <a href="/img/generated/tierlist-low.png">Download this list (PNG)</a>
+  </p>
+
+  <EvidenceDialogs />
+</Base>
+
+<style>
+  .page-title {
+    font-size: var(--text-h1);
+    line-height: var(--leading-tight);
+    margin: 18px 0 4px;
+    font-weight: var(--weight-extrabold);
+    letter-spacing: -0.01em;
+  }
+  .tagline {
+    font-size: var(--text-tagline);
+    margin: 0;
+    color: var(--gold);
+    font-weight: var(--weight-semibold);
+  }
+  .built {
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+    margin: 6px 0 0;
+  }
+  .pagelinks {
+    margin: 14px 0 0;
+    font-size: var(--text-body-sm);
+  }
+</style>

@@ -1,0 +1,17 @@
+---
+// The small "last checked / method / version" line (plan §B.5).
+interface Props {
+  text: string;
+}
+const { text } = Astro.props;
+---
+
+<p class="stamp">{text}</p>
+
+<style>
+  .stamp {
+    color: var(--sub);
+    font-size: var(--text-note);
+    margin: 18px 0 0;
+  }
+</style>
