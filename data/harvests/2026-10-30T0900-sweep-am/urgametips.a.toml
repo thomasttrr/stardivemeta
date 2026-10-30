@@ -1,0 +1,98 @@
+# A-read (rendered text) — urgametips check-only placements (Conquest list
+# only), sweep 2026-10-30T0900-sweep-am. Page title: "MONGIL: STAR DIVE Conquest
+# Tier List (September 2026)". Published 2026-09-07, updated 2026-09-09
+# per page metadata. 21 characters. Never counted.
+
+kind = "modes_conquest_only"
+
+[meta]
+source = "urgametips"
+harvest = "2026-10-30T0900-sweep-am"
+worker = "A"
+read_mode = "text"
+read_at = "2026-10-30T09:02:00-04:00"
+page_updated = "2026-09-09"
+
+[[placement]]
+character = "narae"
+conquest = "S"
+
+[[placement]]
+character = "mina"
+conquest = "S"
+
+[[placement]]
+character = "flare"
+conquest = "S"
+
+[[placement]]
+character = "esther"
+conquest = "S"
+
+[[placement]]
+character = "sangun"
+conquest = "A"
+
+[[placement]]
+character = "ophelia"
+conquest = "A"
+
+[[placement]]
+character = "gabi"
+conquest = "A"
+
+[[placement]]
+character = "jiwon"
+conquest = "A"
+
+[[placement]]
+character = "ellie"
+conquest = "A"
+
+[[placement]]
+character = "penny"
+conquest = "B"
+
+[[placement]]
+character = "reina"
+conquest = "B"
+
+[[placement]]
+character = "sera"
+conquest = "B"
+
+[[placement]]
+character = "benjamin"
+conquest = "B"
+
+[[placement]]
+character = "francis"
+conquest = "B"
+
+[[placement]]
+character = "cloud"
+conquest = "B"
+
+[[placement]]
+character = "angel"
+conquest = "C"
+
+[[placement]]
+character = "bonnie"
+conquest = "C"
+
+[[placement]]
+character = "leeho"
+conquest = "C"
+
+[[placement]]
+character = "yeonhwa"
+conquest = "C"
+
+[[placement]]
+character = "verna"
+conquest = "C"
+
+[[placement]]
+character = "daisy"
+conquest = "C"
