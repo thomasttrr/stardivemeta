@@ -113,6 +113,80 @@ fn note_baseline_from_none() {
     assert!(text.contains("Pocket Gamer is now counted"), "{text}");
 }
 
+/// Field names that must never appear in a generated note (CP4):
+/// the placement record's internals are not reader copy.
+const BANNED_INTERNALS: [&str; 5] = [
+    "page_url",
+    "max.awakening",
+    "high.awakening",
+    "low.flags",
+    "max.flags",
+];
+
+fn assert_no_internals(text: &str) {
+    for banned in BANNED_INTERNALS {
+        assert!(
+            !text.contains(banned),
+            "note leaks internal field name `{banned}`:\n{text}"
+        );
+    }
+}
+
+/// CP4 regression: Kaiden placement lines render reader-clean —
+/// tiers in Low · High · Max order, flags in Kaiden's legend words,
+/// a non-default awakening as "{Level} assumes {A}" (Max is A6 by
+/// Kaiden's own definition, so it is not spelled out), and no raw
+/// field names or per-character URLs. A guide page with no Tier
+/// Position section (Chloe's shape: a record whose only content is
+/// `status = "no_placement"`) gets an honest no-placement line
+/// instead of a URL dump.
+#[test]
+fn note_baseline_kaiden_lines_are_reader_clean() {
+    let kaiden = r#"
+[[placement]]
+character = "mina"
+page_url = "https://www.kaiden.gg/mongil/characters/mina/"
+low = { tier = "T2", raw = "T2", flags = ["E"] }
+high = { tier = "T0.5", raw = "T0.5 (A4), T1 at A2", awakening = "A4" }
+max = { tier = "T0.5", raw = "T0.5 (A6)", awakening = "A6" }
+[[placement]]
+character = "narae"
+page_url = "https://www.kaiden.gg/mongil/characters/narae/"
+status = "no_placement"
+"#;
+    let data = dataset_with("note-kaiden-clean", "placements/kaiden.toml", kaiden);
+    snapshot(&data, "2026-11-03-am");
+    let out = note(&data, "none", "2026-11-03-am", "2026-11-03");
+    assert_eq!(out.code, Some(0), "note: {}", out.combined());
+    let text = std::fs::read_to_string(data.join("notes/2026-11-03.md")).unwrap();
+    assert!(
+        text.contains(
+            "Kaiden placed Mina at Low T2 (Expert) · High T0.5 · Max T0.5 · High assumes A4"
+        ),
+        "{text}"
+    );
+    assert!(
+        text.contains("Kaiden has no placement for Narae (review coming soon)"),
+        "{text}"
+    );
+    assert_no_internals(&text);
+    assert!(
+        !text.contains("kaiden.gg/mongil/characters/mina"),
+        "note leaks a per-character page URL:\n{text}"
+    );
+}
+
+/// The golden diff note also stays free of internal field names.
+#[test]
+fn note_golden_has_no_internals() {
+    let data = dataset_with("note-golden-clean", "placements/pg.toml", common::PG);
+    snapshot(&data, "2026-11-03-am");
+    let out = note(&data, "none", "2026-11-03-am", "2026-11-03");
+    assert_eq!(out.code, Some(0), "note: {}", out.combined());
+    let text = std::fs::read_to_string(data.join("notes/2026-11-03.md")).unwrap();
+    assert_no_internals(&text);
+}
+
 /// Regeneration never overwrites a note Tom has approved.
 #[test]
 fn note_refuses_to_overwrite_approved() {

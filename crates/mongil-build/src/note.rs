@@ -13,6 +13,11 @@
 //! Only `approved` or `auto` notes render on the site (check-dist
 //! verifies no draft is built). An existing **approved** note is
 //! never overwritten by regeneration.
+//!
+//! Placement lines are reader-clean (CP4): tiers in a fixed order,
+//! Kaiden flags in Kaiden's legend words, awakening assumptions in
+//! words — never the placement record's raw field names or URLs
+//! (`page_url`, `max.awakening`, `low.flags`, …).
 
 use mongil_core::load::Dataset;
 use mongil_core::snapshot::{diff_docs, SnapshotDiff, SnapshotDoc};
@@ -60,6 +65,118 @@ fn level_title(level: &str) -> &str {
         "high" => "High",
         "max" => "Max",
         other => other,
+    }
+}
+
+/// Kaiden's legend words for its (E)/(P) markers — the same gloss
+/// the site prints (FLAG_TEXT in site/src/lib/data.ts, taken from
+/// Kaiden's own RANKING CRITERIA panel).
+fn flag_word(flag: &str) -> &str {
+    match flag {
+        "E" => "Expert",
+        "P" => "Partner",
+        other => other,
+    }
+}
+
+/// "[E, P]" (the flattened array form) → "Expert, Partner".
+/// None when the value carries no flags.
+fn flag_gloss(value: &str) -> Option<String> {
+    let inner = value.trim().trim_start_matches('[').trim_end_matches(']');
+    let words: Vec<&str> = inner
+        .split(',')
+        .map(|f| flag_word(f.trim()))
+        .filter(|f| !f.is_empty())
+        .collect();
+    if words.is_empty() {
+        None
+    } else {
+        Some(words.join(", "))
+    }
+}
+
+/// The reader-facing parts of one placement line, in a fixed order:
+/// overall tier, Conquest, Rift, then per-level tiers Low · High ·
+/// Max with flag glosses attached, then non-default awakening
+/// assumptions ("High assumes A4"). `page_url` and `status` never
+/// render as parts, and no raw field name ever appears (CP4 fix).
+/// Max's awakening is omitted when it is A6: Kaiden defines Max as
+/// full ascension at A6, so spelling it out on every line is noise,
+/// not information.
+fn placement_parts(fields: &BTreeMap<&str, &str>) -> Vec<String> {
+    let mut parts: Vec<String> = Vec::new();
+    if let Some(tier) = fields.get("tier") {
+        parts.push((*tier).to_string());
+    }
+    if let Some(v) = fields.get("conquest") {
+        parts.push(format!("Conquest {v}"));
+    }
+    if let Some(v) = fields.get("rift") {
+        parts.push(format!("Rift {v}"));
+    }
+    for level in ["low", "high", "max"] {
+        let title = level_title(level);
+        let tier = fields.get(format!("{level}.tier").as_str()).copied();
+        let gloss = fields
+            .get(format!("{level}.flags").as_str())
+            .copied()
+            .and_then(flag_gloss);
+        match (tier, gloss) {
+            (Some(t), Some(g)) => parts.push(format!("{title} {t} ({g})")),
+            (Some(t), None) => parts.push(format!("{title} {t}")),
+            (None, Some(g)) => parts.push(format!("{title} ({g})")),
+            (None, None) => {}
+        }
+    }
+    for level in ["low", "high"] {
+        if let Some(a) = fields.get(format!("{level}.awakening").as_str()) {
+            parts.push(format!("{} assumes {a}", level_title(level)));
+        }
+    }
+    if let Some(a) = fields.get("max.awakening") {
+        if *a != "A6" {
+            parts.push(format!("Max assumes {a}"));
+        }
+    }
+    parts
+}
+
+/// Short reader phrase for a placement status (mirrors the site's
+/// NONE_REASON_TEXT wording in site/src/lib/data.ts).
+fn status_phrase(status: &str) -> &str {
+    match status {
+        "no_placement" => "no placement — review coming soon",
+        "not_listed" => "not listed",
+        "not_in_text_tiers" => "not in its text tiers",
+        other => other,
+    }
+}
+
+/// The parenthetical detail for a "has no placement" line: for
+/// Kaiden's no-placement pages, the detail is that a review is
+/// coming; other statuses speak for themselves.
+fn status_detail(status: &str) -> &str {
+    match status {
+        "no_placement" => "review coming soon",
+        other => status_phrase(other),
+    }
+}
+
+/// A reader label for a placement field, for the label-change
+/// reason line — never the raw field name.
+fn field_label(field: &str) -> String {
+    match field {
+        "tier" => "its tier".to_string(),
+        "conquest" => "its Conquest tier".to_string(),
+        "rift" => "its Rift tier".to_string(),
+        _ => match field.split_once('.') {
+            Some((level, "tier")) => format!("its {} tier", level_title(level)),
+            Some((level, "awakening")) => {
+                format!("its {} awakening assumption", level_title(level))
+            }
+            Some((level, "flags")) => format!("its {} markers", level_title(level)),
+            _ => "its placement".to_string(),
+        },
     }
 }
 
@@ -189,15 +306,13 @@ fn render_body(
                 .find(|v| v.character == c.character && v.level == c.level)
             {
                 format!("Coverage changed {} → {} lists.", v.from, v.to)
-            } else if let Some(p) = diff
-                .placement_changes
-                .iter()
-                .find(|p| p.character == c.character)
-            {
+            } else if let Some(p) = diff.placement_changes.iter().find(|p| {
+                p.character == c.character && p.field != "page_url" && p.field != "status"
+            }) {
                 format!(
                     "{} changed {} {} → {}.",
                     ctx.source_name(&p.source),
-                    p.field,
+                    field_label(&p.field),
                     p.from,
                     p.to
                 )
@@ -274,43 +389,62 @@ fn render_body(
             }
             let fallback = character.to_string();
             let name = ctx.char_names.get(*character).unwrap_or(&fallback);
-            let mut parts: Vec<String> = Vec::new();
+            // Field → value for the group (the new value for an
+            // addition, the old one for a removal). The line's parts
+            // come from `placement_parts`, never from rendering raw
+            // field names — a published note must not leak the
+            // placement record's internals (CP4 fix).
+            let mut fields: BTreeMap<&str, &str> = BTreeMap::new();
             for p in changes {
-                if p.field == "status" {
-                    continue;
-                }
-                let value = if all_new { &p.to } else { &p.from };
-                let part = if p.field == "tier" {
-                    value.clone()
-                } else if let Some(level) = p.field.strip_suffix(".tier") {
-                    format!("{} {value}", level_title(level))
-                } else if p.field == "conquest" {
-                    format!("Conquest {value}")
-                } else if p.field == "rift" {
-                    format!("Rift {value}")
+                let value = if all_new {
+                    p.to.as_str()
                 } else {
-                    format!("{} {value}", p.field)
+                    p.from.as_str()
                 };
-                parts.push(part);
+                fields.insert(p.field.as_str(), value);
             }
-            if parts.is_empty() {
-                continue;
+            let parts = placement_parts(&fields);
+            if !parts.is_empty() {
+                if all_new {
+                    lines.push(format!(
+                        "- {} placed {name} at {}{}.",
+                        ctx.source_name(source),
+                        parts.join(" · "),
+                        ctx.citation(source)
+                    ));
+                } else {
+                    lines.push(format!(
+                        "- {} no longer places {name} (was {}).",
+                        ctx.source_name(source),
+                        parts.join(" · ")
+                    ));
+                }
+                count += 1;
+            } else if changes.iter().any(|p| p.field != "status") {
+                // A placement record exists but carries no tier
+                // content — only its status (Kaiden's Chloe: a guide
+                // page with no Tier Position section). Say so plainly
+                // instead of dumping the record. A BARE status entry
+                // (PG not-listed, JP not-in-text) is an absence, not
+                // a placement, and still gets no line.
+                if let Some(status) = fields.get("status") {
+                    if all_new {
+                        lines.push(format!(
+                            "- {} has no placement for {name} ({}){}.",
+                            ctx.source_name(source),
+                            status_detail(status),
+                            ctx.citation(source)
+                        ));
+                    } else {
+                        lines.push(format!(
+                            "- {} no longer lists {name} (was: {}).",
+                            ctx.source_name(source),
+                            status_phrase(status)
+                        ));
+                    }
+                    count += 1;
+                }
             }
-            if all_new {
-                lines.push(format!(
-                    "- {} placed {name} at {}{}.",
-                    ctx.source_name(source),
-                    parts.join(" · "),
-                    ctx.citation(source)
-                ));
-            } else {
-                lines.push(format!(
-                    "- {} no longer places {name} (was {}).",
-                    ctx.source_name(source),
-                    parts.join(" · ")
-                ));
-            }
-            count += 1;
         }
         if !lines.is_empty() {
             let mut section = vec!["## New placements".to_string()];
