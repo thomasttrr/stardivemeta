@@ -98,3 +98,4 @@ Format: one line per task — task id, date, commit, how it was checked (plan A.
     - pa11y WCAG2AA 0 errors on the same 18 pages as the theme entry (at Balanced; pa11y cannot see the WebGL layer).
     - `validate` OK.
     - `cargo test --workspace --no-fail-fast`: 173 passed, 1 failed (the same pre-existing Windows-only `load_rejects_unknown_character_ref`). No Rust changed.
+- Frost dial pick · 2026-10-30 · branch `claude/theme-revamp` (not merged) · The owner compared the three-stop screenshots and picked **Clear**: `--frost` 1 → 0.3 in `tokens.css` (the one line), `docs/DESIGN.md` frost table + token row updated to match. Nothing else changed. Known trade-off, seen in the Clear screenshots and accepted: below ~0.6 the Low/High/Max dock lets text behind it show through.

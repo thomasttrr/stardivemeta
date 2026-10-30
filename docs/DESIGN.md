@@ -73,7 +73,7 @@ The tier list sits on dark glass over a slow, deep-sea colour field.
 | `--text` | `#f4f6f1` | primary text |
 | `--sub` | `#b8c5c8` | secondary text |
 | `--mark` | `rgb(244 246 241 / .82)` | label marks on chips |
-| `--frost` | `1` (Balanced) | the frost dial, see "Frost dial" below |
+| `--frost` | `0.3` (Clear) | the frost dial, see "Frost dial" below |
 | `--frost-tint` | `(1 + --frost) / 2` | legibility tint scale (registered `<number>`) |
 | `--glass-fill` | `rgb(18 30 34 / .58 × tint)` | CSS-glass panel fill (fallback) |
 | `--glass-fill-strong` | `rgb(12 22 26 / .78 × tint, ≤ .92)` | overlays: header capsule, dialog |
@@ -106,13 +106,16 @@ keeps text legible. Both paths read it:
 
 | Stop | `--frost` | tint | CSS blur / strong | panel fill | overlay fill | dock fill | chip fill | GL frost | GL tint | dock lens blur |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Clear | 0.3 | 0.65 | 6.6 / 9.6px | .377 | .507 | .364 | .042 | .186 | .273 | 0.42 |
-| **Balanced** (shipped) | **1** | **1** | **22 / 32px** | **.58** | **.78** | **.56** | **.065** | **.62** | **.42** | **1.4** |
+| **Clear** (shipped) | **0.3** | **0.65** | **6.6 / 9.6px** | **.377** | **.507** | **.364** | **.042** | **.186** | **.273** | **0.42** |
+| Balanced | 1 | 1 | 22 / 32px | .58 | .78 | .56 | .065 | .62 | .42 | 1.4 |
 | Frosted | 2 | 1.5 | 44 / 64px | .87 | .92 (cap) | .84 | .0975 | 1.0 (cap) | .63 | 2.8 |
 
-Balanced is the owner's pick (2026-10-30), locked. It reproduces the pre-dial look exactly. With motion frozen, home and
-/c/francis/ screenshots are byte-identical to the previous build on both the
-WebGL and the CSS path. Screenshots at each stop are in
+Clear is the owner's pick (2026-10-30), locked — chosen from the three-stop
+screenshots after Balanced shipped as the default. Balanced reproduces the
+pre-dial look exactly: with motion frozen, home and /c/francis/ screenshots
+at Balanced are byte-identical to the previous build on both the WebGL and
+the CSS path. Known trade-off at Clear: below ~0.6 the dock lets text
+behind it show through. Screenshots at each stop are in
 `docs/design/screenshots/frost/`: `{stop}-*.png` is the WebGL path,
 `css-{stop}-*.png` the CSS path. To lock a different stop, change the one
 `--frost` line.
