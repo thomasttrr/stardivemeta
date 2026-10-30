@@ -40,7 +40,7 @@ jobs:
           rustup show
       - uses: Swatinem/rust-cache@v2
       - name: Validate the dataset (plan §B.7 gates)
-        run: cargo run --quiet -p mongil-build -- validate --data data
+        run: cargo run --quiet -p mongil-build -- validate --data data --site site
       - name: G9 — committed snapshots are immutable
         run: |
           changed="$(git diff --diff-filter=MDR --name-only origin/main -- data/snapshots/)"

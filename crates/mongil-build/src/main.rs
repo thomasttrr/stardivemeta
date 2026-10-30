@@ -2,12 +2,17 @@
 //! pipeline needs — `validate`, `emit`, `snapshot`, `diff`,
 //! `harvest-diff`, `png`, `lane`, `tripwire`, `note`.
 //!
-//! Status: `validate` and `emit` are complete. The rest are stubbed
-//! with explicit "not yet implemented" errors and land in their own
-//! plan tasks (harvest-diff T2.1, snapshot/diff T2.9, png T3.9,
-//! note T4.4, tripwire T4.5, lane T4.6).
+//! Status: `validate`/`emit` (T1.6–T1.7), `harvest-diff` (T2.1),
+//! `snapshot`/`diff` (T2.9), the gate cores (T2.10) and the `lane`
+//! path-classifier core (T4.6's classification) are implemented.
+//! Still stubbed with explicit "not yet implemented" errors: `png`
+//! (T3.9), `note` (T4.4), `tripwire` (T4.5).
 
+mod dist_check;
 mod emit;
+mod harvest_diff;
+mod lane;
+mod snapshots;
 mod validate;
 
 use clap::{Parser, Subcommand};
@@ -23,11 +28,18 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Command {
-    /// Run the §B.7 validation gates that exist so far against a data dir.
+    /// Run the §B.7 validation gates against a data dir.
     Validate {
         /// Dataset directory (e.g. `data`).
         #[arg(long)]
         data: PathBuf,
+        /// Site directory (e.g. `site`): enables gate G14's image checks.
+        #[arg(long)]
+        site: Option<PathBuf>,
+        /// Built output directory (e.g. `site/dist`): enables gate
+        /// G12's dist checks and G14's dist half.
+        #[arg(long)]
+        dist: Option<PathBuf>,
     },
     /// Emit the §B.2 contract JSON (tierlist/codes/history/meta).
     Emit {
@@ -102,8 +114,8 @@ fn not_yet_implemented(command: &str, task: &str) -> ExitCode {
 fn main() -> ExitCode {
     let cli = Cli::parse();
     match cli.command {
-        Command::Validate { data } => {
-            let outcome = validate::run(&data);
+        Command::Validate { data, site, dist } => {
+            let outcome = validate::run(&data, site.as_deref(), dist.as_deref());
             validate::print_and_exit(&outcome)
         }
         Command::Emit { data, out } => match emit::run(&data, &out) {
@@ -113,11 +125,16 @@ fn main() -> ExitCode {
                 ExitCode::FAILURE
             }
         },
-        Command::Snapshot { .. } => not_yet_implemented("snapshot", "T2.9"),
-        Command::Diff { .. } => not_yet_implemented("diff", "T2.9"),
-        Command::HarvestDiff { .. } => not_yet_implemented("harvest-diff", "T2.1"),
+        Command::Snapshot { data, id } => snapshots::run_snapshot(&data, id.as_deref()),
+        Command::Diff {
+            data,
+            from,
+            to,
+            format,
+        } => snapshots::run_diff(&data, &from, &to, &format),
+        Command::HarvestDiff { a, b } => harvest_diff::run(&a, &b),
         Command::Png { .. } => not_yet_implemented("png", "T3.9"),
-        Command::Lane { .. } => not_yet_implemented("lane", "T4.6"),
+        Command::Lane { base } => lane::run(&base),
         Command::Tripwire { .. } => not_yet_implemented("tripwire", "T4.5"),
         Command::Note { .. } => not_yet_implemented("note", "T4.4"),
     }

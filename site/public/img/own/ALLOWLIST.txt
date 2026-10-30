@@ -1,0 +1,5 @@
+# ALLOWLIST — screenshots and crops the project took itself (plan §B.7
+# gate G14). Every image under site/public/img/own/ must be listed here,
+# one path per line, relative to img/own/. Lines starting with # are
+# comments. Ripped game files are not permitted anywhere on the site;
+# generated placeholder art belongs under img/generated/ instead.
