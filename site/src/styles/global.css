@@ -64,15 +64,19 @@ a {
 .blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(72px);
   will-change: transform;
+  /* Each blob is a radial gradient that reaches full transparency well
+     inside its own box — never a solid disc under a blur filter. Safari
+     clips a blur filter near the element's box, which drew a hard arc
+     where the glow should fade (visible top-left while scrolling). A
+     gradient has no edge to clip, and it is far cheaper to repaint. */
 }
 .blob-1 {
   width: max(46vw, 340px);
   aspect-ratio: 1;
   left: -10vw;
   top: -12vw;
-  background: var(--amb-amber);
+  background: radial-gradient(closest-side, var(--amb-amber) 55%, transparent 100%);
   opacity: 0.5;
   animation: drift-1 38s var(--ease-out) infinite alternate;
 }
@@ -81,7 +85,7 @@ a {
   aspect-ratio: 1;
   right: -12vw;
   top: 22vh;
-  background: var(--amb-teal);
+  background: radial-gradient(closest-side, var(--amb-teal) 55%, transparent 100%);
   opacity: 0.55;
   animation: drift-2 46s var(--ease-out) infinite alternate;
 }
@@ -90,7 +94,7 @@ a {
   aspect-ratio: 1;
   left: 18vw;
   bottom: -14vw;
-  background: var(--amb-coral);
+  background: radial-gradient(closest-side, var(--amb-coral) 55%, transparent 100%);
   opacity: 0.4;
   animation: drift-3 54s var(--ease-out) infinite alternate;
 }
@@ -99,7 +103,7 @@ a {
   aspect-ratio: 1;
   right: 24vw;
   top: -6vw;
-  background: var(--amb-moss);
+  background: radial-gradient(closest-side, var(--amb-moss) 55%, transparent 100%);
   opacity: 0.42;
   animation: drift-2 60s var(--ease-out) infinite alternate-reverse;
 }
