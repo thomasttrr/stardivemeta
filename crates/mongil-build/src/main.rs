@@ -3,15 +3,16 @@
 //! `harvest-diff`, `png`, `lane`, `tripwire`, `note`.
 //!
 //! Status: `validate`/`emit` (T1.6–T1.7), `harvest-diff` (T2.1),
-//! `snapshot`/`diff` (T2.9), the gate cores (T2.10) and the `lane`
-//! path-classifier core (T4.6's classification) are implemented.
-//! Still stubbed with explicit "not yet implemented" errors: `png`
-//! (T3.9), `note` (T4.4), `tripwire` (T4.5).
+//! `snapshot`/`diff` (T2.9), the gate cores (T2.10), the `lane`
+//! path-classifier core (T4.6's classification) and `png` (T3.9)
+//! are implemented. Still stubbed with explicit "not yet
+//! implemented" errors: `note` (T4.4), `tripwire` (T4.5).
 
 mod dist_check;
 mod emit;
 mod harvest_diff;
 mod lane;
+mod png;
 mod snapshots;
 mod validate;
 
@@ -133,7 +134,7 @@ fn main() -> ExitCode {
             format,
         } => snapshots::run_diff(&data, &from, &to, &format),
         Command::HarvestDiff { a, b } => harvest_diff::run(&a, &b),
-        Command::Png { .. } => not_yet_implemented("png", "T3.9"),
+        Command::Png { data, out } => png::run(&data, &out),
         Command::Lane { base } => lane::run(&base),
         Command::Tripwire { .. } => not_yet_implemented("tripwire", "T4.5"),
         Command::Note { .. } => not_yet_implemented("note", "T4.4"),

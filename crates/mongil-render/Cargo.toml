@@ -6,3 +6,9 @@ edition = "2021"
 [lib]
 name = "mongil_render"
 path = "src/lib.rs"
+
+[dependencies]
+resvg = "0.45"
+
+[dev-dependencies]
+sha2 = "0.10"
