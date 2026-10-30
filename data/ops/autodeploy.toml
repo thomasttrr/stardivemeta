@@ -1,0 +1,6 @@
+# Auto-deploy state (plan §B.3, T4.5/T4.6). `paused = true` closes
+# the auto lane: every change then waits for Tom. `launch_date` is
+# set at launch (plan T6.4); until then the tripwire's month-one
+# rule has no window to measure and stays inactive.
+paused = false
+pause_reason = ""

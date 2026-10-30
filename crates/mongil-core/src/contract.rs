@@ -439,11 +439,24 @@ pub struct CodeEntry {
     pub observations: Vec<CodeObservation>,
 }
 
+/// One code-listing source from the registry (`data/code-sources.toml`),
+/// carried in `codes.json` so the codes page can name its witnesses.
+#[derive(Clone, Debug, PartialEq, Serialize, TS)]
+#[ts(export, export_to = "../../../site/src/types/contract/")]
+pub struct CodeSourceRef {
+    pub id: String,
+    pub name: String,
+    /// The source's independence group (plan D-G6).
+    pub group: String,
+    pub url: String,
+}
+
 /// `codes.json`.
 #[derive(Clone, Debug, PartialEq, Serialize, TS)]
 #[ts(export, export_to = "../../../site/src/types/contract/")]
 pub struct CodesFile {
     pub checked_at: Option<String>,
+    pub sources: Vec<CodeSourceRef>,
     pub codes: Vec<CodeEntry>,
 }
 

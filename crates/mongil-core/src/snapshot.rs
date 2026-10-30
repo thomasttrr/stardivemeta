@@ -321,6 +321,9 @@ fn flatten_placement(value: &serde_json::Value, prefix: &str, out: &mut BTreeMap
             out.insert(prefix.to_string(), format!("[{}]", rendered.join(", ")));
         }
         serde_json::Value::Null => {}
+        serde_json::Value::String(s) => {
+            out.insert(prefix.to_string(), s.clone());
+        }
         other => {
             out.insert(prefix.to_string(), other.to_string());
         }

@@ -64,7 +64,7 @@ fn snapshot_path(data_dir: &Path, id: &str) -> PathBuf {
     data_dir.join("snapshots").join(format!("{id}.json"))
 }
 
-fn read_snapshot(data_dir: &Path, id: &str) -> Result<SnapshotDoc, String> {
+pub(crate) fn read_snapshot(data_dir: &Path, id: &str) -> Result<SnapshotDoc, String> {
     let path = snapshot_path(data_dir, id);
     let text = std::fs::read_to_string(&path)
         .map_err(|e| format!("cannot read {}: {e}", path.display()))?;

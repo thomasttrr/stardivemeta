@@ -753,11 +753,12 @@ pub fn run(data_dir: &Path, site_dir: Option<&Path>, dist_dir: Option<&Path>) ->
         }
     }
 
-    // -- G13 core: the lane classifier exists and is exercised by tests --
+    // -- G13: the lane classifier exists and is exercised by tests ----
     out.notes.push(
-        "G13 lane (core): `lane` path classification is implemented (T2.10) and covered by \
-         the gate tests; the PR-result posting and the remaining auto-merge conditions land \
-         in T4.5/T4.6"
+        "G13 lane: `lane` classifies change sets with all of T4.6's conditions (path \
+         allowlist, roster additions only, snapshots new-files only, auto-status notes, \
+         tripwire clear, not paused, G5 mass change) and is covered by the gate and lane \
+         tests; the PR-result posting lands with the cadence workflows (T5.1)"
             .to_string(),
     );
 

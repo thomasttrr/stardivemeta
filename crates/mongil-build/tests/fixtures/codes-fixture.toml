@@ -1,0 +1,92 @@
+# Fixture codes for the T4.1 `codes_status_rules` test (plan T4.1
+# acceptance). The test's fixed build instant is 2026-11-20T12:00:00Z;
+# every sighting below is dated 2026-11-19, inside the 7-day freshness
+# window. Expected statuses: active / unconfirmed / unconfirmed /
+# unconfirmed / expired / expired.
+
+[[code]]
+code = "EXAMPLE-ACTIVE"
+reward = "100 gold"
+reward_source = "site-a"
+[[code.observation]]
+source = "site-a"
+status = "active"
+seen_at = "2026-11-19T09:00:00Z"
+url = "https://a.example/codes"
+[[code.observation]]
+source = "site-b"
+status = "active"
+seen_at = "2026-11-19T09:05:00Z"
+url = "https://b.example/codes"
+
+[[code]]
+code = "EXAMPLE-ONE-SOURCE"
+reward = "50 gold"
+reward_source = "site-a"
+[[code.observation]]
+source = "site-a"
+status = "active"
+seen_at = "2026-11-19T09:00:00Z"
+url = "https://a.example/codes"
+
+[[code]]
+code = "EXAMPLE-CONFLICT"
+reward = "50 gold"
+reward_source = "site-a"
+[[code.observation]]
+source = "site-a"
+status = "active"
+seen_at = "2026-11-19T09:00:00Z"
+url = "https://a.example/codes"
+[[code.observation]]
+source = "site-b"
+status = "expired"
+seen_at = "2026-11-19T09:05:00Z"
+url = "https://b.example/codes"
+
+[[code]]
+code = "EXAMPLE-SAME-GROUP"
+reward = "50 gold"
+reward_source = "site-a"
+[[code.observation]]
+source = "site-a"
+status = "active"
+seen_at = "2026-11-19T09:00:00Z"
+url = "https://a.example/codes"
+[[code.observation]]
+source = "site-a-mirror"
+status = "active"
+seen_at = "2026-11-19T09:01:00Z"
+url = "https://a-mirror.example/codes"
+
+[[code]]
+code = "EXAMPLE-EXPIRED-DATE"
+reward = "50 gold"
+reward_source = "site-a"
+expires_at = "2026-11-01T00:00:00Z"
+expires_source = "site-a"
+[[code.observation]]
+source = "site-a"
+status = "active"
+seen_at = "2026-11-19T09:00:00Z"
+url = "https://a.example/codes"
+[[code.observation]]
+source = "site-b"
+status = "active"
+seen_at = "2026-11-19T09:05:00Z"
+url = "https://b.example/codes"
+
+[[code]]
+code = "EXAMPLE-EXPIRED-2SRC"
+reward = "50 gold"
+reward_source = "site-a"
+[[code.observation]]
+source = "site-a"
+status = "expired"
+seen_at = "2026-11-19T09:00:00Z"
+url = "https://a.example/codes"
+[[code.observation]]
+source = "site-b"
+status = "expired"
+seen_at = "2026-11-19T09:05:00Z"
+url = "https://b.example/codes"

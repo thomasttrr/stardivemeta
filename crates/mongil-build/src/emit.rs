@@ -107,6 +107,22 @@ fn source_casts(source: &ModelSource) -> bool {
     )
 }
 
+/// T4.2's "new" rule: a character counts as new when their release
+/// date is within 45 days before the build instant (and not in the
+/// future). Dates compare by UTC day, like the codes engine's claim
+/// dates. The banner page (§B.5) additionally lists any character with
+/// Low coverage < 2, new or not.
+pub fn is_new_release(released_on: Option<&str>, build_epoch: i64) -> bool {
+    let Some(released) = released_on else {
+        return false;
+    };
+    let Some(release_epoch) = crate::validate::parse_rfc3339(released) else {
+        return false;
+    };
+    let age_days = build_epoch.div_euclid(86_400) - release_epoch.div_euclid(86_400);
+    (0..=45).contains(&age_days)
+}
+
 // ---------------------------------------------------------------------------
 // tierlist.json assembly
 // ---------------------------------------------------------------------------
@@ -504,9 +520,11 @@ pub fn build_tierlist(ds: &Dataset) -> TierList {
                 id: character.id.clone(),
                 name: character.name.clone(),
                 released_on: character.released_on.clone(),
-                // The 45-day "new" rule is T4.2; until release dates are
-                // harvested (T2.8) nothing is marked new.
-                is_new: false,
+                // T4.2's 45-day "new" rule, against the build date.
+                is_new: is_new_release(
+                    character.released_on.as_deref(),
+                    crate::validate::now_epoch(),
+                ),
                 results: Results {
                     low: result_of(result_at(0, &character.id)),
                     high: result_of(result_at(1, &character.id)),
@@ -810,6 +828,22 @@ pub fn build_codes(ds: &Dataset) -> Result<CodesFile, String> {
     }
     Ok(CodesFile {
         checked_at: ds.checks.as_ref().map(|c| c.codes_checked_at.clone()),
+        sources: ds
+            .code_sources
+            .as_ref()
+            .map(|registry| {
+                registry
+                    .sources
+                    .iter()
+                    .map(|s| mongil_core::contract::CodeSourceRef {
+                        id: s.id.clone(),
+                        name: s.name.clone(),
+                        group: s.group.clone(),
+                        url: s.url.clone(),
+                    })
+                    .collect()
+            })
+            .unwrap_or_default(),
         codes: entries,
     })
 }
@@ -972,6 +1006,84 @@ fn build_errata(ds: &Dataset) -> ErrataFile {
     ErrataFile { errata }
 }
 
+/// `banners.json` (the /banner/ page's data; plan T4.2). Auxiliary
+/// site file — not part of the §B.2 contract. Mirrors
+/// `data/banners.toml`, with character names resolved from the roster.
+#[derive(serde::Serialize)]
+struct BannersFile {
+    banners: Vec<BannerEntry>,
+}
+
+#[derive(serde::Serialize)]
+struct BannerEntry {
+    character: String,
+    name: String,
+    start: String,
+    end: Option<String>,
+    source: String,
+}
+
+fn build_banners(ds: &Dataset) -> BannersFile {
+    let name_of = |id: &str| {
+        ds.roster
+            .characters
+            .iter()
+            .find(|c| c.id == id)
+            .map(|c| c.name.clone())
+            .unwrap_or_else(|| id.to_string())
+    };
+    let mut banners: Vec<BannerEntry> = ds
+        .banners
+        .as_ref()
+        .map(|b| {
+            b.banners
+                .iter()
+                .map(|banner| BannerEntry {
+                    character: banner.character.clone(),
+                    name: name_of(&banner.character),
+                    start: banner.start.clone(),
+                    end: banner.end.clone(),
+                    source: banner.source.clone(),
+                })
+                .collect()
+        })
+        .unwrap_or_default();
+    banners.sort_by(|a, b| a.start.cmp(&b.start).then(a.character.cmp(&b.character)));
+    BannersFile { banners }
+}
+
+/// One snapshot's site file (`generated/snapshots/<id>.json`): the
+/// frozen document plus its diff against the previous snapshot, so
+/// the history pages (T4.3) render frozen results and change lists
+/// without re-computing anything in the browser build.
+#[derive(serde::Serialize)]
+struct SnapshotFile {
+    snapshot: mongil_core::snapshot::SnapshotDoc,
+    diff_from_previous: Option<mongil_core::snapshot::SnapshotDiff>,
+}
+
+fn write_snapshot_files(data_dir: &Path, out_dir: &Path) -> Result<usize, String> {
+    let snapshots = crate::snapshots::list_snapshots(data_dir);
+    if snapshots.is_empty() {
+        return Ok(0);
+    }
+    let dir = out_dir.join("snapshots");
+    fs::create_dir_all(&dir).map_err(|e| format!("cannot create {}: {e}", dir.display()))?;
+    let mut previous: Option<&mongil_core::snapshot::SnapshotDoc> = None;
+    for (id, doc) in &snapshots {
+        let diff = previous.map(|prev| mongil_core::snapshot::diff_docs(prev, doc));
+        write_json(
+            &dir.join(format!("{id}.json")),
+            &SnapshotFile {
+                snapshot: doc.clone(),
+                diff_from_previous: diff,
+            },
+        )?;
+        previous = Some(doc);
+    }
+    Ok(snapshots.len())
+}
+
 pub fn run(data_dir: &Path, out_dir: &Path) -> Result<(), String> {
     let ds = mongil_core::load_dataset(data_dir).map_err(|e| e.to_string())?;
 
@@ -980,6 +1092,7 @@ pub fn run(data_dir: &Path, out_dir: &Path) -> Result<(), String> {
     let history = build_history(data_dir)?;
     let meta = build_meta(&ds);
     let errata = build_errata(&ds);
+    let banners = build_banners(&ds);
 
     fs::create_dir_all(out_dir).map_err(|e| format!("cannot create {}: {e}", out_dir.display()))?;
     write_json(&out_dir.join("tierlist.json"), &tierlist)?;
@@ -987,8 +1100,10 @@ pub fn run(data_dir: &Path, out_dir: &Path) -> Result<(), String> {
     write_json(&out_dir.join("history.json"), &history)?;
     write_json(&out_dir.join("meta.json"), &meta)?;
     write_json(&out_dir.join("errata.json"), &errata)?;
+    write_json(&out_dir.join("banners.json"), &banners)?;
+    let snapshot_count = write_snapshot_files(data_dir, out_dir)?;
     println!(
-        "emit: wrote tierlist.json ({} characters), codes.json, history.json, meta.json, errata.json to {}",
+        "emit: wrote tierlist.json ({} characters), codes.json, history.json, meta.json, errata.json, banners.json, {snapshot_count} snapshot file(s) to {}",
         tierlist.characters.len(),
         out_dir.display()
     );
@@ -1405,5 +1520,60 @@ mod tests {
                 "{code} must compute unconfirmed under the claim-date guard"
             );
         }
+    }
+
+    /// Plan T4.1 acceptance: the six example codes in
+    /// `tests/fixtures/codes-fixture.toml` compute exactly the
+    /// statuses the plan names, at the fixture's fixed build instant.
+    #[test]
+    fn codes_status_rules() {
+        use mongil_core::model::{CodeSources, Codes};
+        let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures");
+        let codes: Codes = toml::from_str(
+            &std::fs::read_to_string(dir.join("codes-fixture.toml")).unwrap(),
+        )
+        .unwrap();
+        let registry: CodeSources = toml::from_str(
+            &std::fs::read_to_string(dir.join("codes-sources-fixture.toml")).unwrap(),
+        )
+        .unwrap();
+        let groups: std::collections::BTreeMap<String, String> = registry
+            .sources
+            .iter()
+            .map(|s| (s.id.clone(), s.group.clone()))
+            .collect();
+        let now = crate::validate::parse_rfc3339("2026-11-20T12:00:00Z").unwrap();
+        let expected = [
+            ("EXAMPLE-ACTIVE", CodeStatus::Active),
+            ("EXAMPLE-ONE-SOURCE", CodeStatus::Unconfirmed),
+            ("EXAMPLE-CONFLICT", CodeStatus::Unconfirmed),
+            ("EXAMPLE-SAME-GROUP", CodeStatus::Unconfirmed),
+            ("EXAMPLE-EXPIRED-DATE", CodeStatus::Expired),
+            ("EXAMPLE-EXPIRED-2SRC", CodeStatus::Expired),
+        ];
+        assert_eq!(codes.codes.len(), expected.len());
+        for (code, want) in expected {
+            let entry = codes.codes.iter().find(|c| c.code == code).unwrap();
+            assert_eq!(compute_code_status(entry, &groups, now), want, "{code}");
+        }
+    }
+
+    /// Plan T4.2 acceptance (date half): Vivian's fixture release
+    /// (2026-09-30) is "new" at a 2026-11-10 build and no longer new
+    /// at 2026-11-20. The listing half follows from coverage: at
+    /// coverage 2 she is listed exactly when `is_new` holds.
+    #[test]
+    fn is_new_release_45_day_window() {
+        let at = |s: &str| crate::validate::parse_rfc3339(&format!("{s}T12:00:00Z")).unwrap();
+        assert!(is_new_release(Some("2026-09-30"), at("2026-11-10")));
+        assert!(!is_new_release(Some("2026-09-30"), at("2026-11-20")));
+        // Boundary: exactly 45 days counts; 46 does not.
+        assert!(is_new_release(Some("2026-09-30"), at("2026-11-14")));
+        assert!(!is_new_release(Some("2026-09-30"), at("2026-11-15")));
+        // Same-day release is new; future releases and missing dates are not.
+        assert!(is_new_release(Some("2026-10-21"), at("2026-10-21")));
+        assert!(!is_new_release(Some("2026-12-01"), at("2026-11-20")));
+        assert!(!is_new_release(None, at("2026-11-20")));
+        assert!(!is_new_release(Some("not-a-date"), at("2026-11-20")));
     }
 }

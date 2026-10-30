@@ -2,18 +2,19 @@
 //! pipeline needs — `validate`, `emit`, `snapshot`, `diff`,
 //! `harvest-diff`, `png`, `lane`, `tripwire`, `note`.
 //!
-//! Status: `validate`/`emit` (T1.6–T1.7), `harvest-diff` (T2.1),
-//! `snapshot`/`diff` (T2.9), the gate cores (T2.10), the `lane`
-//! path-classifier core (T4.6's classification) and `png` (T3.9)
-//! are implemented. Still stubbed with explicit "not yet
-//! implemented" errors: `note` (T4.4), `tripwire` (T4.5).
+//! Status: all subcommands are implemented — `validate`/`emit`
+//! (T1.6–T1.7), `harvest-diff` (T2.1), `snapshot`/`diff` (T2.9), the
+//! gate cores (T2.10), `png` (T3.9), `note` (T4.4), `tripwire`
+//! (T4.5), and the full `lane` classifier (T4.6).
 
 mod dist_check;
 mod emit;
 mod harvest_diff;
 mod lane;
+mod note;
 mod png;
 mod snapshots;
+mod tripwire;
 mod validate;
 
 use clap::{Parser, Subcommand};
@@ -88,13 +89,21 @@ enum Command {
     Lane {
         #[arg(long, default_value = "origin/main")]
         base: String,
+        /// Dataset directory (for the tripwire and G5 checks).
+        #[arg(long, default_value = "data")]
+        data: PathBuf,
     },
     /// Evaluate the accuracy tripwire over the errata record (T4.5).
+    /// Exits 1 when tripped.
     Tripwire {
         #[arg(long)]
         data: PathBuf,
+        /// Override "today" (YYYY-MM-DD); used by tests.
+        #[arg(long)]
+        today: Option<String>,
     },
     /// Generate a "what moved" note from a snapshot diff (T4.4).
+    /// `--from none` writes the launch-baseline note.
     Note {
         #[arg(long)]
         data: PathBuf,
@@ -105,11 +114,6 @@ enum Command {
         #[arg(long)]
         date: String,
     },
-}
-
-fn not_yet_implemented(command: &str, task: &str) -> ExitCode {
-    eprintln!("mongil-build {command}: not yet implemented (lands in {task})");
-    ExitCode::from(2)
 }
 
 fn main() -> ExitCode {
@@ -135,8 +139,13 @@ fn main() -> ExitCode {
         } => snapshots::run_diff(&data, &from, &to, &format),
         Command::HarvestDiff { a, b } => harvest_diff::run(&a, &b),
         Command::Png { data, out } => png::run(&data, &out),
-        Command::Lane { base } => lane::run(&base),
-        Command::Tripwire { .. } => not_yet_implemented("tripwire", "T4.5"),
-        Command::Note { .. } => not_yet_implemented("note", "T4.4"),
+        Command::Lane { base, data } => lane::run(&base, &data),
+        Command::Tripwire { data, today } => tripwire::run(&data, today.as_deref()),
+        Command::Note {
+            data,
+            from,
+            to,
+            date,
+        } => note::run(&data, &from, &to, &date),
     }
 }

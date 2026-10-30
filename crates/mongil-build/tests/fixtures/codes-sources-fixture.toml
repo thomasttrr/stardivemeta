@@ -1,0 +1,20 @@
+# Fixture source registry for the T4.1 `codes_status_rules` test.
+# site-a and site-a-mirror share one independence group; site-b is
+# independent.
+[[code_source]]
+id = "site-a"
+name = "Site A"
+group = "site-a"
+url = "https://a.example/codes"
+
+[[code_source]]
+id = "site-a-mirror"
+name = "Site A Mirror"
+group = "site-a"
+url = "https://a-mirror.example/codes"
+
+[[code_source]]
+id = "site-b"
+name = "Site B"
+group = "site-b"
+url = "https://b.example/codes"
