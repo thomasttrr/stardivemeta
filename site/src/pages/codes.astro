@@ -1,0 +1,138 @@
+---
+// Codes page (plan T4.1 + §B.5 Codes). Statuses are computed in Rust
+// (emit → codes.json): Active needs two independent sources agreeing
+// within 7 days; anything thinner is Unconfirmed and is never
+// presented as working. The "How to redeem" section appears only
+// when two sources give identical steps — not verified yet, so it
+// is omitted.
+import Base from '../layouts/Base.astro';
+import CodeList from '../components/CodeList.astro';
+import { codesFile, fmtDate, stampFrom, titleMonth } from '../lib/data';
+
+const names = new Map(codesFile.sources.map((s) => [s.id, s.name]));
+const active = codesFile.codes.filter((c) => c.status === 'active');
+const unconfirmed = codesFile.codes.filter((c) => c.status === 'unconfirmed');
+const expired = codesFile.codes.filter((c) => c.status === 'expired');
+const checked = codesFile.checked_at;
+const now = Date.now();
+const DAY = 86_400_000;
+const expiredRecent = expired.filter((entry) => {
+  const latest = Math.max(
+    ...entry.observations.map((o) => Date.parse(o.seen_at)),
+  );
+  return now - latest <= 30 * DAY;
+});
+---
+
+<Base
+  title={`MONGIL: STAR DIVE Codes (${titleMonth()}) – StarDiveMeta`}
+  path="/codes/"
+>
+  <h1 class="page-title">MONGIL: STAR DIVE codes</h1>
+  {
+    checked && (
+      <p class="stamp">
+        Last checked {stampFrom(checked)}. We check every day.
+      </p>
+    )
+  }
+
+  <section>
+    <h2>Active</h2>
+    {
+      active.length > 0 ? (
+        <>
+          <p class="rule">Two separate sites say these work.</p>
+          <CodeList entries={active} variant="active" names={names} now={now} />
+        </>
+      ) : (
+        <p class="empty">
+          No codes are confirmed right now.
+          {checked && ` Last checked ${fmtDate(checked.slice(0, 10))}.`}
+        </p>
+      )
+    }
+  </section>
+
+  {
+    unconfirmed.length > 0 && (
+      <section>
+        <h2>Unconfirmed</h2>
+        <p class="rule">
+          Only one site lists these, or sites disagree. They may not work.
+        </p>
+        <CodeList
+          entries={unconfirmed}
+          variant="unconfirmed"
+          names={names}
+          now={now}
+        />
+      </section>
+    )
+  }
+
+  {
+    /* The wrap also renders (hidden) when an active code carries an
+       expiry: the client script moves its card here when the date
+       passes (T4.1). */
+    (expiredRecent.length > 0 || active.some((c) => c.expires_at)) && (
+      <section>
+        <details data-expired-wrap hidden={expiredRecent.length === 0}>
+          <summary>Expired (last 30 days)</summary>
+          <CodeList
+            entries={expired}
+            variant="expired"
+            names={names}
+            now={now}
+          />
+        </details>
+      </section>
+    )
+  }
+
+  <script>
+    import '../scripts/codes-expiry';
+  </script>
+</Base>
+
+<style>
+  .page-title {
+    font-size: var(--text-h1);
+    line-height: var(--leading-tight);
+    margin: 18px 0 4px;
+    font-weight: var(--weight-extrabold);
+    letter-spacing: -0.01em;
+  }
+  .stamp {
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+    margin: 6px 0 0;
+  }
+  section {
+    margin-top: 24px;
+  }
+  h2 {
+    font-size: var(--text-h2);
+    font-weight: var(--weight-bold);
+    margin: 0 0 4px;
+  }
+  .rule {
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+    margin: 0 0 10px;
+  }
+  .empty {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+  }
+  details summary {
+    font-size: var(--text-h2);
+    font-weight: var(--weight-bold);
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+</style>

@@ -4,8 +4,8 @@
 
 mod common;
 
-use common::{git, git_init_repo, run_bin, temp_dir, write_files, write_dataset_vec};
-use std::path::PathBuf;
+use common::{git, git_init_repo, run_bin, temp_dir, write_dataset_vec, write_files};
+use std::path::{Path, PathBuf};
 
 /// A repo whose `data/` holds the given dataset files, committed.
 fn repo_with_dataset(name: &str, extra: &[(&str, &str)]) -> PathBuf {
@@ -28,7 +28,7 @@ fn repo_with_dataset(name: &str, extra: &[(&str, &str)]) -> PathBuf {
     dir
 }
 
-fn lane(dir: &PathBuf) -> common::BinOutput {
+fn lane(dir: &Path) -> common::BinOutput {
     run_bin(&["lane", "--base", "HEAD", "--data", "data"], Some(dir))
 }
 
@@ -43,11 +43,19 @@ fn lane_data_only_passes() {
     let dir = repo_with_dataset("lane-ok", &[]);
     write_files(
         &dir,
-        &[("data/placements/pg.toml", &format!("{}\n# touched\n", common::PG))],
+        &[(
+            "data/placements/pg.toml",
+            &format!("{}\n# touched\n", common::PG),
+        )],
     );
     let out = lane(&dir);
     assert_eq!(out.code, Some(0), "output: {}", out.combined());
-    assert_eq!(first_line(&out), Some("data-only"), "output: {}", out.combined());
+    assert_eq!(
+        first_line(&out),
+        Some("data-only"),
+        "output: {}",
+        out.combined()
+    );
 }
 
 /// Condition 1: a code path in the change set needs Tom.
@@ -56,7 +64,12 @@ fn lane_code_path_needs_tom() {
     let dir = repo_with_dataset("lane-code", &[]);
     write_files(&dir, &[("crates/mongil-build/src/lib.rs", "// code\n")]);
     let out = lane(&dir);
-    assert_eq!(first_line(&out), Some("needs-tom"), "output: {}", out.combined());
+    assert_eq!(
+        first_line(&out),
+        Some("needs-tom"),
+        "output: {}",
+        out.combined()
+    );
 }
 
 /// Condition 2: editing an existing roster character needs Tom
@@ -67,7 +80,12 @@ fn lane_roster_edit_needs_tom() {
     let edited = common::ROSTER.replace("name = \"Mina\"", "name = \"Mina Renamed\"");
     write_files(&dir, &[("data/roster.toml", &edited)]);
     let out = lane(&dir);
-    assert_eq!(first_line(&out), Some("needs-tom"), "output: {}", out.combined());
+    assert_eq!(
+        first_line(&out),
+        Some("needs-tom"),
+        "output: {}",
+        out.combined()
+    );
 }
 
 /// Condition 3: modifying a committed snapshot needs Tom (snapshots
@@ -78,9 +96,17 @@ fn lane_snapshot_edit_needs_tom() {
         "lane-snap",
         &[("data/snapshots/2026-01-01-base.json", "{}\n")],
     );
-    write_files(&dir, &[("data/snapshots/2026-01-01-base.json", "{\"edited\":true}\n")]);
+    write_files(
+        &dir,
+        &[("data/snapshots/2026-01-01-base.json", "{\"edited\":true}\n")],
+    );
     let out = lane(&dir);
-    assert_eq!(first_line(&out), Some("needs-tom"), "output: {}", out.combined());
+    assert_eq!(
+        first_line(&out),
+        Some("needs-tom"),
+        "output: {}",
+        out.combined()
+    );
 }
 
 /// Condition 4: a note that is not `status: auto` needs Tom.
@@ -95,7 +121,12 @@ fn lane_draft_note_needs_tom() {
         )],
     );
     let out = lane(&dir);
-    assert_eq!(first_line(&out), Some("needs-tom"), "output: {}", out.combined());
+    assert_eq!(
+        first_line(&out),
+        Some("needs-tom"),
+        "output: {}",
+        out.combined()
+    );
 }
 
 /// Condition 5: a tripped tripwire needs Tom. Tripped via the
@@ -140,10 +171,18 @@ review_done = true
     );
     write_files(
         &dir,
-        &[("data/placements/pg.toml", &format!("{}\n# touched\n", common::PG))],
+        &[(
+            "data/placements/pg.toml",
+            &format!("{}\n# touched\n", common::PG),
+        )],
     );
     let out = lane(&dir);
-    assert_eq!(first_line(&out), Some("needs-tom"), "output: {}", out.combined());
+    assert_eq!(
+        first_line(&out),
+        Some("needs-tom"),
+        "output: {}",
+        out.combined()
+    );
     assert!(
         out.stdout.contains("tripwire"),
         "output: {}",
@@ -163,10 +202,18 @@ fn lane_paused_needs_tom() {
     );
     write_files(
         &dir,
-        &[("data/placements/pg.toml", &format!("{}\n# touched\n", common::PG))],
+        &[(
+            "data/placements/pg.toml",
+            &format!("{}\n# touched\n", common::PG),
+        )],
     );
     let out = lane(&dir);
-    assert_eq!(first_line(&out), Some("needs-tom"), "output: {}", out.combined());
+    assert_eq!(
+        first_line(&out),
+        Some("needs-tom"),
+        "output: {}",
+        out.combined()
+    );
 }
 
 /// Condition 7 (G5): more than 8 characters changing Overall tier
@@ -209,7 +256,11 @@ fn lane_mass_change_needs_tom() {
     git_init_repo(&repo);
     // Place the dataset at data/ inside the repo.
     let out = std::process::Command::new("cp")
-        .args(["-r", data_dir.to_str().unwrap(), repo.join("data").to_str().unwrap()])
+        .args([
+            "-r",
+            data_dir.to_str().unwrap(),
+            repo.join("data").to_str().unwrap(),
+        ])
         .output()
         .unwrap();
     assert!(out.status.success());
@@ -230,6 +281,11 @@ fn lane_mass_change_needs_tom() {
     let flipped = pg.replace("\"S\"", "\"C\"");
     write_files(&repo, &[("data/placements/pg.toml", &flipped)]);
     let out = lane(&repo);
-    assert_eq!(first_line(&out), Some("needs-tom"), "output: {}", out.combined());
+    assert_eq!(
+        first_line(&out),
+        Some("needs-tom"),
+        "output: {}",
+        out.combined()
+    );
     assert!(out.stdout.contains("G5"), "output: {}", out.combined());
 }

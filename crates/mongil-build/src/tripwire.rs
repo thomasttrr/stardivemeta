@@ -76,8 +76,8 @@ impl TripwireOutcome {
 pub fn evaluate(data_dir: &Path, today: &str) -> Result<TripwireOutcome, String> {
     let errata = load_errata(data_dir)?;
     let ops = load_autodeploy(data_dir)?;
-    let today_ord = day_ordinal(today)
-        .ok_or_else(|| format!("today `{today}` is not a YYYY-MM-DD date"))?;
+    let today_ord =
+        day_ordinal(today).ok_or_else(|| format!("today `{today}` is not a YYYY-MM-DD date"))?;
 
     let mut reasons = Vec::new();
 
@@ -102,8 +102,7 @@ pub fn evaluate(data_dir: &Path, today: &str) -> Result<TripwireOutcome, String>
             .errata
             .iter()
             .filter(|e| {
-                day_ordinal(&e.found_at)
-                    .is_some_and(|found| found >= launch && found < launch + 30)
+                day_ordinal(&e.found_at).is_some_and(|found| found >= launch && found < launch + 30)
             })
             .count();
         if in_window >= 3 {

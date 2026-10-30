@@ -1,0 +1,155 @@
+---
+// One section of the codes page (plan T4.1 + §B.5 Codes): a list of
+// code cards for one computed status. Statuses arrive computed from
+// Rust (codes.json); this component only formats sightings.
+import type { CodeEntry } from '../types/contract/CodeEntry';
+import { fmtDate } from '../lib/data';
+
+interface Props {
+  entries: CodeEntry[];
+  variant: 'active' | 'unconfirmed' | 'expired';
+  /** Source id → display name (from the codes.json registry). */
+  names: Map<string, string>;
+  /** Build instant, for the expired section's 30-day window. */
+  now: number;
+}
+const { entries, variant, names, now } = Astro.props;
+
+const nameOf = (id: string) => names.get(id) ?? id;
+
+/** The freshest observation per source. */
+function latestPerSource(entry: CodeEntry) {
+  const bySource = new Map<string, CodeEntry['observations'][number]>();
+  for (const obs of entry.observations) {
+    const prev = bySource.get(obs.source);
+    if (!prev || Date.parse(obs.seen_at) > Date.parse(prev.seen_at)) {
+      bySource.set(obs.source, obs);
+    }
+  }
+  return [...bySource.values()];
+}
+
+/** "Confirmed by {s1}, {s2}": the freshest active sighting of the
+ * first two independence groups (§B.5). */
+function confirmedBy(entry: CodeEntry): string {
+  const byGroup = new Map<string, CodeEntry['observations'][number]>();
+  for (const obs of latestPerSource(entry)) {
+    if (obs.status !== 'active') continue;
+    const prev = byGroup.get(obs.group);
+    if (!prev || Date.parse(obs.seen_at) > Date.parse(prev.seen_at)) {
+      byGroup.set(obs.group, obs);
+    }
+  }
+  const witnesses = [...byGroup.values()]
+    .sort((a, b) => Date.parse(b.seen_at) - Date.parse(a.seen_at))
+    .slice(0, 2)
+    .map((o) => nameOf(o.source));
+  return witnesses.join(', ');
+}
+
+const STATUS_WORD: Record<string, string> = {
+  active: 'active',
+  expired: 'expired',
+  not_listed: 'not listed',
+};
+
+const DAY = 86_400_000;
+const visible = entries.filter((entry) => {
+  if (variant !== 'expired') return true;
+  // Expired section shows only the last 30 days (§B.5).
+  const latest = Math.max(
+    ...entry.observations.map((o) => Date.parse(o.seen_at)),
+  );
+  return now - latest <= 30 * DAY;
+});
+---
+
+<ul class="codes" data-expired-list={variant === 'expired' ? '' : undefined}>
+  {
+    visible.map((entry) => (
+      <li
+        class="code-card"
+        data-exp={
+          variant === 'active' && entry.expires_at ? entry.expires_at : undefined
+        }
+      >
+        <code class="code">{entry.code}</code>
+        {variant === 'active' && (
+          <>
+            <p class="line">
+              Reward: {entry.reward.text} (per {nameOf(entry.reward.source)})
+            </p>
+            {entry.expires_at && (
+              <p class="line">Expires {fmtDate(entry.expires_at.slice(0, 10))}</p>
+            )}
+            <p class="line dim">Confirmed by {confirmedBy(entry)}</p>
+          </>
+        )}
+        {variant === 'unconfirmed' && (
+          <ul class="sightings">
+            {latestPerSource(entry)
+              .sort((a, b) => nameOf(a.source).localeCompare(nameOf(b.source)))
+              .map((o) => (
+                <li>
+                  {nameOf(o.source)}: {STATUS_WORD[o.status] ?? o.status}, seen{' '}
+                  {fmtDate(o.seen_at.slice(0, 10))}
+                </li>
+              ))}
+          </ul>
+        )}
+        {variant === 'expired' && (
+          <p class="line dim">
+            Last seen {fmtDate(
+              new Date(
+                Math.max(...entry.observations.map((o) => Date.parse(o.seen_at))),
+              )
+                .toISOString()
+                .slice(0, 10),
+            )}
+          </p>
+        )}
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .codes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .code-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+  }
+  .code {
+    font-family: var(--font-mono, monospace);
+    font-weight: var(--weight-bold);
+    font-size: var(--text-body);
+    letter-spacing: 0.02em;
+  }
+  .line {
+    margin: 4px 0 0;
+    color: var(--text);
+    font-size: var(--text-body-sm);
+  }
+  .line.dim {
+    color: var(--sub);
+  }
+  .sightings {
+    list-style: none;
+    margin: 6px 0 0;
+    padding: 0;
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+</style>

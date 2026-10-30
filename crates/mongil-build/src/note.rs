@@ -66,7 +66,11 @@ fn level_title(level: &str) -> &str {
 /// The display date of a snapshot: its id's date prefix when the id
 /// starts with one, else its creation date.
 fn snapshot_date(doc: &SnapshotDoc) -> String {
-    let candidate = if doc.id.len() >= 10 { &doc.id[..10] } else { "" };
+    let candidate = if doc.id.len() >= 10 {
+        &doc.id[..10]
+    } else {
+        ""
+    };
     if candidate.len() == 10 && crate::validate::parse_rfc3339(candidate).is_some() {
         fmt_date(candidate)
     } else {
@@ -257,6 +261,12 @@ fn render_body(
         }
         let mut lines: Vec<String> = Vec::new();
         for ((source, character), changes) in &groups {
+            if baseline && !ctx.voting.contains(*source) {
+                // In the baseline note only the voting lists' census
+                // is launch news; check-only placements stay frozen
+                // in the snapshot without headlining the note.
+                continue;
+            }
             let all_new = changes.iter().all(|p| p.from == "—");
             let all_gone = changes.iter().all(|p| p.to == "—");
             if !all_new && !all_gone {
@@ -312,11 +322,18 @@ fn render_body(
     // Sources: status / list-date changes between the two snapshots.
     {
         let mut lines: Vec<String> = Vec::new();
-        let from_sources: BTreeMap<&str, &mongil_core::snapshot::SnapshotSource> =
-            from_doc.sources.iter().map(|s| (s.id.as_str(), s)).collect();
+        let from_sources: BTreeMap<&str, &mongil_core::snapshot::SnapshotSource> = from_doc
+            .sources
+            .iter()
+            .map(|s| (s.id.as_str(), s))
+            .collect();
         let to_sources: BTreeMap<&str, &mongil_core::snapshot::SnapshotSource> =
             to_doc.sources.iter().map(|s| (s.id.as_str(), s)).collect();
-        let mut ids: Vec<&str> = from_sources.keys().chain(to_sources.keys()).copied().collect();
+        let mut ids: Vec<&str> = from_sources
+            .keys()
+            .chain(to_sources.keys())
+            .copied()
+            .collect();
         ids.sort();
         ids.dedup();
         for id in ids {
@@ -337,16 +354,19 @@ fn render_body(
                 }
                 (Some(a), Some(b)) => {
                     if a.status != b.status {
-                        lines.push(format!(
-                            "- {name} is now {} (was {}).",
-                            b.status, a.status
-                        ));
+                        lines.push(format!("- {name} is now {} (was {}).", b.status, a.status));
                         count += 1;
                     } else if a.list_date != b.list_date {
                         lines.push(format!(
                             "- {name} updated its list ({} → {}).",
-                            a.list_date.as_deref().map(fmt_date).unwrap_or_else(|| "—".into()),
-                            b.list_date.as_deref().map(fmt_date).unwrap_or_else(|| "—".into())
+                            a.list_date
+                                .as_deref()
+                                .map(fmt_date)
+                                .unwrap_or_else(|| "—".into()),
+                            b.list_date
+                                .as_deref()
+                                .map(fmt_date)
+                                .unwrap_or_else(|| "—".into())
                         ));
                         count += 1;
                     }
@@ -495,7 +515,10 @@ fn generate(data_dir: &Path, from: &str, to: &str, date: &str) -> Result<String,
         );
         ("auto", body)
     } else {
-        ("draft", render_body(&ctx, &diff, &from_doc, &to_doc, baseline))
+        (
+            "draft",
+            render_body(&ctx, &diff, &from_doc, &to_doc, baseline),
+        )
     };
 
     let notes_dir = data_dir.join("notes");

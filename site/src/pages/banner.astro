@@ -1,0 +1,209 @@
+---
+// New characters page (plan T4.2 + §B.5 Banner). One line per
+// character who is new (released within 45 days of the build) or
+// still thinly covered (fewer than 2 lists have placed them at Low),
+// plus the current banner and the debut history from banners.json.
+// Evidence only — this page carries no pull verdict (Package B).
+import Base from '../layouts/Base.astro';
+import {
+  banners,
+  charactersById,
+  data,
+  fmtDate,
+  LABEL_WORD,
+  tierDisplay,
+} from '../lib/data';
+
+const today = new Date().toISOString().slice(0, 10);
+const sourceNames = new Map(data.sources.map((s) => [s.id, s.name]));
+
+// Characters the page lists: new, or Low coverage under 2 (§B.5).
+const listed = data.characters.filter(
+  (c) => c.is_new || c.results.low.coverage < 2,
+);
+
+// The current banner: started, and not ended before today.
+const current = banners.find(
+  (b) => b.start <= today && (b.end === null || b.end >= today),
+);
+const currentChar = current ? charactersById.get(current.character) : undefined;
+
+// Debut history, newest first.
+const debuts = [...banners].sort((a, b) => b.start.localeCompare(a.start));
+---
+
+<Base title="New characters – StarDiveMeta" path="/banner/">
+  <h1 class="page-title">New characters</h1>
+  <p class="built">
+    We add a new character's placements as each list ranks them. No
+    verdicts here — just what the lists say so far.
+  </p>
+
+  {
+    current && (
+      <section class="banner-now">
+        <h2>Current banner</h2>
+        <p class="banner-line">
+          <a href={`/c/${current.character}/`}>{current.name}</a>
+          <span class="dim">
+            {fmtDate(current.start)}
+            {current.end && ` – ${fmtDate(current.end)}`} (per{' '}
+            {sourceNames.get(current.source) ?? current.source})
+          </span>
+        </p>
+        {currentChar && (
+          <p class="rule">
+            {currentChar.results.low.coverage} of 3 lists have placed them so
+            far.
+          </p>
+        )}
+      </section>
+    )
+  }
+
+  <section>
+    <h2>New and still settling</h2>
+    {
+      listed.length === 0 ? (
+        <p class="empty">No new characters right now.</p>
+      ) : (
+        <ul class="chars">
+          {listed.map((c) => {
+            const r = c.results.low;
+            return (
+              <li>
+                <span class="nm">{c.name}</span>
+                <span class="facts">
+                  {r.coverage} of 3 lists have placed them
+                  {r.coverage > 0 && (
+                    <>
+                      {' '}
+                      · {tierDisplay(r.tier)} · {LABEL_WORD[r.label]}
+                    </>
+                  )}
+                  {r.coverage === 0 && <> · Not placed yet</>}
+                  {' · '}
+                  <a href={`/c/${c.id}/`}>See the evidence</a>
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      )
+    }
+  </section>
+
+  <section>
+    <h2>Debut history</h2>
+    <ul class="chars">
+      {
+        debuts.map((b) => (
+          <li>
+            <span class="nm">
+              <a href={`/c/${b.character}/`}>{b.name}</a>
+            </span>
+            <span class="facts">
+              {b.end
+                ? `${fmtDate(b.start)} – ${fmtDate(b.end)}`
+                : `From ${fmtDate(b.start)}`}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="rule">
+      Banner dates are recorded per source as the lists report them;
+      placements are on each character's evidence page.
+    </p>
+  </section>
+</Base>
+
+<style>
+  .page-title {
+    font-size: var(--text-h1);
+    line-height: var(--leading-tight);
+    margin: 18px 0 4px;
+    font-weight: var(--weight-extrabold);
+    letter-spacing: -0.01em;
+  }
+  .built {
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+    margin: 10px 0 0;
+  }
+  section {
+    margin-top: 24px;
+  }
+  h2 {
+    font-size: var(--text-h2);
+    font-weight: var(--weight-bold);
+    margin: 0 0 8px;
+  }
+  .rule {
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+    margin: 6px 0 0;
+  }
+  .banner-line {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .banner-line a {
+    color: var(--text);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+  }
+  .banner-line .dim {
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+  }
+  .chars {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .chars li {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .chars .nm {
+    font-weight: var(--weight-semibold);
+  }
+  .chars .nm a {
+    color: var(--text);
+    text-decoration: none;
+  }
+  .chars .facts {
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+  }
+  .chars .facts a {
+    color: var(--teal);
+  }
+  .empty {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+  }
+</style>

@@ -5,7 +5,7 @@
 mod common;
 
 use common::{run_bin, temp_dir, write_files};
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 fn dataset(name: &str, errata: &str, autodeploy: Option<&str>) -> PathBuf {
     let dir = temp_dir(name);
@@ -17,9 +17,15 @@ fn dataset(name: &str, errata: &str, autodeploy: Option<&str>) -> PathBuf {
     dir
 }
 
-fn tripwire(dir: &PathBuf, today: &str) -> common::BinOutput {
+fn tripwire(dir: &Path, today: &str) -> common::BinOutput {
     run_bin(
-        &["tripwire", "--data", dir.to_str().unwrap(), "--today", today],
+        &[
+            "tripwire",
+            "--data",
+            dir.to_str().unwrap(),
+            "--today",
+            today,
+        ],
         None,
     )
 }

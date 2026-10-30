@@ -4,7 +4,10 @@ import tierlistJson from '../generated/tierlist.json';
 import metaJson from '../generated/meta.json';
 import historyJson from '../generated/history.json';
 import errataJson from '../generated/errata.json';
+import codesJson from '../generated/codes.json';
+import bannersJson from '../generated/banners.json';
 import type { Character } from '../types/contract/Character';
+import type { CodesFile } from '../types/contract/CodesFile';
 import type { Derived } from '../types/contract/Derived';
 import type { EvidenceRow } from '../types/contract/EvidenceRow';
 import type { History } from '../types/contract/History';
@@ -44,6 +47,28 @@ export interface ErrataEntry {
 
 export const errata = (errataJson as unknown as { errata: ErrataEntry[] })
   .errata;
+
+export const errataById = new Map<string, ErrataEntry>(
+  errata.map((e) => [e.id, e]),
+);
+
+/** codes.json (plan T4.1): statuses computed in Rust; the page only
+ * renders them. */
+export const codesFile = codesJson as unknown as CodesFile;
+
+/** One banner record from banners.json (emitted from
+ * data/banners.toml; plan T4.2). `end` is null when no end date is
+ * recorded. */
+export interface BannerEntry {
+  character: string;
+  name: string;
+  start: string;
+  end: string | null;
+  source: string;
+}
+
+export const banners = (bannersJson as unknown as { banners: BannerEntry[] })
+  .banners;
 
 export const data = tierlistJson as unknown as TierListData;
 export const meta = metaJson as unknown as {
@@ -153,6 +178,11 @@ const checkedFmt = new Intl.DateTimeFormat('en-US', {
 /** "Lists last checked {date, time ET}" stamp text (§B.5 Home, item 7). */
 export function stampChecked(): string {
   return `${checkedFmt.format(new Date(meta.sources_checked_at))} ET`;
+}
+
+/** The same ET stamp for an arbitrary instant (codes page, T4.1). */
+export function stampFrom(iso: string): string {
+  return `${checkedFmt.format(new Date(iso))} ET`;
 }
 
 /** "{Month YYYY}" for page titles, from the last check date (ET). */

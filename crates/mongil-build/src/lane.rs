@@ -72,7 +72,7 @@ pub fn changed_entries(base: &str) -> Result<Vec<Change>, String> {
     for line in diff.lines() {
         let mut parts = line.split('\t');
         let Some(status) = parts.next() else { continue };
-        let path = parts.last().unwrap_or_default().to_string();
+        let path = parts.next_back().unwrap_or_default().to_string();
         if !path.is_empty() {
             entries.push(Change {
                 status: status.chars().next().unwrap_or('?').to_string(),

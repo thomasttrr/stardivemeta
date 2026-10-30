@@ -44,6 +44,13 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - name: Validate the dataset (plan §B.7 gates)
         run: cargo run --quiet -p mongil-build -- validate --data data --site site
+      - name: Accuracy tripwire (T4.5 — surfaced, not blocking; the lane classifier enforces it)
+        run: |
+          if cargo run --quiet -p mongil-build -- tripwire --data data; then
+            echo "tripwire: clear"
+          else
+            echo "::warning::tripwire TRIPPED — the auto lane is closed until the errata are reviewed (T4.5)"
+          fi
       - name: G9 — committed snapshots are immutable
         run: |
           changed="$(git diff --diff-filter=MDR --name-only origin/main -- data/snapshots/)"
@@ -89,8 +96,8 @@ jobs:
           corepack enable
           pnpm install --frozen-lockfile
           pnpm build
-      - name: Dist checks (G12 + G14; /codes/ + /banner/ are P4 routes — drop the allowance when T4.1/T4.2 land)
-        run: node site/scripts/check-dist.mjs --dist site/dist --data data --allow-missing /codes/,/banner/
+      - name: Dist checks (G12 + G14, no allowances since P4)
+        run: node site/scripts/check-dist.mjs --dist site/dist --data data
 
   preview:
     if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository

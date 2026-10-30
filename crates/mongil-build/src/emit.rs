@@ -1529,10 +1529,9 @@ mod tests {
     fn codes_status_rules() {
         use mongil_core::model::{CodeSources, Codes};
         let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures");
-        let codes: Codes = toml::from_str(
-            &std::fs::read_to_string(dir.join("codes-fixture.toml")).unwrap(),
-        )
-        .unwrap();
+        let codes: Codes =
+            toml::from_str(&std::fs::read_to_string(dir.join("codes-fixture.toml")).unwrap())
+                .unwrap();
         let registry: CodeSources = toml::from_str(
             &std::fs::read_to_string(dir.join("codes-sources-fixture.toml")).unwrap(),
         )

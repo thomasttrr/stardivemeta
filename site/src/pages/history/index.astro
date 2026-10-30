@@ -1,12 +1,12 @@
 ---
-// History index (plan T3.8 scope + §B.5 History index). Renders the
-// snapshot index from history.json, newest first. The per-snapshot
-// pages (/history/{id}/, with the frozen board and the diff) are
-// T4.3 in P4 — this index deliberately does not link to pages that
-// don't exist yet.
+// History index (plan T3.8 + T4.3, §B.5 History index). Newest first;
+// each entry links to the snapshot's own page (T4.3) with its frozen
+// board and the changes from the previous snapshot.
 import Base from '../../layouts/Base.astro';
+import { snapshotFiles } from '../../adapters/snapshot-v1';
 import { fmtDate, history } from '../../lib/data';
 
+const byId = new Map(snapshotFiles.map((f) => [f.id, f]));
 const snapshots = [...history.snapshots].sort((a, b) =>
   b.created_at.localeCompare(a.created_at),
 );
@@ -18,6 +18,19 @@ const earliestId = snapshots.length
  * to the creation timestamp. */
 const snapDate = (id: string, createdAt: string) =>
   fmtDate(/^\d{4}-\d{2}-\d{2}/.test(id) ? id.slice(0, 10) : createdAt.slice(0, 10));
+
+/** Change count for the index line: the raw diff entries against the
+ * previous snapshot (null for the baseline, which has no previous). */
+const changeCount = (id: string): number | null => {
+  const diff = byId.get(id)?.diff;
+  if (!diff) return null;
+  return (
+    diff.tier_changes.length +
+    diff.label_changes.length +
+    diff.coverage_changes.length +
+    diff.placement_changes.length
+  );
+};
 ---
 
 <Base title="History – StarDiveMeta" path="/history/">
@@ -29,15 +42,21 @@ const snapDate = (id: string, createdAt: string) =>
 
   <ul class="snaps">
     {
-      snapshots.map((s) => (
-        <li>
-          <span class="date">{snapDate(s.id, s.created_at)}</span>
-          <span class="meta">
-            Method v{s.method_version} · Game version {s.game_version}
-            {s.id === earliestId && ' · First snapshot — the baseline'}
-          </span>
-        </li>
-      ))
+      snapshots.map((s) => {
+        const n = changeCount(s.id);
+        return (
+          <li>
+            <a class="row" href={`/history/${s.id}/`}>
+              <span class="date">{snapDate(s.id, s.created_at)}</span>
+              <span class="meta">
+                Method v{s.method_version} · Game version {s.game_version}
+                {n !== null && ` · ${n} ${n === 1 ? 'change' : 'changes'}`}
+                {s.id === earliestId && ' · First snapshot — the baseline'}
+              </span>
+            </a>
+          </li>
+        );
+      })
     }
   </ul>
 </Base>
@@ -63,7 +82,7 @@ const snapDate = (id: string, createdAt: string) =>
     flex-direction: column;
     gap: 10px;
   }
-  .snaps li {
+  .snaps .row {
     background: var(--panel);
     border: 1px solid var(--line);
     border-radius: var(--radius-md);
@@ -71,8 +90,10 @@ const snapDate = (id: string, createdAt: string) =>
     display: flex;
     flex-direction: column;
     gap: 2px;
+    text-decoration: none;
   }
   .snaps .date {
+    color: var(--text);
     font-weight: var(--weight-semibold);
   }
   .snaps .meta {

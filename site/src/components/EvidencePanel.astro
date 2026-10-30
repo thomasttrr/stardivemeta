@@ -14,6 +14,7 @@ import {
   LABEL_WORD,
   NONE_REASON_TEXT,
   NOT_COUNTED_REASON,
+  errataById,
   flagSummary,
   fmtDate,
   fmtSpread,
@@ -266,9 +267,14 @@ const NameTag = asPage ? 'h1' : 'h2';
     c.errata.length > 0 && (
       <>
         <h3 class="seclabel">Corrections for this character</h3>
-        {c.errata.map((e) => (
-          <p class="criteria">{e}</p>
-        ))}
+        {c.errata.map((id) => {
+          const entry = errataById.get(id);
+          return (
+            <p class="criteria">
+              {entry ? `${fmtDate(entry.found_at)}: ${entry.what}` : id}
+            </p>
+          );
+        })}
       </>
     )
   }

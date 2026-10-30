@@ -1,0 +1,70 @@
+---
+// One movers note (plan T4.4). Only approved/auto notes get a page —
+// getStaticPaths comes from the same filtered loader as the index,
+// and check-dist fails the build if a draft ever renders.
+import Base from '../../layouts/Base.astro';
+import { loadNotes, renderNoteBody, type Note } from '../../lib/notes';
+
+export function getStaticPaths() {
+  return loadNotes().map((note) => ({
+    params: { date: note.date },
+    props: { note },
+  }));
+}
+
+interface Props {
+  note: Note;
+}
+const { note } = Astro.props;
+const html = renderNoteBody(note.body);
+---
+
+<Base title={`${note.title} – StarDiveMeta`} path={`/notes/${note.date}/`}>
+  <article class="note" set:html={html} />
+  <p class="back"><a href="/notes/">All notes</a></p>
+</Base>
+
+<style>
+  .note :global(.page-title) {
+    font-size: var(--text-h1);
+    line-height: var(--leading-tight);
+    margin: 18px 0 4px;
+    font-weight: var(--weight-extrabold);
+    letter-spacing: -0.01em;
+  }
+  .note :global(h2) {
+    font-size: var(--text-h2);
+    font-weight: var(--weight-bold);
+    margin: 22px 0 8px;
+  }
+  .note :global(p) {
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+    margin: 8px 0 0;
+  }
+  .note :global(.moves) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .note :global(.moves li) {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 8px 12px;
+    font-size: var(--text-body-sm);
+  }
+  .note :global(a) {
+    color: var(--teal);
+  }
+  .back {
+    margin-top: 22px;
+    font-size: var(--text-body-sm);
+  }
+  .back a {
+    color: var(--teal);
+  }
+</style>

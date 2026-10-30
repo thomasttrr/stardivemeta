@@ -1,0 +1,225 @@
+---
+// One snapshot's page (plan T4.3 + §B.5 History snapshot): the frozen
+// boards for that moment, rendered through the snapshot-v1 adapter,
+// plus the changes from the previous snapshot and any corrections
+// linked to it. Frozen data only — the evidence on a chip still
+// links to the character's live page.
+import Base from '../../layouts/Base.astro';
+import LevelToggle from '../../components/LevelToggle.astro';
+import TierBoard from '../../components/TierBoard.astro';
+import {
+  snapshotBoard,
+  snapshotCharacters,
+  snapshotFiles,
+  SNAPSHOT_LEVELS,
+  type SnapshotFileData,
+} from '../../adapters/snapshot-v1';
+import {
+  errata,
+  fmtDate,
+  LABEL_WORD,
+  LEVEL_NAME,
+  sourceName,
+  type ErrataEntry,
+} from '../../lib/data';
+import type { Label } from '../../types/contract/Label';
+
+export function getStaticPaths() {
+  return snapshotFiles.map((file) => ({
+    params: { id: file.id },
+    props: { file },
+  }));
+}
+
+interface Props {
+  file: SnapshotFileData;
+}
+const { file } = Astro.props;
+const snap = file.snapshot;
+const characters = snapshotCharacters(snap);
+const charName = (id: string) => characters.get(id)?.name ?? id;
+const date = fmtDate(snap.id.slice(0, 10));
+const diff = file.diff;
+const diffEmpty =
+  diff !== null &&
+  diff.tier_changes.length === 0 &&
+  diff.label_changes.length === 0 &&
+  diff.coverage_changes.length === 0 &&
+  diff.placement_changes.length === 0;
+const linked: ErrataEntry[] = errata.filter((e) =>
+  e.snapshots.includes(snap.id),
+);
+---
+
+<Base title={`Snapshot ${date} – StarDiveMeta`} path={`/history/${snap.id}/`}>
+  <h1 class="page-title">Snapshot {date}</h1>
+  <p class="built">
+    Method v{snap.method_version} · Game version {snap.game_version}. This
+    board is frozen — it shows exactly what the lists said then. Today's
+    board is on the <a href="/">home page</a>.
+  </p>
+
+  <LevelToggle />
+  {
+    SNAPSHOT_LEVELS.map((lv) => (
+      <div class={`lvl lvl-${lv}`}>
+        <TierBoard
+          board={snapshotBoard(snap, lv)}
+          level={lv}
+          characters={characters}
+        />
+      </div>
+    ))
+  }
+
+  <section>
+    <h2>Changes from the previous snapshot</h2>
+    {
+      diff === null && (
+        <p class="empty">
+          This is the first snapshot — the baseline. There is no earlier
+          snapshot to compare with.
+        </p>
+      )
+    }
+    {
+      diff !== null && diffEmpty && (
+        <p class="empty">No changes from the previous snapshot.</p>
+      )
+    }
+    {
+      diff !== null && diff.tier_changes.length > 0 && (
+        <>
+          <h3>Tier changes</h3>
+          <ul class="changes">
+            {diff.tier_changes.map((c) => (
+              <li>
+                {charName(c.character)}: {c.from} → {c.to} at{' '}
+                {LEVEL_NAME[c.level]}
+              </li>
+            ))}
+          </ul>
+        </>
+      )
+    }
+    {
+      diff !== null && diff.label_changes.length > 0 && (
+        <>
+          <h3>Label changes</h3>
+          <ul class="changes">
+            {diff.label_changes.map((c) => (
+              <li>
+                {charName(c.character)}:{' '}
+                {LABEL_WORD[c.from as Label] ?? c.from} →{' '}
+                {LABEL_WORD[c.to as Label] ?? c.to} at {LEVEL_NAME[c.level]}
+              </li>
+            ))}
+          </ul>
+        </>
+      )
+    }
+    {
+      diff !== null && diff.coverage_changes.length > 0 && (
+        <>
+          <h3>Coverage changes</h3>
+          <ul class="changes">
+            {diff.coverage_changes.map((c) => (
+              <li>
+                {charName(c.character)}: {c.from} → {c.to} lists at{' '}
+                {LEVEL_NAME[c.level]}
+              </li>
+            ))}
+          </ul>
+        </>
+      )
+    }
+    {
+      diff !== null && diff.placement_changes.length > 0 && (
+        <>
+          <h3>Placement changes</h3>
+          <ul class="changes">
+            {diff.placement_changes.map((c) => (
+              <li>
+                {sourceName(c.source)} · {charName(c.character)} · {c.field}:{' '}
+                {c.from} → {c.to}
+              </li>
+            ))}
+          </ul>
+        </>
+      )
+    }
+  </section>
+
+  {
+    linked.length > 0 && (
+      <section>
+        <h2>Corrections linked to this snapshot</h2>
+        <ul class="changes">
+          {linked.map((e) => (
+            <li>
+              {fmtDate(e.found_at)}: {e.what}{' '}
+              <a href="/corrections/">All corrections</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</Base>
+
+<style>
+  .page-title {
+    font-size: var(--text-h1);
+    line-height: var(--leading-tight);
+    margin: 18px 0 4px;
+    font-weight: var(--weight-extrabold);
+    letter-spacing: -0.01em;
+  }
+  .built {
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+    margin: 10px 0 14px;
+  }
+  .built a {
+    color: var(--teal);
+  }
+  section {
+    margin-top: 28px;
+  }
+  h2 {
+    font-size: var(--text-h2);
+    font-weight: var(--weight-bold);
+    margin: 0 0 8px;
+  }
+  h3 {
+    font-size: var(--text-body);
+    font-weight: var(--weight-bold);
+    margin: 14px 0 4px;
+  }
+  .changes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .changes li {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 8px 12px;
+    font-size: var(--text-body-sm);
+  }
+  .changes a {
+    color: var(--teal);
+  }
+  .empty {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+  }
+</style>

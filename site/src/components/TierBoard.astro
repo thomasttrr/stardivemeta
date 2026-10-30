@@ -1,6 +1,7 @@
 ---
 // One investment level's tier board (plan T3.2): a rack per tier —
 // badge rail + card grid (DESIGN.md "Tier rack"). Empty rows hide.
+import type { Character } from '../types/contract/Character';
 import type { Level } from '../types/contract/Level';
 import type { TierBoard as TierBoardData } from '../types/contract/TierBoard';
 import { charactersById } from '../lib/data';
@@ -9,8 +10,11 @@ import CharacterChip from './CharacterChip.astro';
 interface Props {
   board: TierBoardData;
   level: Level;
+  /** Character map to resolve chips against. Defaults to the live
+   * data; history pages pass the snapshot's frozen characters (T4.3). */
+  characters?: Map<string, Character>;
 }
-const { board, level } = Astro.props;
+const { board, level, characters = charactersById } = Astro.props;
 
 const ROWS: { key: keyof TierBoardData; letter: string }[] = [
   { key: 'S', letter: 'S' },
@@ -38,7 +42,7 @@ const ROWS: { key: keyof TierBoardData; letter: string }[] = [
         </div>
         <div class="cards">
           {board[row.key].map((id) => {
-            const c = charactersById.get(id)!;
+            const c = characters.get(id)!;
             return <CharacterChip character={c} result={c.results[level]} />;
           })}
         </div>

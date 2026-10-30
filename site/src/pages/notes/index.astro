@@ -1,9 +1,12 @@
 ---
-// Notes index (plan T3.8 scope). The movers-note generator lands in
-// P4 (T4.4: notes are generated from the snapshot diff, D-13, and
-// zero-change weeks auto-publish, D-12). Until the first note exists
-// this page renders an honest empty state — no fabricated archive.
+// Notes index (plan T4.4). Lists the notes that render — approved
+// notes and auto zero-change notes (D-12); drafts wait for Tom and
+// never appear here. When none render yet, an honest empty state.
 import Base from '../../layouts/Base.astro';
+import { fmtDate } from '../../lib/data';
+import { loadNotes } from '../../lib/notes';
+
+const notes = loadNotes();
 ---
 
 <Base title="Notes – StarDiveMeta" path="/notes/">
@@ -13,7 +16,25 @@ import Base from '../../layouts/Base.astro';
     generated from the snapshot diff, with a link to the list behind
     each move.
   </p>
-  <p class="empty">No notes yet. The first note comes after the first full week of checks.</p>
+  {
+    notes.length === 0 ? (
+      <p class="empty">
+        No notes yet. The first note comes after the first full week of
+        checks.
+      </p>
+    ) : (
+      <ul class="notes">
+        {notes.map((n) => (
+          <li>
+            <a class="row" href={`/notes/${n.date}/`}>
+              <span class="date">{fmtDate(n.date)}</span>
+              <span class="title">{n.title}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
 </Base>
 
 <style>
@@ -37,5 +58,31 @@ import Base from '../../layouts/Base.astro';
     padding: 12px;
     color: var(--sub);
     font-size: var(--text-body-sm);
+  }
+  .notes {
+    list-style: none;
+    margin: 18px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .notes .row {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    text-decoration: none;
+  }
+  .notes .date {
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+  }
+  .notes .title {
+    color: var(--text);
+    font-weight: var(--weight-semibold);
   }
 </style>

@@ -6,9 +6,9 @@
 mod common;
 
 use common::{dataset_with, run_bin, write_files};
-use std::path::PathBuf;
+use std::path::Path;
 
-fn snapshot(data: &PathBuf, id: &str) {
+fn snapshot(data: &Path, id: &str) {
     let out = run_bin(
         &["snapshot", "--data", data.to_str().unwrap(), "--id", id],
         None,
@@ -16,7 +16,7 @@ fn snapshot(data: &PathBuf, id: &str) {
     assert_eq!(out.code, Some(0), "snapshot {id}: {}", out.combined());
 }
 
-fn note(data: &PathBuf, from: &str, to: &str, date: &str) -> common::BinOutput {
+fn note(data: &Path, from: &str, to: &str, date: &str) -> common::BinOutput {
     run_bin(
         &[
             "note",
@@ -100,7 +100,10 @@ fn note_baseline_from_none() {
     assert_eq!(out.code, Some(0), "note: {}", out.combined());
     let text = std::fs::read_to_string(data.join("notes/2026-11-03.md")).unwrap();
     assert!(text.contains("status: draft"), "{text}");
-    assert!(text.contains("# What moved: launch → Nov 3, 2026"), "{text}");
+    assert!(
+        text.contains("# What moved: launch → Nov 3, 2026"),
+        "{text}"
+    );
     assert!(text.contains("## New placements"), "{text}");
     assert!(
         text.contains("Pocket Gamer placed Narae at Conquest S · Rift A"),
