@@ -1,10 +1,9 @@
 ---
 // About page (plan T3.8 + §B.5 About). Part E Q4 answered "none"
 // (D-9 vetoed), so there is deliberately no corrections email line.
-// The disclaimer is repeated in full in the body, per §B.5 item 6
-// (it also runs in the footer of every page).
+// CP3 debloat pass 2 (Tom, 2026-10-29): no in-body disclaimer here —
+// the footer copy (Base layout) is the single disclaimer per page.
 import Base from '../layouts/Base.astro';
-import Disclaimer from '../components/Disclaimer.astro';
 ---
 
 <Base title="About – StarDiveMeta" path="/about/">
@@ -15,9 +14,6 @@ import Disclaimer from '../components/Disclaimer.astro';
     they don't.
   </p>
   <p class="built">No ads. No accounts.</p>
-  <div class="disclaimer-block">
-    <Disclaimer />
-  </div>
 </Base>
 
 <style>
@@ -32,10 +28,5 @@ import Disclaimer from '../components/Disclaimer.astro';
     color: var(--sub);
     font-size: var(--text-body-sm);
     margin: 10px 0 0;
-  }
-  .disclaimer-block {
-    margin-top: 22px;
-    border-top: 1px solid var(--line);
-    padding-top: 14px;
   }
 </style>
