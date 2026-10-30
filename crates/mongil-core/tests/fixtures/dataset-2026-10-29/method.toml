@@ -1,0 +1,32 @@
+# StarDiveMeta — Method v1.0 constants and conversion tables.
+# All method constants live here and nowhere else (plan T1.4 step 9).
+# Immutable once launched (gate G9).
+
+version = "1.0"
+weights = "equal"
+s_min = 3.5
+a_min = 3.0
+b_min = 2.0
+c_min = 1.0
+solid_max_spread = 1.0
+mode_split_min = 2.0
+kaiden_conditional_rule = "first_listed"
+
+[conversion.pg]
+S = 4.0
+A = 3.0
+B = 2.0
+C = 1.0
+
+[conversion.gamewith-jp]
+SS = 4.0
+S = 3.0
+A = 2.0
+
+[conversion.kaiden]
+T0 = 4.0
+"T0.5" = 3.5
+T1 = 3.0
+T2 = 2.0
+T3 = 1.0
+T4 = 0.0

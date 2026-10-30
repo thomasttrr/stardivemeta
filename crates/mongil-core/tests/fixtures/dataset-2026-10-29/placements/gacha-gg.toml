@@ -1,0 +1,106 @@
+# Fixture — gacha.gg check-only placements (aggregate, median of 9 lists),
+# transcribed from docs/inputs/mongil-tier-list-consensus-2026-10-29.md
+# lines 216-220. Updated Oct 29, 2026; 24 characters. Never counted:
+# it aggregates Kaiden and mongil.gg, so counting it would double-count.
+
+kind = "single_tier"
+
+[meta]
+source = "gacha-gg"
+harvest = "2026-10-29"
+
+[[placement]]
+character = "esther"
+tier = "S"
+
+[[placement]]
+character = "narae"
+tier = "S"
+
+[[placement]]
+character = "mina"
+tier = "S"
+
+[[placement]]
+character = "jiwon"
+tier = "S"
+
+[[placement]]
+character = "flare"
+tier = "S"
+
+[[placement]]
+character = "ophelia"
+tier = "A"
+
+[[placement]]
+character = "verna-summer-dive"
+tier = "A"
+
+[[placement]]
+character = "francis"
+tier = "A"
+
+[[placement]]
+character = "gabi"
+tier = "A"
+
+[[placement]]
+character = "sangun"
+tier = "A"
+
+[[placement]]
+character = "benjamin"
+tier = "B"
+
+[[placement]]
+character = "penny"
+tier = "B"
+
+[[placement]]
+character = "francis-summer-dive"
+tier = "B"
+
+[[placement]]
+character = "angel"
+tier = "C"
+
+[[placement]]
+character = "nagi"
+tier = "C"
+
+[[placement]]
+character = "yeonhwa"
+tier = "C"
+
+[[placement]]
+character = "bonnie"
+tier = "C"
+
+[[placement]]
+character = "cloud"
+tier = "C"
+
+[[placement]]
+character = "ellie"
+tier = "C"
+
+[[placement]]
+character = "sera"
+tier = "C"
+
+[[placement]]
+character = "leeho"
+tier = "C"
+
+[[placement]]
+character = "reina"
+tier = "C"
+
+[[placement]]
+character = "verna"
+tier = "C"
+
+[[placement]]
+character = "daisy"
+tier = "D"

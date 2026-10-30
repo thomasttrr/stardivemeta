@@ -1,0 +1,182 @@
+# Fixture — Kaiden placements, transcribed from
+# docs/inputs/mongil-tier-list-consensus-2026-10-29.md lines 129-159.
+# Format per line: Low / High / Max. For a conditional line, `tier` is the
+# FIRST-listed tier (plan D-G1); the full level text is preserved in `raw`.
+# Per-page URLs and dates are recorded by the T2.2 harvest, not here.
+
+[meta]
+source = "kaiden"
+harvest = "2026-10-29"
+
+[[placement]]
+character = "mina"
+low = { tier = "T2", raw = "T2" }
+high = { tier = "T0.5", raw = "T0.5 (A4), T1 at A2", awakening = "A4" }
+max = { tier = "T0.5", raw = "T0.5" }
+
+[[placement]]
+character = "penny"
+low = { tier = "T3", raw = "T3 (E)", flags = ["E"] }
+high = { tier = "T2", raw = "T2 (A1, E)", awakening = "A1", flags = ["E"] }
+max = { tier = "T1", raw = "T1 (A6, E)", awakening = "A6", flags = ["E"] }
+
+[[placement]]
+character = "narae"
+low = { tier = "T0", raw = "T0" }
+high = { tier = "T0", raw = "T0" }
+max = { tier = "T0", raw = "T0" }
+
+[[placement]]
+character = "sangun"
+low = { tier = "T4", raw = "T4" }
+high = { tier = "T4", raw = "T4" }
+max = { tier = "T3", raw = "T3" }
+
+[[placement]]
+character = "jiwon"
+low = { tier = "T3", raw = "T3 (P)", flags = ["P"] }
+high = { tier = "T1", raw = "T1 (A4), T2 at A2 (P)", awakening = "A4", flags = ["P"] }
+max = { tier = "T1", raw = "T1" }
+
+[[placement]]
+character = "gabi"
+low = { tier = "T3", raw = "T3" }
+high = { tier = "T1", raw = "T1 (A4), T2 at A2", awakening = "A4" }
+max = { tier = "T1", raw = "T1" }
+
+[[placement]]
+character = "isabella"
+low = { tier = "T1", raw = "T1" }
+high = { tier = "T0.5", raw = "T0.5 (A2)", awakening = "A2" }
+max = { tier = "T0.5", raw = "T0.5" }
+
+[[placement]]
+character = "flare"
+low = { tier = "T3", raw = "T3" }
+high = { tier = "T2", raw = "T2 (A2)", awakening = "A2" }
+max = { tier = "T1", raw = "T1" }
+
+[[placement]]
+character = "chloe"
+status = "no_placement"
+note = "Guide page says review coming soon. No Tier Position section."
+
+[[placement]]
+character = "ophelia"
+low = { tier = "T2", raw = "T2" }
+high = { tier = "T1", raw = "T1 (A2)", awakening = "A2" }
+max = { tier = "T1", raw = "T1 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "esther"
+low = { tier = "T2", raw = "T2" }
+high = { tier = "T1", raw = "T1" }
+max = { tier = "T1", raw = "T1 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "nagi"
+low = { tier = "T3", raw = "T3" }
+high = { tier = "T2", raw = "T2 (A2)", awakening = "A2" }
+max = { tier = "T1", raw = "T1 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "brisshell"
+low = { tier = "T1", raw = "T1" }
+high = { tier = "T0.5", raw = "T0.5" }
+max = { tier = "T0.5", raw = "T0.5" }
+
+[[placement]]
+character = "mabel"
+low = { tier = "T2", raw = "T2" }
+high = { tier = "T1", raw = "T1 (A4)", awakening = "A4" }
+max = { tier = "T1", raw = "T1 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "verna-summer-dive"
+low = { tier = "T0.5", raw = "T0.5" }
+high = { tier = "T0.5", raw = "T0.5" }
+max = { tier = "T0.5", raw = "T0.5" }
+
+[[placement]]
+character = "francis-summer-dive"
+low = { tier = "T2", raw = "T2" }
+high = { tier = "T0.5", raw = "T0.5 (A2), T1 at A1", awakening = "A2" }
+max = { tier = "T0", raw = "T0 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "vivian"
+low = { tier = "T2", raw = "T2" }
+high = { tier = "T0.5", raw = "T0.5 (A4), T1 at A2", awakening = "A4" }
+max = { tier = "T0.5", raw = "T0.5 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "verna"
+low = { tier = "T3", raw = "T3" }
+high = { tier = "T3", raw = "T3" }
+max = { tier = "T3", raw = "T3 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "cloud"
+low = { tier = "T2", raw = "T2" }
+high = { tier = "T2", raw = "T2" }
+max = { tier = "T2", raw = "T2 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "francis"
+low = { tier = "T0.5", raw = "T0.5" }
+high = { tier = "T0.5", raw = "T0.5" }
+max = { tier = "T0.5", raw = "T0.5" }
+
+[[placement]]
+character = "yeonhwa"
+low = { tier = "T0.5", raw = "T0.5" }
+high = { tier = "T0.5", raw = "T0.5" }
+max = { tier = "T0.5", raw = "T0.5" }
+
+[[placement]]
+character = "daisy"
+low = { tier = "T4", raw = "T4" }
+high = { tier = "T4", raw = "T4" }
+max = { tier = "T4", raw = "T4 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "leeho"
+low = { tier = "T3", raw = "T3" }
+high = { tier = "T3", raw = "T3" }
+max = { tier = "T3", raw = "T3 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "benjamin"
+low = { tier = "T1", raw = "T1" }
+high = { tier = "T1", raw = "T1" }
+max = { tier = "T1", raw = "T1 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "sera"
+low = { tier = "T3", raw = "T3" }
+high = { tier = "T2", raw = "T2 with Ophelia's signature, T3 without" }
+max = { tier = "T2", raw = "T2 (A6, with signature)", awakening = "A6" }
+
+[[placement]]
+character = "ellie"
+low = { tier = "T2", raw = "T2" }
+high = { tier = "T2", raw = "T2 (E)", flags = ["E"] }
+max = { tier = "T2", raw = "T2 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "reina"
+low = { tier = "T2", raw = "T2" }
+high = { tier = "T2", raw = "T2" }
+max = { tier = "T2", raw = "T2 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "bonnie"
+low = { tier = "T3", raw = "T3" }
+high = { tier = "T3", raw = "T3" }
+max = { tier = "T3", raw = "T3 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "angel"
+low = { tier = "T2", raw = "T2" }
+high = { tier = "T2", raw = "T2" }
+max = { tier = "T2", raw = "T2 (A6)", awakening = "A6" }
