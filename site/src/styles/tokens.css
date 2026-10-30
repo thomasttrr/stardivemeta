@@ -18,7 +18,7 @@
   /* Colour — glass material (CSS fallback + overlays; WebGL draws the
      refraction itself when it runs, see src/islands/GlassScene.tsx) */
   /* Frost dial — the ONE knob for how see-through every glass surface is.
-     Stops: Clear 0.3 · Balanced 1 (shipped; the pre-dial look exactly)
+     Stops: Clear 0.3 · Balanced 1 (owner's pick, locked; the pre-dial look)
      · Frosted 2. It scales blur/frost directly and the legibility tint
      by --frost-tint; the WebGL lens and the dock lens read both. */
   --frost: 1;

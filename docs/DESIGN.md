@@ -110,7 +110,7 @@ keeps text legible. Both paths read it:
 | **Balanced** (shipped) | **1** | **1** | **22 / 32px** | **.58** | **.78** | **.56** | **.065** | **.62** | **.42** | **1.4** |
 | Frosted | 2 | 1.5 | 44 / 64px | .87 | .92 (cap) | .84 | .0975 | 1.0 (cap) | .63 | 2.8 |
 
-Balanced reproduces the pre-dial look exactly. With motion frozen, home and
+Balanced is the owner's pick (2026-10-30), locked. It reproduces the pre-dial look exactly. With motion frozen, home and
 /c/francis/ screenshots are byte-identical to the previous build on both the
 WebGL and the CSS path. Screenshots at each stop are in
 `docs/design/screenshots/frost/`: `{stop}-*.png` is the WebGL path,
