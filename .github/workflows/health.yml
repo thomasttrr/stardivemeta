@@ -1,0 +1,89 @@
+# Health (plan T5.2): daily outside check that the deployed site is
+# current and the sweep heartbeat is alive. Failures open or update a
+# GitHub issue labelled `health`; a clean run closes any open `health`
+# issue. There are no messages on green — X's jobs relay open health
+# issues to Tom (docs/RUNBOOK.md).
+#
+# Schedule note: GitHub cron is UTC only, and the plan fixes this one
+# at 0 15 * * * UTC = 10:00 EST / 11:00 EDT. The one-hour seasonal
+# drift is the plan's own choice (T5.2 states it) — the check is a
+# 30-hour heartbeat, so an hour either way does not matter.
+#
+# Site target: the HEALTH_SITE_URL repo variable when set, else the
+# staging URL. T6.4 sets the variable to https://stardivemeta.com at
+# launch; nothing else in this file changes.
+name: Health
+
+on:
+  schedule:
+    - cron: "0 15 * * *"
+  workflow_dispatch:
+    inputs:
+      codes_checked_at_override:
+        description: "Acceptance test (T5.2): pretend build.json's codes_checked_at is this ISO timestamp"
+        required: false
+        type: string
+      sources_checked_at_override:
+        description: "Acceptance test (T5.2): pretend build.json's sources_checked_at is this ISO timestamp"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Run the five health checks (T5.2)
+        id: checks
+        env:
+          SITE_URL: ${{ vars.HEALTH_SITE_URL || 'https://staging.stardivemeta.pages.dev' }}
+          CODES_CHECKED_AT_OVERRIDE: ${{ inputs.codes_checked_at_override }}
+          SOURCES_CHECKED_AT_OVERRIDE: ${{ inputs.sources_checked_at_override }}
+          FAILURES_FILE: ${{ runner.temp }}/health-failures.txt
+        run: |
+          echo "MAIN_HEAD_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+          echo "MAIN_HEAD_AT=$(git log -1 --format=%cI)" >> "$GITHUB_ENV"
+          bash scripts/health-check.sh
+
+      - name: Open or update a health issue
+        if: failure() && steps.checks.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FAILURES_FILE: ${{ runner.temp }}/health-failures.txt
+        run: |
+          first="$(head -n 1 "$FAILURES_FILE")"
+          title="StarDiveMeta health: ${first} failed"
+          {
+            echo "The daily health workflow found failures:"
+            echo
+            sed 's/^/- /' "$FAILURES_FILE"
+            echo
+            echo "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            echo "Site checked: ${{ vars.HEALTH_SITE_URL || 'https://staging.stardivemeta.pages.dev' }}"
+          } > /tmp/health-issue-body.md
+          gh label create health --color B60205 \
+            --description "StarDiveMeta health workflow" --force >/dev/null 2>&1 || true
+          existing="$(gh issue list --label health --state open --json number --jq '.[0].number // empty')"
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body-file /tmp/health-issue-body.md
+            echo "Updated health issue #$existing"
+          else
+            gh issue create --title "$title" --label health --body-file /tmp/health-issue-body.md
+          fi
+
+      - name: Close health issues when all checks pass
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for n in $(gh issue list --label health --state open --json number --jq '.[].number'); do
+            gh issue close "$n" --comment "All health checks pass again (run ${{ github.run_id }})."
+            echo "Closed health issue #$n"
+          done
