@@ -1,18 +1,23 @@
 ---
 // Site shell (plan T3.1): head meta + canonical + OG tags, the inline
-// level-restore script, header nav, footer with the disclaimer.
+// level-restore script, the glass header, footer with the disclaimer,
+// and the fixed WebGL glass scene behind everything.
 // No social share buttons or embeds anywhere (Tom's standing rule);
 // OG meta only, per plan D-7.
 import '../styles/global.css';
 import Disclaimer from '../components/Disclaimer.astro';
+import GlassScene from '../islands/GlassScene';
 
 interface Props {
   title: string;
   description?: string;
   /** Canonical path, e.g. "/" or "/c/francis/". */
   path: string;
-  /** Set false for pages that must ship zero JS (plan T3.5 table). */
+  /** Board scripts: the level restore + evidence dialogs. Set false
+   * for pages with neither (plan T3.5 table). */
   levelScript?: boolean;
+  /** Column width: "wide" for boards and tables, "prose" for reading. */
+  width?: 'wide' | 'prose';
 }
 
 const {
@@ -20,6 +25,7 @@ const {
   description = 'Every list disagrees. We show you by how much.',
   path,
   levelScript = true,
+  width = 'wide',
 } = Astro.props;
 
 const canonical = `https://stardivemeta.com${path}`;
@@ -42,13 +48,18 @@ const footerNav = [
   { href: '/data/', label: 'Data' },
   { href: '/about/', label: 'About' },
 ];
+const current = (href: string) =>
+  href === '/' ? path === '/' : path.startsWith(href);
 ---
 
 <!doctype html>
 <html lang="en" data-level="low">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#050d10" />
+    <link rel="icon" href="data:," />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -75,13 +86,44 @@ const footerNav = [
     }
   </head>
   <body>
-    <div class="wrap">
+    <div class="scene" aria-hidden="true">
+      <div class="ambient">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-4"></div>
+      </div>
+    </div>
+    <GlassScene client:idle />
+
+    <div class={`shell shell-${width}`}>
       <header class="site-header">
-        <a class="logo" href="/">StarDive<em>Meta</em></a>
-        <nav class="site-nav" aria-label="Main">
-          {nav.map((n) => <a href={n.href}>{n.label}</a>)}
-        </nav>
+        <div class="cap" data-glass="overlay">
+          <a class="logo" href="/">
+            <svg class="logo-mark" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 1.5c.7 5.6 4.9 9.8 10.5 10.5-5.6.7-9.8 4.9-10.5 10.5C11.3 16.9 7.1 12.7 1.5 12 7.1 11.3 11.3 7.1 12 1.5Z" />
+            </svg>
+            <span>StarDive<em>Meta</em></span>
+          </a>
+          <nav class="site-nav" aria-label="Main">
+            {
+              nav.map((n) => (
+                <a href={n.href} aria-current={current(n.href) ? 'page' : undefined}>
+                  {n.label}
+                </a>
+              ))
+            }
+          </nav>
+        </div>
       </header>
+      <script is:inline>
+        // Phones: centre the current page in the sideways-scrolling nav.
+        (function () {
+          var n = document.querySelector('.site-nav');
+          var a = n && n.querySelector('[aria-current]');
+          if (a && n.scrollWidth > n.clientWidth) n.scrollLeft = a.offsetLeft - (n.clientWidth - a.offsetWidth) / 2;
+        })();
+      </script>
 
       <main>
         <slot />
@@ -89,7 +131,13 @@ const footerNav = [
 
       <footer class="site-footer">
         <nav class="footer-nav" aria-label="Footer">
-          {footerNav.map((n) => <a href={n.href}>{n.label}</a>)}
+          {
+            footerNav.map((n) => (
+              <a href={n.href} aria-current={current(n.href) ? 'page' : undefined}>
+                {n.label}
+              </a>
+            ))
+          }
         </nav>
         <Disclaimer />
       </footer>
@@ -98,7 +146,6 @@ const footerNav = [
     {
       levelScript && (
         <script>
-          import '../scripts/level.ts';
           import '../scripts/dialog.ts';
         </script>
       )
@@ -107,62 +154,146 @@ const footerNav = [
 </html>
 
 <style>
-  .wrap {
+  .shell {
+    position: relative;
+    z-index: 1;
     max-width: var(--content-max);
     margin: 0 auto;
-    padding: var(--space-page-top) var(--space-page-x) var(--space-page-bottom);
-  }
-  .site-header {
+    padding: var(--space-page-top) var(--space-page-x) 0;
+    min-height: 100vh;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    flex-direction: column;
+  }
+  .shell-prose main {
+    width: 100%;
+    max-width: var(--prose-max);
+  }
+  main {
+    flex: 1;
+  }
+
+  /* header capsule */
+  .site-header {
+    position: sticky;
+    top: 12px;
+    z-index: 10;
+  }
+  .cap {
+    border-radius: var(--radius-pill);
+    display: flex;
     align-items: center;
-    gap: 8px 16px;
+    gap: 12px;
+    padding: 6px 6px 6px 16px;
   }
   .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
     font-weight: var(--weight-extrabold);
-    letter-spacing: 0.02em;
     font-size: 17px;
+    letter-spacing: var(--tracking-tight);
     color: var(--text);
     text-decoration: none;
+    white-space: nowrap;
   }
   .logo em {
     font-style: normal;
-    color: var(--teal);
+    color: var(--gold);
+  }
+  .logo-mark {
+    width: 18px;
+    height: 18px;
+    fill: var(--gold);
+    transition: transform var(--duration-slow) var(--ease-spring);
+  }
+  .logo:hover .logo-mark {
+    transform: rotate(90deg) scale(1.1);
   }
   .site-nav {
     display: flex;
-    flex-wrap: wrap;
-    gap: 4px 14px;
-    font-size: var(--text-body-sm);
+    gap: 2px;
+    flex: 1;
+    justify-content: flex-end;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
   }
   .site-nav a {
-    color: var(--sub);
+    white-space: nowrap;
     text-decoration: none;
-    padding: 4px 0;
+    color: var(--sub);
+    font-weight: var(--weight-semibold);
+    font-size: var(--text-body-sm);
+    padding: 0 13px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: var(--radius-pill);
+    transition:
+      background-color var(--duration-fast),
+      color var(--duration-fast);
   }
   .site-nav a:hover {
     color: var(--text);
+    background: rgb(255 255 255 / 0.06);
   }
+  .site-nav a[aria-current="page"] {
+    color: var(--text);
+    background: rgb(255 255 255 / 0.13);
+    box-shadow: var(--glass-edge);
+  }
+
+  /* footer */
   .site-footer {
-    margin-top: 40px;
-    border-top: 1px solid var(--line);
-    padding-top: 16px;
+    margin-top: 56px;
+    border-top: 1px solid var(--hairline);
+    padding: 8px 0 36px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
+  }
+  .shell:has(.dock) .site-footer {
+    padding-bottom: var(--dock-clearance);
   }
   .footer-nav {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px 14px;
-    font-size: var(--text-body-sm);
+    gap: 0 20px;
   }
   .footer-nav a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
     color: var(--sub);
+    font-size: var(--text-body-sm);
     text-decoration: none;
   }
-  .footer-nav a:hover {
+  .footer-nav a:hover,
+  .footer-nav a[aria-current="page"] {
     color: var(--text);
+  }
+
+  @media (max-width: 620px) {
+    .shell {
+      padding: 10px 12px 0;
+    }
+    .site-header {
+      position: relative;
+      top: 0;
+    }
+    .cap {
+      border-radius: 26px;
+      flex-wrap: wrap;
+      padding: 6px;
+      gap: 2px;
+    }
+    .logo {
+      padding-left: 10px;
+    }
+    .site-nav {
+      flex: 1 1 100%;
+      justify-content: flex-start;
+    }
   }
 </style>

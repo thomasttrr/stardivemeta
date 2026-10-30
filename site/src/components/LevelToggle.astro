@@ -1,25 +1,14 @@
 ---
-// Investment toggle (plan T3.2 + D-4). Three radio buttons; level.ts
-// flips <html data-level>. Without JS, Low shows and the toggle falls
-// back to links to the table page's level anchors.
+// Investment toggle (plan T3.2 + D-4): the floating LevelDock island
+// (React + Motion, client-only — it is pure behaviour, so it renders no
+// static markup) plus the one-line note. Without JS, Low shows and the
+// noscript line links to the table page's level anchors.
 // CP3 debloat (Tom, 2026-10-29): the note under the toggle is ONE line;
 // Kaiden's level definitions live in full on the Rules page.
-import { LEVELS, LEVEL_NAME } from '../lib/data';
+import LevelDock from '../islands/LevelDock';
 ---
 
-<div class="toggle-form">
-  <fieldset class="toggle">
-    <legend class="sr-only">Investment level</legend>
-    {
-      LEVELS.map((lv) => (
-        <label class="seg">
-          <input type="radio" name="sdm-level" value={lv} checked={lv === 'low'} />
-          <span>{LEVEL_NAME[lv]}</span>
-        </label>
-      ))
-    }
-  </fieldset>
-</div>
+<LevelDock client:only="react" />
 <noscript>
   <p class="tnote">
     Investment: <a href="/table/#low">Low</a> · <a href="/table/#high">High</a> ·{' '}
@@ -32,50 +21,133 @@ import { LEVELS, LEVEL_NAME } from '../lib/data';
 </p>
 
 <style>
-  .toggle-form {
-    margin: 18px 0 0;
-  }
-  .toggle {
-    display: flex;
-    gap: 6px;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    padding: 5px;
-    width: fit-content;
-    margin: 0;
-  }
-  .seg {
-    position: relative;
-    cursor: pointer;
-  }
-  .seg input {
-    position: absolute;
-    opacity: 0;
-    inset: 0;
-    margin: 0;
-    cursor: pointer;
-  }
-  .seg span {
-    display: block;
-    padding: 6px 16px;
-    border-radius: var(--radius-sm);
-    color: var(--sub);
-    font-weight: var(--weight-semibold);
-    font-size: 14px;
-  }
-  .seg input:checked + span {
-    background: var(--teal);
-    color: var(--on-teal);
-    font-weight: var(--weight-bold);
-  }
-  .seg input:focus-visible + span {
-    outline: 2px solid var(--teal);
-    outline-offset: 2px;
-  }
   .tnote {
     color: var(--sub);
     font-size: var(--text-note);
-    margin: 9px 0 0;
+    margin: 10px 0 0;
+    animation: rise var(--duration-slow) 160ms var(--ease-out) backwards;
+  }
+</style>
+
+<style is:global>
+  .dock {
+    position: fixed;
+    left: 50%;
+    bottom: max(18px, env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    z-index: 20;
+    border-radius: var(--radius-pill);
+    padding: 6px;
+    animation: dock-in 800ms 250ms var(--ease-spring) backwards;
+  }
+  .dock.lensed {
+    background-color: rgb(12 22 26 / 0.56);
+    -webkit-backdrop-filter: url(#sdm-dock-lens) saturate(180%);
+    backdrop-filter: url(#sdm-dock-lens) saturate(180%);
+  }
+  .dock-filter {
+    position: absolute;
+  }
+  .dock .segs {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    padding: 0 0 0 14px;
+    border: 0;
+    min-width: 0;
+  }
+  .dock .dlbl {
+    font-size: var(--text-kicker);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--sub);
+  }
+  .dock .track {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 300px;
+    padding: 4px;
+    border-radius: var(--radius-pill);
+    background: var(--tint-dark);
+  }
+  .dock .seg {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 44px;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    color: var(--sub);
+    font-weight: var(--weight-semibold);
+    font-size: var(--text-base);
+  }
+  .dock .seg input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+  }
+  .dock .seg-text {
+    position: relative;
+    z-index: 1;
+    transition: color var(--duration-fast);
+  }
+  .dock .seg:hover .seg-text {
+    color: var(--text);
+  }
+  .dock .seg.on .seg-text {
+    color: #fff;
+    font-weight: var(--weight-bold);
+  }
+  .dock .seg input:focus-visible ~ .seg-text {
+    outline: 2px solid var(--gold);
+    outline-offset: 6px;
+    border-radius: 6px;
+  }
+  .dock .slider {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: block;
+  }
+  .dock .slider-glass {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-pill);
+    background: var(--gold-glass);
+    border: 1px solid var(--gold-rim);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.5),
+      inset 0 -6px 12px rgb(255 207 90 / 0.12),
+      0 4px 14px rgb(0 0 0 / 0.28);
+  }
+  @keyframes dock-in {
+    from {
+      opacity: 0;
+      translate: 0 30px;
+      scale: 0.92;
+    }
+  }
+  @media (max-width: 620px) {
+    .dock {
+      left: 12px;
+      right: 12px;
+      bottom: max(12px, env(safe-area-inset-bottom));
+      transform: none;
+    }
+    .dock .segs {
+      padding-left: 10px;
+      gap: 10px;
+    }
+    .dock .track {
+      width: auto;
+      flex: 1;
+    }
   }
 </style>
