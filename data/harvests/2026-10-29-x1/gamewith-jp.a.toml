@@ -1,0 +1,155 @@
+# A-read (rendered text) — GameWith JP strongest-character ranking, sweep
+# 2026-10-29-x1. Text tier sections only (SS / S / A evaluation
+# tables); the visual tier table was NOT read.
+# Criteria as printed on the page (評価基準): 限定は0凸での性能を評価 /
+# 恒常星5キャラは2凸までで評価 / 星4キャラは6凸までで評価
+# (limited 5★ at A0, permanent 5★ up to A2, 4★ up to A6).
+
+[meta]
+source = "gamewith-jp"
+harvest = "2026-10-29-x1"
+worker = "A"
+read_mode = "text"
+read_at = "2026-10-29T23:18:16-04:00"
+page_updated = "2026-10-21"
+note = "Page updated 2026-10-21T11:41:21+09:00 per page metadata. Headline names 完凸フランシス (fully-awakened Francis), Narae, Summer Francis, Mina and Brisshell as the strongest."
+
+[[placement]]
+character = "mina"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "penny"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "narae"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "sangun"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "jiwon"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "gabi"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "isabella"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "flare"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "chloe"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "ophelia"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "esther"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "nagi"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "brisshell"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "mabel"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "verna-summer-dive"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "francis-summer-dive"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "vivian"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "verna"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "cloud"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "francis"
+tier = "SS"
+raw = "SS"
+note = "Headline names 完凸フランシス (fully-awakened Francis) among the strongest; Francis is ★4, and the page criteria evaluate 4★ up to A6."
+
+[[placement]]
+character = "yeonhwa"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "daisy"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "leeho"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "benjamin"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "sera"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "ellie"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "reina"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "bonnie"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "angel"
+tier = "A"
+raw = "A"

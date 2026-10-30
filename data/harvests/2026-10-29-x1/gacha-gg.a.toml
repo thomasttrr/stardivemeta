@@ -1,0 +1,109 @@
+# A-read (rendered text) — gacha.gg check-only placements, sweep
+# 2026-10-29-x1. Page stamp: "Updated 29 October 2026". 24 characters.
+# Never counted: it aggregates other lists.
+
+kind = "single_tier"
+
+[meta]
+source = "gacha-gg"
+harvest = "2026-10-29-x1"
+worker = "A"
+read_mode = "text"
+read_at = "2026-10-29T23:18:16-04:00"
+page_updated = "2026-10-29"
+
+[[placement]]
+character = "esther"
+tier = "S"
+
+[[placement]]
+character = "narae"
+tier = "S"
+
+[[placement]]
+character = "mina"
+tier = "S"
+
+[[placement]]
+character = "jiwon"
+tier = "S"
+
+[[placement]]
+character = "flare"
+tier = "S"
+
+[[placement]]
+character = "ophelia"
+tier = "A"
+
+[[placement]]
+character = "verna-summer-dive"
+tier = "A"
+
+[[placement]]
+character = "francis"
+tier = "A"
+
+[[placement]]
+character = "gabi"
+tier = "A"
+
+[[placement]]
+character = "sangun"
+tier = "A"
+
+[[placement]]
+character = "benjamin"
+tier = "B"
+
+[[placement]]
+character = "penny"
+tier = "B"
+
+[[placement]]
+character = "francis-summer-dive"
+tier = "B"
+
+[[placement]]
+character = "angel"
+tier = "C"
+
+[[placement]]
+character = "nagi"
+tier = "C"
+
+[[placement]]
+character = "yeonhwa"
+tier = "C"
+
+[[placement]]
+character = "bonnie"
+tier = "C"
+
+[[placement]]
+character = "cloud"
+tier = "C"
+
+[[placement]]
+character = "ellie"
+tier = "C"
+
+[[placement]]
+character = "sera"
+tier = "C"
+
+[[placement]]
+character = "leeho"
+tier = "C"
+
+[[placement]]
+character = "reina"
+tier = "C"
+
+[[placement]]
+character = "verna"
+tier = "C"
+
+[[placement]]
+character = "daisy"
+tier = "D"
