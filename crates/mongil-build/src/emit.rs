@@ -8,11 +8,12 @@
 //! gives a byte-identical `tierlist.json` (acceptance a).
 
 use mongil_core::contract::{
-    Beginner, Boards, Character, CodesFile, Derived, EvidencePlacement, EvidenceRow, History,
-    KaidenFlag, Label, LevelCell, LevelDefinitions, Meta, MethodInfo, ModeBoard, ModeBoards,
-    ModePlacement, ModeSplit, ModeTier, Modes, NoneReason, RerollEntry, Result as ContractResult,
-    Results, Rise, SnapshotEntry, Source as ContractSource, SourceKind, SourceRole, SourceStatus,
-    Tier, TierBoard, TierList, Vote, Why,
+    Beginner, Boards, Character, CodeEntry, CodeObservation as ContractObservation, CodeReward,
+    CodeStatus, CodesFile, Derived, EvidencePlacement, EvidenceRow, History, KaidenFlag, Label,
+    LevelCell, LevelDefinitions, Meta, MethodInfo, ModeBoard, ModeBoards, ModePlacement, ModeSplit,
+    ModeTier, Modes, NoneReason, RerollEntry, Result as ContractResult, Results, Rise,
+    SnapshotEntry, Source as ContractSource, SourceKind, SourceRole, SourceStatus, Tier, TierBoard,
+    TierList, Vote, Why,
 };
 use mongil_core::derive;
 use mongil_core::load::Dataset;
@@ -21,8 +22,9 @@ use mongil_core::method::{
     TierBand,
 };
 use mongil_core::model::{
-    CheckOnlyKind, KaidenFlag as ModelFlag, Level, PlacementStatus, Source as ModelSource,
-    SourceKind as ModelKind, SourceRole as ModelRole, SourceStatus as ModelStatus,
+    CheckOnlyKind, Code, CodeObservationStatus, KaidenFlag as ModelFlag, Level, PlacementStatus,
+    Source as ModelSource, SourceKind as ModelKind, SourceRole as ModelRole,
+    SourceStatus as ModelStatus,
 };
 use std::fs;
 use std::path::Path;
@@ -399,6 +401,23 @@ fn evidence_for(ds: &Dataset, character_id: &str) -> Vec<EvidenceRow> {
                                 reason: NoneReason::NotListed,
                             },
                         },
+                        // Per-mode reference rows (T2.6): the two modes
+                        // the method knows are shown; `world` has no
+                        // contract slot (the method ignores World lists
+                        // too) and stays in the data file only.
+                        CheckOnlyKind::PerMode => {
+                            if e.conquest.is_none() && e.rift.is_none() {
+                                EvidencePlacement::None {
+                                    reason: NoneReason::NotListed,
+                                }
+                            } else {
+                                EvidencePlacement::Modes {
+                                    conquest: e.conquest.map(|t| t.as_str().to_string()),
+                                    rift: e.rift.map(|t| t.as_str().to_string()),
+                                    converted_overall: None,
+                                }
+                            }
+                        }
                     },
                     None => EvidencePlacement::None {
                         reason: NoneReason::NotListed,
@@ -607,17 +626,137 @@ fn snapshot_id(ds: &Dataset) -> String {
 // codes.json / history.json / meta.json
 // ---------------------------------------------------------------------------
 
+/// One independence group's current say on a code: the status of its
+/// freshest observation (by `seen_at`), and when that was seen.
+struct GroupSay {
+    status: CodeObservationStatus,
+    seen_epoch: i64,
+}
+
+/// Compute a code's status from its observations, per §B.3's rules
+/// (the T2.7 codes engine). Observations are grouped by independence
+/// group; each source's — and then each group's — freshest observation
+/// is the one that speaks.
+///
+/// 1. `expired` if the stated `expires_at` is before build time, or at
+///    least 2 distinct groups say `expired`.
+/// 2. `active` if at least 2 distinct groups say `active`, each of
+///    those sightings within 7 days of build time, and no group says
+///    `expired`.
+/// 3. otherwise `unconfirmed`.
+fn compute_code_status(
+    code: &Code,
+    groups: &std::collections::BTreeMap<String, String>,
+    now: i64,
+) -> CodeStatus {
+    // Freshest observation per group.
+    let mut says: std::collections::BTreeMap<String, GroupSay> = std::collections::BTreeMap::new();
+    for obs in &code.observations {
+        let seen_epoch = crate::validate::parse_rfc3339(&obs.seen_at).unwrap_or(0);
+        let group = groups
+            .get(&obs.source)
+            .cloned()
+            .unwrap_or_else(|| obs.source.clone());
+        match says.get(&group) {
+            Some(existing) if existing.seen_epoch > seen_epoch => {}
+            _ => {
+                says.insert(
+                    group,
+                    GroupSay {
+                        status: obs.status,
+                        seen_epoch,
+                    },
+                );
+            }
+        }
+    }
+
+    if let Some(expires_at) = &code.expires_at {
+        if let Some(expiry) = crate::validate::parse_rfc3339(expires_at) {
+            if expiry < now {
+                return CodeStatus::Expired;
+            }
+        }
+    }
+    let expired_groups = says
+        .values()
+        .filter(|s| s.status == CodeObservationStatus::Expired)
+        .count();
+    if expired_groups >= 2 {
+        return CodeStatus::Expired;
+    }
+    let fresh_active_groups = says
+        .values()
+        .filter(|s| s.status == CodeObservationStatus::Active && s.seen_epoch >= now - 7 * 86_400)
+        .count();
+    if fresh_active_groups >= 2 && expired_groups == 0 {
+        return CodeStatus::Active;
+    }
+    CodeStatus::Unconfirmed
+}
+
+fn code_status_str(status: CodeObservationStatus) -> &'static str {
+    match status {
+        CodeObservationStatus::Active => "active",
+        CodeObservationStatus::Expired => "expired",
+        CodeObservationStatus::NotListed => "not_listed",
+    }
+}
+
 pub fn build_codes(ds: &Dataset) -> Result<CodesFile, String> {
-    let n = ds.codes.as_ref().map(|c| c.codes.len()).unwrap_or(0);
-    if n > 0 {
-        return Err(format!(
-            "codes.toml holds {n} code(s) but the codes status engine lands in T2.7; \
-             refusing to emit statuses the engine has not computed"
-        ));
+    let now = crate::validate::now_epoch();
+    let groups: std::collections::BTreeMap<String, String> = ds
+        .code_sources
+        .as_ref()
+        .map(|registry| {
+            registry
+                .sources
+                .iter()
+                .map(|s| (s.id.clone(), s.group.clone()))
+                .collect()
+        })
+        .unwrap_or_default();
+
+    let mut entries: Vec<CodeEntry> = Vec::new();
+    if let Some(codes) = &ds.codes {
+        for code in &codes.codes {
+            let group_of = |source: &str| {
+                groups
+                    .get(source)
+                    .cloned()
+                    .unwrap_or_else(|| source.to_string())
+            };
+            let first_seen = code
+                .observations
+                .iter()
+                .min_by_key(|o| crate::validate::parse_rfc3339(&o.seen_at).unwrap_or(i64::MAX))
+                .map(|o| o.seen_at.clone());
+            entries.push(CodeEntry {
+                code: code.code.clone(),
+                status: compute_code_status(code, &groups, now),
+                reward: CodeReward {
+                    text: code.reward.clone(),
+                    source: code.reward_source.clone(),
+                },
+                expires_at: code.expires_at.clone(),
+                first_seen,
+                observations: code
+                    .observations
+                    .iter()
+                    .map(|o| ContractObservation {
+                        source: o.source.clone(),
+                        group: group_of(&o.source),
+                        status: code_status_str(o.status).to_string(),
+                        seen_at: o.seen_at.clone(),
+                        url: o.url.clone(),
+                    })
+                    .collect(),
+            });
+        }
     }
     Ok(CodesFile {
         checked_at: ds.checks.as_ref().map(|c| c.codes_checked_at.clone()),
-        codes: Vec::new(),
+        codes: entries,
     })
 }
 
@@ -758,11 +897,167 @@ pub fn run(data_dir: &Path, out_dir: &Path) -> Result<(), String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use mongil_core::model::CodeObservation;
 
     #[test]
     fn iso_utc_formats_known_instants() {
         assert_eq!(iso_utc(0), "1970-01-01T00:00:00Z");
         assert_eq!(iso_utc(1_761_825_600), "2025-10-30T12:00:00Z");
         assert_eq!(iso_utc(951_782_400), "2000-02-29T00:00:00Z");
+    }
+
+    // -- T2.7 codes engine (§B.3 status rules) --------------------------
+
+    /// "Now" for the engine tests: 2026-10-30T01:00:00Z.
+    fn now() -> i64 {
+        crate::validate::parse_rfc3339("2026-10-30T01:00:00Z").unwrap()
+    }
+
+    fn groups() -> std::collections::BTreeMap<String, String> {
+        [
+            ("pg", "pg-syndicated"),
+            ("ldshop", "pg-syndicated"),
+            ("dexerto", "dexerto"),
+            ("cosm", "cosm-game"),
+            ("kaiden", "kaiden"),
+        ]
+        .iter()
+        .map(|(a, b)| (a.to_string(), b.to_string()))
+        .collect()
+    }
+
+    fn obs(source: &str, status: CodeObservationStatus, seen_at: &str) -> CodeObservation {
+        CodeObservation {
+            source: source.to_string(),
+            status,
+            seen_at: seen_at.to_string(),
+            url: "https://example.com/codes".to_string(),
+        }
+    }
+
+    fn code(observations: Vec<CodeObservation>) -> Code {
+        Code {
+            code: "TESTCODE".to_string(),
+            reward: "Stuff".to_string(),
+            reward_source: "pg".to_string(),
+            expires_at: None,
+            expires_source: None,
+            observations,
+        }
+    }
+
+    const FRESH: &str = "2026-10-29T21:15:00-04:00"; // ~4 h before `now`
+
+    #[test]
+    fn code_status_two_independent_groups_active() {
+        let c = code(vec![
+            obs("pg", CodeObservationStatus::Active, FRESH),
+            obs("cosm", CodeObservationStatus::Active, FRESH),
+        ]);
+        assert_eq!(
+            compute_code_status(&c, &groups(), now()),
+            CodeStatus::Active
+        );
+    }
+
+    #[test]
+    fn code_status_same_group_twice_is_one_witness() {
+        // PG and LDShop share the pg-syndicated group (LDShop copies PG).
+        let c = code(vec![
+            obs("pg", CodeObservationStatus::Active, FRESH),
+            obs("ldshop", CodeObservationStatus::Active, FRESH),
+        ]);
+        assert_eq!(
+            compute_code_status(&c, &groups(), now()),
+            CodeStatus::Unconfirmed
+        );
+    }
+
+    #[test]
+    fn code_status_one_expired_group_blocks_active() {
+        let c = code(vec![
+            obs("pg", CodeObservationStatus::Active, FRESH),
+            obs("cosm", CodeObservationStatus::Active, FRESH),
+            obs("kaiden", CodeObservationStatus::Expired, FRESH),
+        ]);
+        assert_eq!(
+            compute_code_status(&c, &groups(), now()),
+            CodeStatus::Unconfirmed
+        );
+    }
+
+    #[test]
+    fn code_status_two_groups_expired_wins_over_actives() {
+        let c = code(vec![
+            obs("pg", CodeObservationStatus::Active, FRESH),
+            obs("cosm", CodeObservationStatus::Active, FRESH),
+            obs("kaiden", CodeObservationStatus::Expired, FRESH),
+            obs("dexerto", CodeObservationStatus::Expired, FRESH),
+        ]);
+        assert_eq!(
+            compute_code_status(&c, &groups(), now()),
+            CodeStatus::Expired
+        );
+    }
+
+    #[test]
+    fn code_status_past_stated_expiry_is_expired() {
+        let mut c = code(vec![
+            obs("pg", CodeObservationStatus::Active, FRESH),
+            obs("cosm", CodeObservationStatus::Active, FRESH),
+        ]);
+        c.expires_at = Some("2026-10-01T00:00:00Z".to_string());
+        assert_eq!(
+            compute_code_status(&c, &groups(), now()),
+            CodeStatus::Expired
+        );
+    }
+
+    #[test]
+    fn code_status_stale_actives_decay_to_unconfirmed() {
+        // Both sightings are 9+ days old at build time: the 7-day
+        // freshness rule (§B.3 rule 2) stops them counting.
+        let stale = "2026-10-20T21:15:00-04:00";
+        let c = code(vec![
+            obs("pg", CodeObservationStatus::Active, stale),
+            obs("cosm", CodeObservationStatus::Active, stale),
+        ]);
+        assert_eq!(
+            compute_code_status(&c, &groups(), now()),
+            CodeStatus::Unconfirmed
+        );
+    }
+
+    #[test]
+    fn code_status_single_expired_witness_is_unconfirmed() {
+        let c = code(vec![obs("kaiden", CodeObservationStatus::Expired, FRESH)]);
+        assert_eq!(
+            compute_code_status(&c, &groups(), now()),
+            CodeStatus::Unconfirmed
+        );
+    }
+
+    #[test]
+    fn code_status_group_say_is_its_freshest_observation() {
+        // The pg-syndicated group said expired in September but active
+        // in the fresh sweep: the fresh say is the one that counts.
+        let c = code(vec![
+            obs("pg", CodeObservationStatus::Expired, "2026-09-01T00:00:00Z"),
+            obs("ldshop", CodeObservationStatus::Active, FRESH),
+            obs("cosm", CodeObservationStatus::Active, FRESH),
+        ]);
+        assert_eq!(
+            compute_code_status(&c, &groups(), now()),
+            CodeStatus::Active
+        );
+    }
+
+    #[test]
+    fn code_status_no_observations_is_unconfirmed() {
+        let c = code(vec![]);
+        assert_eq!(
+            compute_code_status(&c, &groups(), now()),
+            CodeStatus::Unconfirmed
+        );
     }
 }

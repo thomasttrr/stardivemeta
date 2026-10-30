@@ -18,7 +18,10 @@ use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 
 /// Sweep ids look like `2026-11-03-am`, `2026-11-03-pm`,
-/// `2026-11-06-patch1`, `2026-11-03-x2`.
+/// `2026-11-06-patch1`, `2026-11-03-x2` — or the timestamped form the
+/// cadence uses, `2026-10-29T2105-sweep-pm` (date + HHMM + `-sweep-am|pm`),
+/// which is what `data/state/checks.json` records as `last_sweep` and
+/// what the harvest directories are named.
 pub fn valid_sweep_id(id: &str) -> bool {
     let bytes = id.as_bytes();
     if bytes.len() < 13 {
@@ -32,7 +35,17 @@ pub fn valid_sweep_id(id: &str) -> bool {
             c.is_ascii_digit()
         }
     });
-    if !date_ok || bytes[10] != b'-' {
+    if !date_ok {
+        return false;
+    }
+    // Timestamped form: `YYYY-MM-DDTHHMM-sweep-am|pm`.
+    if bytes[10] == b'T' {
+        return id.len() == 24
+            && id[11..15].chars().all(|c| c.is_ascii_digit())
+            && &id[15..22] == "-sweep-"
+            && (&id[22..] == "am" || &id[22..] == "pm");
+    }
+    if bytes[10] != b'-' {
         return false;
     }
     let suffix = &id[11..];
@@ -45,6 +58,39 @@ pub fn valid_sweep_id(id: &str) -> bool {
         }
     }
     false
+}
+
+#[cfg(test)]
+mod tests {
+    use super::valid_sweep_id;
+
+    #[test]
+    fn sweep_id_forms() {
+        for ok in [
+            "2026-11-03-am",
+            "2026-11-03-pm",
+            "2026-11-06-patch1",
+            "2026-11-03-x2",
+            "2026-10-29T2105-sweep-pm",
+            "2026-10-29T0900-sweep-am",
+        ] {
+            assert!(valid_sweep_id(ok), "{ok} should be a valid sweep id");
+        }
+        for bad in [
+            "2026-10-29",
+            "2026-10-29-sweep-pm",
+            "2026-10-29T2105-pm",
+            "2026-10-29T2105-sweep-xx",
+            "2026-1-03-am",
+            "working",
+            "",
+        ] {
+            assert!(
+                !valid_sweep_id(bad),
+                "{bad:?} should not be a valid sweep id"
+            );
+        }
+    }
 }
 
 fn snapshot_path(data_dir: &Path, id: &str) -> PathBuf {

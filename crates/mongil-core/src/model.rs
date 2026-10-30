@@ -323,6 +323,9 @@ pub enum CheckOnlyKind {
     SingleTier,
     /// A Conquest-only list (`conquest` field), e.g. urgametips.
     ModesConquestOnly,
+    /// A per-mode list (`world` / `conquest` / `rift` fields), e.g.
+    /// mongil.gg (T2.6). Shown as reference rows; never counted.
+    PerMode,
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
@@ -341,7 +344,11 @@ pub struct CheckOnlyPlacement {
     /// The tier exactly as published (check-only sources have no shared
     /// scale, so this stays a string and is never converted).
     pub tier: Option<String>,
+    /// Per-mode tiers (`per_mode` kind only), on the publisher's own
+    /// S/A/B/C scale — recorded, never converted or counted.
+    pub world: Option<PgTier>,
     pub conquest: Option<PgTier>,
+    pub rift: Option<PgTier>,
     pub note: Option<String>,
 }
 

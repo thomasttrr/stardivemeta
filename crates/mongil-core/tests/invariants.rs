@@ -197,7 +197,9 @@ fn build_dataset(specs: &[Spec], extra_character: bool, with_check_only: bool) -
                     .map(|(i, _)| CheckOnlyPlacement {
                         character: format!("char{i}"),
                         tier: None,
+                        world: None,
                         conquest: Some(PgTier::C),
+                        rift: None,
                         note: None,
                     })
                     .collect(),

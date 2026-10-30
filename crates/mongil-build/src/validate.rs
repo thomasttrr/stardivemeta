@@ -9,7 +9,8 @@
 //! `origin/main`, which only exists once the repo has a remote), G5
 //! (reported, never a failure: the count feeds the lane), G6 core
 //! (double-read enforcement whenever a sweep's harvest directory is on
-//! disk), G10 (structural half + the expiry half of the status check),
+//! disk), G10 (structural half + the expiry half of the status check;
+//! the computed-status half is the T2.7 engine in `emit`),
 //! G11 (stamp shape + not-in-the-future), G12 core + G14 (run when
 //! `--dist` / `--site` are passed; CI passes `--site`).
 //!
@@ -88,8 +89,9 @@ fn days_from_civil(y: i64, m: i64, d: i64) -> i64 {
 
 /// Parse an RFC 3339 timestamp (or bare `YYYY-MM-DD`, treated as
 /// midnight UTC) to epoch seconds. Used by the G10 expiry core, where
-/// offsets matter (a JST expiry is not a UTC expiry).
-fn parse_rfc3339(s: &str) -> Option<i64> {
+/// offsets matter (a JST expiry is not a UTC expiry), and by the T2.7
+/// codes engine in `emit`.
+pub(crate) fn parse_rfc3339(s: &str) -> Option<i64> {
     let s = s.trim();
     let (date, time, offset_secs) = if s.len() == 10 {
         (s, "00:00:00", 0i64)
@@ -133,7 +135,7 @@ fn parse_rfc3339(s: &str) -> Option<i64> {
     )
 }
 
-fn now_epoch() -> i64 {
+pub(crate) fn now_epoch() -> i64 {
     std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
         .map(|d| d.as_secs() as i64)
@@ -571,8 +573,9 @@ pub fn run(data_dir: &Path, site_dir: Option<&Path>, dist_dir: Option<&Path>) ->
             );
         }
         out.notes.push(
-            "G10 codes (computed-status half): freshest-observation status computation is \
-             checked once the T2.7 codes engine lands"
+            "G10 codes (computed-status half): statuses are computed by the T2.7 engine in \
+             `emit` (build_codes, §B.3 rules, unit-tested there); validate checks the \
+             structural + expiry cores above"
                 .to_string(),
         );
     }
