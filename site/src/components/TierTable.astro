@@ -1,0 +1,106 @@
+---
+// The full table (plan T3.5): one row per character, sorted by Low
+// score desc with mode-split rows last. No JS.
+import { data, LABEL_WORD, tierDisplay } from '../lib/data';
+import type { Character } from '../types/contract/Character';
+import type { Level } from '../types/contract/Level';
+
+function cell(c: Character, lv: Level): string {
+  const r = c.results[lv];
+  if (r.label === 'MODE_SPLIT') return '⇄';
+  return `${tierDisplay(r.tier)} ${LABEL_WORD[r.label]} ${r.score_display ?? '—'}`;
+}
+function modeCell(c: Character, mode: 'conquest' | 'rift'): string {
+  const t = c.modes[mode].tier;
+  return t === 'UNRANKED' ? '—' : String(t);
+}
+
+const rows = [...data.characters].sort((a, b) => {
+  const am = a.results.low.label === 'MODE_SPLIT';
+  const bm = b.results.low.label === 'MODE_SPLIT';
+  if (am !== bm) return am ? 1 : -1;
+  return (b.results.low.score ?? -1) - (a.results.low.score ?? -1);
+});
+---
+
+<div class="tablewrap">
+  <table>
+    <caption>
+      MONGIL: STAR DIVE tier list — all {rows.length} characters, three investment
+      levels
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">Character</th>
+        <th scope="col" id="low">Low</th>
+        <th scope="col" id="high">High</th>
+        <th scope="col" id="max">Max</th>
+        <th scope="col">Conquest</th>
+        <th scope="col">Rift</th>
+        <th scope="col">Lists</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((c) => (
+          <tr>
+            <th scope="row">
+              <a href={`/c/${c.id}/`}>{c.name}</a>
+            </th>
+            <td>{cell(c, 'low')}</td>
+            <td>{cell(c, 'high')}</td>
+            <td>{cell(c, 'max')}</td>
+            <td>{modeCell(c, 'conquest')}</td>
+            <td>{modeCell(c, 'rift')}</td>
+            <td>{c.results.low.coverage}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .tablewrap {
+    overflow-x: auto;
+    margin-top: 18px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--panel);
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: var(--text-body-sm);
+  }
+  caption {
+    text-align: left;
+    padding: 12px var(--space-legend-x);
+    color: var(--sub);
+    font-size: var(--text-note);
+  }
+  th,
+  td {
+    text-align: left;
+    padding: 8px 10px;
+    border-top: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  thead th {
+    border-top: none;
+    color: var(--sub);
+    font-size: var(--text-note);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  tbody th {
+    font-weight: var(--weight-bold);
+  }
+  tbody th a {
+    color: var(--text);
+    text-decoration: none;
+  }
+  tbody th a:hover {
+    text-decoration: underline;
+  }
+</style>
