@@ -88,3 +88,13 @@ Format: one line per task — task id, date, commit, how it was checked (plan A.
     - Functional, in Chromium: Low→High switches the S rack from 4 to 7 chips, the choice persists, the evidence dialog opens, and WebGL is live on all page types.
   - **Screenshots.** 390px before/after (home, /c/francis/), the phone evidence sheet and desktop home are in `docs/design/screenshots/`.
   - **Not verified:** Safari/Firefox rendering (the dock lens is Chromium-only by design; the others get blur), real-device GPU performance, and the Rust `validate --dist` twin.
+- Frost dial · 2026-10-30 · branch `claude/theme-revamp` (PR #2, not merged) · One design-time parameter, `--frost` in `tokens.css`, now drives how see-through the glass is everywhere: panels, chips, the header, the dock and dialogs, on both the WebGL and the CSS path. `--frost-tint = (1 + frost) / 2` derives the legibility tint. `islands/frost.ts` hands both values to the shader (`uFrost`, `uTint`) and to the dock lens blur. Stops: Clear 0.3, Balanced 1 (shipped), Frosted 2; the values each maps to are in DESIGN.md, "Frost dial". liquid-glass-react was used as a reference only; nothing was copied or shipped. Its frost is a 4px + blurAmount×32px backdrop blur, and roughly a 2× change is needed before a step reads as different, which set the stop spacing.
+  - **Control:** with motion frozen, Balanced screenshots of home and /c/francis/ are byte-identical to the previous build, with and without WebGL.
+  - **Screenshots:** 390px home and /c/francis/ at each stop, WebGL and CSS paths (12), in `docs/design/screenshots/frost/`. All inspected, plus dock and dialog viewport crops at each stop. Chip names are crisp at all three stops. At Clear the dock lets the chip text under it show through behind "Low".
+  - **Checks (local, Windows):**
+    - `astro check` 0/0/0.
+    - html-validate 0 errors.
+    - check-dist OK (45 pages; island JS max ~360 KB).
+    - pa11y WCAG2AA 0 errors on the same 18 pages as the theme entry (at Balanced; pa11y cannot see the WebGL layer).
+    - `validate` OK.
+    - `cargo test --workspace --no-fail-fast`: 173 passed, 1 failed (the same pre-existing Windows-only `load_rejects_unknown_character_ref`). No Rust changed.

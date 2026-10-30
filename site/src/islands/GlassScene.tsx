@@ -15,6 +15,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { MAX_RECTS, fragmentShader, vertexShader } from './glass-shader';
+import { readFrost } from './frost';
 
 const GLASS_SELECTOR = '[data-glass]:not([data-glass="overlay"])';
 
@@ -114,6 +115,8 @@ function Field({ shared }: { shared: Shared }) {
           uCount: { value: 0 },
           uRects: { value: Array.from({ length: MAX_RECTS }, () => new THREE.Vector4()) },
           uRadii: { value: new Array<number>(MAX_RECTS).fill(0) },
+          uFrost: { value: 1 },
+          uTint: { value: 1 },
         },
       }),
     [],
@@ -123,6 +126,9 @@ function Field({ shared }: { shared: Shared }) {
     const refresh = () => {
       elements.current = Array.from(document.querySelectorAll<HTMLElement>(GLASS_SELECTOR));
       radii.current = new WeakMap();
+      const f = readFrost();
+      material.uniforms.uFrost.value = f.frost;
+      material.uniforms.uTint.value = f.tint;
     };
     refresh();
     window.addEventListener('resize', refresh);

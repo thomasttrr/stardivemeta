@@ -30,6 +30,8 @@ uniform vec2 uPointer;  // CSS px, viewport space
 uniform int uCount;
 uniform vec4 uRects[MAX_RECTS];  // x, y, w, h — CSS px, viewport space
 uniform float uRadii[MAX_RECTS];
+uniform float uFrost;  // frost dial (tokens.css --frost); Balanced = 1
+uniform float uTint;   // its legibility tint scale (--frost-tint)
 
 const vec3 INK    = vec3(0.020, 0.047, 0.059);
 const vec3 ABYSS  = vec3(0.027, 0.170, 0.170);
@@ -183,7 +185,7 @@ void main() {
     float lens = bev * bev * (3.0 - 2.0 * bev);
 
     vec2 off = -n * lens * 26.0 + (c - p) * 0.035;
-    float frost = 0.62;
+    float frost = min(0.62 * uFrost, 1.0);
     if (lens > 0.015) {
       col.r = field(p + off * 1.00, frost).r;
       col.g = field(p + off * 1.12, frost).g;
@@ -192,7 +194,7 @@ void main() {
       col = field(p + off, frost);
     }
 
-    col = mix(col, TINT, 0.42) + 0.018;
+    col = mix(col, TINT, min(0.42 * uTint, 0.9)) + 0.018;
 
     vec2 L = normalize(vec2(-0.55, -0.85));
     float facing = max(dot(n, L), 0.0);

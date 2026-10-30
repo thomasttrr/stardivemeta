@@ -6,6 +6,7 @@
 // screen-reader behaviour. In Chromium the dock's backdrop also gets a
 // real lens (an SVG displacement map sized to the dock).
 import { useEffect, useRef, useState } from 'react';
+import { readFrost } from './frost';
 import { MotionConfig, motion } from 'motion/react';
 
 type Level = 'low' | 'high' | 'max';
@@ -118,7 +119,7 @@ export default function LevelDock() {
             >
               <feImage href={lens.href} x="0" y="0" width={lens.w} height={lens.h} result="map" preserveAspectRatio="none" />
               <feDisplacementMap in="SourceGraphic" in2="map" scale="34" xChannelSelector="R" yChannelSelector="G" result="bent" />
-              <feGaussianBlur in="bent" stdDeviation="1.4" />
+              <feGaussianBlur in="bent" stdDeviation={1.4 * readFrost().frost} />
             </filter>
           </svg>
         )}

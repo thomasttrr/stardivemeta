@@ -73,18 +73,49 @@ The tier list sits on dark glass over a slow, deep-sea colour field.
 | `--text` | `#f4f6f1` | primary text |
 | `--sub` | `#b8c5c8` | secondary text |
 | `--mark` | `rgb(244 246 241 / .82)` | label marks on chips |
-| `--glass-fill` | `rgb(18 30 34 / .58)` | CSS-glass panel fill (fallback) |
-| `--glass-fill-strong` | `rgb(12 22 26 / .78)` | overlays: header capsule, dock, dialog |
+| `--frost` | `1` (Balanced) | the frost dial, see "Frost dial" below |
+| `--frost-tint` | `(1 + --frost) / 2` | legibility tint scale (registered `<number>`) |
+| `--glass-fill` | `rgb(18 30 34 / .58 × tint)` | CSS-glass panel fill (fallback) |
+| `--glass-fill-strong` | `rgb(12 22 26 / .78 × tint, ≤ .92)` | overlays: header capsule, dialog |
+| `--dock-fill` | `rgb(12 22 26 / .56 × tint)` | lensed dock fill (Chromium) |
 | `--glass-sheen` | top-light linear gradient | glass body sheen |
 | `--glass-rim` / `--glass-rim-strong` | white 15% / 24% | panel rims |
 | `--glass-edge` | inset top light + bottom shade | specular edge |
 | `--glass-shadow` | edge + 0 14px 34px drop | panel shadow |
-| `--glass-blur` / `--glass-blur-strong` | blur 22px / 32px + saturate | `backdrop-filter` |
-| `--chip-fill` / `--chip-fill-hover` | white 6.5% / 11% | chips, stat tiles, small rows |
+| `--glass-blur` / `--glass-blur-strong` | blur 22px / 32px × frost + saturate | `backdrop-filter` |
+| `--chip-fill` / `--chip-fill-hover` | white 6.5% / 11% × tint | chips, stat tiles, small rows |
 | `--chip-rim` / `--chip-edge` | white 11% / inset top 14% | chip edge |
 | `--hairline` | white 10% | dividers |
 | `--scrim` | `rgb(2 6 8 / .55)` | dialog backdrop |
 | `--tint-dark` | black 20% | dock track, code wells |
+
+### Frost dial
+
+One design-time number, `--frost` in `tokens.css`, sets how see-through
+every glass surface is. It is not a user setting. `--frost` scales blur and
+frost directly. `--frost-tint = (1 + frost) / 2` scales the darkening that
+keeps text legible. Both paths read it:
+
+- **CSS:** the panel, overlay, dock and chip fills, and the
+  `backdrop-filter` blurs. The CSS path is what you see before the first
+  WebGL frame and wherever WebGL is missing.
+- **WebGL:** `islands/frost.ts` reads the two computed values when the
+  scene mounts and on resize. The lens frost becomes `min(.62 × frost, 1)`
+  and the tint becomes `min(.42 × tint, .9)`. The dock's SVG lens blur
+  becomes `1.4 × frost`.
+
+| Stop | `--frost` | tint | CSS blur / strong | panel fill | overlay fill | dock fill | chip fill | GL frost | GL tint | dock lens blur |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Clear | 0.3 | 0.65 | 6.6 / 9.6px | .377 | .507 | .364 | .042 | .186 | .273 | 0.42 |
+| **Balanced** (shipped) | **1** | **1** | **22 / 32px** | **.58** | **.78** | **.56** | **.065** | **.62** | **.42** | **1.4** |
+| Frosted | 2 | 1.5 | 44 / 64px | .87 | .92 (cap) | .84 | .0975 | 1.0 (cap) | .63 | 2.8 |
+
+Balanced reproduces the pre-dial look exactly. With motion frozen, home and
+/c/francis/ screenshots are byte-identical to the previous build on both the
+WebGL and the CSS path. Screenshots at each stop are in
+`docs/design/screenshots/frost/`: `{stop}-*.png` is the WebGL path,
+`css-{stop}-*.png` the CSS path. To lock a different stop, change the one
+`--frost` line.
 
 ### Colour — accents, tiers, ambient
 
