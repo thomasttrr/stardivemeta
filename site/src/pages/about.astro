@@ -1,0 +1,34 @@
+---
+// About page. Full §B.5 copy lands with T3.8; this page carries the
+// site's own description plus the mandatory disclaimer (in the footer
+// and stated here) so the shell's About link resolves from T3.1 on.
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="About – StarDiveMeta" path="/about/">
+  <h1 class="page-title">About StarDiveMeta</h1>
+  <p class="built">
+    StarDiveMeta is a fan-made site that combines three published MONGIL:
+    STAR DIVE tier lists — Pocket Gamer, Kaiden and GameWith JP — into one
+    consensus board, and shows the evidence behind every placement: what
+    each list said, when it said it, and how far apart the lists are.
+  </p>
+  <p class="built">
+    Fan-made site. Not an official MONGIL: STAR DIVE or Netmarble site.
+  </p>
+</Base>
+
+<style>
+  .page-title {
+    font-size: var(--text-h1);
+    line-height: var(--leading-tight);
+    margin: 18px 0 4px;
+    font-weight: var(--weight-extrabold);
+    letter-spacing: -0.01em;
+  }
+  .built {
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+    margin: 10px 0 0;
+  }
+</style>

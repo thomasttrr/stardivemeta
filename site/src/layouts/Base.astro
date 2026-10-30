@@ -1,0 +1,168 @@
+---
+// Site shell (plan T3.1): head meta + canonical + OG tags, the inline
+// level-restore script, header nav, footer with the disclaimer.
+// No social share buttons or embeds anywhere (Tom's standing rule);
+// OG meta only, per plan D-7.
+import '../styles/global.css';
+import Disclaimer from '../components/Disclaimer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Canonical path, e.g. "/" or "/c/francis/". */
+  path: string;
+  /** Set false for pages that must ship zero JS (plan T3.5 table). */
+  levelScript?: boolean;
+}
+
+const {
+  title,
+  description = 'Every list disagrees. We show you by how much.',
+  path,
+  levelScript = true,
+} = Astro.props;
+
+const canonical = `https://stardivemeta.com${path}`;
+const ogImage = 'https://stardivemeta.com/img/generated/og.png';
+
+const nav = [
+  { href: '/', label: 'Tier list' },
+  { href: '/conquest/', label: 'Conquest' },
+  { href: '/rift/', label: 'Rift' },
+  { href: '/table/', label: 'Table' },
+  { href: '/beginner/', label: 'Beginner' },
+  { href: '/codes/', label: 'Codes' },
+  { href: '/banner/', label: 'New characters' },
+  { href: '/rules/', label: 'Rules' },
+];
+const footerNav = [
+  { href: '/history/', label: 'History' },
+  { href: '/notes/', label: 'Notes' },
+  { href: '/corrections/', label: 'Corrections' },
+  { href: '/data/', label: 'Data' },
+  { href: '/about/', label: 'About' },
+];
+---
+
+<!doctype html>
+<html lang="en" data-level="low">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    {
+      levelScript && (
+        <script is:inline>
+          try {
+            var q = new URLSearchParams(location.search).get('level');
+            var l = q || localStorage.getItem('sdm.level');
+            if (l === 'low' || l === 'high' || l === 'max') {
+              document.documentElement.dataset.level = l;
+              if (q) {
+                try { localStorage.setItem('sdm.level', l); } catch (e) {}
+              }
+            }
+          } catch (e) {}
+        </script>
+      )
+    }
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="site-header">
+        <a class="logo" href="/">StarDive<em>Meta</em></a>
+        <nav class="site-nav" aria-label="Main">
+          {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+        </nav>
+      </header>
+
+      <main>
+        <slot />
+      </main>
+
+      <footer class="site-footer">
+        <nav class="footer-nav" aria-label="Footer">
+          {footerNav.map((n) => <a href={n.href}>{n.label}</a>)}
+        </nav>
+        <Disclaimer />
+      </footer>
+    </div>
+
+    {
+      levelScript && (
+        <script>
+          import '../scripts/level.ts';
+          import '../scripts/dialog.ts';
+        </script>
+      )
+    }
+  </body>
+</html>
+
+<style>
+  .wrap {
+    max-width: var(--content-max);
+    margin: 0 auto;
+    padding: var(--space-page-top) var(--space-page-x) var(--space-page-bottom);
+  }
+  .site-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px 16px;
+  }
+  .logo {
+    font-weight: var(--weight-extrabold);
+    letter-spacing: 0.02em;
+    font-size: 17px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .logo em {
+    font-style: normal;
+    color: var(--teal);
+  }
+  .site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 14px;
+    font-size: var(--text-body-sm);
+  }
+  .site-nav a {
+    color: var(--sub);
+    text-decoration: none;
+    padding: 4px 0;
+  }
+  .site-nav a:hover {
+    color: var(--text);
+  }
+  .site-footer {
+    margin-top: 40px;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 14px;
+    font-size: var(--text-body-sm);
+  }
+  .footer-nav a {
+    color: var(--sub);
+    text-decoration: none;
+  }
+  .footer-nav a:hover {
+    color: var(--text);
+  }
+</style>

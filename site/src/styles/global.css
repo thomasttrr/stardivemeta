@@ -22,6 +22,46 @@ body {
   line-height: var(--leading-base);
 }
 
+/* Investment-level switching (plan D-2): all three level boards are
+   static HTML; <html data-level> decides which one shows. The inline
+   head script in Base.astro restores the saved level before paint;
+   level.ts keeps it in sync with the toggle. Default (no JS): Low. */
+.lvl {
+  display: none;
+}
+[data-level="low"] .lvl-low {
+  display: block;
+}
+[data-level="high"] .lvl-high {
+  display: block;
+}
+[data-level="max"] .lvl-max {
+  display: block;
+}
+
+/* Screen-reader-only text (label descriptions, toggle legend). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Visible focus for keyboard users (all interactive elements). */
+:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+
+a {
+  color: var(--teal);
+}
+
 /* Motion: CSS only, never longer than --duration-max, and fully off
    when the user prefers reduced motion (plan T1.8 / DESIGN.md). */
 @media (prefers-reduced-motion: reduce) {
