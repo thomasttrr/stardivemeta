@@ -46,6 +46,10 @@ The tier list sits on dark glass over a slow, deep-sea colour field.
     (`#sdm-dock-lens`).
 - **The emitted JSON is still the contract.** Pages render emitted values
   only. Neither island does ranking math, and neither touches data.
+- **Touch devices:** the WebGL scene does not mount on coarse pointers
+  (phones/tablets). It repaints panel glass from live rects each frame,
+  which trails iOS Safari's compositor scrolling and reads as bouncing;
+  touch devices keep the CSS glass below, which is static and calm.
 - **No-JS / no-WebGL:** every page is complete static HTML.
   - Until the first GL frame (`<html class="gl">`), and for good where WebGL
     is missing, panels use CSS glass: fill, rim and `backdrop-filter`.

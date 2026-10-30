@@ -298,6 +298,13 @@ export default function GlassScene() {
 
   useEffect(() => {
     if (!webglAvailable()) return;
+    // Touch devices (phones/tablets): skip the scene entirely. The field
+    // repaints every panel's glass from live rects each frame, but iOS
+    // Safari scrolls on the compositor thread — the copies trail the real
+    // panels mid-scroll and read as bouncing/glitching. CSS glass is the
+    // designed fallback and stays calm. Fine pointers (desktop) keep the
+    // full scene.
+    if (window.matchMedia('(pointer: coarse)').matches) return;
     shared.reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     setSmall(window.matchMedia('(max-width: 700px)').matches);
     setAnchor(document.querySelector<HTMLElement>('[data-star]'));
