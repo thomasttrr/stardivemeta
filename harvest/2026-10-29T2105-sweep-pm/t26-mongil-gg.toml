@@ -1,0 +1,151 @@
+# T2.6 staging only — mongil.gg check-only placements read from images.
+# NOT part of data/ and never counted. The page lists 21 characters in
+# each of World, Conquest and Dimensional Rift; the eight absent from all
+# three lists are Isabella, Chloe, Brisshell, Mabel, Nagi, Vivian,
+# Verna: Summer Dive! and Francis: Summer Dive!.
+#
+# Format note: the harvest guide prescribes `world`, `conquest` and
+# `rift` for this source. The repo's current CheckOnlyKind enum has only
+# single-tier and Conquest-only variants, so a later merge into data/
+# would need a per-mode check-only kind in code; that code change is not
+# part of this staging task.
+
+kind = "per_mode"
+
+[meta]
+source = "mongil-gg"
+harvest = "2026-10-29T2105-sweep-pm"
+worker = "B"
+read_mode = "screenshot"
+read_at = "2026-10-29T21:16:00-04:00"
+page_date = "October 2026"
+criteria_note = "assumes A0 unless marked A6"
+note = "Read from images. Not counted until a method update. No A6 marks were discernible in this read."
+visual_read = true
+status = "staging_only_check_only"
+
+[[placement]]
+character = "mina"
+world = "S"
+conquest = "S"
+rift = "S"
+
+[[placement]]
+character = "penny"
+world = "A"
+conquest = "B"
+rift = "A"
+
+[[placement]]
+character = "narae"
+world = "S"
+conquest = "A"
+rift = "S"
+
+[[placement]]
+character = "sangun"
+world = "S"
+conquest = "A"
+rift = "A"
+
+[[placement]]
+character = "jiwon"
+world = "B"
+conquest = "A"
+rift = "S"
+
+[[placement]]
+character = "gabi"
+world = "S"
+conquest = "A"
+rift = "A"
+
+[[placement]]
+character = "flare"
+world = "S"
+conquest = "S"
+rift = "S"
+
+[[placement]]
+character = "verna"
+world = "B"
+conquest = "C"
+rift = "C"
+
+[[placement]]
+character = "cloud"
+world = "B"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "francis"
+world = "C"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "yeonhwa"
+world = "A"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "daisy"
+world = "C"
+conquest = "C"
+rift = "C"
+
+[[placement]]
+character = "leeho"
+world = "A"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "benjamin"
+world = "S"
+conquest = "B"
+rift = "A"
+
+[[placement]]
+character = "sera"
+world = "B"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "ellie"
+world = "C"
+conquest = "C"
+rift = "B"
+
+[[placement]]
+character = "reina"
+world = "B"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "bonnie"
+world = "A"
+conquest = "C"
+rift = "B"
+
+[[placement]]
+character = "angel"
+world = "A"
+conquest = "B"
+rift = "A"
+
+[[placement]]
+character = "ophelia"
+world = "A"
+conquest = "A"
+rift = "S"
+
+[[placement]]
+character = "esther"
+world = "A"
+conquest = "S"
+rift = "S"
