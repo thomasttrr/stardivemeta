@@ -429,6 +429,13 @@ pub struct CodeObservation {
     pub source: String,
     pub status: CodeObservationStatus,
     pub seen_at: String,
+    /// The source page's own stated "last updated" date (`YYYY-MM-DD`)
+    /// as displayed when this sweep read it — the claim's date, kept
+    /// separate from `seen_at` (when we read it). One date per source
+    /// per sweep; absent when the page shows no date. The CP2 freshness
+    /// guard (2026-10-29) compares these, never `seen_at`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub claim_date: Option<String>,
     pub url: String,
 }
 

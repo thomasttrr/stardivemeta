@@ -6,10 +6,17 @@ Selection: individual mode placements were ranked by the absolute S–A–B–C 
 
 | # | Character / list | mongil.gg says | Current board says | Tom tap |
 |---:|---|---|---|---|
-| 1 | Ellie — Conquest | C | A | match / wrong |
-| 2 | Angel — Conquest | B | C | match / wrong |
-| 3 | Yeonhwa — Conquest | B | C | match / wrong |
-| 4 | Leeho — Conquest | B | C | match / wrong |
-| 5 | Esther — Rift | S | A | match / wrong |
+| 1 | Ellie — Conquest | C | A | **match** |
+| 2 | Angel — Conquest | B | C | **match** |
+| 3 | Yeonhwa — Conquest | B | C | **match** |
+| 4 | Leeho — Conquest | B | C | **match** |
+| 5 | Esther — Rift | S | A | **match** |
 
 For context on picks 2–4: Angel is also A on mongil.gg's Rift list versus S on the current Rift board; Yeonhwa and Leeho are also B versus C there.
+
+## Result — COMPLETE (CP2, 2026-10-29)
+
+Tom confirmed all five placements against the live page on
+2026-10-29: Ellie C, Angel B, Yeonhwa B, Leeho B, Esther S — **zero
+contradictions** with the single visual read. The mongil.gg read is
+verified; T2.6's spot-check item is closed.

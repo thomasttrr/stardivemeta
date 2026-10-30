@@ -627,10 +627,19 @@ fn snapshot_id(ds: &Dataset) -> String {
 // ---------------------------------------------------------------------------
 
 /// One independence group's current say on a code: the status of its
-/// freshest observation (by `seen_at`), and when that was seen.
+/// freshest observation (by `seen_at`), when that was seen, and the
+/// speaking claim's own date (the source page's stated "last updated"
+/// date), if the page shows one.
 struct GroupSay {
     status: CodeObservationStatus,
     seen_epoch: i64,
+    claim_epoch: Option<i64>,
+}
+
+/// A claim date (`YYYY-MM-DD`) as an epoch-second ordinal (UTC
+/// midnight of that date), for date comparisons only.
+fn claim_epoch(claim_date: &str) -> Option<i64> {
+    crate::validate::parse_rfc3339(&format!("{claim_date}T00:00:00Z"))
 }
 
 /// Compute a code's status from its observations, per §B.3's rules
@@ -644,6 +653,24 @@ struct GroupSay {
 ///    those sightings within 7 days of build time, and no group says
 ///    `expired`.
 /// 3. otherwise `unconfirmed`.
+///
+/// CP2 clarification — the freshness guard (Tom-approved 2026-10-29),
+/// comparing CLAIM DATES (each page's own stated "last updated" date,
+/// recorded per observation as `claim_date`), never `seen_at`:
+///
+/// - An `expired` say counts toward rule 1 only when it is not stale:
+///   a dated say is stale when a strictly newer DATED `active` claim
+///   exists for the code; an undated say is stale whenever any dated
+///   `active` claim exists (an undated claim can't override a dated
+///   one — and, symmetrically, undated `active` claims never make a
+///   dated `expired` say stale).
+/// - A stale `expired` say still records a conflict: rule 2 keeps
+///   requiring that NO group says `expired`, stale or not, so such a
+///   code is capped at `unconfirmed` for that sweep — the stale claim
+///   can neither confirm the code `active` nor make it `expired`.
+/// - When NO claim for a code carries a date, every say counts and
+///   the guard degenerates to the original rules above unchanged
+///   (worst case `unconfirmed`, never a false `active`).
 fn compute_code_status(
     code: &Code,
     groups: &std::collections::BTreeMap<String, String>,
@@ -665,6 +692,7 @@ fn compute_code_status(
                     GroupSay {
                         status: obs.status,
                         seen_epoch,
+                        claim_epoch: obs.claim_date.as_deref().and_then(claim_epoch),
                     },
                 );
             }
@@ -682,7 +710,33 @@ fn compute_code_status(
         .values()
         .filter(|s| s.status == CodeObservationStatus::Expired)
         .count();
-    if expired_groups >= 2 {
+    // Freshness guard (CP2, 2026-10-29): an expired say counts toward
+    // rule 1 only when it is not stale next to the code's dated active
+    // claims. Stale expired says still block rule 2 below via
+    // `expired_groups`, capping the code at unconfirmed.
+    let newest_dated_active = code
+        .observations
+        .iter()
+        .filter(|o| o.status == CodeObservationStatus::Active)
+        .filter_map(|o| o.claim_date.as_deref().and_then(claim_epoch))
+        .max();
+    let counted_expired_groups = says
+        .values()
+        .filter(|s| s.status == CodeObservationStatus::Expired)
+        .filter(|s| match (s.claim_epoch, newest_dated_active) {
+            // No dated active claim at all: nothing overrides this
+            // say, dated or not — it counts (the no-dates fallback is
+            // this same branch taken by every say).
+            (_, None) => true,
+            // Dated say: stale only when a dated active claim is
+            // strictly newer.
+            (Some(d), Some(na)) => na <= d,
+            // Undated say against a dated active claim: the undated
+            // claim can't override the dated one — stale.
+            (None, Some(_)) => false,
+        })
+        .count();
+    if counted_expired_groups >= 2 {
         return CodeStatus::Expired;
     }
     let fresh_active_groups = says
@@ -931,7 +985,22 @@ mod tests {
             source: source.to_string(),
             status,
             seen_at: seen_at.to_string(),
+            claim_date: None,
             url: "https://example.com/codes".to_string(),
+        }
+    }
+
+    /// An observation whose source page states `claim_date` as its own
+    /// "last updated" date (the CP2 freshness guard compares these).
+    fn obs_dated(
+        source: &str,
+        status: CodeObservationStatus,
+        seen_at: &str,
+        claim_date: &str,
+    ) -> CodeObservation {
+        CodeObservation {
+            claim_date: Some(claim_date.to_string()),
+            ..obs(source, status, seen_at)
         }
     }
 
@@ -1059,5 +1128,235 @@ mod tests {
             compute_code_status(&c, &groups(), now()),
             CodeStatus::Unconfirmed
         );
+    }
+
+    // -- CP2 freshness guard (Tom-approved 2026-10-29), claim dates ---
+    //
+    // The guard compares each page's own stated "last updated" date
+    // (`claim_date`), never `seen_at` — every sighting below is seen
+    // FRESH; only the claim dates differ.
+
+    #[test]
+    fn code_status_guard_stale_expired_pair_is_unconfirmed_not_expired() {
+        // The five contested codes' pattern: two groups say expired,
+        // but both pages' stated dates are older than the active
+        // pages' stated dates. Neither stale claim counts toward
+        // rule 1, yet the conflict still caps the code below active.
+        let c = code(vec![
+            obs_dated("pg", CodeObservationStatus::Active, FRESH, "2026-10-25"),
+            obs_dated("cosm", CodeObservationStatus::Active, FRESH, "2026-10-27"),
+            obs_dated(
+                "kaiden",
+                CodeObservationStatus::Expired,
+                FRESH,
+                "2026-08-03",
+            ),
+            obs_dated(
+                "dexerto",
+                CodeObservationStatus::Expired,
+                FRESH,
+                "2026-10-13",
+            ),
+        ]);
+        assert_eq!(
+            compute_code_status(&c, &groups(), now()),
+            CodeStatus::Unconfirmed
+        );
+    }
+
+    #[test]
+    fn code_status_guard_fresh_expired_pair_stays_expired() {
+        // Two groups say expired on pages dated NEWER than every
+        // active claim: the dated expired claims stand (rule 3) and
+        // count toward rule 1 exactly as before.
+        let c = code(vec![
+            obs_dated("pg", CodeObservationStatus::Active, FRESH, "2026-06-01"),
+            obs_dated("cosm", CodeObservationStatus::Active, FRESH, "2026-08-03"),
+            obs_dated(
+                "kaiden",
+                CodeObservationStatus::Expired,
+                FRESH,
+                "2026-10-19",
+            ),
+            obs_dated(
+                "dexerto",
+                CodeObservationStatus::Expired,
+                FRESH,
+                "2026-10-13",
+            ),
+        ]);
+        assert_eq!(
+            compute_code_status(&c, &groups(), now()),
+            CodeStatus::Expired
+        );
+    }
+
+    #[test]
+    fn code_status_guard_single_stale_expired_caps_at_unconfirmed() {
+        // LOVEMONGIL's pattern: one stale expired claim (page dated
+        // Aug 3) against active sightings on pages dated Sep–Oct. The
+        // claim cannot make the code expired (and never could alone),
+        // and its conflict still blocks rule 2.
+        let c = code(vec![
+            obs_dated("pg", CodeObservationStatus::Active, FRESH, "2026-10-25"),
+            obs_dated("cosm", CodeObservationStatus::Active, FRESH, "2026-10-27"),
+            obs_dated(
+                "dexerto",
+                CodeObservationStatus::Active,
+                FRESH,
+                "2026-09-20",
+            ),
+            obs_dated(
+                "kaiden",
+                CodeObservationStatus::Expired,
+                FRESH,
+                "2026-08-03",
+            ),
+        ]);
+        assert_eq!(
+            compute_code_status(&c, &groups(), now()),
+            CodeStatus::Unconfirmed
+        );
+    }
+
+    #[test]
+    fn code_status_guard_clean_code_confirms_active() {
+        // No expired claims at all: the guard changes nothing and the
+        // code confirms active on two fresh independent sightings.
+        let c = code(vec![
+            obs_dated("pg", CodeObservationStatus::Active, FRESH, "2026-10-25"),
+            obs_dated("cosm", CodeObservationStatus::Active, FRESH, "2026-10-27"),
+            obs_dated(
+                "dexerto",
+                CodeObservationStatus::NotListed,
+                FRESH,
+                "2026-09-20",
+            ),
+        ]);
+        assert_eq!(
+            compute_code_status(&c, &groups(), now()),
+            CodeStatus::Active
+        );
+    }
+
+    #[test]
+    fn code_status_guard_undated_expired_cant_override_dated_active() {
+        // Rule 2: two groups say expired but neither page shows a
+        // date; a dated active claim exists, so the undated expired
+        // claims are stale and can't make the code expired. They
+        // still record a conflict, capping the code at unconfirmed.
+        let c = code(vec![
+            obs_dated("pg", CodeObservationStatus::Active, FRESH, "2026-10-25"),
+            obs("kaiden", CodeObservationStatus::Expired, FRESH),
+            obs("dexerto", CodeObservationStatus::Expired, FRESH),
+        ]);
+        assert_eq!(
+            compute_code_status(&c, &groups(), now()),
+            CodeStatus::Unconfirmed
+        );
+    }
+
+    #[test]
+    fn code_status_guard_undated_active_cant_override_dated_expired() {
+        // Rule 2, the other direction: undated active claims never
+        // make dated expired claims stale. Two dated expired says,
+        // newer than nothing (no dated active exists), count in full.
+        let c = code(vec![
+            obs("pg", CodeObservationStatus::Active, FRESH),
+            obs("cosm", CodeObservationStatus::Active, FRESH),
+            obs_dated(
+                "kaiden",
+                CodeObservationStatus::Expired,
+                FRESH,
+                "2026-10-19",
+            ),
+            obs_dated(
+                "dexerto",
+                CodeObservationStatus::Expired,
+                FRESH,
+                "2026-10-13",
+            ),
+        ]);
+        assert_eq!(
+            compute_code_status(&c, &groups(), now()),
+            CodeStatus::Expired
+        );
+    }
+
+    #[test]
+    fn code_status_guard_no_dates_falls_back_to_original_rules() {
+        // Rule 4: no claim for the code carries a date, so the
+        // original §B.3 rules apply unchanged — two groups saying
+        // expired is enough, whatever order they were read in.
+        let c = code(vec![
+            obs("pg", CodeObservationStatus::Active, FRESH),
+            obs("cosm", CodeObservationStatus::Active, FRESH),
+            obs("kaiden", CodeObservationStatus::Expired, FRESH),
+            obs("dexerto", CodeObservationStatus::Expired, FRESH),
+        ]);
+        assert_eq!(
+            compute_code_status(&c, &groups(), now()),
+            CodeStatus::Expired
+        );
+    }
+
+    // -- CP2 named tests on the REAL dataset ---------------------------
+    //
+    // These load the workspace `data/` and run the emit codes
+    // pipeline, so a future change can't quietly flip the CP2
+    // outcomes back. They don't depend on wall-clock freshness:
+    // NAGIUPDATE's expired path and the five's unconfirmed path hold
+    // at any build time (no stated `expires_at` is involved, and the
+    // 7-day rule only ever moves codes toward unconfirmed, where the
+    // five already sit).
+
+    fn real_codes() -> Vec<CodeEntry> {
+        let data_dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../data");
+        let ds = mongil_core::load_dataset(&data_dir).unwrap();
+        build_codes(&ds).unwrap().codes
+    }
+
+    fn status_of(entries: &[CodeEntry], code: &str) -> CodeStatus {
+        entries
+            .iter()
+            .find(|e| e.code == code)
+            .unwrap_or_else(|| panic!("{code} missing from emitted codes"))
+            .status
+    }
+
+    #[test]
+    fn nagiupdate_expired_under_guard() {
+        // NAGIUPDATE: four groups say expired on pages dated
+        // Sep 30 – Oct 27, 2026; the only active claims are Pocket
+        // Tactics (dateless page) and GamingOnPhone (page dated
+        // Aug 3). The dated expired claims are newer than every
+        // active claim, so the code is Expired — the outcome the
+        // seen_at-based guard got wrong (those two active pages
+        // happened to be read last in the sweep).
+        let entries = real_codes();
+        assert_eq!(status_of(&entries, "NAGIUPDATE"), CodeStatus::Expired);
+    }
+
+    #[test]
+    fn contested_five_unconfirmed() {
+        // The five CP2-contested codes: SuperCheats (page dated
+        // Oct 13) and GamingOnPhone (Aug 3) say expired, but fresher
+        // dated pages (Pocket Gamer Oct 25, COSM Oct 27, GameWith EN
+        // Oct 29) say active — the expired claims are stale, count
+        // toward nothing, and cap each code at Unconfirmed.
+        let entries = real_codes();
+        for code in [
+            "MONGILDISCORD",
+            "MONGILREPORT",
+            "MONGILPRESENT",
+            "DINDINISDINDIN",
+            "DEVLIVE0410",
+        ] {
+            assert_eq!(
+                status_of(&entries, code),
+                CodeStatus::Unconfirmed,
+                "{code} must compute unconfirmed under the claim-date guard"
+            );
+        }
     }
 }

@@ -7,8 +7,10 @@
 # assumes A0 unless marked A6 (no A6 marks discernible).
 # NEVER counted (check-only): shown in evidence as reference rows.
 # Provenance note: this sweep produced ONE visual read of mongil.gg;
-# the second independent visual read and Tom's 5-placement spot-check
-# (t26-spotcheck.md) are CP2 items, still open.
+# Tom's 5-placement spot-check (t26-spotcheck.md) was completed at CP2
+# on 2026-10-29 — all five confirmed, zero contradictions — so the
+# read stands verified. (A second independent visual read remains a
+# future-sweep nicety, not a CP2 item.)
 
 kind = "per_mode"
 
