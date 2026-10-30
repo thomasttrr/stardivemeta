@@ -142,14 +142,34 @@ check in `validate` and CI.
 
 ### mongil.gg (check-only, per-mode — T2.6, conditional)
 
-- **Where:** `mongil.gg/tierlist` **images** (World / Conquest /
-  Dimensional Rift). Read by eye only — the placements are not in
-  the page text.
-- **Read:** both workers read the images independently (the B read is
-  the second visual read here; there is no text read). If the images
-  carry name text, read the names. If they show portraits only, match
-  each portrait against Kaiden's character-page portraits by eye —
-  both workers must agree on **every** identity.
+- **Where:** `mongil.gg/tierlist` (World / Conquest / Dimensional
+  Rift). The placements do not appear in the page's *rendered text*,
+  which is why text-only reads fail — but the page HTML is fully
+  structured, and that structure is the primary read (established
+  2026-10-30; the HTML read reproduced Tom's 5 eye-verified
+  placements and matched all 63 stored cells exactly).
+- **Read A (HTML structure, primary):** fetch the page with the bot
+  UA (politeness rules above) and parse the markup. Each mode is an
+  `<h2>` section — "World Content Clearing & Farming" → `world`,
+  "Conquest Boss Farming" → `conquest`, "Dimensional Rift Clearing"
+  → `rift` — followed by `<div class="tierlist-new">` containing one
+  `<div class="{s|a|b|c} tier">` row per tier, each with
+  `<div class="rank">S</div>` and one `<a href="/characters/<slug>">`
+  per character (the link's `<b>` name text and the portrait's
+  `alt="Portrait of <Name>."` confirm the slug's identity — no
+  portrait matching needed while this structure holds). Record
+  `read_mode = "text"` for this read.
+- **Read B (screenshot, unchanged):** the independent visual read of
+  the rendered page, exactly as before. A and B must agree under
+  `harvest-diff` before any merge, same as every other source.
+- **Fallback:** if the HTML structure above is gone or no longer
+  parses into complete tier rows, do NOT guess from a partial parse —
+  fall back to the visual-only procedure (both workers read the
+  rendered lists by eye; if they show portraits only, match each
+  portrait against Kaiden's character-page portraits, and both
+  workers must agree on **every** identity). If neither route
+  produces a complete read, the source is *unavailable* (playbook
+  below).
 - **Record:** `world`, `conquest`, `rift` in
   `data/placements/mongil-gg.toml`. Shown in evidence under "Not
   counted" with the note "Read from images — not counted until a
