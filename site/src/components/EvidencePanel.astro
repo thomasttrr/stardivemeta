@@ -12,8 +12,10 @@ import {
   LEVEL_NAME,
   LABEL_GLYPH,
   LABEL_WORD,
+  CRITERIA_SHORT,
   NONE_REASON_TEXT,
   NOT_COUNTED_REASON,
+  NOTE_SHORT,
   errataById,
   flagSummary,
   fmtDate,
@@ -55,7 +57,7 @@ function rowVM(row: EvidenceRow, checkOnly: boolean): RowVM {
     kind: p.kind,
     plain: null,
     segments: null,
-    note: row.note,
+    note: row.note ? (NOTE_SHORT[row.note] ?? row.note) : null,
     reason: null,
     flags: flagSummary(row),
     numText: null,
@@ -98,11 +100,16 @@ const checkRows = c.evidence
   .filter((r) => r.role === 'check_only')
   .map((r) => rowVM(r, true));
 
+// CP3 debloat: display the short caveat here; the full text is on the
+// Rules page (and stays untouched in the data).
 const criteria = c.evidence
   .filter((r) => r.role === 'voting' && r.counted)
   .map((r) => ({
     name: sourceName(r.source),
-    caveat: sourcesById.get(r.source)?.criteria_caveat ?? null,
+    caveat:
+      CRITERIA_SHORT[r.source] ??
+      sourcesById.get(r.source)?.criteria_caveat ??
+      null,
   }))
   .filter((x) => x.caveat !== null);
 

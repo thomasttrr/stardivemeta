@@ -10,6 +10,7 @@ import Base from '../layouts/Base.astro';
 import { data, fmtSpread, fmtVal } from '../lib/data';
 
 const m = data.method;
+const votingSources = data.sources.filter((s) => s.role === 'voting');
 const conv = m.conversion;
 const pgRows: [string, number][] = ['S', 'A', 'B', 'C'].map((t) => [
   t,
@@ -35,6 +36,31 @@ const joinRows = (rows: [string, number][]) =>
       We count 3 tier lists: Pocket Gamer, Kaiden and GameWith JP. Each
       counts the same. We don't weight one list over another.
     </p>
+  </section>
+
+  <section>
+    <h2>Sources</h2>
+    <p>
+      Each counted list, in its own terms. Character pages show a short
+      version of these notes; the full text lives here.
+    </p>
+    <ul>
+      {
+        votingSources.map((s) => (
+          <li>
+            <a href={s.url}>{s.name}</a>: {s.criteria_caveat}
+            {s.level_definitions && (
+              <>
+                {' '}
+                Its levels, in its own words — Low:{' '}
+                {s.level_definitions.low} High: {s.level_definitions.high}{' '}
+                Max: {s.level_definitions.max}
+              </>
+            )}
+          </li>
+        ))
+      }
+    </ul>
   </section>
 
   <section>

@@ -136,6 +136,25 @@ export const NONE_REASON_TEXT: Record<string, string> = {
   not_listed: 'Not listed',
 };
 
+/** Short display versions of each voting source's criteria caveat
+ * (CP3 debloat, Tom 2026-10-29). Display-only: the full caveat text
+ * stays in the data and is printed in full on the Rules page. */
+export const CRITERIA_SHORT: Record<string, string> = {
+  pg: 'Conquest = boss fights; Rift = AoE dungeons. Story list not used.',
+  kaiden: 'Rates every character at Low, High and Max investment.',
+  'gamewith-jp': 'Limited 5★ at A0, permanent 5★ to A2, 4★ at A6.',
+};
+
+/** Short display versions of long per-row evidence notes, keyed by the
+ * exact note text in the data (CP3 debloat, Tom 2026-10-29).
+ * Display-only: the full note stays in the data untouched. */
+export const NOTE_SHORT: Record<string, string> = {
+  'Headline names 完凸フランシス (fully-awakened Francis) among the strongest; Francis is ★4, and the page criteria evaluate 4★ up to A6.':
+    'Headline names fully-awakened Francis among the strongest; rated as 4★ up to A6.',
+  "High and Max tiers carry the page's 'S' marker: the tier-list page legend defines S = Signature Weapon. High reads T2 with signature (Ophelia's signature, per the guide text), T3 without; Max reads T2 at A6 with signature.":
+    "Kaiden's 'S' = Signature Weapon. High: T2 with, T3 without. Max: T2 at A6.",
+};
+
 /** Kaiden's own legend wording for its (E)/(P) markers (read from the
  * site's RANKING CRITERIA panel during the T2.2 harvest). */
 export const FLAG_TEXT: Record<string, string> = {

@@ -2,10 +2,9 @@
 // Investment toggle (plan T3.2 + D-4). Three radio buttons; level.ts
 // flips <html data-level>. Without JS, Low shows and the toggle falls
 // back to links to the table page's level anchors.
-import { LEVELS, LEVEL_NAME, sourcesById } from '../lib/data';
-
-const kaiden = sourcesById.get('kaiden');
-const defs = kaiden?.level_definitions ?? null;
+// CP3 debloat (Tom, 2026-10-29): the note under the toggle is ONE line;
+// Kaiden's level definitions live in full on the Rules page.
+import { LEVELS, LEVEL_NAME } from '../lib/data';
 ---
 
 <div class="toggle-form">
@@ -28,17 +27,9 @@ const defs = kaiden?.level_definitions ?? null;
   </p>
 </noscript>
 <p class="tnote">
-  Only Kaiden rates by investment. The other two lists stay the same at every
-  level.
+  Only Kaiden rates by investment — the other lists stay fixed. Kaiden's
+  levels are defined on the <a href="/rules/">Rules page</a>.
 </p>
-<p class="tnote">Watch who climbs as investment rises.</p>
-{
-  defs && (
-    <p class="tnote">
-      Kaiden's levels: {defs.low} / {defs.high} / {defs.max}
-    </p>
-  )
-}
 
 <style>
   .toggle-form {
