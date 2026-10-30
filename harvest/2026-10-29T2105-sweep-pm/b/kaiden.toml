@@ -1,0 +1,227 @@
+# B-read (screenshot / visual) — Kaiden per-character guide pages, sweep
+# 2026-10-29T2105-sweep-pm. Transcribed ONLY from
+# B-READ-2-kaiden.md (browser visual read, 2026-10-29 ~21:11–21:16 ET);
+# the A-read file was not consulted while transcribing.
+#
+# Conventions per docs/harvest-guide.md (Kaiden): `tier` is the
+# first-listed tier on each level's line; `awakening` is the (A#) marker
+# on the first-listed card; `flags` are the (P)/(E) markers appearing on
+# that level's line (including on a second High card). `raw` preserves
+# the B read's wording, including both High cards where two were shown.
+#
+# No guide page showed its own "updated" date in the visual read, so
+# `page_updated` is omitted throughout. The tier-list page states
+# "Tier List as of October 2026", last updated October 19, 2026, and
+# "Showing all 28 characters" (Chloe unranked).
+
+[meta]
+source = "kaiden"
+harvest = "2026-10-29T2105-sweep-pm"
+worker = "B"
+read_mode = "screenshot"
+read_at = "2026-10-29T21:16:00-04:00"
+note = "Tier-list page (kaiden.gg/mongil/characters/tier-list/) last updated October 19, 2026; shows all 28 characters (Chloe unranked). Definitions verbatim in B-READ-2-kaiden.md: Low = accessible awakenings and limited signature weapon investment; High = higher awakenings and stronger signature weapon investment; Max = full ascension, at A6, on every character ranked."
+
+[[placement]]
+character = "mina"
+page_url = "https://www.kaiden.gg/mongil/characters/mina/"
+low = { tier = "T2", raw = "T2" }
+high = { tier = "T0.5", raw = "T0.5 (A4), T1 (A2)", awakening = "A4" }
+max = { tier = "T0.5", raw = "T0.5 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "penny"
+page_url = "https://www.kaiden.gg/mongil/characters/penny/"
+low = { tier = "T3", raw = "T3 (E)", flags = ["E"] }
+high = { tier = "T2", raw = "T2 (A1, E)", awakening = "A1", flags = ["E"] }
+max = { tier = "T1", raw = "T1 (A6, E)", awakening = "A6", flags = ["E"] }
+
+[[placement]]
+character = "narae"
+page_url = "https://www.kaiden.gg/mongil/characters/narae/"
+low = { tier = "T0", raw = "T0" }
+high = { tier = "T0", raw = "T0" }
+max = { tier = "T0", raw = "T0 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "sangun"
+page_url = "https://www.kaiden.gg/mongil/characters/sangun/"
+low = { tier = "T4", raw = "T4" }
+high = { tier = "T4", raw = "T4" }
+max = { tier = "T3", raw = "T3 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "jiwon"
+page_url = "https://www.kaiden.gg/mongil/characters/jiwon/"
+low = { tier = "T3", raw = "T3 (P)", flags = ["P"] }
+high = { tier = "T1", raw = "T1 (A4), T2 (A2, P)", awakening = "A4", flags = ["P"] }
+max = { tier = "T1", raw = "T1 (A6)", awakening = "A6" }
+note = "The (P) marker at High appears on the second (A2) card only."
+
+[[placement]]
+character = "gabi"
+page_url = "https://www.kaiden.gg/mongil/characters/gabi/"
+low = { tier = "T3", raw = "T3" }
+high = { tier = "T1", raw = "T1 (A4), T2 (A2)", awakening = "A4" }
+max = { tier = "T1", raw = "T1 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "isabella"
+page_url = "https://www.kaiden.gg/mongil/characters/isabella/"
+low = { tier = "T1", raw = "T1" }
+high = { tier = "T0.5", raw = "T0.5 (A2)", awakening = "A2" }
+max = { tier = "T0.5", raw = "T0.5 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "flare"
+page_url = "https://www.kaiden.gg/mongil/characters/flare/"
+low = { tier = "T3", raw = "T3" }
+high = { tier = "T2", raw = "T2 (A2)", awakening = "A2" }
+max = { tier = "T1", raw = "T1 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "chloe"
+page_url = "https://www.kaiden.gg/mongil/characters/chloe/"
+status = "no_placement"
+note = "Page shows 'Review coming soon' and no Tier Position section."
+
+[[placement]]
+character = "ophelia"
+page_url = "https://www.kaiden.gg/mongil/characters/ophelia/"
+low = { tier = "T2", raw = "T2" }
+high = { tier = "T1", raw = "T1 (A2)", awakening = "A2" }
+max = { tier = "T1", raw = "T1 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "esther"
+page_url = "https://www.kaiden.gg/mongil/characters/esther/"
+low = { tier = "T2", raw = "T2" }
+high = { tier = "T1", raw = "T1" }
+max = { tier = "T1", raw = "T1 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "nagi"
+page_url = "https://www.kaiden.gg/mongil/characters/nagi/"
+low = { tier = "T3", raw = "T3" }
+high = { tier = "T2", raw = "T2 (A2)", awakening = "A2" }
+max = { tier = "T1", raw = "T1 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "brisshell"
+page_url = "https://www.kaiden.gg/mongil/characters/brisshell/"
+low = { tier = "T1", raw = "T1" }
+high = { tier = "T0.5", raw = "T0.5 (A1)", awakening = "A1" }
+max = { tier = "T0.5", raw = "T0.5 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "mabel"
+page_url = "https://www.kaiden.gg/mongil/characters/mabel/"
+low = { tier = "T2", raw = "T2" }
+high = { tier = "T1", raw = "T1 (A4)", awakening = "A4" }
+max = { tier = "T1", raw = "T1 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "verna-summer-dive"
+page_url = "https://www.kaiden.gg/mongil/characters/verna-summer-dive/"
+low = { tier = "T0.5", raw = "T0.5" }
+high = { tier = "T0.5", raw = "T0.5" }
+max = { tier = "T0.5", raw = "T0.5 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "francis-summer-dive"
+page_url = "https://www.kaiden.gg/mongil/characters/francis-summer-dive/"
+low = { tier = "T2", raw = "T2" }
+high = { tier = "T0.5", raw = "T0.5 (A2), T1 (A1)", awakening = "A2" }
+max = { tier = "T0", raw = "T0 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "vivian"
+page_url = "https://www.kaiden.gg/mongil/characters/vivian/"
+low = { tier = "T2", raw = "T2" }
+high = { tier = "T0.5", raw = "T0.5 (A4), T1 (A2)", awakening = "A4" }
+max = { tier = "T0.5", raw = "T0.5 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "verna"
+page_url = "https://www.kaiden.gg/mongil/characters/verna/"
+low = { tier = "T3", raw = "T3" }
+high = { tier = "T3", raw = "T3" }
+max = { tier = "T3", raw = "T3 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "cloud"
+page_url = "https://www.kaiden.gg/mongil/characters/cloud/"
+low = { tier = "T2", raw = "T2" }
+high = { tier = "T2", raw = "T2" }
+max = { tier = "T2", raw = "T2 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "francis"
+page_url = "https://www.kaiden.gg/mongil/characters/francis/"
+low = { tier = "T0.5", raw = "T0.5" }
+high = { tier = "T0.5", raw = "T0.5" }
+max = { tier = "T0.5", raw = "T0.5 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "yeonhwa"
+page_url = "https://www.kaiden.gg/mongil/characters/yeonhwa/"
+low = { tier = "T0.5", raw = "T0.5" }
+high = { tier = "T0.5", raw = "T0.5" }
+max = { tier = "T0.5", raw = "T0.5 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "daisy"
+page_url = "https://www.kaiden.gg/mongil/characters/daisy/"
+low = { tier = "T4", raw = "T4" }
+high = { tier = "T4", raw = "T4" }
+max = { tier = "T4", raw = "T4 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "leeho"
+page_url = "https://www.kaiden.gg/mongil/characters/leeho/"
+low = { tier = "T3", raw = "T3" }
+high = { tier = "T3", raw = "T3" }
+max = { tier = "T3", raw = "T3 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "benjamin"
+page_url = "https://www.kaiden.gg/mongil/characters/benjamin/"
+low = { tier = "T1", raw = "T1" }
+high = { tier = "T1", raw = "T1" }
+max = { tier = "T1", raw = "T1 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "sera"
+page_url = "https://www.kaiden.gg/mongil/characters/sera/"
+low = { tier = "T3", raw = "T3" }
+high = { tier = "T2", raw = "T2 (S, with signature), T3 (no signature)" }
+max = { tier = "T2", raw = "T2 (A6, S, with signature)", awakening = "A6" }
+note = "Only character with signature-conditional tiers. High: T2 with signature (S marker), T3 with no signature marker; Max: T2 at A6 with signature. Per the B read, the page's Investment Scores distinguish 'Ascension 6 / No Ophelia Signature' vs 'Ascension 6 / With Ophelia Signature'."
+
+[[placement]]
+character = "ellie"
+page_url = "https://www.kaiden.gg/mongil/characters/ellie/"
+low = { tier = "T2", raw = "T2" }
+high = { tier = "T2", raw = "T2 (E)", flags = ["E"] }
+max = { tier = "T2", raw = "T2 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "reina"
+page_url = "https://www.kaiden.gg/mongil/characters/reina/"
+low = { tier = "T2", raw = "T2" }
+high = { tier = "T2", raw = "T2" }
+max = { tier = "T2", raw = "T2 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "bonnie"
+page_url = "https://www.kaiden.gg/mongil/characters/bonnie/"
+low = { tier = "T3", raw = "T3" }
+high = { tier = "T3", raw = "T3" }
+max = { tier = "T3", raw = "T3 (A6)", awakening = "A6" }
+
+[[placement]]
+character = "angel"
+page_url = "https://www.kaiden.gg/mongil/characters/angel/"
+low = { tier = "T2", raw = "T2" }
+high = { tier = "T2", raw = "T2" }
+max = { tier = "T2", raw = "T2 (A6)", awakening = "A6" }
