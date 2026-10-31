@@ -52,7 +52,7 @@ fn label_word(label: &str) -> &str {
     match label {
         "SOLID" => "Solid",
         "CONTESTED" => "Contested",
-        "SPECULATION" => "One list",
+        "SPECULATION" => "Speculation",
         "MODE_SPLIT" => "Mode-split",
         "UNRANKED" => "Unranked",
         other => other,
@@ -349,7 +349,7 @@ fn render_body(
             })
             .collect();
         if !covered.is_empty() {
-            let mut lines = vec!["## List-count changes".to_string()];
+            let mut lines = vec!["## Count changes".to_string()];
             for v in covered {
                 let name = ctx.char_names.get(&v.character).unwrap_or(&v.character);
                 lines.push(format!(

@@ -257,7 +257,7 @@ fn legend_svg(y: f64) -> String {
         (
             "SPECULATION",
             "○",
-            "One list — just 1 list has placed them so far.",
+            "Speculation — only 1 list has placed them so far.",
         ),
         (
             "MODE_SPLIT",
@@ -300,7 +300,7 @@ pub fn render_board_png(board: &BoardView) -> Result<Vec<u8>, RenderError> {
         "<text x=\"{MARGIN}\" y=\"58\" font-size=\"40\" font-weight=\"800\" fill=\"{TEXT}\">MONGIL: STAR DIVE — combined tier list</text>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{MARGIN}\" y=\"92\" font-size=\"21\" fill=\"{SUB}\">Investment: {} · Rules v{} · 3 lists · {}</text>",
+        "<text x=\"{MARGIN}\" y=\"92\" font-size=\"21\" fill=\"{SUB}\">Investment: {} · v{} · 3 lists · {}</text>",
         esc(&board.level_name),
         esc(&board.method_version),
         esc(&board.date_text)
@@ -333,7 +333,7 @@ pub fn render_og_png(low: &BoardView) -> Result<Vec<u8>, RenderError> {
         "<text x=\"{MARGIN}\" y=\"142\" font-size=\"27\" fill=\"{SUB}\">Every list disagrees. We show you by how much.</text>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{MARGIN}\" y=\"180\" font-size=\"20\" fill=\"{SUB}\">MONGIL: STAR DIVE — combined tier list · Low investment · Rules v{}</text>",
+        "<text x=\"{MARGIN}\" y=\"180\" font-size=\"20\" fill=\"{SUB}\">MONGIL: STAR DIVE — combined tier list · Low investment · v{}</text>",
         esc(&low.method_version)
     ));
     let mut y = 208.0;

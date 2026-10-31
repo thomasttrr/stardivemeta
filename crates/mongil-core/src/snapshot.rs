@@ -492,7 +492,7 @@ pub fn render_md(diff: &SnapshotDiff) -> String {
         }
     }
     if !diff.coverage_changes.is_empty() {
-        out.push_str("\n## List-count changes\n");
+        out.push_str("\n## Count changes\n");
         for c in &diff.coverage_changes {
             out.push_str(&format!(
                 "- {}: {} → {} lists at {}\n",
