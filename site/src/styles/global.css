@@ -462,6 +462,51 @@ a.panel-row:active {
   }
 }
 
+/* Wide screens (desktop density): the tier heading moves into a left
+   rail beside its medallions, so each tier is one row instead of a
+   stacked block; the board column widens and the medallions step up.
+   Phones and tablets (< 1100px) keep the centred stack above. */
+@media (min-width: 1100px) {
+  :root {
+    --med-s: 152px;
+    --med-a: 112px;
+    --med-rest: 80px;
+    --chip-w-s: 172px;
+    --chip-w-a: 128px;
+    --chip-w-rest: 90px;
+  }
+  .tierboard {
+    gap: 0;
+  }
+  .rack {
+    display: grid;
+    grid-template-columns: var(--rail-w) minmax(0, 1fr);
+    align-items: center;
+    column-gap: 28px;
+    padding: 22px 0;
+  }
+  .rack + .rack {
+    border-top: 1px solid var(--hairline);
+  }
+  .rack-head {
+    margin-bottom: 0;
+  }
+  .rack .cards {
+    justify-content: flex-start;
+  }
+}
+@media (min-width: 1700px) {
+  :root {
+    --content-max-wide: 1600px;
+    --med-s: 168px;
+    --med-a: 124px;
+    --med-rest: 96px;
+    --chip-w-s: 188px;
+    --chip-w-a: 140px;
+    --chip-w-rest: 112px;
+  }
+}
+
 /* ---------- Keyframes ---------------------------------------------------- */
 @keyframes rise {
   from { opacity: 0; transform: translateY(14px); }

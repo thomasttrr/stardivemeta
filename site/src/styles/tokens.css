@@ -100,7 +100,9 @@
 
   /* Spacing and layout */
   --content-max: 1080px;
+  --content-max-wide: 1360px;
   --prose-max: 760px;
+  --rail-w: 190px;
   --space-page-x: 16px;
   --space-page-top: 12px;
   --space-section: 30px;

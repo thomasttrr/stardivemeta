@@ -127,6 +127,9 @@ specifically its character section. Nothing is invented on top of it.
 
 - **Layout:** `--content-max` 1080px and `--prose-max` 760px. The page
   gutter `--space-page-x` is 16px and also respects safe-area insets.
+  On wide screens board pages (`.shell-wide`) widen to
+  `--content-max-wide`: 1360px from 1100px, 1600px from 1700px.
+  `--rail-w` 190px is the tier-heading rail on those screens.
 - **Spacing:** `--space-section`, `--space-stack`, `--space-grid-gap`,
   `--space-panel` and `--space-panel-sm`.
 - **Medallion diameter:** `--med-s` 128, `--med-a` 92, `--med-rest` 68,
@@ -134,6 +137,11 @@ specifically its character section. Nothing is invented on top of it.
 - **Chip width:** `--chip-w-s` 150, `--chip-w-a` 108, `--chip-w-rest` 82.
   On phones these become 142 / 100 / 76. That gives S two-up, A
   three-up and the rest four-up at 375–390px.
+- **Desktop steps** (diameter / chip width for S, A, rest):
+  - From 1100px: 152 / 112 / 80 and 172 / 128 / 90.
+  - From 1700px: 168 / 124 / 96 and 188 / 140 / 112.
+  - These are sized so an 11-character tier fits on one row beside the
+    rail from about 1440px up.
 - **Radius:** `--radius-sm` 8, `--radius-md` 14, `--radius-lg` 18,
   `--radius-xl` 24, `--radius-pill`.
 
@@ -175,6 +183,10 @@ count. (`site/src/components/LabelMark.astro`)
     in its tier colour with a soft glow, and the sparkle rule.
   - The count ("N characters") stays readable to screen readers.
   - Medallions sit in a centred, wrapping row.
+  - **Wide screens (≥ 1100px):** the head moves into a left rail
+    (`--rail-w`) beside its medallions, which start at the left of the
+    row. Each tier becomes one row, and tiers are split by a hairline.
+    Below 1100px the centred stack is unchanged.
 - **Character chip:** medallion, name, then the label line (mark + word).
   On hover the medallion lifts and its ring brightens.
 - **Medallion:** the portrait is a circle inside a ring stack copied from
