@@ -15,7 +15,7 @@ list_date = "2026-10-05"
 # official 1.4 release (T2.3); mapped to the official string here.
 game_version = "1.4"
 status = "current"
-criteria_caveat = "Conquest = boss, single target. Rift = dungeon, AoE. World/Story list not used (Summer variants unlabeled)."
+criteria_caveat = "Conquest = boss, single target. Rift = dungeon, many enemies. World/Story list not used (the Summer variants aren't marked)."
 
 [[source]]
 id = "kaiden"
