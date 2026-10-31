@@ -419,6 +419,7 @@ Request politeness for every fetch: ≤ 1 request per 5 s per host, a fixed User
 - Accept: `https://stardivemeta.com/build.json` shows main HEAD. The health check passes on production. The `*.pages.dev` pages carry a canonical tag pointing to `.com`.
 
 **T6.5 Launch snapshot**: snapshot id `<date>-launch`, method v1.0. Accept: `/history/<date>-launch/` renders.
+- As run (2026-10-31, Tom's call): the launch-day sweep snapshot `2026-10-31T0900-sweep-am` serves as the launch snapshot, since the tool accepts only sweep ids and writes nothing when inputs are unchanged (BUILD-LOG). Accept: `/history/2026-10-31T0900-sweep-am/` renders.
 
 **T6.6 Community posts (CP5)** · Tom 15 min (+10 for the search consoles)
 - X reads the self-promotion rules of each target space (the official Discord's rules channel, r/MongilStarDive if it exists, any other community Tom names) and records them in `docs/launch-posts.md`, along with **draft** posts (copy in §B.5 Launch post) and the Low PNG.
