@@ -124,7 +124,7 @@ export default function LevelDock() {
           </svg>
         )}
         <fieldset className="segs">
-          <legend className="sr-only">Investment level</legend>
+          <legend className="sr-only">Investment</legend>
           <span className="dlbl" aria-hidden="true">
             Investment
           </span>

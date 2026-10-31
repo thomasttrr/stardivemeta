@@ -90,7 +90,7 @@ export const LEVEL_NAME: Record<Level, string> = {
 export const LABEL_WORD: Record<Label, string> = {
   SOLID: 'Solid',
   CONTESTED: 'Contested',
-  SPECULATION: 'Speculation',
+  SPECULATION: 'One list',
   MODE_SPLIT: 'Mode-split',
   UNRANKED: 'Unranked',
 };
@@ -123,10 +123,10 @@ export function sourceName(id: string): string {
 /** Why a check-only source is not counted (§B.5 Character page, item 7). */
 export const NOT_COUNTED_REASON: Record<string, string> = {
   'gacha-gg':
-    'Aggregate that includes Kaiden — counting it would count Kaiden twice',
+    'Combines other lists, including Kaiden — counting it would count Kaiden twice',
   urgametips: "Near-copy of Pocket Gamer's Conquest list",
-  'gamewith-en': 'Launch-era list',
-  'mongil-gg': 'Read from images — not counted until a method update',
+  'gamewith-en': 'Old list from launch — replaced by GameWith JP',
+  'mongil-gg': 'Its lists are images, not text — not counted yet',
 };
 
 /** Canonical text for a missing vote (§B.5 Character page, item 5). */
@@ -140,7 +140,7 @@ export const NONE_REASON_TEXT: Record<string, string> = {
  * (CP3 debloat, Tom 2026-10-29). Display-only: the full caveat text
  * stays in the data and is printed in full on the Rules page. */
 export const CRITERIA_SHORT: Record<string, string> = {
-  pg: 'Conquest = boss fights; Rift = AoE dungeons. Story list not used.',
+  pg: 'Conquest = boss fights; Rift = dungeons, many enemies. Story list not used.',
   kaiden: 'Rates every character at Low, High and Max investment.',
   'gamewith-jp': 'Limited 5★ at A0, permanent 5★ to A2, 4★ at A6.',
 };
@@ -158,7 +158,7 @@ export const NOTE_SHORT: Record<string, string> = {
 /** Kaiden's own legend wording for its (E)/(P) markers (read from the
  * site's RANKING CRITERIA panel during the T2.2 harvest). */
 export const FLAG_TEXT: Record<string, string> = {
-  E: 'Expert: mechanically demanding',
+  E: 'Expert: hard to play well',
   P: 'Partner: needs a specific teammate',
 };
 
@@ -219,14 +219,14 @@ export function whyText(c: Character, level: Level): string {
   const r = c.results[level];
   switch (r.label) {
     case 'SOLID':
-      return `${r.coverage} lists placed ${c.name}. Their calls are within ${fmtSpread(r.spread)} of each other.`;
+      return `${r.coverage} lists placed ${c.name}. Their placements are within ${fmtSpread(r.spread)} tier steps of each other.`;
     case 'CONTESTED': {
       const hi = r.why.high;
       const lo = r.why.low;
       if (hi && lo) {
-        return `${sourceName(hi.source)} says ${hi.raw} (${fmtVal(hi.value)}). ${sourceName(lo.source)} says ${lo.raw} (${fmtVal(lo.value)}). That gap is more than 1.0.`;
+        return `${sourceName(hi.source)} says ${hi.raw} (${fmtVal(hi.value)}). ${sourceName(lo.source)} says ${lo.raw} (${fmtVal(lo.value)}). That gap is more than 1 tier step.`;
       }
-      return `The lists are more than 1.0 apart on ${c.name}.`;
+      return `The lists are more than 1 tier step apart on ${c.name}.`;
     }
     case 'SPECULATION': {
       const only = r.votes[0];

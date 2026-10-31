@@ -6,7 +6,7 @@ import TierTable from '../components/TierTable.astro';
 import Stamp from '../components/Stamp.astro';
 import { data, stampChecked } from '../lib/data';
 
-const stamp = `Lists last checked ${stampChecked()} · Method v${data.method.version} · Game version ${data.game_version}`;
+const stamp = `Lists last checked ${stampChecked()} · Rules v${data.method.version} · Game version ${data.game_version}`;
 ---
 
 <Base title="Full Table – StarDiveMeta" path="/table/" levelScript={false}>

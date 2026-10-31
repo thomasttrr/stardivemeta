@@ -54,7 +54,7 @@ const linked: ErrataEntry[] = errata.filter((e) =>
 <Base title={`Snapshot ${date} – StarDiveMeta`} path={`/history/${snap.id}/`}>
   <h1 class="page-title">Snapshot {date}</h1>
   <p class="built">
-    Method v{snap.method_version} · Game version {snap.game_version}. This
+    Rules v{snap.method_version} · Game version {snap.game_version}. This
     board is frozen — it shows exactly what the lists said then. Today's
     board is on the <a href="/">home page</a>.
   </p>
@@ -77,8 +77,8 @@ const linked: ErrataEntry[] = errata.filter((e) =>
     {
       diff === null && (
         <p class="empty" data-glass>
-          This is the first snapshot — the baseline. There is no earlier
-          snapshot to compare with.
+          This is the first snapshot. There is no earlier snapshot to
+          compare with.
         </p>
       )
     }
@@ -121,7 +121,7 @@ const linked: ErrataEntry[] = errata.filter((e) =>
     {
       diff !== null && diff.coverage_changes.length > 0 && (
         <>
-          <h3>Coverage changes</h3>
+          <h3>List-count changes</h3>
           <ul class="glass-list flat changes">
             {diff.coverage_changes.map((c) => (
               <li>
