@@ -2,8 +2,8 @@
 // All 29 evidence dialogs for a board page (plan T3.3). Pre-rendered,
 // one <dialog> per character; dialog.ts wires chip clicks to them.
 // Without JS the chips simply link to /c/<slug>/.
-// The dialog is a glass sheet: centred on wide screens, a bottom sheet
-// on phones; it springs in, the page behind blurs.
+// The dialog is a night-violet sheet: centred on wide screens, a bottom
+// sheet on phones; it springs in over a dark scrim.
 import { data } from '../lib/data';
 import EvidencePanel from './EvidencePanel.astro';
 ---
@@ -24,14 +24,9 @@ import EvidencePanel from './EvidencePanel.astro';
 <style>
   .ev-dialog {
     color: var(--text);
-    background-color: var(--glass-fill-strong);
-    background-image: var(--glass-sheen);
-    -webkit-backdrop-filter: var(--glass-blur-strong);
-    backdrop-filter: var(--glass-blur-strong);
-    border: 1px solid var(--glass-rim-strong);
-    box-shadow:
-      var(--glass-edge),
-      0 30px 80px rgb(0 0 0 / 0.5);
+    background: var(--sheet-fill);
+    border: 1px solid var(--panel-rim-strong);
+    box-shadow: var(--panel-shadow);
     border-radius: var(--radius-xl);
     padding: 0;
     width: calc(100% - 28px);
@@ -46,8 +41,6 @@ import EvidencePanel from './EvidencePanel.astro';
   }
   .ev-dialog::backdrop {
     background: var(--scrim);
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
     animation: fade-in var(--duration-fast) var(--ease-out);
   }
   .ev-dialog :global(.dossier) {
@@ -68,7 +61,6 @@ import EvidencePanel from './EvidencePanel.astro';
     color: var(--text);
     background: var(--chip-fill);
     border: 1px solid var(--chip-rim);
-    box-shadow: var(--chip-edge);
     border-radius: var(--radius-pill);
     cursor: pointer;
     z-index: 1;

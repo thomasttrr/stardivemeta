@@ -76,7 +76,7 @@ const linked: ErrataEntry[] = errata.filter((e) =>
     <h2>Changes from the previous snapshot</h2>
     {
       diff === null && (
-        <p class="empty" data-glass>
+        <p class="empty" data-panel>
           This is the first snapshot — the baseline. There is no earlier
           snapshot to compare with.
         </p>
@@ -84,14 +84,14 @@ const linked: ErrataEntry[] = errata.filter((e) =>
     }
     {
       diff !== null && diffEmpty && (
-        <p class="empty" data-glass>No changes from the previous snapshot.</p>
+        <p class="empty" data-panel>No changes from the previous snapshot.</p>
       )
     }
     {
       diff !== null && diff.tier_changes.length > 0 && (
         <>
           <h3>Tier changes</h3>
-          <ul class="glass-list flat changes">
+          <ul class="panel-list flat changes">
             {diff.tier_changes.map((c) => (
               <li>
                 {charName(c.character)}: {c.from} → {c.to} at{' '}
@@ -106,7 +106,7 @@ const linked: ErrataEntry[] = errata.filter((e) =>
       diff !== null && diff.label_changes.length > 0 && (
         <>
           <h3>Label changes</h3>
-          <ul class="glass-list flat changes">
+          <ul class="panel-list flat changes">
             {diff.label_changes.map((c) => (
               <li>
                 {charName(c.character)}:{' '}
@@ -122,7 +122,7 @@ const linked: ErrataEntry[] = errata.filter((e) =>
       diff !== null && diff.coverage_changes.length > 0 && (
         <>
           <h3>Coverage changes</h3>
-          <ul class="glass-list flat changes">
+          <ul class="panel-list flat changes">
             {diff.coverage_changes.map((c) => (
               <li>
                 {charName(c.character)}: {c.from} → {c.to} lists at{' '}
@@ -137,7 +137,7 @@ const linked: ErrataEntry[] = errata.filter((e) =>
       diff !== null && diff.placement_changes.length > 0 && (
         <>
           <h3>Placement changes</h3>
-          <ul class="glass-list flat changes">
+          <ul class="panel-list flat changes">
             {diff.placement_changes.map((c) => (
               <li>
                 {sourceName(c.source)} · {charName(c.character)} · {c.field}:{' '}
@@ -154,7 +154,7 @@ const linked: ErrataEntry[] = errata.filter((e) =>
     linked.length > 0 && (
       <section>
         <h2>Corrections linked to this snapshot</h2>
-        <ul class="glass-list flat changes">
+        <ul class="panel-list flat changes">
           {linked.map((e) => (
             <li>
               {fmtDate(e.found_at)}: {e.what}{' '}

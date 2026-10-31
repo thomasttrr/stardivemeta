@@ -1,7 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
-import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -36,7 +35,7 @@ const hoistIslandStyle = {
 
 export default defineConfig({
   site: 'https://stardivemeta.com',
-  integrations: [sitemap(), react(), hoistIslandStyle],
+  integrations: [sitemap(), hoistIslandStyle],
   vite: {
     plugins: [tailwindcss()],
   },

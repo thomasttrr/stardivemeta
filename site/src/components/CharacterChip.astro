@@ -1,14 +1,16 @@
 ---
-// One character chip (plan T3.2, DESIGN.md "Character chip"): the name
-// and the label mark — nothing else on the board surface. Tier, label
-// word, score and list count are in the aria-label and one tap away in
-// the evidence dialog. A link to /c/<slug>/ that dialog.ts upgrades to
-// the dialog. On mode pages it also carries the small Overall-at-Low
-// line (T3.4). Styles: global.css "Character chip".
+// One character chip (plan T3.2, DESIGN.md "Character chip"): the
+// medallion portrait, the name, and the label mark + word — nothing
+// else on the board surface. Tier, score and list count are in the
+// aria-label and one tap away in the evidence dialog. A link to
+// /c/<slug>/ that dialog.ts upgrades to the dialog. On mode pages the
+// label line becomes the small Overall-at-Low line (T3.4).
+// Styles: global.css "Character chip".
 import type { Character } from '../types/contract/Character';
 import type { Result } from '../types/contract/Result';
 import { LABEL_WORD, tierDisplay } from '../lib/data';
 import LabelMark from './LabelMark.astro';
+import Medallion from './Medallion.astro';
 
 interface Props {
   character: Character;
@@ -21,22 +23,20 @@ const { character: c, result: r, overallLine = false } = Astro.props;
 const word = LABEL_WORD[r.label];
 const tierWord = r.tier === 'MODE_SPLIT' ? 'mode-split' : r.tier === 'UNRANKED' ? 'unranked' : r.tier;
 const srText = `${c.name}: tier ${tierWord}, ${word}, score ${r.score_display ?? '—'} of 4, ${r.coverage} lists`;
-// Display-only layout hint: long names take a full row on phones.
-const wide = c.name.length > 14;
 ---
 
 <a
-  class:list={['chip', { wide }]}
+  class="chip"
   href={`/c/${c.id}/`}
   data-slug={c.id}
   data-label={r.label}
   data-dialog={`ev-${c.id}`}
   aria-label={srText}
 >
-  <span class="chip-body">
-    <span>{c.name}</span>
-    {overallLine && <span class="chip-sub">Overall {tierDisplay(r.tier)} · {word}</span>}
-    {!overallLine && r.label === 'SPECULATION' && <span class="chip-sub">1 list</span>}
+  <Medallion id={c.id} name={c.name} />
+  <span class="chip-name">{c.name}</span>
+  <span class="chip-sub">
+    <span class="mk"><LabelMark label={r.label} size={11} /></span>
+    {overallLine ? `Overall ${tierDisplay(r.tier)}` : r.label === 'SPECULATION' ? '1 list' : word}
   </span>
-  <span class="mk"><LabelMark label={r.label} /></span>
 </a>

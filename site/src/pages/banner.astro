@@ -43,7 +43,7 @@ const debuts = [...banners].sort((a, b) => b.start.localeCompare(a.start));
     current && (
       <section class="banner-now">
         <h2>Current banner</h2>
-        <p class="banner-line glass-row split" data-glass>
+        <p class="banner-line panel-row split" data-panel>
           <a href={`/c/${current.character}/`}>{current.name}</a>
           <span class="dim">
             {fmtDate(current.start)}
@@ -65,13 +65,13 @@ const debuts = [...banners].sort((a, b) => b.start.localeCompare(a.start));
     <h2>New and still settling</h2>
     {
       listed.length === 0 ? (
-        <p class="empty" data-glass>No new characters right now.</p>
+        <p class="empty" data-panel>No new characters right now.</p>
       ) : (
-        <ul class="glass-list chars">
+        <ul class="panel-list chars">
           {listed.map((c) => {
             const r = c.results.low;
             return (
-              <li class="glass-row split" data-glass>
+              <li class="panel-row split" data-panel>
                 <span class="nm">{c.name}</span>
                 <span class="facts">
                   {r.coverage} of 3 lists have placed them
@@ -95,10 +95,10 @@ const debuts = [...banners].sort((a, b) => b.start.localeCompare(a.start));
 
   <section>
     <h2>Debut history</h2>
-    <ul class="glass-list chars">
+    <ul class="panel-list chars">
       {
         debuts.map((b) => (
-          <li class="glass-row split" data-glass>
+          <li class="panel-row split" data-panel>
             <span class="nm">
               <a href={`/c/${b.character}/`}>{b.name}</a>
             </span>

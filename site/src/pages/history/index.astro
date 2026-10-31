@@ -40,13 +40,13 @@ const changeCount = (id: string): number | null => {
     snapshots.
   </p>
 
-  <ul class="glass-list snaps">
+  <ul class="panel-list snaps">
     {
       snapshots.map((s) => {
         const n = changeCount(s.id);
         return (
           <li>
-            <a class="row glass-row" data-glass href={`/history/${s.id}/`}>
+            <a class="row panel-row" data-panel href={`/history/${s.id}/`}>
               <span class="date">{snapDate(s.id, s.created_at)}</span>
               <span class="meta">
                 Method v{s.method_version} · Game version {s.game_version}

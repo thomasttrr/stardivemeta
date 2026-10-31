@@ -23,7 +23,7 @@ const byName = (ids: string[]) =>
 <div class="tierboard">
   {
     ROWS.filter((key) => board[key].length > 0).map((key) => (
-      <section class="rack" data-tier={key} data-glass>
+      <section class="rack" data-tier={key}>
         <h2 class="sr-only">Tier {key}</h2>
         <TierLens tier={key} count={board[key].length} />
         <div class="cards">
@@ -39,7 +39,7 @@ const byName = (ids: string[]) =>
     board.UNRANKED.length > 0 && (
       <>
         <h2 class="rack-title">Not ranked by mode</h2>
-        <section class="rack" data-tier="UNRANKED" data-glass>
+        <section class="rack" data-tier="UNRANKED">
           <TierLens tier="UNRANKED" count={board.UNRANKED.length} />
           <div class="cards">
             {byName(board.UNRANKED).map((id) => {

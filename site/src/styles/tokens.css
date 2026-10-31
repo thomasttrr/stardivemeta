@@ -1,140 +1,132 @@
-/* StarDiveMeta design tokens — "Liquid Glass" (docs/DESIGN.md).
+/* StarDiveMeta design tokens — "Starfield" (docs/DESIGN.md).
    Every token named in DESIGN.md is defined here, and only those tokens.
-   Components use these; no hard-coded colours, sizes or radii. */
-/* Registered so getComputedStyle hands islands/frost.ts a resolved number. */
-@property --frost-tint {
-  syntax: "<number>";
-  inherits: true;
-  initial-value: 1;
-}
-
+   Components use these; no hard-coded colours, sizes or radii.
+   Source of the look: the game's own official site (character section):
+   a navy-to-violet night sky, the four-point sparkle, Cardo serif
+   display type, violet pill buttons and ringed medallion portraits. */
 :root {
-  /* Colour — ground and text */
-  --bg: #050d10;
-  --text: #f4f6f1;
-  --sub: #b8c5c8;
-  --mark: rgb(244 246 241 / 0.82);
+  /* Colour — the night sky (ground and text) */
+  --bg: #150f38;
+  --night-0: #0d0a26;
+  --night-1: #1f1449;
+  --night-2: #2e1c78;
+  --night-mid: #241866;
+  --text: #f3f0ff;
+  --sub: #b9b0e2;
+  --mark: rgb(243 240 255 / 0.86);
+  --star-dot: rgb(255 255 255 / 0.62);
+  --orbit: rgb(190 175 255 / 0.2);
 
-  /* Colour — glass material (CSS fallback + overlays; WebGL draws the
-     refraction itself when it runs, see src/islands/GlassScene.tsx) */
-  /* Frost dial — the ONE knob for how see-through every glass surface is.
-     Stops: Clear 0.3 (owner's pick, locked 2026-10-30) · Balanced 1 (the
-     pre-dial look) · Frosted 2. It scales blur/frost directly and the
-     legibility tint by --frost-tint; the WebGL lens and the dock lens
-     read both. */
-  --frost: 0.3;
-  --frost-tint: calc((1 + var(--frost)) / 2);
-  /* Floating chrome (header capsule, dock, dialogs) never drops below
-     Balanced strength, whatever the dial says: at Clear the board stays
-     see-through, but page content scrolling under the chrome must blur
-     out instead of slicing through it. Board panels follow --frost
-     exactly; only the chrome tokens below read the floored values. */
-  --frost-chrome: max(var(--frost), 1);
-  --frost-chrome-tint: calc((1 + var(--frost-chrome)) / 2);
-  --glass-fill: rgb(18 30 34 / calc(0.58 * var(--frost-tint)));
-  --glass-fill-strong: rgb(12 22 26 / min(0.92, calc(0.78 * var(--frost-chrome-tint))));
-  --glass-sheen: linear-gradient(180deg, rgb(255 255 255 / 0.09), rgb(255 255 255 / 0.02));
-  --glass-rim: rgb(255 255 255 / 0.15);
-  --glass-rim-strong: rgb(255 255 255 / 0.24);
-  --glass-edge: inset 0 1px 0 rgb(255 255 255 / 0.22), inset 0 -1px 0 rgb(0 0 0 / 0.25);
-  --glass-shadow: inset 0 1px 0 rgb(255 255 255 / 0.22), inset 0 -1px 0 rgb(0 0 0 / 0.25),
-    0 14px 34px rgb(0 0 0 / 0.32);
-  --glass-blur: blur(calc(22px * var(--frost))) saturate(170%);
-  --glass-blur-strong: blur(calc(32px * var(--frost-chrome))) saturate(190%);
-  --chip-fill: rgb(255 255 255 / calc(0.065 * var(--frost-tint)));
-  --chip-fill-hover: rgb(255 255 255 / calc(0.11 * var(--frost-tint)));
-  --chip-rim: rgb(255 255 255 / 0.11);
-  --chip-edge: inset 0 1px 0 rgb(255 255 255 / 0.14);
-  --hairline: rgb(255 255 255 / 0.1);
-  --scrim: rgb(2 6 8 / 0.55);
-  --tint-dark: rgb(0 0 0 / 0.2);
-  --dock-fill: rgb(12 22 26 / calc(0.56 * var(--frost-chrome-tint)));
+  /* Colour — surfaces. Flat night panels with a lavender hairline rim;
+     nothing is see-through, nothing blurs. */
+  --panel-fill: rgb(38 26 98 / 0.62);
+  --panel-fill-strong: #1c1347;
+  --panel-rim: rgb(214 204 255 / 0.18);
+  --panel-rim-strong: rgb(214 204 255 / 0.34);
+  --panel-shadow: 0 14px 34px rgb(6 2 30 / 0.45);
+  --sheet-fill: linear-gradient(180deg, #2a1c6c, var(--night-1) 60%);
+  --chip-fill: rgb(214 204 255 / 0.06);
+  --chip-fill-hover: rgb(214 204 255 / 0.12);
+  --chip-rim: rgb(214 204 255 / 0.16);
+  --hairline: rgb(214 204 255 / 0.14);
+  --scrim: rgb(8 5 28 / 0.7);
+  --band: #150f38;
 
-  /* Colour — accents */
-  --gold: #ffcf5a;
-  --copper: #ff9e6e;
-  --mint: #86e0b5;
-  --sky: #93c6ff;
-  --ash: #b3bdc1;
-  --cream: #ece4cf;
-  --link: var(--mint);
-  --on-accent: #17120a;
-  --gold-glass: linear-gradient(180deg, rgb(255 207 90 / 0.36), rgb(255 207 90 / 0.16));
-  --gold-rim: rgb(255 207 90 / 0.55);
-  --copper-glass: rgb(255 158 110 / 0.1);
-  --copper-rim: rgb(255 158 110 / 0.34);
+  /* Colour — violet pills (the game's buttons) and their selected state */
+  --violet: #7b3cf2;
+  --violet-2: #8e3ddc; /* the official #a24cf4, deepened so white text keeps 4.5:1 */
+  --violet-ring: #8a57f7;
+  --pill: linear-gradient(90deg, var(--violet), var(--violet-2));
+  --pill-rim: rgb(255 255 255 / 0.18);
+  --lavender: #ddd6ff;
+  --on-lavender: #1f1449;
+  --glow: rgb(170 140 255 / 0.5);
+  --med-fill: radial-gradient(circle at 50% 35%, #8d5cf6, #3b1e9a 70%);
+  --med-halo: rgb(214 204 255 / 0.4);
+  --med-shadow: 0 10px 26px rgb(10 4 40 / 0.6);
+  --rule-line: rgb(255 255 255 / 0.55);
+
+  /* Colour — accents (starlight hues; each passes AA on the night panels) */
+  --starlight: #ffd98a;
+  --rose: #ffb3c2;
+  --aqua: #9fe6cf;
+  --periwinkle: #a9c3ff;
+  --ash: #bdb6d6;
+  --orchid: #e3d2ff;
+  --link: #cdbfff;
+  --callout-fill: rgb(255 179 194 / 0.08);
+  --callout-rim: rgb(255 179 194 / 0.3);
+  --success-rim: rgb(159 230 207 / 0.34);
 
   /* Colour — tiers */
-  --tier-s: var(--gold);
-  --tier-a: var(--copper);
-  --tier-b: var(--mint);
-  --tier-c: var(--sky);
+  --tier-s: var(--starlight);
+  --tier-a: var(--rose);
+  --tier-b: var(--aqua);
+  --tier-c: var(--periwinkle);
   --tier-d: var(--ash);
-  --tier-mode-split: var(--cream);
+  --tier-mode-split: var(--orchid);
   --tier-unranked: var(--sub);
 
-  /* Colour — the CSS ambient field (shown until / unless WebGL runs) */
-  --amb-amber: #b9791c;
-  --amb-teal: #0e8a80;
-  --amb-coral: #b24a39;
-  --amb-moss: #2c7a5c;
-
-  /* Type */
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Type: Cardo (the game's display serif) over Exo 2 (its EN body face) */
+  --font-display: "Cardo", Georgia, "Times New Roman", serif;
+  --font-sans: "Exo 2", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
   --text-base: 15px;
-  --leading-base: 1.5;
-  --leading-tight: 1.02;
+  --leading-base: 1.55;
+  --leading-tight: 1.04;
   --leading-card: 1.2;
-  --text-display: clamp(40px, 7vw, 64px);
+  --text-display: clamp(36px, 6.4vw, 58px);
   --text-h1: clamp(32px, 5.4vw, 46px);
-  --text-h2: 20px;
-  --text-tagline: clamp(16.5px, 2.2vw, 19px);
+  --text-h2: 21px;
+  --text-tagline: clamp(16px, 2.2vw, 18.5px);
+  --text-brand: 30px;
   --text-dossier-name: clamp(28px, 5vw, 36px);
-  --text-card-name: 15px;
+  --text-card-name: 14px;
+  --text-card-name-sm: 12px;
   --text-body-sm: 14px;
   --text-note: 12.5px;
   --text-pill: 11.5px;
-  --text-kicker: 11.5px;
-  --text-lens: 38px;
-  --text-lens-sm: 26px;
+  --text-kicker: 11px;
+  --text-tier: 54px;
+  --text-tier-sm: 34px;
   --stat-value-size: 22px;
   --text-stat-key: 11px;
-  --tracking-display: -0.045em;
-  --tracking-tight: -0.02em;
-  --tracking-caps: 0.12em;
+  --tracking-display: 0;
+  --tracking-tight: -0.01em;
+  --tracking-caps: 0.24em;
   --weight-medium: 500;
   --weight-semibold: 600;
   --weight-bold: 700;
-  --weight-extrabold: 800;
 
   /* Spacing and layout */
   --content-max: 1080px;
   --prose-max: 760px;
   --space-page-x: 16px;
   --space-page-top: 12px;
-  --space-section: 28px;
+  --space-section: 30px;
   --space-stack: 14px;
   --space-grid-gap: 8px;
   --space-panel: 22px;
   --space-panel-sm: 14px;
-  --card-min-width: 176px;
-  --card-min-height: 50px;
-  --space-card-x: 16px;
-  --space-card-y: 8px;
-  --lens-size: 72px;
-  --lens-size-sm: 48px;
-  --rail-width: 84px;
-  --dock-clearance: 120px;
+
+  /* Medallions: portrait diameter per tier group, and the chip width
+     around each (S two-up, A three-up, the rest four-up at 390px). */
+  --med-s: 128px;
+  --med-a: 92px;
+  --med-rest: 68px;
+  --med-dossier: 84px;
+  --chip-w-s: 150px;
+  --chip-w-a: 108px;
+  --chip-w-rest: 82px;
 
   /* Radius */
-  --radius-sm: 10px;
-  --radius-md: 17px;
-  --radius-lg: 22px;
-  --radius-xl: 28px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
   --radius-pill: 999px;
 
-  /* Motion (CSS + Motion springs; all off under prefers-reduced-motion) */
+  /* Motion (all off under prefers-reduced-motion) */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --duration-fast: 200ms;

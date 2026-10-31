@@ -1,0 +1,18 @@
+---
+// A character portrait in the ringed circle (DESIGN.md "Medallion").
+// Decorative: the name always sits beside it, so alt is empty. With no
+// portrait on file it shows the name's first letter instead.
+// Size comes from --med on an ancestor (tier group or dossier).
+import { portraitSrc } from '../lib/portraits';
+
+interface Props {
+  id: string;
+  name: string;
+}
+const { id, name } = Astro.props;
+const src = portraitSrc(id);
+---
+
+<span class="med" aria-hidden="true">
+  {src ? <img src={src} alt="" width="320" height="320" loading="lazy" decoding="async" /> : name.charAt(0)}
+</span>

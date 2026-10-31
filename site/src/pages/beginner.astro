@@ -35,10 +35,10 @@ const byId = (id: string) => charactersById.get(id)!;
   <section>
     <h2>Get better with investment</h2>
     <p class="rule">Their Max tier is higher than their Low tier.</p>
-    <ul class="glass-list rise">
+    <ul class="panel-list rise">
       {
         beginner.rise.map((r) => (
-          <li class="glass-row split" data-glass>
+          <li class="panel-row split" data-panel>
             <a href={`/c/${r.id}/`}>{byId(r.id).name}</a>
             <span class="arrow">
               {tierDisplay(r.low)} → {tierDisplay(r.max)}

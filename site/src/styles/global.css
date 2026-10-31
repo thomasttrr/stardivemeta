@@ -1,14 +1,13 @@
 /* StarDiveMeta global styles. Tokens live in tokens.css (docs/DESIGN.md).
-   This file wires them up: font, base elements, the glass material,
-   the shared page/board/chip patterns, and the motion rules. */
+   This file wires them up: fonts, base elements, the night sky, the
+   shared page/panel patterns, the tier board and its medallion chips,
+   and the motion rules. */
+@import "@fontsource/cardo/latin-700.css";
+@import "@fontsource/exo-2/latin-400.css";
+@import "@fontsource/exo-2/latin-500.css";
+@import "@fontsource/exo-2/latin-600.css";
+@import "@fontsource/exo-2/latin-700.css";
 @import "./tokens.css";
-
-@font-face {
-  font-family: "Inter";
-  src: url("/fonts/Inter-Variable.ttf") format("truetype");
-  font-weight: 100 900;
-  font-display: swap;
-}
 
 * {
   box-sizing: border-box;
@@ -16,6 +15,7 @@
 
 html {
   background: var(--bg);
+  color-scheme: dark;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -27,7 +27,6 @@ body {
   font-size: var(--text-base);
   line-height: var(--leading-base);
   -webkit-font-smoothing: antialiased;
-  font-feature-settings: "cv11", "ss01";
 }
 
 a {
@@ -35,129 +34,96 @@ a {
   text-underline-offset: 3px;
 }
 
-/* ---------- Ambient field --------------------------------------------
-   The page sits on a fixed colour field. WebGL (GlassScene island)
-   paints it as a live shader and refracts it through every [data-glass]
-   panel; until it starts — or where WebGL is unavailable — these CSS
-   blobs stand in, and the panels fall back to CSS backdrop blur. */
+/* ---------- The night sky ---------------------------------------------
+   A fixed field behind every page: the official site's navy-to-violet
+   gradient, a tiled scatter of star dots and two faint orbital arcs
+   (the arcs are the SVG in Base.astro). Static: no script, no canvas. */
 .scene {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
+  background: linear-gradient(180deg, var(--night-0) 0%, var(--night-1) 34%, var(--night-mid) 72%, var(--night-2) 100%);
 }
-.scene canvas {
-  display: block;
-}
-.ambient {
-  position: absolute;
-  inset: 0;
-  transition: opacity var(--duration-slow) var(--ease-out);
-}
-.ambient::after {
+.scene::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(130% 80% at 50% 0%, rgb(5 13 16 / 0) 0, rgb(5 13 16 / 0.66) 72%);
+  background-image:
+    radial-gradient(1.2px 1.2px at 18px 26px, var(--star-dot), transparent 70%),
+    radial-gradient(1px 1px at 92px 140px, var(--star-dot), transparent 70%),
+    radial-gradient(1.4px 1.4px at 160px 60px, var(--star-dot), transparent 70%),
+    radial-gradient(1px 1px at 230px 190px, var(--star-dot), transparent 70%),
+    radial-gradient(1px 1px at 300px 90px, var(--star-dot), transparent 70%),
+    radial-gradient(1.2px 1.2px at 350px 230px, var(--star-dot), transparent 70%);
+  background-size: 390px 260px;
+  opacity: 0.8;
 }
-.blob {
+.orbit {
   position: absolute;
-  border-radius: 50%;
-  will-change: transform;
-  /* Each blob is a radial gradient that reaches full transparency well
-     inside its own box — never a solid disc under a blur filter. Safari
-     clips a blur filter near the element's box, which drew a hard arc
-     where the glow should fade (visible top-left while scrolling). A
-     gradient has no edge to clip, and it is far cheaper to repaint. */
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
-.blob-1 {
-  width: max(46vw, 340px);
-  aspect-ratio: 1;
-  left: -10vw;
-  top: -12vw;
-  background: radial-gradient(closest-side, var(--amb-amber) 55%, transparent 100%);
-  opacity: 0.5;
-  animation: drift-1 38s var(--ease-out) infinite alternate;
-}
-.blob-2 {
-  width: max(40vw, 300px);
-  aspect-ratio: 1;
-  right: -12vw;
-  top: 22vh;
-  background: radial-gradient(closest-side, var(--amb-teal) 55%, transparent 100%);
-  opacity: 0.55;
-  animation: drift-2 46s var(--ease-out) infinite alternate;
-}
-.blob-3 {
-  width: max(34vw, 260px);
-  aspect-ratio: 1;
-  left: 18vw;
-  bottom: -14vw;
-  background: radial-gradient(closest-side, var(--amb-coral) 55%, transparent 100%);
-  opacity: 0.4;
-  animation: drift-3 54s var(--ease-out) infinite alternate;
-}
-.blob-4 {
-  width: max(22vw, 200px);
-  aspect-ratio: 1;
-  right: 24vw;
-  top: -6vw;
-  background: radial-gradient(closest-side, var(--amb-moss) 55%, transparent 100%);
-  opacity: 0.42;
-  animation: drift-2 60s var(--ease-out) infinite alternate-reverse;
-}
-html.gl .ambient {
-  opacity: 0;
-}
-@keyframes drift-1 {
-  to { transform: translate(9vw, 7vh) scale(1.14); }
-}
-@keyframes drift-2 {
-  to { transform: translate(-8vw, 10vh) scale(0.9); }
-}
-@keyframes drift-3 {
-  to { transform: translate(6vw, -9vh) scale(1.2); }
+.orbit ellipse {
+  fill: none;
+  stroke: var(--orbit);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
 }
 
-/* ---------- The glass material ----------------------------------------
-   [data-glass]          a panel the WebGL scene refracts (CSS fallback
-                         until it runs).
-   [data-glass=overlay]  floats over page content (header, dock), so it
-                         always keeps its CSS blur — WebGL can't see DOM. */
-[data-glass] {
-  background-color: var(--glass-fill);
-  background-image: var(--glass-sheen);
-  border: 1px solid var(--glass-rim);
-  box-shadow: var(--glass-shadow);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
-  transition:
-    background-color var(--duration-slow) var(--ease-out),
-    border-color var(--duration-slow) var(--ease-out),
-    box-shadow var(--duration-slow) var(--ease-out);
+/* The four-point sparkle, the game's signature mark (inline SVG). */
+.spk {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+  flex: none;
 }
-[data-glass="overlay"] {
-  background-color: var(--glass-fill-strong);
-  -webkit-backdrop-filter: var(--glass-blur-strong);
-  backdrop-filter: var(--glass-blur-strong);
+/* A hairline rule with a sparkle at its centre. */
+.star-rule {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 260px;
+  margin: 8px auto 0;
+  color: var(--text);
 }
-html.gl [data-glass]:not([data-glass="overlay"]) {
-  background-color: rgb(255 255 255 / 0.01);
-  background-image: none;
-  border-color: transparent;
-  box-shadow: none;
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
+.star-rule::before,
+.star-rule::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rule-line));
+}
+.star-rule::after {
+  transform: scaleX(-1);
+}
+.star-rule .spk {
+  width: 13px;
+  height: 13px;
+}
+
+/* ---------- Panels ------------------------------------------------------
+   [data-panel]: a flat night panel with a lavender hairline rim — the
+   one surface every list, legend, table and article sits on. */
+[data-panel] {
+  background: var(--panel-fill);
+  border: 1px solid var(--panel-rim);
+  box-shadow: var(--panel-shadow);
 }
 
 /* ---------- Page patterns ---------------------------------------------- */
 .page-title {
+  font-family: var(--font-display);
   font-size: var(--text-h1);
-  font-weight: var(--weight-extrabold);
+  font-weight: var(--weight-bold);
   letter-spacing: var(--tracking-display);
   line-height: var(--leading-tight);
-  margin: 44px 0 0;
+  text-wrap: balance;
+  text-shadow: 0 0 22px var(--glow);
+  margin: 40px 0 0;
   animation: rise var(--duration-slow) var(--ease-out) backwards;
 }
 .page-title + .built,
@@ -175,9 +141,10 @@ html.gl [data-glass]:not([data-glass="overlay"]) {
   color: var(--link);
 }
 main h2 {
+  font-family: var(--font-display);
   font-size: var(--text-h2);
   font-weight: var(--weight-bold);
-  letter-spacing: var(--tracking-tight);
+  letter-spacing: var(--tracking-display);
   line-height: 1.25;
   margin: 0 0 8px;
 }
@@ -197,9 +164,9 @@ main section {
   font-size: var(--text-body-sm);
 }
 
-/* Stacked glass rows (notes, history, corrections, data, banner,
+/* Stacked panel rows (notes, history, corrections, data, banner,
    snapshot changes, beginner rise list). */
-.glass-list {
+.panel-list {
   list-style: none;
   margin: 16px 0 0;
   padding: 0;
@@ -207,7 +174,7 @@ main section {
   flex-direction: column;
   gap: 10px;
 }
-.glass-row {
+.panel-row {
   display: flex;
   flex-direction: column;
   gap: 3px;
@@ -217,24 +184,27 @@ main section {
   color: var(--text);
   text-decoration: none;
 }
-a.glass-row {
-  transition: transform var(--duration-base) var(--ease-spring);
+a.panel-row {
+  transition:
+    transform var(--duration-base) var(--ease-spring),
+    border-color var(--duration-fast);
 }
-a.glass-row:hover {
+a.panel-row:hover {
   transform: translateY(-2px);
+  border-color: var(--panel-rim-strong);
 }
-a.glass-row:active {
+a.panel-row:active {
   transform: scale(0.985);
 }
-.glass-row .dim,
-.glass-row .meta {
+.panel-row .dim,
+.panel-row .meta {
   color: var(--sub);
 }
-.glass-row .strong {
+.panel-row .strong {
   font-weight: var(--weight-semibold);
   font-size: var(--text-base);
 }
-.glass-row.split {
+.panel-row.split {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -242,26 +212,25 @@ a.glass-row:active {
   gap: 4px 14px;
 }
 
-/* Many small rows (snapshot changes): lighter chip glass, not tracked
-   by WebGL. */
-.glass-list.flat {
+/* Many small rows (snapshot changes): lighter chip fill. */
+.panel-list.flat {
   gap: 6px;
 }
-.glass-list.flat > li {
+.panel-list.flat > li {
   background: var(--chip-fill);
   border: 1px solid var(--chip-rim);
-  box-shadow: var(--chip-edge);
   border-radius: var(--radius-md);
   padding: 10px 14px;
   font-size: var(--text-body-sm);
 }
 
-/* Glass link pills (page links under boards). */
+/* Violet pill links (page links under boards) — the game's buttons. */
 .pill-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin: 14px 0 0;
+  justify-content: center;
+  gap: 10px;
+  margin: 18px 0 0;
   padding: 0;
   list-style: none;
 }
@@ -269,11 +238,13 @@ a.glass-row:active {
   min-height: 44px;
   display: inline-flex;
   align-items: center;
-  padding: 0 18px;
+  padding: 0 20px;
   border-radius: var(--radius-pill);
+  background: var(--pill);
+  box-shadow: inset 0 0 0 1px var(--pill-rim);
   color: var(--text);
   text-decoration: none;
-  font-weight: var(--weight-semibold);
+  font-weight: var(--weight-bold);
   font-size: var(--text-body-sm);
   transition: transform var(--duration-base) var(--ease-spring);
 }
@@ -284,22 +255,20 @@ a.glass-row:active {
   transform: scale(0.96);
 }
 
-/* ---------- Tier boards (home, history snapshots, mode pages) ---------- */
+/* ---------- Tier boards (home, history snapshots, mode pages) ----------
+   Open sections on the sky, as on the official character page: a
+   centred serif tier letter (S crowned with an arc of sparkles), a
+   sparkle rule, the count, then the medallions. */
 .tierboard {
   display: flex;
   flex-direction: column;
-  gap: var(--space-stack);
-  margin-top: var(--space-section);
+  gap: 10px;
+  margin-top: 8px;
 }
 .rack {
   position: relative;
   margin: 0;
-  border-radius: var(--radius-xl);
-  padding: var(--space-panel-sm);
-  display: grid;
-  grid-template-columns: var(--rail-width) 1fr;
-  gap: 16px;
-  align-items: start;
+  padding: 18px 0 20px;
   animation: rise var(--duration-base) var(--ease-out) backwards;
 }
 .rack:nth-child(2) { animation-delay: 50ms; }
@@ -308,14 +277,6 @@ a.glass-row:active {
 .rack:nth-child(5) { animation-delay: 200ms; }
 .rack:nth-child(6) { animation-delay: 250ms; }
 .rack:nth-child(7) { animation-delay: 300ms; }
-.rack::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  background: radial-gradient(110% 120% at 0% 0%, color-mix(in srgb, var(--c) 14%, transparent), transparent 52%);
-}
 .rack[data-tier="S"] { --c: var(--tier-s); }
 .rack[data-tier="A"] { --c: var(--tier-a); }
 .rack[data-tier="B"] { --c: var(--tier-b); }
@@ -324,118 +285,150 @@ a.glass-row:active {
 .rack[data-tier="MODE_SPLIT"] { --c: var(--tier-mode-split); }
 .rack[data-tier="UNRANKED"] { --c: var(--tier-unranked); }
 .rack-head {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
+  text-align: center;
+  margin-bottom: 18px;
+}
+.rack-head .arc {
+  display: block;
+  width: 120px;
+  height: 22px;
+  margin: 0 auto;
+  color: var(--text);
 }
 .lens {
-  width: var(--lens-size);
-  height: var(--lens-size);
-  border-radius: 24px;
-  display: grid;
-  place-items: center;
-  color: var(--c);
-  font-weight: var(--weight-extrabold);
-  font-size: var(--text-lens);
-  letter-spacing: -0.03em;
+  display: block;
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-tier);
   line-height: 1;
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--c) 24%, rgb(255 255 255 / 0.06)),
-    color-mix(in srgb, var(--c) 9%, rgb(255 255 255 / 0.02))
-  );
-  border: 1px solid color-mix(in srgb, var(--c) 48%, transparent);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.34),
-    inset 0 -10px 18px color-mix(in srgb, var(--c) 12%, transparent),
-    0 6px 18px rgb(0 0 0 / 0.25);
+  color: var(--c);
+  text-shadow: 0 0 20px color-mix(in srgb, var(--c) 55%, transparent);
 }
-.lens svg {
-  width: 34px;
-  height: 34px;
+.rack:not([data-tier="S"]) .lens {
+  font-size: var(--text-tier-sm);
+  padding-top: 6px;
 }
 .rack-count {
-  font-size: var(--text-note);
+  display: block;
+  margin-top: 8px;
+  font-size: var(--text-kicker);
   font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
   color: var(--sub);
   font-variant-numeric: tabular-nums;
 }
 .cards {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--card-min-width), 1fr));
-  gap: var(--space-grid-gap);
-  align-content: start;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px 10px;
+  --med: var(--med-rest);
+  --chip-w: var(--chip-w-rest);
+}
+.rack[data-tier="S"] .cards {
+  --med: var(--med-s);
+  --chip-w: var(--chip-w-s);
+  gap: 22px 18px;
+}
+.rack[data-tier="A"] .cards {
+  --med: var(--med-a);
+  --chip-w: var(--chip-w-a);
 }
 .rack-title {
+  font-family: var(--font-display);
   font-size: var(--text-h2);
   font-weight: var(--weight-bold);
   margin: var(--space-section) 0 0;
 }
 
-/* ---------- Character chip ---------------------------------------------- */
-.chip {
+/* ---------- Medallion (portrait in a ringed circle) ---------------------
+   The ring stack copies the official site's character medallions:
+   violet ring, a night gap, a faint lavender halo. A missing portrait
+   falls back to the name's first letter. */
+.med {
   position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--med);
+  height: var(--med);
+  border-radius: 50%;
   overflow: hidden;
+  background: var(--med-fill);
+  box-shadow:
+    0 0 0 3px var(--violet-ring),
+    0 0 0 6px var(--night-1),
+    0 0 0 7px var(--med-halo),
+    var(--med-shadow);
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: calc(var(--med) * 0.42);
+  color: var(--text);
+}
+.med img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* ---------- Character chip ----------------------------------------------
+   Medallion, name, and the label mark + word. Tier, score and list
+   count are in the aria-label and one tap away in the evidence dialog. */
+.chip {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  min-height: var(--card-min-height);
-  padding: var(--space-card-y) 14px var(--space-card-y) var(--space-card-x);
-  border-radius: var(--radius-md);
-  background: var(--chip-fill);
-  border: 1px solid var(--chip-rim);
-  box-shadow: var(--chip-edge);
+  gap: 9px;
+  width: var(--chip-w);
+  min-width: 0;
   color: var(--text);
   text-decoration: none;
+  text-align: center;
+  border-radius: var(--radius-md);
+  padding-top: 7px;
+}
+.chip .med {
+  transition:
+    transform var(--duration-base) var(--ease-spring),
+    box-shadow var(--duration-fast);
+}
+.chip:hover .med {
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 0 3px var(--violet-2),
+    0 0 0 6px var(--night-1),
+    0 0 0 7px var(--lavender),
+    0 0 24px var(--glow);
+}
+.chip:active .med {
+  transform: scale(0.95);
+}
+.chip[data-label="SPECULATION"] .med {
+  outline: 1.5px dashed var(--lavender);
+  outline-offset: 9px;
+}
+.chip-name {
   font-weight: var(--weight-semibold);
   font-size: var(--text-card-name);
   line-height: var(--leading-card);
-  letter-spacing: -0.01em;
-  transition:
-    transform var(--duration-base) var(--ease-spring),
-    background-color var(--duration-fast),
-    border-color var(--duration-fast);
+  overflow-wrap: anywhere;
+  max-width: 100%;
 }
-.chip::after {
-  /* specular glint; follows the pointer via --mx/--my (GlassScene) */
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0;
-  background: radial-gradient(160px circle at var(--mx, 30%) var(--my, 0%), rgb(255 255 255 / 0.16), transparent 60%);
-  transition: opacity var(--duration-fast);
-}
-.chip:hover {
-  background: var(--chip-fill-hover);
-  border-color: color-mix(in srgb, var(--c, var(--text)) 60%, transparent);
-}
-.chip:hover::after {
-  opacity: 1;
-}
-.chip:active {
-  transform: scale(0.96);
-}
-.chip[data-label="SPECULATION"] {
-  border-style: dashed;
-}
-.chip-body {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
+.rack:not([data-tier="S"], [data-tier="A"]) .chip-name {
+  font-size: var(--text-card-name-sm);
 }
 .chip-sub {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: -5px;
   font-size: var(--text-pill);
-  font-weight: var(--weight-semibold);
+  font-weight: var(--weight-medium);
   color: var(--sub);
 }
 .chip .mk {
-  flex: none;
   display: inline-flex;
   color: var(--mark);
 }
@@ -456,32 +449,16 @@ a.glass-row:active {
 .cards > .chip:nth-child(n + 11) { animation-delay: calc(var(--stagger) * 10); }
 
 @media (max-width: 620px) {
-  .rack {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    padding: 12px;
-    border-radius: 24px;
-  }
-  .rack-head {
-    flex-direction: row;
-    justify-content: space-between;
-    padding-right: 6px;
-  }
-  .lens {
-    width: var(--lens-size-sm);
-    height: var(--lens-size-sm);
-    border-radius: 16px;
-    font-size: var(--text-lens-sm);
-  }
-  .lens svg {
-    width: 24px;
-    height: 24px;
+  :root {
+    --med-s: 116px;
+    --med-a: 84px;
+    --med-rest: 62px;
+    --chip-w-s: 142px;
+    --chip-w-a: 100px;
+    --chip-w-rest: 76px;
   }
   .cards {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .cards > .chip.wide {
-    grid-column: span 2;
+    gap: 18px 6px;
   }
 }
 
@@ -490,13 +467,14 @@ a.glass-row:active {
   from { opacity: 0; transform: translateY(14px); }
 }
 @keyframes settle {
-  from { opacity: 0; transform: translateY(8px) scale(0.97); filter: blur(4px); }
+  from { opacity: 0; transform: translateY(8px) scale(0.97); }
 }
 
 /* Investment-level switching (plan D-2): all three level boards are
    static HTML; <html data-level> decides which one shows. The inline
    head script in Base.astro restores the saved level before paint;
-   the LevelDock island keeps it in sync. Default (no JS): Low. */
+   the level tabs (LevelToggle.astro) keep it in sync. Default (no
+   JS): Low. */
 .lvl {
   display: none;
 }
@@ -525,12 +503,11 @@ a.glass-row:active {
 
 /* Visible focus for keyboard users (all interactive elements). */
 :focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--starlight);
   outline-offset: 2px;
 }
 
-/* Motion: fully off when the user prefers reduced motion. The WebGL
-   scene also freezes (GlassScene reads the same media query). */
+/* Motion: fully off when the user prefers reduced motion. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

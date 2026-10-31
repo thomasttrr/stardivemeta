@@ -18,9 +18,9 @@ import { gzipSync } from 'node:zlib';
 const DISCLAIMER =
   'Fan-made site. Not an official MONGIL: STAR DIVE or Netmarble site.';
 const JS_LIMIT = 6 * 1024;
-// Deferred React islands per page (gzip): the WebGL glass layer
-// (client:idle) + the level dock (client:load). Pages render completely
-// without them. See docs/DESIGN.md "Stack and budgets".
+// Deferred islands per page (gzip). The Starfield theme ships none (the
+// budget reads 0); the rule stays so any future island has a stated,
+// enforced ceiling. See docs/DESIGN.md "Stack and budgets".
 const ISLAND_JS_LIMIT = 420 * 1024;
 const IMAGE_EXT = /\.(png|jpe?g|gif|webp|svg|avif|ico)$/i;
 
@@ -121,8 +121,8 @@ for (const file of htmlFiles) {
   // Island JS budget (theme revamp, 2026-10-30): React islands load
   // through <astro-island component-url/renderer-url>, which the
   // blocking-JS rule above never sees. Count every module they reach
-  // (static imports, transitively) so the decorative WebGL layer and
-  // the level dock stay inside a stated, enforced budget.
+  // (static imports, transitively) so any island stays inside a
+  // stated, enforced budget.
   const islandFiles = new Set();
   for (const m of html.matchAll(/<astro-island\b[^>]*>/g)) {
     for (const a of m[0].matchAll(/(?:component|renderer)-url="(\/[^"]+)"/g)) {

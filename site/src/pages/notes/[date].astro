@@ -20,7 +20,7 @@ const html = renderNoteBody(note.body);
 ---
 
 <Base title={`${note.title} – StarDiveMeta`} path={`/notes/${note.date}/`} width="prose">
-  <article class="note" data-glass set:html={html} />
+  <article class="note" data-panel set:html={html} />
   <p class="back"><a href="/notes/">All notes</a></p>
 </Base>
 

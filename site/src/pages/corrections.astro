@@ -21,11 +21,11 @@ const datePart = (iso: string) => iso.slice(0, 10);
 
   {
     entries.length === 0 ? (
-      <p class="empty" data-glass>No corrections yet.</p>
+      <p class="empty" data-panel>No corrections yet.</p>
     ) : (
-      <ul class="glass-list entries">
+      <ul class="panel-list entries">
         {entries.map((e) => (
-          <li class="glass-row" data-glass>
+          <li class="panel-row" data-panel>
             <span class="when">{fmtDate(datePart(e.found_at))}</span>
             <span class="what">
               {e.what}

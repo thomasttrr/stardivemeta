@@ -1,1 +1,1 @@
-{"compilerOptions":{"baseUrl":".","paths":{"@contract/*":["./src/types/contract/*"],"@generated/*":["./src/generated/*"]},"jsx":"react-jsx","jsxImportSource":"react"},"extends":"astro/tsconfigs/strict","include":["src","astro.config.mjs"]}
+{"compilerOptions":{"baseUrl":".","paths":{"@contract/*":["./src/types/contract/*"],"@generated/*":["./src/generated/*"]}},"extends":"astro/tsconfigs/strict","include":["src","astro.config.mjs"]}

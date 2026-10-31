@@ -3,3 +3,39 @@
 # one path per line, relative to img/own/. Lines starting with # are
 # comments. Ripped game files are not permitted anywhere on the site;
 # generated placeholder art belongs under img/generated/ instead.
+#
+# Character medallion portraits (Starfield theme, 2026-10-31): 320x320
+# face crops, cut by the project from official art archived in
+# design-assets/ — the official site's character portraits, the official
+# forum's profile cards, and (Tom's recorded exception, design-assets
+# LOG.md) the Kaiden busts for Benjamin, Sera, Ellie, Bonnie and Angel.
+# Per-file sources: docs/BUILD-LOG.md. Nothing ripped from game files.
+art/angel.webp
+art/benjamin.webp
+art/bonnie.webp
+art/brisshell.webp
+art/chloe.webp
+art/cloud.webp
+art/daisy.webp
+art/ellie.webp
+art/esther.webp
+art/flare.webp
+art/francis-summer-dive.webp
+art/francis.webp
+art/gabi.webp
+art/isabella.webp
+art/jiwon.webp
+art/leeho.webp
+art/mabel.webp
+art/mina.webp
+art/nagi.webp
+art/narae.webp
+art/ophelia.webp
+art/penny.webp
+art/reina.webp
+art/sangun.webp
+art/sera.webp
+art/verna-summer-dive.webp
+art/verna.webp
+art/vivian.webp
+art/yeonhwa.webp

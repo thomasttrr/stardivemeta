@@ -1,30 +1,35 @@
 ---
-// The rack head: a tinted glass lens with the tier letter (or the
-// mode-split / unranked mark) and the character count beneath it.
+// The tier heading, as on the official character page: the serif tier
+// letter (S crowned with an arc of five sparkles; mode-split and
+// unranked spelled out), a sparkle rule, and the character count.
+import Sparkle from './Sparkle.astro';
+
 interface Props {
   tier: string;
   count: number;
 }
 const { tier, count } = Astro.props;
+const ARC: [number, number, number][] = [
+  [14, 19, 5],
+  [34, 9, 6],
+  [60, 4, 8],
+  [86, 9, 6],
+  [106, 19, 5],
+];
+const SPARK = 'M12 0C12.7 7.6 16.4 11.3 24 12 16.4 12.7 12.7 16.4 12 24 11.3 16.4 7.6 12.7 0 12 7.6 11.3 11.3 7.6 12 0Z';
 ---
 
 <div class="rack-head">
-  <div class="lens" aria-hidden="true">
-    {
-      tier === 'MODE_SPLIT' ? (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 8h17M16 4l4 4-4 4M21 16H4M8 12l-4 4 4 4" />
-        </svg>
-      ) : tier === 'UNRANKED' ? (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
-          <path d="M6 12h12" />
-        </svg>
-      ) : (
-        tier
-      )
-    }
-  </div>
-  <span class="rack-count">
-    {count}<span class="sr-only"> {count === 1 ? 'character' : 'characters'}</span>
-  </span>
+  {
+    tier === 'S' && (
+      <svg class="arc" viewBox="0 0 120 22" aria-hidden="true">
+        {ARC.map(([x, y, s]) => (
+          <path d={SPARK} fill="currentColor" transform={`translate(${x - s / 2} ${y - s / 2}) scale(${s / 24})`} />
+        ))}
+      </svg>
+    )
+  }
+  <span class="lens" aria-hidden="true">{tier === 'MODE_SPLIT' ? 'Mode-split' : tier === 'UNRANKED' ? 'Unranked' : tier}</span>
+  <span class="star-rule" aria-hidden="true"><Sparkle /></span>
+  <span class="rack-count">{count} {count === 1 ? 'character' : 'characters'}</span>
 </div>

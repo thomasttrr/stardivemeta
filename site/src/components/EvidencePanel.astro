@@ -26,6 +26,7 @@ import {
   whyText,
 } from '../lib/data';
 import LabelMark from './LabelMark.astro';
+import Medallion from './Medallion.astro';
 
 interface Props {
   character: Character;
@@ -116,12 +117,17 @@ const criteria = c.evidence
 const NameTag = asPage ? 'h1' : 'h2';
 ---
 
-<article class="dossier" data-glass={asPage ? '' : undefined}>
-  <p class="evkicker">Character file</p>
-  <NameTag class="dname">
-    {c.name}
-    {c.is_new && <span class="newtag">New</span>}
-  </NameTag>
+<article class="dossier" data-panel={asPage ? '' : undefined}>
+  <div class="dhead">
+    <Medallion id={c.id} name={c.name} />
+    <div>
+      <p class="evkicker">Character file</p>
+      <NameTag class="dname">
+        {c.name}
+        {c.is_new && <span class="newtag">New</span>}
+      </NameTag>
+    </div>
+  </div>
 
   <p class="summary">
     {
@@ -294,29 +300,42 @@ const NameTag = asPage ? 'h1' : 'h2';
     border-radius: var(--radius-xl);
     padding: 26px var(--space-panel) 22px;
   }
+  .dhead {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    margin: 4px 0 14px;
+    --med: var(--med-dossier);
+  }
+  .dhead > div {
+    min-width: 0;
+  }
   .evkicker {
     font-size: var(--text-kicker);
     letter-spacing: var(--tracking-caps);
     text-transform: uppercase;
-    color: var(--mint);
-    font-weight: var(--weight-extrabold);
+    color: var(--lavender);
+    font-weight: var(--weight-bold);
     margin: 0;
   }
   .dname {
+    font-family: var(--font-display);
     font-size: var(--text-dossier-name);
-    margin: 6px 0 12px;
-    font-weight: var(--weight-extrabold);
+    margin: 4px 0 0;
+    font-weight: var(--weight-bold);
     letter-spacing: var(--tracking-display);
+    text-shadow: 0 0 20px var(--glow);
     line-height: 1.05;
   }
   .newtag {
     display: inline-block;
+    font-family: var(--font-sans);
+    text-shadow: none;
     font-size: var(--text-pill);
     font-weight: var(--weight-bold);
     letter-spacing: 0.02em;
-    background: var(--gold-glass);
-    border: 1px solid var(--gold-rim);
-    box-shadow: var(--chip-edge);
+    background: var(--pill);
+    border: 1px solid var(--pill-rim);
     color: var(--text);
     border-radius: var(--radius-pill);
     padding: 3px 10px;
@@ -346,7 +365,6 @@ const NameTag = asPage ? 'h1' : 'h2';
   .stat {
     background: var(--chip-fill);
     border: 1px solid var(--chip-rim);
-    box-shadow: var(--chip-edge);
     border-radius: var(--radius-md);
     padding: 12px 14px;
     min-width: 0;
@@ -362,7 +380,7 @@ const NameTag = asPage ? 'h1' : 'h2';
   .stat .v {
     display: block;
     font-size: var(--stat-value-size);
-    font-weight: var(--weight-extrabold);
+    font-weight: var(--weight-bold);
     letter-spacing: var(--tracking-tight);
     margin-top: 4px;
     font-variant-numeric: tabular-nums;
@@ -402,22 +420,21 @@ const NameTag = asPage ? 'h1' : 'h2';
   :global([data-level="low"]) .lvlchip[data-lvl="low"],
   :global([data-level="high"]) .lvlchip[data-lvl="high"],
   :global([data-level="max"]) .lvlchip[data-lvl="max"] {
-    background: var(--gold-glass);
-    border-color: var(--gold-rim);
-    box-shadow: var(--chip-edge);
-    color: var(--text);
+    background: var(--lavender);
+    border-color: var(--lavender);
+    color: var(--on-lavender);
     font-weight: var(--weight-bold);
   }
   .why {
     margin: 16px 0 0;
     font-size: var(--text-body-sm);
-    background: var(--copper-glass);
-    border: 1px solid var(--copper-rim);
+    background: var(--callout-fill);
+    border: 1px solid var(--callout-rim);
     border-radius: var(--radius-md);
     padding: 13px 15px;
   }
   .why b {
-    color: var(--copper);
+    color: var(--rose);
   }
   .seclabel {
     font-size: 12px;
@@ -461,12 +478,12 @@ const NameTag = asPage ? 'h1' : 'h2';
   :global([data-level="low"]) .seg[data-lvl="low"],
   :global([data-level="high"]) .seg[data-lvl="high"],
   :global([data-level="max"]) .seg[data-lvl="max"] {
-    font-weight: var(--weight-extrabold);
-    color: var(--gold);
+    font-weight: var(--weight-bold);
+    color: var(--starlight);
   }
   .evrow .num {
     flex: 0 0 auto;
-    font-weight: var(--weight-extrabold);
+    font-weight: var(--weight-bold);
     font-size: var(--text-base);
     font-variant-numeric: tabular-nums;
   }

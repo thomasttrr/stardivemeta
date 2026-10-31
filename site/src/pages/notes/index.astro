@@ -18,15 +18,15 @@ const notes = loadNotes();
   </p>
   {
     notes.length === 0 ? (
-      <p class="empty" data-glass>
+      <p class="empty" data-panel>
         No notes yet. The first note comes after the first full week of
         checks.
       </p>
     ) : (
-      <ul class="glass-list notes">
+      <ul class="panel-list notes">
         {notes.map((n) => (
           <li>
-            <a class="row glass-row" data-glass href={`/notes/${n.date}/`}>
+            <a class="row panel-row" data-panel href={`/notes/${n.date}/`}>
               <span class="date">{fmtDate(n.date)}</span>
               <span class="title">{n.title}</span>
             </a>

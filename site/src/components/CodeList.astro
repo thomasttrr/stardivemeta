@@ -69,7 +69,7 @@ const visible = entries.filter((entry) => {
     visible.map((entry) => (
       <li
         class={`code-card code-${variant}`}
-        data-glass
+        data-panel
         data-exp={
           variant === 'active' && entry.expires_at ? entry.expires_at : undefined
         }
@@ -129,7 +129,7 @@ const visible = entries.filter((entry) => {
     min-width: 0;
   }
   .code-active {
-    border-color: rgb(134 224 181 / 0.32);
+    border-color: var(--success-rim);
   }
   .code {
     display: inline-block;
@@ -140,13 +140,13 @@ const visible = entries.filter((entry) => {
     padding: 4px 10px;
     margin: 0 0 4px -2px;
     border-radius: var(--radius-sm);
-    background: var(--tint-dark);
+    background: var(--chip-fill);
     border: 1px solid var(--chip-rim);
     user-select: all;
     word-break: break-all;
   }
   .code-active .code {
-    color: var(--mint);
+    color: var(--aqua);
   }
   .line {
     margin: 6px 0 0;

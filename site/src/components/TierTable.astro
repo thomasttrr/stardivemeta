@@ -27,7 +27,7 @@ const rows = [...data.characters].sort((a, b) => {
 const LEVEL_COLS: Level[] = ['low', 'high', 'max'];
 ---
 
-<div class="tablewrap" data-glass>
+<div class="tablewrap" data-panel>
   <table>
     <caption>
       MONGIL: STAR DIVE tier list — all {rows.length} characters, three investment
@@ -103,7 +103,7 @@ const LEVEL_COLS: Level[] = ['low', 'high', 'max'];
     transition: background-color var(--duration-fast);
   }
   tbody tr:hover {
-    background: rgb(255 255 255 / 0.045);
+    background: var(--chip-fill);
   }
   tbody th {
     font-weight: var(--weight-bold);
@@ -117,7 +117,7 @@ const LEVEL_COLS: Level[] = ['low', 'high', 'max'];
     text-decoration: underline;
   }
   td[data-tier]::first-letter {
-    font-weight: var(--weight-extrabold);
+    font-weight: var(--weight-bold);
   }
   td[data-tier="S"]::first-letter { color: var(--tier-s); }
   td[data-tier="A"]::first-letter { color: var(--tier-a); }

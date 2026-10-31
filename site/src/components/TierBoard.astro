@@ -1,5 +1,5 @@
 ---
-// One investment level's tier board (plan T3.2): a glass rack per tier —
+// One investment level's tier board (plan T3.2): an open section per tier —
 // a tinted lens with the tier letter and count, then the chip grid
 // (DESIGN.md "Tier rack"). Empty rows hide. Styles: global.css.
 import type { Character } from '../types/contract/Character';
@@ -26,7 +26,7 @@ const heading = (k: keyof TierBoardData) =>
 <div class="tierboard">
   {
     ROWS.filter((key) => board[key].length > 0).map((key) => (
-      <section class="rack" data-tier={key} data-glass>
+      <section class="rack" data-tier={key}>
         <h2 class="sr-only">Tier {heading(key)}</h2>
         <TierLens tier={key} count={board[key].length} />
         <div class="cards">

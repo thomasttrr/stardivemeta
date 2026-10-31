@@ -46,7 +46,7 @@ const expiredRecent = expired.filter((entry) => {
           <CodeList entries={active} variant="active" names={names} now={now} />
         </>
       ) : (
-        <p class="empty" data-glass>
+        <p class="empty" data-panel>
           No codes are confirmed right now.
           {checked && ` Last checked ${fmtDate(checked.slice(0, 10))}.`}
         </p>

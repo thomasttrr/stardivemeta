@@ -1,290 +1,227 @@
-# StarDiveMeta — Design ("Liquid Glass")
+# StarDiveMeta — Design ("Starfield")
 
 ## Status
 
-The **Liquid Glass** direction replaces the CP1 baseline "Arcade Board"
-(Direction C, 2026-10-29). It came from the theme-revamp pass on branch
-`claude/theme-revamp` (2026-10-30, owner's brief + "free roam" go-ahead).
+The **Starfield** direction replaces "Liquid Glass" (merged 2026-10-30,
+PR #2). Tom picked it on 2026-10-31 from three game-grounded mockups
+(Starfield, Codex, Dawn), after rejecting the glass look as too blurry,
+too generic and not like the game. Branch `claude/starfield-theme`.
 Every token lives in `site/src/styles/tokens.css`. That file defines exactly
 the tokens named below and no others. Components use the tokens and never
 hard-code a colour, size or radius that has one.
 
 ## The direction
 
-The tier list sits on dark glass over a slow, deep-sea colour field.
+The site borrows the look of Mongil: Star Dive's own official site,
+specifically its character section. Nothing is invented on top of it.
 
-- **Glass:** each panel (tier rack, legend, dossier, table, list rows) is a
-  real lens. A WebGL shader refracts the field through the panel's live
-  on-screen shape: strong bending at the rim, a slight chromatic split, a
-  frosted body, a dark tint that keeps text legible, a specular rim lit from
-  the top-left and from the pointer, and a soft drop shadow.
-- **Hero:** a transmissive glass star (Three.js physical material) floats
-  in the home hero.
-- **Board surface:** chips show only the name and the label mark. Everything
-  else is one tap away in the evidence sheet.
-- **Ruled out:** gradients as decoration, glow effects and dashboard chrome.
+- **Ground:** a fixed night sky running from navy to violet
+  (`#0d0a26 → #2e1c78`), a tiled scatter of star dots, and two faint
+  orbital arcs. All static CSS and SVG.
+- **Type:** Cardo 700 (the game's display serif) for the wordmark, page
+  titles, headings and tier letters. Exo 2 (its English body face) for
+  everything else. Both are self-hosted through `@fontsource`, latin
+  subset only.
+- **Motifs:**
+  - The four-point sparkle: in the logo, in the rules, and five of them
+    as an arc over S.
+  - A hairline rule with a sparkle at its centre.
+  - Violet pill buttons whose selected state is lavender with a caret.
+  - Ringed medallion portraits.
+- **Board:** tiers are open sections on the sky, as on the official
+  character page. Each has a centred serif letter, a sparkle rule and
+  "N characters" above the medallions. Medallion size steps down by
+  tier group: S, then A, then the rest.
+- **Surfaces:** flat night panels with a lavender hairline rim. Nothing
+  is see-through and nothing blurs.
+- **Single theme:** this is a night sky by definition, so the site stays
+  dark (`color-scheme: dark`). A light "dawn" variant would be its own
+  design pass.
 
 ## Stack and budgets
 
-- **Astro** (static output, unchanged), **React 19** islands, **Three.js +
-  React Three Fiber** for the glass layer, **Motion** for the dock springs.
-- `src/islands/GlassScene.tsx` (`client:idle`): one fixed full-viewport
-  canvas.
-  - `glass-shader.ts` paints the field and lenses every
-    `[data-glass]:not([data-glass="overlay"])` element. It reads up to 24
-    rects per frame, culled to the viewport.
-  - `<GlassStar>` renders at the `[data-star]` anchor (home only).
-  - Decorative only. It never reads page data, and `aria-hidden` sits on its
-    wrapper.
-- `src/islands/LevelDock.tsx` (`client:only="react"`): the floating
-  Low/High/Max dock.
-  - It flips `<html data-level>` and stores `sdm.level`, exactly as the old
-    `level.ts` did.
-  - Native radios inside a fieldset.
-  - The Motion shared-layout pill springs and squishes between segments.
-  - In Chromium the dock's backdrop also gets an SVG displacement-map lens
-    (`#sdm-dock-lens`).
+- **Astro** (static output). No islands, no React, no WebGL. Removed with
+  the glass theme: `@astrojs/react`, `react`, `react-dom`, `three`,
+  `@react-three/fiber` and `motion`.
+- **Level tabs** (`LevelToggle.astro`):
+  - Native radios in a fieldset, styled as violet pills.
+  - A short inline script flips `<html data-level>` and stores
+    `sdm.level`.
+  - The bar sticks to the top of the screen in a full-width night band.
+    A shadow-and-clip trick keeps the page from ever scrolling sideways.
+  - The bar shows only with JS: the head script sets `html.js`.
 - **The emitted JSON is still the contract.** Pages render emitted values
-  only. Neither island does ranking math, and neither touches data.
-- **Scroll fades:** once the page scrolls, fixed gradient fades (page
-  ground → transparent) sit between the content and the chrome, so
-  panels dissolve before they reach the sticky header or the dock
-  instead of drawing a hard sliced line across the glass. They live
-  inside `.shell` (z 5, under the header's 10 and the dock's 20) and
-  are switched by a tiny inline scroll script (`html[data-scrolled]`).
-- **Touch devices:** the WebGL scene does not mount on coarse pointers
-  (phones/tablets). It repaints panel glass from live rects each frame,
-  which trails iOS Safari's compositor scrolling and reads as bouncing;
-  touch devices keep the CSS glass below, which is static and calm.
-- **No-JS / no-WebGL:** every page is complete static HTML.
-  - Until the first GL frame (`<html class="gl">`), and for good where WebGL
-    is missing, panels use CSS glass: fill, rim and `backdrop-filter`.
-  - CSS blobs stand in for the field.
-  - Without JS the board shows Low, and the noscript line links the table's
-    level anchors.
+  only. Nothing client-side ranks anything.
+- **Portraits** (`src/lib/portraits.ts`, `Medallion.astro`):
+  - One 320×320 WebP face crop per character in
+    `public/img/own/art/<id>.webp`. All are listed in
+    `img/own/ALLOWLIST.txt` (gate G14).
+  - Display only: an id with no file falls back to the name's first
+    letter.
+  - The images are lazy-loaded.
+  - The per-character sources are in docs/BUILD-LOG.md.
+- **No-JS:** every page is complete static HTML. Without JS the board
+  shows Low, and the noscript line links the table's level anchors.
 - **Budgets** (enforced by `site/scripts/check-dist.mjs`, G12):
-  - Blocking JS (inline scripts + `<script src>`): ≤ 6 KB gzip per page.
-    This rule is unchanged.
-  - Island JS (every module reachable from each page's `astro-island`
-    component/renderer URLs): ≤ 420 KB gzip per page. The largest page is
-    ~360 KB, most of it Three.js. Islands are deferred, and the page never
-    waits on them.
-- **Build step:** `astro.config.mjs` moves Astro's one-line island style
-  into `<head>` after the build, so dist HTML stays valid (html-validate
-  `element-permitted-content`).
+  - Blocking JS: ≤ 6 KB gzip per page.
+  - The island budget (≤ 420 KB gzip) stays as a ceiling. It currently
+    reads 0.
 
 ## Tokens
 
-### Colour — ground, text, glass
+### Colour — the night sky
 
 | Token | Value | Use |
 | --- | --- | --- |
-| `--bg` | `#050d10` | page ground, WebGL clear colour |
-| `--text` | `#f4f6f1` | primary text |
-| `--sub` | `#b8c5c8` | secondary text |
-| `--mark` | `rgb(244 246 241 / .82)` | label marks on chips |
-| `--frost` | `0.3` (Clear) | the frost dial, see "Frost dial" below |
-| `--frost-tint` | `(1 + --frost) / 2` | legibility tint scale (registered `<number>`) |
-| `--glass-fill` | `rgb(18 30 34 / .58 × tint)` | CSS-glass panel fill (fallback) |
-| `--glass-fill-strong` | `rgb(12 22 26 / .78 × tint, ≤ .92)` | overlays: header capsule, dialog |
-| `--dock-fill` | `rgb(12 22 26 / .56 × tint)` | lensed dock fill (Chromium) |
-| `--glass-sheen` | top-light linear gradient | glass body sheen |
-| `--glass-rim` / `--glass-rim-strong` | white 15% / 24% | panel rims |
-| `--glass-edge` | inset top light + bottom shade | specular edge |
-| `--glass-shadow` | edge + 0 14px 34px drop | panel shadow |
-| `--glass-blur` / `--glass-blur-strong` | blur 22px / 32px × frost + saturate | `backdrop-filter` |
-| `--chip-fill` / `--chip-fill-hover` | white 6.5% / 11% × tint | chips, stat tiles, small rows |
-| `--chip-rim` / `--chip-edge` | white 11% / inset top 14% | chip edge |
-| `--hairline` | white 10% | dividers |
-| `--scrim` | `rgb(2 6 8 / .55)` | dialog backdrop |
-| `--tint-dark` | black 20% | dock track, code wells |
+| `--bg` | `#150f38` | page ground under the sky |
+| `--night-0` … `--night-2`, `--night-mid` | `#0d0a26` `#1f1449` `#2e1c78` `#241866` | the sky gradient stops; `--night-1` is also the medallion gap ring |
+| `--text` | `#f3f0ff` | body text |
+| `--sub` | `#b9b0e2` | secondary text |
+| `--mark` | 86% `--text` | label marks on chips |
+| `--star-dot`, `--orbit` | white 62%, lavender 20% | the star dots and orbital arcs |
 
-### Frost dial
+### Colour — surfaces
 
-One design-time number, `--frost` in `tokens.css`, sets how see-through
-every glass surface is. It is not a user setting. `--frost` scales blur and
-frost directly. `--frost-tint = (1 + frost) / 2` scales the darkening that
-keeps text legible. Both paths read it:
+| Token | Use |
+| --- | --- |
+| `--panel-fill`, `--panel-rim`, `--panel-rim-strong`, `--panel-shadow` | `[data-panel]` surfaces: legend, dossier page, table, list rows, rules sections, code cards |
+| `--panel-fill-strong`, `--sheet-fill` | the evidence dialog sheet |
+| `--chip-fill`, `--chip-fill-hover`, `--chip-rim` | small fills: nav track, stat tiles, level chips, flat rows |
+| `--hairline` | rules between rows |
+| `--scrim` | the dialog backdrop |
+| `--band` | the sticky level bar |
+| `--rule-line` | the sparkle rule's hairlines |
 
-- **CSS:** the panel, overlay, dock and chip fills, and the
-  `backdrop-filter` blurs. The CSS path is what you see before the first
-  WebGL frame and wherever WebGL is missing.
-- **WebGL:** `islands/frost.ts` reads the two computed values when the
-  scene mounts and on resize. The lens frost becomes `min(.62 × frost, 1)`
-  and the tint becomes `min(.42 × tint, .9)`. The dock's SVG lens blur
-  becomes `1.4 × frost`.
-
-| Stop | `--frost` | tint | CSS blur / strong | panel fill | overlay fill | dock fill | chip fill | GL frost | GL tint | dock lens blur |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| **Clear** (shipped) | **0.3** | **0.65** | **6.6 / 9.6px** | **.377** | **.78 †** | **.56 †** | **.042** | **.186** | **.273** | **1.4 †** |
-| Balanced | 1 | 1 | 22 / 32px | .58 | .78 | .56 | .065 | .62 | .42 | 1.4 |
-| Frosted | 2 | 1.5 | 44 / 64px | .87 | .92 (cap) | .84 | .0975 | 1.0 (cap) | .63 | 2.8 |
-
-Clear is the owner's pick (2026-10-30), locked — chosen from the three-stop
-screenshots after Balanced shipped as the default. Balanced reproduces the
-pre-dial look exactly: with motion frozen, home and /c/francis/ screenshots
-at Balanced are byte-identical to the previous build on both the WebGL and
-the CSS path.
-
-† Chrome-floored values, see "Chrome floor" below.
-
-**Chrome floor.** Floating chrome — the header capsule, the dock and the
-evidence dialogs — never drops below Balanced, whatever the dial says:
-`--frost-chrome = max(--frost, 1)` drives `--glass-fill-strong`,
-`--glass-blur-strong`, `--dock-fill` and the dock lens (via
-`readFrost().chrome`). Board panels and chips follow `--frost` exactly.
-Reason: at Clear, page content scrolling under the near-transparent
-header stayed sharp enough to slice across the nav pill, reading as
-clipping. The board keeps the Clear look; the chrome keeps Balanced
-strength so what passes underneath blurs out. Screenshots at each stop are in
-`docs/design/screenshots/frost/`: `{stop}-*.png` is the WebGL path,
-`css-{stop}-*.png` the CSS path. To lock a different stop, change the one
-`--frost` line.
-
-### Colour — accents, tiers, ambient
+### Colour — pills, medallions, accents
 
 | Token | Value | Use |
 | --- | --- | --- |
-| `--gold` | `#ffcf5a` | brand accent, S tier, current level, focus ring |
-| `--copper` | `#ff9e6e` | A tier, "why" callout |
-| `--mint` | `#86e0b5` | B tier, links (`--link`), active codes, kicker |
-| `--sky` | `#93c6ff` | C tier |
-| `--ash` | `#b3bdc1` | D tier |
-| `--cream` | `#ece4cf` | mode-split |
-| `--link` | `var(--mint)` | links |
-| `--on-accent` | `#17120a` | text on solid accent |
-| `--gold-glass` / `--gold-rim` | gold 36→16% / 55% | dock pill, current-level chip, New tag |
-| `--copper-glass` / `--copper-rim` | copper 10% / 34% | "why" callout |
-| `--tier-s` … `--tier-d`, `--tier-mode-split`, `--tier-unranked` | the accents above, `--sub` | lenses, stat values, table tier letters |
-| `--amb-amber` `--amb-teal` `--amb-coral` `--amb-moss` | `#b9791c` `#0e8a80` `#b24a39` `#2c7a5c` | CSS fallback field |
+| `--violet`, `--violet-2`, `--pill`, `--pill-rim` | `#7b3cf2` → `#8e3ddc` | pill buttons (level tabs, page links, New tag). `--violet-2` is the official `#a24cf4` deepened so white text keeps 4.5:1 |
+| `--lavender`, `--on-lavender` | `#ddd6ff` / `#1f1449` | selected tab, current nav item, current level chip |
+| `--violet-ring`, `--med-fill`, `--med-halo`, `--med-shadow` | | the medallion ring stack |
+| `--glow` | lavender 50% | text glow on serif headings |
+| `--starlight` `--rose` `--aqua` `--periwinkle` `--ash` `--orchid` | `#ffd98a` `#ffb3c2` `#9fe6cf` `#a9c3ff` `#bdb6d6` `#e3d2ff` | accents and tier colours |
+| `--link` | `#cdbfff` | links |
+| `--callout-fill`, `--callout-rim` | rose 8% / 30% | the dossier "why" callout |
+| `--success-rim` | aqua 34% | Active code cards |
+| `--tier-s` … `--tier-unranked` | starlight, rose, aqua, periwinkle, ash, orchid, `--sub` | tier letters and table tier letters |
 
 ### Type
 
-Font: **Inter** (OFL 1.1), bundled at `site/public/fonts/Inter-Variable.ttf`
-(and `crates/mongil-render/fonts/` for the PNG). `--font-mono` is the
-system monospace stack, used for codes only.
-
-| Token | Value |
-| --- | --- |
-| `--text-base` / `--leading-base` | 15px / 1.5 |
-| `--text-display` | clamp(40px, 7vw, 64px), home h1 |
-| `--text-h1` | clamp(32px, 5.4vw, 46px), page titles |
-| `--text-h2` | 20px |
-| `--text-tagline` | clamp(16.5px, 2.2vw, 19px) |
-| `--text-dossier-name` | clamp(28px, 5vw, 36px) |
-| `--text-card-name` · `--text-body-sm` · `--text-note` · `--text-pill` · `--text-kicker` | 15 · 14 · 12.5 · 11.5 · 11.5px |
-| `--text-lens` / `--text-lens-sm` | 38 / 26px tier letters |
-| `--stat-value-size` / `--text-stat-key` | 22 / 11px |
-| `--leading-tight` / `--leading-card` | 1.02 / 1.2 |
-| `--tracking-display` / `--tracking-tight` / `--tracking-caps` | -0.045em / -0.02em / 0.12em |
-| `--weight-medium` … `--weight-extrabold` | 500, 600, 700, 800 |
+- **Families:** `--font-display` (Cardo), `--font-sans` (Exo 2) and
+  `--font-mono`.
+- **Sizes:**
+  - Base: `--text-base` 15px at `--leading-base` 1.55.
+  - Display: `--text-display` clamp(36–58px), `--text-h1` clamp(32–46px),
+    `--text-h2` 21px, `--text-brand` 30px.
+  - Tier letters: `--text-tier` 54px (S) and `--text-tier-sm` 34px.
+  - Dossier: `--text-dossier-name`.
+  - Chips: `--text-card-name` 14px and `--text-card-name-sm` 12px.
+  - Small text: `--text-body-sm`, `--text-note`, `--text-pill`,
+    `--text-kicker`, `--stat-value-size` and `--text-stat-key`.
+- **Tracking and weights:** `--tracking-display` 0 (serif is never
+  tightened), `--tracking-tight`, `--tracking-caps` 0.24em for uppercase
+  kickers; weights 500, 600 and 700.
 
 ### Spacing, layout, radius
 
-| Token | Value |
-| --- | --- |
-| `--content-max` / `--prose-max` | 1080px boards and tables / 760px reading pages |
-| `--space-page-x` / `--space-page-top` | 16 / 12px |
-| `--space-section` / `--space-stack` / `--space-grid-gap` | 28 / 14 / 8px |
-| `--space-panel` / `--space-panel-sm` | 22 / 14px |
-| `--card-min-width` / `--card-min-height` | 176 / 50px (≥ 44px touch) |
-| `--space-card-x` / `--space-card-y` | 16 / 8px |
-| `--lens-size` / `--lens-size-sm` / `--rail-width` | 72 / 48 / 84px |
-| `--dock-clearance` | 120px footer padding under the dock |
-| `--radius-sm` / `-md` / `-lg` / `-xl` / `-pill` | 10 / 17 / 22 / 28 / 999px |
+- **Layout:** `--content-max` 1080px and `--prose-max` 760px. The page
+  gutter `--space-page-x` is 16px and also respects safe-area insets.
+- **Spacing:** `--space-section`, `--space-stack`, `--space-grid-gap`,
+  `--space-panel` and `--space-panel-sm`.
+- **Medallion diameter:** `--med-s` 128, `--med-a` 92, `--med-rest` 68,
+  `--med-dossier` 84. On phones (≤ 620px) these become 116 / 84 / 62.
+- **Chip width:** `--chip-w-s` 150, `--chip-w-a` 108, `--chip-w-rest` 82.
+  On phones these become 142 / 100 / 76. That gives S two-up, A
+  three-up and the rest four-up at 375–390px.
+- **Radius:** `--radius-sm` 8, `--radius-md` 14, `--radius-lg` 18,
+  `--radius-xl` 24, `--radius-pill`.
 
 ### Motion
 
-| Token | Value |
-| --- | --- |
-| `--ease-out` | cubic-bezier(.22, 1, .36, 1) |
-| `--ease-spring` | cubic-bezier(.34, 1.56, .64, 1) |
-| `--duration-fast` / `-base` / `-slow` | 200 / 450 / 700ms |
-| `--stagger` | 22ms per chip |
-
-The old ≤ 200 ms cap is lifted by the owner's revamp brief.
-
-- **What moves:**
-  - The page rises in on load.
-  - Chips settle in with a stagger each time a level board appears.
-    Display toggling restarts the CSS animation.
-  - Pressed chips and pills spring.
-  - Hovering a chip runs a pointer-tracking specular glint.
-  - The dock springs up on load, and its pill springs and squishes between
-    levels.
-  - The evidence dialog springs in (a bottom sheet on phones).
-  - The WebGL field drifts, and its caustics and plankton sparks move.
-- **Reduced motion:** everything is off under `prefers-reduced-motion`. The
-  CSS durations collapse, Motion honours the user setting, and the WebGL
-  clock freezes. Frames then render only on scroll, resize or pointer.
+`--ease-out`, `--ease-spring`, `--duration-fast` 200ms, `--duration-base`
+450ms, `--duration-slow` 700ms and `--stagger` 22ms. Sections rise in, and
+chips settle in a staggered sequence. Medallions lift on hover. Everything
+is off under `prefers-reduced-motion`.
 
 ## Label marks
 
-A label is never shown by colour or shape alone. On chips the mark is
-`aria-hidden`, and the chip's `aria-label` carries tier, label word, score
-and list count. Elsewhere the mark sits next to the word.
-(`site/src/components/LabelMark.astro`)
+A label is never shown by colour or shape alone. On chips the mark sits
+next to the label word (or "1 list" for Speculation, or "Overall X" on mode
+pages), and the chip's `aria-label` carries tier, label word, score and list
+count. (`site/src/components/LabelMark.astro`)
 
 | Label | Mark |
 | --- | --- |
 | Solid | filled disc |
 | Contested | half-filled ring |
-| Speculation | dashed ring (the chip also gets a dashed rim and "1 list") |
+| Speculation | dashed ring (the medallion also gets a dashed lavender outline and "1 list") |
 | Mode-split | two opposing arrows |
 | Unranked | short dash |
 
 ## Components
 
-- **Header:** a sticky glass capsule (`data-glass="overlay"`) holding the
-  logo (gold four-point star mark) and the nav. The current page gets a
-  raised glass pill (`aria-current`). On phones the capsule wraps, the nav
-  scrolls sideways, and the current item is centred.
-- **Tier rack:**
-  - A glass panel with a radial tint in the tier colour at the top-left.
-  - A tinted glass lens holds the tier letter, with the count beneath (an
-    sr-only "characters" follows the count).
-  - The chip grid is `auto-fill minmax(--card-min-width)`. On phones it is 2
-    columns, names longer than 14 characters span both, and the lens moves
-    into a header row.
-- **Character chip:** name + mark only. Light chip glass, a tier-tinted rim
-  on hover and a pointer glint. Mode pages add the small "Overall {tier} ·
-  {label}" line.
-- **Level dock:** a fixed bottom-centre capsule (full width on phones) with
-  the "Investment" caption, a gold glass pill and native radios. The
-  one-line Kaiden note stays in the page flow.
+- **Header:** centred, not sticky. The sparkle sits over the "StarDiveMeta"
+  wordmark in Cardo, with a lavender glow. Below it is a pill track for
+  the nav: the current page is a lavender pill (`aria-current`). On phones
+  the track runs full width, scrolls sideways and centres the current
+  item.
+- **Home hero:** centred. The Cardo title has "tier list" on its own line
+  in lavender, then a sparkle rule, the tagline and the source line.
+  The level tabs follow.
+- **Tier section** (`TierBoard` / `ModeBoard` + `TierLens`):
+  - An sr-only `<h2>` names the tier.
+  - The visible head is aria-hidden: the arc (S only), the tier letter
+    in its tier colour with a soft glow, and the sparkle rule.
+  - The count ("N characters") stays readable to screen readers.
+  - Medallions sit in a centred, wrapping row.
+- **Character chip:** medallion, name, then the label line (mark + word).
+  On hover the medallion lifts and its ring brightens.
+- **Medallion:** the portrait is a circle inside a ring stack copied from
+  the official site: a 3px violet ring, a 3px night gap and a 1px lavender
+  halo, with a soft drop shadow.
+- **Level tabs:** three violet pills. The selected one is lavender with a
+  caret pointing at the board. They sit in a sticky night band with a
+  hairline and a soft fade below. The one-line Kaiden note sits under
+  them.
 - **Evidence dossier:**
-  - Mint "Character file" kicker, display-weight name, and a gold-glass New
-    tag.
-  - Level summary, then three stat tiles; the tier value is in its tier
-    colour.
-  - Level chips: the current one is gold glass.
-  - Copper "why" callout.
+  - Header: the 84px medallion beside a lavender "Character file" kicker,
+    the Cardo name and a violet New pill.
+  - Then the level summary, three stat tiles (the tier value in its tier
+    colour) and the level chips, with the current one lavender.
+  - A rose "why" callout.
   - Evidence rows split by hairlines, with the current Kaiden level in
-    gold.
-  - Criteria, Not counted, modes, corrections.
-- **Evidence dialog:** a strong glass sheet over a blurred scrim. Centred on
-  wide screens, a bottom sheet on phones. 44px close button.
-- **Lists:** `.glass-list` / `.glass-row` (`data-glass`) for notes, history,
-  corrections, data, banner and the beginner rise list. `.glass-list.flat`
-  (chip glass, not lensed) for many small rows, such as snapshot changes.
-- **Pills:** `.pill-link` glass pills for the page links under the board.
-- **Table:** one lensed glass panel. Uppercase headers, row hover, and tier
-  letters coloured by tier.
-- **Codes:** a grid of glass cards. Code strings sit in a dark mono well,
-  in mint for Active codes. The Expired disclosure is a glass pill.
-- **Footer:** hairline, footer nav, and the fan disclaimer exactly once per
-  page.
+    starlight.
+  - Then criteria, not counted, modes and corrections.
+- **Evidence dialog:** a violet sheet (`--sheet-fill`) with a strong
+  lavender rim over a dark scrim. It is centred on wide screens and a
+  bottom sheet on phones, with a 44px close button.
+- **Lists:**
+  - `.panel-list` / `.panel-row` (`data-panel`) for notes, history,
+    corrections, data, banner and the beginner rise list.
+  - `.panel-list.flat` for many small rows.
+- **Pills:** `.pill-link` violet pills, centred, for the page links under
+  the board.
+- **Table:** one panel with uppercase headers and row hover. Tier letters
+  are coloured by tier.
+- **Codes:** a grid of panel cards. Code strings sit in a mono well, in
+  aqua for Active codes.
+- **Footer:**
+  - A sparkle rule, then the footer nav.
+  - The fan disclaimer, exactly once per page.
+  - A credit line for the character art.
 
 ## Contrast (WCAG AA)
 
-- **Glass:** text sits on glass that the shader darkens (42% tint toward
-  `#081011`) over a field whose brightest point stays dark. The CSS fallback
-  fill is 58% `#121e22` over blurred blobs at ≤ 55% opacity.
-- **Worst case:** `--sub` (#b8c5c8) over fallback glass above the amber blob
-  is about 7:1. Directly over the amber blob with no glass (hero) it is about
-  4.8:1.
-- **Accents:** gold and the tier accents are only used at ≥ 15px bold or as
-  large lens letters.
+- **Ground:** text sits on the sky, whose lightest stop is `--night-2`
+  `#2e1c78`, or on panels darker than that.
+- **Text on `--night-2`:**
+  - `--sub` 6.7:1 and `--link` 8.0:1.
+  - Tier accents 7.0–10.0:1, worst case `--ash`.
+- **Pills:** white text on the pill gradient is ≥ 4.86:1 at both ends.
+  Navy text on lavender is 12.1:1.
 - **Checked:** pa11y WCAG2AA reports 0 errors on /, /c/francis/, /codes/,
-  /rules/ and /table/, and on every other page type in the local run. Any
-  token change must re-run pa11y and keep every text pair ≥ 4.5:1.
+  /rules/ and /table/, and on every other page type in the local run.
+- **Gradients:** pa11y cannot measure text over a gradient, so the pill
+  ratios above were computed by hand. Any token change must recompute
+  them and keep every text pair ≥ 4.5:1.

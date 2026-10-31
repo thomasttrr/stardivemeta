@@ -1,12 +1,12 @@
 ---
 // Home tier board (plan T3.2 + §B.5 Home). All three level boards are
 // static HTML; <html data-level> + CSS decide which one shows (D-2).
-// The hero's [data-star] box is where the WebGL glass star floats.
 import Base from '../layouts/Base.astro';
 import TierBoard from '../components/TierBoard.astro';
 import LevelToggle from '../components/LevelToggle.astro';
 import Legend from '../components/Legend.astro';
 import Stamp from '../components/Stamp.astro';
+import Sparkle from '../components/Sparkle.astro';
 import EvidenceDialogs from '../components/EvidenceDialogs.astro';
 import { LEVELS, data, stampChecked, titleMonth } from '../lib/data';
 
@@ -18,17 +18,15 @@ const stamp = `Lists last checked ${stampChecked()} · Method v${data.method.ver
   path="/"
 >
   <section class="hero">
-    <div class="hero-text">
-      <h1 class="display">MONGIL: STAR DIVE <span>tier list</span></h1>
-      <p class="tagline">Every list disagrees. We show you by how much.</p>
-      <p class="built">
-        Combined from Pocket Gamer, Kaiden and GameWith JP. Tap a character to
-        see what each list says.
-      </p>
-      <LevelToggle />
-    </div>
-    <div class="star" data-star aria-hidden="true"></div>
+    <h1 class="display">MONGIL: STAR DIVE <span>tier list</span></h1>
+    <span class="star-rule" aria-hidden="true"><Sparkle /></span>
+    <p class="tagline">Every list disagrees. We show you by how much.</p>
+    <p class="built">
+      Combined from Pocket Gamer, Kaiden and GameWith JP. Tap a character to
+      see what each list says.
+    </p>
   </section>
+  <LevelToggle />
 
   {
     LEVELS.map((lv) => (
@@ -42,11 +40,11 @@ const stamp = `Lists last checked ${stampChecked()} · Method v${data.method.ver
   <Stamp text={stamp} />
 
   <ul class="pill-links">
-    <li><a class="pill-link" data-glass href="/table/">See the full table</a></li>
-    <li><a class="pill-link" data-glass href="/rules/">How we score</a></li>
-    <li><a class="pill-link" data-glass href="/notes/">What moved this week</a></li>
+    <li><a class="pill-link" href="/table/">See the full table</a></li>
+    <li><a class="pill-link" href="/rules/">How we score</a></li>
+    <li><a class="pill-link" href="/notes/">What moved this week</a></li>
     <li>
-      <a class="pill-link" data-glass href="/img/generated/tierlist-low.png">Download this list (PNG)</a>
+      <a class="pill-link" href="/img/generated/tierlist-low.png">Download this list (PNG)</a>
     </li>
   </ul>
 
@@ -56,58 +54,36 @@ const stamp = `Lists last checked ${stampChecked()} · Method v${data.method.ver
 <style>
   .hero {
     margin-top: 0;
-    padding-top: 56px;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 220px;
-    gap: 24px;
-    align-items: center;
+    padding-top: 34px;
+    text-align: center;
   }
   .display {
+    font-family: var(--font-display);
     font-size: var(--text-display);
-    font-weight: var(--weight-extrabold);
+    font-weight: var(--weight-bold);
     letter-spacing: var(--tracking-display);
     line-height: var(--leading-tight);
+    text-wrap: balance;
+    text-shadow: 0 0 26px var(--glow);
     margin: 0;
     animation: rise var(--duration-slow) var(--ease-out) backwards;
   }
   .display span {
-    color: var(--gold);
+    display: block;
+    color: var(--lavender);
+    font-size: 0.62em;
+    margin-top: 6px;
+  }
+  .hero .star-rule {
+    margin-top: 14px;
   }
   .tagline {
     font-size: var(--text-tagline);
     font-weight: var(--weight-medium);
-    letter-spacing: -0.01em;
-    margin: 16px 0 0;
+    margin: 12px 0 0;
     animation: rise var(--duration-slow) 60ms var(--ease-out) backwards;
   }
-  .star {
-    width: 220px;
-    height: 220px;
-  }
-  @media (max-width: 620px) {
-    .hero {
-      padding-top: 30px;
-      grid-template-columns: minmax(0, 1fr) 86px;
-      gap: 6px;
-      align-items: start;
-    }
-    .hero-text {
-      display: contents;
-    }
-    .display {
-      grid-column: 1;
-      grid-row: 1;
-    }
-    .star {
-      grid-column: 2;
-      grid-row: 1;
-      width: 86px;
-      height: 86px;
-    }
-    .tagline,
-    .built,
-    .hero :global(.tnote) {
-      grid-column: 1 / -1;
-    }
+  .hero .built {
+    margin-inline: auto;
   }
 </style>
