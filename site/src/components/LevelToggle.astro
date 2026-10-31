@@ -52,7 +52,7 @@ import { LEVELS, LEVEL_NAME } from '../lib/data';
     color: var(--sub);
     font-size: var(--text-note);
     text-align: center;
-    /* clears the soft fade under the level bar */
+    /* breathing room under the level bar */
     margin: 14px 0 0;
     animation: rise var(--duration-slow) 160ms var(--ease-out) backwards;
   }
@@ -64,13 +64,12 @@ import { LEVELS, LEVEL_NAME } from '../lib/data';
     top: env(safe-area-inset-top, 0px);
     z-index: 10;
     margin-top: 10px;
-    padding: 6px 0 8px;
+    padding: 7px 0;
     background: var(--band);
     box-shadow:
       0 0 0 100vmax var(--band),
-      0 1px 0 100vmax var(--hairline),
-      0 8px 10px 100vmax var(--band);
-    clip-path: inset(0 -100vmax -14px);
+      0 1px 0 100vmax var(--hairline);
+    clip-path: inset(0 -100vmax 0);
   }
   :global(html.js) .lvbar {
     display: block;
