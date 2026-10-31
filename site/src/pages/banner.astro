@@ -22,10 +22,20 @@ const listed = data.characters.filter(
   (c) => c.is_new || c.results.low.coverage < 2,
 );
 
-// The current banner: started, and not ended before today.
-const current = banners.find(
-  (b) => b.start <= today && (b.end === null || b.end >= today),
-);
+// The current banner: started, and not ended before today. Several
+// debut entries have no recorded end date, so among the open banners
+// the one that started latest is current.
+const current = banners
+  .filter((b) => b.start <= today && (b.end === null || b.end >= today))
+  .sort((a, b) => b.start.localeCompare(a.start))[0];
+
+// Banner sources are stored as URLs; show the site's name when the
+// source list knows it, else the URL's host.
+const sourceLabel = (url: string) =>
+  sourceNames.get(url) ??
+  (url.startsWith('http')
+    ? new URL(url).hostname.replace(/^www\./, '')
+    : url);
 const currentChar = current ? charactersById.get(current.character) : undefined;
 
 // Debut history, newest first.
@@ -48,7 +58,7 @@ const debuts = [...banners].sort((a, b) => b.start.localeCompare(a.start));
           <span class="dim">
             {fmtDate(current.start)}
             {current.end && ` – ${fmtDate(current.end)}`} (via{' '}
-            {sourceNames.get(current.source) ?? current.source})
+            {sourceLabel(current.source)})
           </span>
         </p>
         {currentChar && (
