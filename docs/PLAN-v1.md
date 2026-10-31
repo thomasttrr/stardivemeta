@@ -74,8 +74,8 @@ Planner: Opus 5.5 · Written 2026-10-29 · Inputs: the 8 files in
 | P2 Data pipeline + fresh harvest | days 3–8 (overlaps P1) | 15 | CP2: data checkpoint |
 | P3 Site v1 (board, evidence, rules, table, PNG, deploy) | days 7–13 | 20 | CP3: phone review of preview |
 | P4 Codes, banners, history, notes, errata | days 12–15 | 0 | — |
-| P5 Cadence dry run (7 days, staging only) | days 15–22 | 10 | CP4: first movers note approved |
-| P6 Launch | days 22–24 | 25 | CP5: go/no-go, search-console sign-ins, Tom's community posts |
+| P5 Cadence dry run (7 days, staging only) | days 15–22 | 10 | CP4: first movers note approved — closed early Oct 31, 2026 |
+| P6 Launch | days 22–24 | 25 | CP5: go/no-go (closed Oct 31, 2026 — Tom approved, launch moved up to Oct 31), search-console sign-ins, Tom's community posts |
 | **Total to launch** | **~24 days** | **~105** | |
 | P7 Post-launch (steady state) | weekly; review at 6–8 weeks | 10–15/week; 30 at review | Two-patch-cycle review |
 
@@ -343,6 +343,8 @@ The critical path is P1 → P3 → P5 → P6. P2 runs alongside P1, and P4 along
 ---
 
 ## P5 — Cadence dry run (7 days, staging only)
+
+**CLOSED EARLY — Sat Oct 31, 2026:** Tom moved the launch up to Oct 31, ending the dry run after 2 days. The acceptance numbers in T5.4 no longer gate anything, and there is no "launch after Nov 5-6" step anymore. T5.1–T5.3 stay live as the steady-state cadence and report formats; T5.4 and T5.5 are kept as the original plan record only.
 
 **T5.1 X's scheduled jobs** (in X's workspace; documented in `docs/RUNBOOK.md`)
 
@@ -1344,5 +1346,5 @@ The handoff invited a challenge to the five constants. I tested each alternative
    - Angel is under Mode-split;
    - with JS off, the Low board is complete;
    - Lighthouse mobile ≥ 95 for Performance and Accessibility.
-5. 7-day dry run meets every T5.4 number, including the breakage drill.
+5. Dry run gate — waived: Tom closed the dry run early on Oct 31, 2026 and approved the launch himself (CP5 closed the same day).
 6. After launch: `https://stardivemeta.com/build.json` commit = `main` HEAD, and the health workflow is green.

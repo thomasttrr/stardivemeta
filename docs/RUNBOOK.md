@@ -155,20 +155,13 @@ with the project name. There are no messages on green.
   `codes_checked_at_override` set two days in the past → a
   `codes check` issue opens; dispatch again clean → it closes.
 
-## Dry run (T5.4) — 2026-10-29 → 2026-11-05, staging only
+## Dry run (T5.4) — CLOSED Oct 31, 2026
 
-Acceptance at the end of the week: 14 sweeps logged; 7 codes checks;
-1 sweep-audit; 0 unexplained harvest-diff mismatches; 0 health
-issues left open; Tom's total time ≤ 10 min. The sweep record is the
-`data/<sweep-id>` PRs plus `checks.json` — routine sweeps do not
-touch `docs/BUILD-LOG.md` (it is outside the lane allowlist).
-
-**Breakage drill** (once during the dry run): in a scratch copy,
-feed the pipeline a Kaiden harvest with 5 characters missing.
-Expected: gate G4 refuses the coverage drop, nothing merges, and a
-breakage report is drafted (not sent). Record the outcome in
-BUILD-LOG when it is run.
-
-Ends at **CP4**: Tom approves the first movers note. The
-launch-baseline note (`data/notes/2026-10-30.md`, draft) is already
-waiting for that approval.
+Tom moved the launch up to Sat Oct 31, 2026, ending the dry run
+early (it ran Oct 29–31 on staging). The end-of-week acceptance
+numbers, the breakage drill, and the CP4 ending that were defined
+here no longer apply, and nothing waits for a Nov 5-6 launch
+window. The sweeps above continue unchanged as the steady-state
+cadence. The sweep record is the `data/<sweep-id>` PRs plus
+`checks.json` — routine sweeps do not touch `docs/BUILD-LOG.md`
+(it is outside the lane allowlist).
