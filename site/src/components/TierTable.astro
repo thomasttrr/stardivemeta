@@ -1,6 +1,8 @@
 ---
 // The full table (plan T3.5): one row per character, sorted by Low
-// score desc with mode-split rows last. No JS of its own.
+// score desc with mode-split rows last. Without JS it is a plain table;
+// the script below turns the headers into sort buttons. Sorting only
+// reorders rows by emitted values (data-v); it computes nothing.
 import { data, LABEL_WORD, tierDisplay } from '../lib/data';
 import type { Character } from '../types/contract/Character';
 import type { Level } from '../types/contract/Level';
@@ -25,6 +27,9 @@ const rows = [...data.characters].sort((a, b) => {
   return (b.results.low.score ?? -1) - (a.results.low.score ?? -1);
 });
 const LEVEL_COLS: Level[] = ['low', 'high', 'max'];
+// Display order of the mode-board tiers, for sorting the Conquest/Rift columns.
+const TIER_ORDER: Record<string, number> = { S: 5, A: 4, B: 3, C: 2, D: 1 };
+const modeRank = (c: Character, mode: 'conquest' | 'rift') => TIER_ORDER[String(c.modes[mode].tier)] ?? '';
 ---
 
 <div class="tablewrap" data-panel>
@@ -35,35 +40,79 @@ const LEVEL_COLS: Level[] = ['low', 'high', 'max'];
     </caption>
     <thead>
       <tr>
-        <th scope="col">Character</th>
-        <th scope="col" id="low">Low</th>
-        <th scope="col" id="high">High</th>
-        <th scope="col" id="max">Max</th>
-        <th scope="col">Conquest</th>
-        <th scope="col">Rift</th>
-        <th scope="col">Out of 3</th>
+        <th scope="col" data-sort="text">Character</th>
+        <th scope="col" id="low" data-sort="num">Low</th>
+        <th scope="col" id="high" data-sort="num">High</th>
+        <th scope="col" id="max" data-sort="num">Max</th>
+        <th scope="col" data-sort="num">Conquest</th>
+        <th scope="col" data-sort="num">Rift</th>
+        <th scope="col" data-sort="num">Out of 3</th>
       </tr>
     </thead>
     <tbody>
       {
         rows.map((c) => (
           <tr>
-            <th scope="row">
+            <th scope="row" data-v={c.name}>
               <a href={`/c/${c.id}/`}>{c.name}</a>
             </th>
             {LEVEL_COLS.map((lv) => {
               const v = cell(c, lv);
-              return <td data-tier={v.tier}>{v.text}</td>;
+              return <td data-tier={v.tier} data-v={v.tier === "MODE_SPLIT" ? "" : (c.results[lv].score ?? "")}>{v.text}</td>;
             })}
-            <td>{modeCell(c, 'conquest')}</td>
-            <td>{modeCell(c, 'rift')}</td>
-            <td>{c.results.low.coverage}</td>
+            <td data-v={modeRank(c, 'conquest')}>{modeCell(c, 'conquest')}</td>
+            <td data-v={modeRank(c, 'rift')}>{modeCell(c, 'rift')}</td>
+            <td data-v={c.results.low.coverage}>{c.results.low.coverage}</td>
           </tr>
         ))
       }
     </tbody>
   </table>
 </div>
+
+<script>
+  const table = document.querySelector<HTMLTableElement>('.tablewrap table');
+  if (table) {
+    const body = table.tBodies[0];
+    const rows = Array.from(body.rows);
+    rows.forEach((r, i) => (r.dataset.i = String(i)));
+    const heads = Array.from(table.tHead!.rows[0].cells);
+    let active = -1;
+    let dir = 1;
+    const val = (r: HTMLTableRowElement, col: number) => {
+      const c = r.cells[col];
+      return (c.dataset.v ?? c.textContent ?? '').trim();
+    };
+    function sortBy(col: number, num: boolean) {
+      // numbers sort high-first on the first click, text A-Z; click again to flip
+      dir = active === col ? -dir : 1;
+      active = col;
+      const sign = num ? -dir : dir;
+      rows.sort((a, b) => {
+        const x = val(a, col);
+        const y = val(b, col);
+        // blank values (mode-split, unranked) always sink to the bottom
+        if (x === '' || y === '') return x === y ? 0 : x === '' ? 1 : -1;
+        const d = num ? Number(x) - Number(y) : x.localeCompare(y);
+        return d ? sign * d : Number(a.dataset.i) - Number(b.dataset.i);
+      });
+      rows.forEach((r) => body.appendChild(r));
+      heads.forEach((h, i) => h.setAttribute('aria-sort', i === col ? (sign === 1 ? 'ascending' : 'descending') : 'none'));
+    }
+    heads.forEach((h, col) => {
+      const num = h.dataset.sort === 'num';
+      const label = h.textContent ?? '';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'sortbtn';
+      btn.textContent = label;
+      btn.setAttribute('aria-label', 'Sort by ' + label);
+      btn.addEventListener('click', () => sortBy(col, num));
+      h.textContent = '';
+      h.appendChild(btn);
+    });
+  }
+</script>
 
 <style>
   .tablewrap {
@@ -125,4 +174,33 @@ const LEVEL_COLS: Level[] = ['low', 'high', 'max'];
   td[data-tier="C"]::first-letter { color: var(--tier-c); }
   td[data-tier="D"]::first-letter { color: var(--tier-d); }
   td[data-tier="MODE_SPLIT"] { color: var(--tier-mode-split); }
+</style>
+
+<style is:global>
+  /* sort buttons are created by the script above, so scoped CSS can't reach them */
+  .tablewrap .sortbtn {
+    all: unset;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 32px;
+  }
+  .tablewrap .sortbtn:hover,
+  .tablewrap th[aria-sort="ascending"] .sortbtn,
+  .tablewrap th[aria-sort="descending"] .sortbtn {
+    color: var(--text);
+  }
+  .tablewrap .sortbtn:focus-visible {
+    outline: 2px solid var(--starlight);
+    outline-offset: 2px;
+  }
+  .tablewrap th[aria-sort="ascending"] .sortbtn::after {
+    content: "▲";
+    font-size: 9px;
+  }
+  .tablewrap th[aria-sort="descending"] .sortbtn::after {
+    content: "▼";
+    font-size: 9px;
+  }
 </style>
