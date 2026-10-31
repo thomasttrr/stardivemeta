@@ -31,6 +31,12 @@ const {
 
 const canonical = `https://stardivemeta.com${path}`;
 const ogImage = 'https://stardivemeta.com/img/generated/og.png';
+// The sparkle (Sparkle.astro) on the night ground, inline so G14 sees no new image file.
+const favicon =
+  'data:image/svg+xml,' +
+  encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#150f38"/><path transform="translate(3 3) scale(.75)" fill="#ffd98a" d="M12 0C12.7 7.6 16.4 11.3 24 12 16.4 12.7 12.7 16.4 12 24 11.3 16.4 7.6 12.7 0 12 7.6 11.3 11.3 7.6 12 0Z"/></svg>',
+  );
 
 const nav = [
   { href: '/', label: 'Tier list' },
@@ -60,7 +66,7 @@ const current = (href: string) =>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="dark" />
     <meta name="theme-color" content="#0d0a26" />
-    <link rel="icon" href="data:," />
+    <link rel="icon" type="image/svg+xml" href={favicon} />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -69,6 +75,7 @@ const current = (href: string) =>
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
     {
       levelScript && (
         <script is:inline>
