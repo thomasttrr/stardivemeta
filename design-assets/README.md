@@ -16,14 +16,22 @@ site's own asset folders.
   copyright line bottom-right, on white. Resolution masters; the
   official-site versions are cleaner for tier rows. USABLE (non-commercial,
   unmodified, credited, with the site's not-official disclaimer).
+- `characters/design-sheets/` — official costume-design sheets (front / side /
+  back full-body views + detail callouts, ~8440–12180 × 4121) for 26
+  characters, plus the Summer Dive variant sheets for Francis and Verna.
+  Chloe has no sheet. These are Media Hub files, in hand via Danbooru
+  re-hosts (see the LOG.md addendum, 2026-10-30 evening). USABLE on the
+  same terms as the other Media Hub art.
 - `characters/forum/` — official forum profile cards (JPG, ~1480×2140) and
   animated in-game model GIFs for Chloe, Isabella, Vivian, Brisshell, Mabel,
   Narae, Nagi, plus Verna: Summer Dive! and Francis: Summer Dive!. USABLE.
 - `characters/wiki-exception/` — Benjamin, Sera, Ellie, Bonnie, Angel.
-  No Netmarble-published portrait exists for these five anywhere.
-  EXCEPTION (Tom's explicit call, 2026-10-30): third-party database art
-  (Kaiden.gg bust portraits + cross-check files), game-derived, NOT
-  Netmarble-published. Swap out if official art ever appears.
+  No Netmarble-published square portrait exists for these five; official
+  full-body art for them is in `characters/design-sheets/` (added
+  2026-10-30 evening). This folder is the earlier stand-in set, kept for
+  reference: EXCEPTION (Tom's explicit call, 2026-10-30): third-party
+  database art (Kaiden.gg bust portraits + cross-check files),
+  game-derived, NOT Netmarble-published.
 - `backgrounds/` — 4 official world-art stills (1440×808 PNG) for mode and
   hero backgrounds.
 - `key-visuals/` — 9 key visuals / concept art as DESIGN COPIES: resized to

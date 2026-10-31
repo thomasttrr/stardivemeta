@@ -116,3 +116,40 @@ Pre-existing files in ~/workspace/mongil-images (2026-10-09, provenance not reco
 ## Excluded so far
 - Repeated sgimage group/update banner (bkyh1779784130377.jpg) returned by image search for nearly every character — it is NOT a per-character portrait; not logged as one.
 - Third-party wiki/guide portraits (GameWith, Game8, Kaiden) — provenance unstated; candidates only, never USABLE without tracing to an official source.
+
+
+## Addendum — 2026-10-30 evening: official design sheets found via Danbooru
+
+Tom created a Danbooru account for research (2026-10-30) and asked whether
+the five could be sourced elsewhere. Checking Danbooru's tag index directly
+(the earlier round-2 sweep only saw the 17 general-rated posts) found the
+copyright tag `mongil:_star_dive` holds 83 posts, 49 of them sourced from
+the Netmarble Media Hub — including a full set of official **costume-design
+sheets**: front / side / back full-body views with detail callouts, the
+character's name, the game logo, and the Netmarble copyright line, on light
+grey. These are the Media Hub's costume-design files (the hub pull earlier
+took the illustration set and key visuals, not this set).
+
+Downloaded to `design-sheets/` (28 files, ~8440–12180 × 4121, JPG/PNG,
+ratings g/s only) — one sheet for 26 characters, plus the Summer Dive
+variant sheets for Francis and Verna. **Chloe is the only roster character
+with no sheet.** All 28 files verified readable; Benjamin, Sera, both
+Francis sheets and both Verna sheets inspected visually — official sheets,
+identities match the rest of the record.
+
+- Status: OFFICIAL ART — the same use terms as the Media Hub files
+  (non-commercial, unmodified, credited, not-official disclaimer). Provenance
+  note: these copies came via Danbooru re-hosts whose source field is the
+  Media Hub game page; the Hub originals have not yet been pulled directly.
+- **Effect on the five:** Benjamin, Sera, Ellie, Bonnie and Angel now have
+  official Netmarble art in hand (full-body design sheets). The earlier
+  "no official portrait exists" finding stands only for the square
+  portrait/illustration format. The Kaiden busts in `wiki-exception/`
+  remain the small-portrait option under Tom's exception; whether tier-row
+  portraits get cropped from these sheets is a design decision for Tom.
+- Danbooru post ids: benjamin 11508773, sera 11515814, angel 11515813,
+  ellie 11548508, bonnie 11548507; the remaining 23 are listed in the
+  download record of 2026-10-30 (posts 11409076–12374382).
+- The other Hub-sourced Danbooru posts (3000×3000 illustrations, group key
+  visuals) duplicate files already in hand and were not re-downloaded.
+  Non-Hub posts under the tag are Pixiv/social fan art — not sourced.
