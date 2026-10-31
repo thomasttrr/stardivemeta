@@ -45,6 +45,10 @@
   --med-halo: rgb(214 204 255 / 0.4);
   --med-shadow: 0 10px 26px rgb(10 4 40 / 0.6);
   --rule-line: rgb(255 255 255 / 0.55);
+  /* the glass close button: Clear setting (blur 3px, tint 0.3) */
+  --glass-blur: 3px;
+  --glass-tint: rgb(120 80 235 / 0.3);
+  --glass-edge: rgb(255 255 255 / 0.28);
 
   /* Colour — accents (starlight hues; each passes AA on the night panels) */
   --starlight: #ffd98a;

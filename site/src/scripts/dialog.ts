@@ -3,6 +3,8 @@
 // pre-rendered <dialog> instead. Esc and backdrop click are native /
 // handled here; closing returns focus to the chip (native behaviour
 // for showModal dialogs).
+import './glass-close.ts';
+
 document
   .querySelectorAll<HTMLAnchorElement>('a[data-dialog]')
   .forEach((a) => {

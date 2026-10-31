@@ -8,6 +8,22 @@ import { data } from '../lib/data';
 import EvidencePanel from './EvidencePanel.astro';
 ---
 
+<!-- One rim-refraction filter for the close buttons (glass-close.ts sets the
+     map; R/G/B get a whisper of different scale for the lens fringe). -->
+<svg class="ev-defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <filter id="sdm-refract" filterUnits="userSpaceOnUse" x="0" y="0" width="44" height="44" color-interpolation-filters="sRGB">
+    <feImage href="" x="0" y="0" width="44" height="44" preserveAspectRatio="none" result="map" />
+    <feDisplacementMap in="SourceGraphic" in2="map" scale="9" xChannelSelector="R" yChannelSelector="G" result="dr" />
+    <feColorMatrix in="dr" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="r" />
+    <feDisplacementMap in="SourceGraphic" in2="map" scale="11" xChannelSelector="R" yChannelSelector="G" result="dg" />
+    <feColorMatrix in="dg" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g" />
+    <feDisplacementMap in="SourceGraphic" in2="map" scale="13" xChannelSelector="R" yChannelSelector="G" result="db" />
+    <feColorMatrix in="db" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="b" />
+    <feBlend in="r" in2="g" mode="screen" result="rg" />
+    <feBlend in="rg" in2="b" mode="screen" />
+  </filter>
+</svg>
+
 {
   data.characters.map((c) => (
     <dialog class="ev-dialog" id={`ev-${c.id}`} aria-label={`${c.name} evidence`}>
@@ -22,6 +38,9 @@ import EvidencePanel from './EvidencePanel.astro';
 }
 
 <style>
+  .ev-defs {
+    position: absolute;
+  }
   .ev-dialog {
     color: var(--text);
     background: var(--sheet-fill);
@@ -59,18 +78,75 @@ import EvidencePanel from './EvidencePanel.astro';
     width: 44px;
     height: 44px;
     color: var(--text);
-    background: var(--chip-fill);
-    border: 1px solid var(--chip-rim);
+    /* Liquid glass (docs/DESIGN.md "Glass close button"): frost for every
+       browser; Chromium adds rim refraction via html[data-refract]. */
+    --mx: 50%;
+    --my: 0%;
+    position: sticky;
+    overflow: hidden;
+    background: var(--glass-tint);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%) brightness(1.1);
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%) brightness(1.1);
+    border: 1px solid var(--glass-edge);
+    box-shadow:
+      inset 0 1.5px 1px rgb(255 255 255 / 0.7),
+      inset 0 -1px 1px rgb(255 255 255 / 0.18),
+      inset 1px 0 1px rgb(255 255 255 / 0.22),
+      inset -1px 0 1px rgb(255 255 255 / 0.22),
+      0 4px 12px rgb(6 2 30 / 0.4);
     border-radius: var(--radius-pill);
     cursor: pointer;
     z-index: 1;
     transition:
       transform var(--duration-base) var(--ease-spring),
-      background-color var(--duration-fast);
+      box-shadow var(--duration-base) var(--ease-spring);
   }
-  .ev-close:hover {
-    background: var(--chip-fill-hover);
+  :global(html[data-refract]) .ev-close {
+    -webkit-backdrop-filter: url(#sdm-refract) blur(var(--glass-blur)) saturate(180%) brightness(1.1);
+    backdrop-filter: url(#sdm-refract) blur(var(--glass-blur)) saturate(180%) brightness(1.1);
+  }
+  /* pointer sheen: a soft highlight that follows the cursor */
+  .ev-close::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at var(--mx) var(--my), rgb(255 255 255 / 0.4), transparent 62%);
+    opacity: 0.35;
+    transition: opacity var(--duration-fast);
+    pointer-events: none;
+  }
+  .ev-close:hover::before {
+    opacity: 1;
+  }
+  .ev-close svg {
+    position: relative;
+    transition: transform var(--duration-base) var(--ease-spring);
+  }
+  .ev-close:hover svg {
     transform: rotate(90deg);
+  }
+  .ev-close:active {
+    transform: scale(0.94);
+    box-shadow:
+      inset 0 3px 6px rgb(6 2 30 / 0.45),
+      inset 0 -1px 1px rgb(255 255 255 / 0.3),
+      0 1px 3px rgb(6 2 30 / 0.4);
+  }
+  .ev-close:active::before {
+    opacity: 0.3;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ev-close,
+    .ev-close svg {
+      transition: none;
+    }
+    .ev-close:hover svg {
+      transform: none;
+    }
+    .ev-close::before {
+      background: radial-gradient(circle at 50% 0%, rgb(255 255 255 / 0.4), transparent 62%);
+    }
   }
   @keyframes sheet-in {
     from {

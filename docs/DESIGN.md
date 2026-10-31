@@ -34,6 +34,14 @@ specifically its character section. Nothing is invented on top of it.
   tier group: S, then A, then the rest.
 - **Surfaces:** flat night panels with a lavender hairline rim. Nothing
   is see-through and nothing blurs.
+- **Glass close button (the one exception):** the X on the evidence dialog
+  is a small liquid-glass disc. Frost (`--glass-blur`, `--glass-tint`,
+  `--glass-edge`, `backdrop-filter` blur + saturate 180%) in every
+  browser; Chromium on fine pointers adds rim refraction (an SVG
+  `feDisplacementMap` from a map drawn in `scripts/glass-close.ts`, set
+  on `html[data-refract]`), a specular top rim, a cursor-following sheen
+  and a spring press. Reduced motion drops the sheen and spring. The
+  filter is only ever applied to this one 44px control.
 - **Single theme:** this is a night sky by definition, so the site stays
   dark (`color-scheme: dark`). A light "dawn" variant would be its own
   design pass.
