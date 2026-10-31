@@ -153,3 +153,51 @@ identities match the rest of the record.
 - The other Hub-sourced Danbooru posts (3000×3000 illustrations, group key
   visuals) duplicate files already in hand and were not re-downloaded.
   Non-Hub posts under the tag are Pixiv/social fan art — not sourced.
+
+
+## Addendum 2 — 2026-10-30 overnight: Hub inventory, mode art, Isabella resolved
+
+Full findings files: `overnight/hub-findings.md`, `overnight/modes-findings.md`,
+`overnight/isabella-findings.md`.
+
+### Media Hub — complete inventory (strand A)
+The Hub is driven by two public JSON endpoints (`/api/meta`,
+`/api/resource/list`, gameCode=monster2); snapshots saved in `overnight/hub/`.
+Whole catalog: 37 posts, 212 files (Artworks, Videos, Logos, Character
+Costume, and exhibition sections for TGS / GSTAR / AGF / Gamescom 2025).
+- **Chloe's costume-design sheet EXISTS on the Hub** and is now in hand
+  direct from Netmarble: `design-sheets/chloe.jpg`, 8909×4121
+  (Hub: sgimage.netmarble.com .../7d10f72d-4c6b-4370-b96c-772eed298c43.jpg).
+  **The design-sheet set is complete: 29 sheets — all 27 characters plus
+  the Francis and Verna Summer Dive variants.**
+- All 28 sheets previously obtained via Danbooru are **byte-identical
+  (MD5, 28/28)** to the Hub originals; direct Hub URLs for all 29 sheets
+  are listed in `overnight/hub-findings.md`. Provenance upgraded to
+  Netmarble-direct for the whole set.
+- Also downloaded to `overnight/hub/`: 4 logo (BI) lockups, PC + mobile
+  game key images, 6 video thumbnails at 1280×720 (the Videos tab is
+  YouTube embeds — no video files), and the exhibition sections
+  (140 images + 9 MP4s, ~1.44 GB) — archived off-repo, see below.
+- The 9 key visuals and 15 illustration PNGs already in hand were verified
+  identical to the Hub's (byte-count match); not re-downloaded.
+
+### Isabella v1.4 key art — RESOLVED (strand B)
+- `media-hub/key-visuals/key-visual-c.jpg` (13776×7808, downloaded from the
+  Hub on 2026-10-30) **is** the "Ashen Cradle Lullaby" artwork — the same
+  illustration as the 708×398 Inven copy, identified by side-by-side zoom
+  comparison. The press master was in hand all along, unrecognized.
+- New in `overnight/isabella/`: the KR-titled edition at 1920×1080 (Inven
+  KR, Netmarble PR image) and a 900×506 Ruliweb copy. The ENGLISH-titled
+  treatment specifically remains capped at 708×398 in every source checked.
+
+### Mode art — Conquest + Dimensional Rift (strand C)
+Downloaded to `overnight/modes/` (10 files, all official, PIL-verified):
+- Conquest screens from the official forum's update notices (originals on
+  Netmarble's CDN at 1920×1080): Red Shadow boss rail (v1.1), the v1.2
+  difficulty-tier version, season records (v1.3), The Great Unknown (v1.4),
+  Legendary Conquest Reginula (v1.1) and Sorin (v1.4); plus two official
+  App Store graphics (2796×1290) of Legendary Conquest fights.
+- Dimensional Rift: exactly ONE dedicated official image exists —
+  `dimensional-rift-stage-v13-en.png` (1920×1080, Rift stage screen).
+  No Rift key art, banner, or store graphic exists in any source checked.
+- The bonus App Store file (2796×1290) is the v1.4 Isabella key art again.

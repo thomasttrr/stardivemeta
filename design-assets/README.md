@@ -17,11 +17,12 @@ site's own asset folders.
   official-site versions are cleaner for tier rows. USABLE (non-commercial,
   unmodified, credited, with the site's not-official disclaimer).
 - `characters/design-sheets/` — official costume-design sheets (front / side /
-  back full-body views + detail callouts, ~8440–12180 × 4121) for 26
-  characters, plus the Summer Dive variant sheets for Francis and Verna.
-  Chloe has no sheet. These are Media Hub files, in hand via Danbooru
-  re-hosts (see the LOG.md addendum, 2026-10-30 evening). USABLE on the
-  same terms as the other Media Hub art.
+  back full-body views + detail callouts, ~8440–12180 × 4121). COMPLETE
+  SET: 29 sheets — all 27 characters plus the Summer Dive variant sheets
+  for Francis and Verna. Media Hub files, downloaded direct from
+  Netmarble (the copies first found via Danbooru are MD5-identical to the
+  Hub originals; see the LOG.md addendums). USABLE on the same terms as
+  the other Media Hub art.
 - `characters/forum/` — official forum profile cards (JPG, ~1480×2140) and
   animated in-game model GIFs for Chloe, Isabella, Vivian, Brisshell, Mabel,
   Narae, Nagi, plus Verna: Summer Dive! and Francis: Summer Dive!. USABLE.
@@ -38,11 +39,25 @@ site's own asset folders.
   2560px on the long edge, JPEG. The print-resolution masters (up to
   15000×8299; three files exceed GitHub's 100MB per-file limit) stay in the
   hunt archive off-repo. Ask before using one at full size.
+- `modes/` — official mode art from the forum update notices and the App
+  Store: 8 Conquest / Legendary Conquest screens and graphics
+  (1920×1080, store graphics 2796×1290), and the one dedicated
+  Dimensional Rift image that exists (`dimensional-rift-stage-v13-en.png`,
+  1920×1080 — no Rift key art or banner exists anywhere checked).
+- `logos/` — the 4 official BI logo lockups (vertical + horizontal,
+  light/dark) from the Media Hub.
+- `key-images/` — the game's PC (1886×800) and mobile (670×800) key
+  images from the Media Hub.
+- `video-thumbnails/` — thumbnails of the 6 official videos at 1280×720
+  (the Hub's Videos tab is YouTube embeds; there are no video files).
 - `pr-art/` — newsroom and trailer art: Summer Dive header (1920×1080) +
   newsroom shot, KR trailer thumbnails for Mabel and Brisshell (NEEDS
   CHECKING — banner use only), a Chloe PR screenshot, and the v1.4
-  "Ashen Cradle Lullaby" Isabella key art at 708×398 (low-res; a
-  higher-resolution official copy is still wanted).
+  "Ashen Cradle Lullaby" Isabella key art three ways: the 708×398
+  EN-titled copy, the KR-titled edition at 1920×1080, and the App Store
+  graphic at 2796×1290. The artwork's press master is
+  `key-visuals/key-visual-c.jpg` (13776×7808) — it was in the key-visual
+  set all along, identified 2026-10-30 overnight.
 - `contact-sheets/` — quick overview sheets of the portrait sets.
 
 ## Rules that travel with these files
@@ -54,4 +69,7 @@ site's own asset folders.
   explicit approval.
 - The site is non-commercial and carries a "not official" disclaimer.
 - Not included: the Media Hub source zips and the hunt's scrape data
-  (duplicates / working files), and one download-test PNG.
+  (duplicates / working files), and one download-test PNG. Also archived
+  off-repo in the hunt folder (size): the Hub's exhibition sections —
+  TGS / GSTAR / AGF / Gamescom 2025 photos and card news (140 images)
+  and 9 event MP4s (~1.44 GB). Available on request.
