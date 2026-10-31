@@ -274,6 +274,6 @@ fn diff_reports_tier_label_coverage_and_placement_changes() {
     assert_eq!(out.code, Some(0), "output: {}", out.combined());
     assert!(out.stdout.contains("# Diff: 2026-11-03-am → 2026-11-03-pm"));
     assert!(out.stdout.contains("## Tier changes"));
-    assert!(out.stdout.contains("## List-count changes"));
+    assert!(out.stdout.contains("## Count changes"));
     assert!(out.stdout.contains("## Placement changes"));
 }

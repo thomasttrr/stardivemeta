@@ -47,7 +47,7 @@ const debuts = [...banners].sort((a, b) => b.start.localeCompare(a.start));
           <a href={`/c/${current.character}/`}>{current.name}</a>
           <span class="dim">
             {fmtDate(current.start)}
-            {current.end && ` – ${fmtDate(current.end)}`} (from{' '}
+            {current.end && ` – ${fmtDate(current.end)}`} (via{' '}
             {sourceNames.get(current.source) ?? current.source})
           </span>
         </p>

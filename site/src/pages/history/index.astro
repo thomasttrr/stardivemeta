@@ -49,7 +49,7 @@ const changeCount = (id: string): number | null => {
             <a class="row panel-row" data-panel href={`/history/${s.id}/`}>
               <span class="date">{snapDate(s.id, s.created_at)}</span>
               <span class="meta">
-                Rules v{s.method_version} · Game version {s.game_version}
+                v{s.method_version} · Game version {s.game_version}
                 {n !== null && ` · ${n} ${n === 1 ? 'change' : 'changes'}`}
                 {s.id === earliestId && ' · First snapshot'}
               </span>

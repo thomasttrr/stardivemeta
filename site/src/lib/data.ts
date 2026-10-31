@@ -90,7 +90,7 @@ export const LEVEL_NAME: Record<Level, string> = {
 export const LABEL_WORD: Record<Label, string> = {
   SOLID: 'Solid',
   CONTESTED: 'Contested',
-  SPECULATION: 'One list',
+  SPECULATION: 'Speculation',
   MODE_SPLIT: 'Mode-split',
   UNRANKED: 'Unranked',
 };
@@ -123,7 +123,7 @@ export function sourceName(id: string): string {
 /** Why a check-only source is not counted (§B.5 Character page, item 7). */
 export const NOT_COUNTED_REASON: Record<string, string> = {
   'gacha-gg':
-    'Combines other lists, including Kaiden — counting it would count Kaiden twice',
+    'Combined list that includes Kaiden — counting it would count Kaiden twice',
   urgametips: "Near-copy of Pocket Gamer's Conquest list",
   'gamewith-en': 'Old list from launch — replaced by GameWith JP',
   'mongil-gg': 'Its lists are images, not text — not counted yet',
@@ -158,7 +158,7 @@ export const NOTE_SHORT: Record<string, string> = {
 /** Kaiden's own legend wording for its (E)/(P) markers (read from the
  * site's RANKING CRITERIA panel during the T2.2 harvest). */
 export const FLAG_TEXT: Record<string, string> = {
-  E: 'Expert: hard to play well',
+  E: 'Expert: takes skill',
   P: 'Partner: needs a specific teammate',
 };
 

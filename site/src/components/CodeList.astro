@@ -78,7 +78,7 @@ const visible = entries.filter((entry) => {
         {variant === 'active' && (
           <>
             <p class="line">
-              Reward: {entry.reward.text} (from {nameOf(entry.reward.source)})
+              Reward: {entry.reward.text} (via {nameOf(entry.reward.source)})
             </p>
             {entry.expires_at && (
               <p class="line">Expires {fmtDate(entry.expires_at.slice(0, 10))}</p>
