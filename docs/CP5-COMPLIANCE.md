@@ -46,20 +46,29 @@ standing residual risk that no fan site can remove. Neither blocks launch.
    links, no donation links, no paywall, no accounts — the About page says
    so in plain words: "No ads. No accounts."
 
-3. **Game images — PASS (none used).**
+3. **Game images — PASS (official portraits only, credited).**
    The Guide licenses screenshots/stills for introduction, review, and
-   promotion. StarDiveMeta v1 uses **no game images at all**: no character
-   art, no logos, no screenshots on pages. Build gate G14 restricts every
-   image file to an allowlist; the allowlist today contains only the
-   site's own generated PNGs (the tier-board images and og.png, rendered
-   from the site's own text/data). No ripped game files, no datamined
-   assets — those are banned site-wide by the plan's hard constraints.
+   promotion, for non-profit use. Since the Starfield theme (2026-10-31,
+   Tom's call), the site uses **official character portraits**:
+   face crops of art Netmarble itself published (the official site and
+   forum profile cards), plus five bust portraits from Kaiden.gg under
+   Tom's recorded exception where no Netmarble square portrait exists.
+   Every page's footer credits them: "Character portraits are official
+   MONGIL: STAR DIVE art © Netmarble, used non-commercially." No logos,
+   no screenshots on pages. Build gate G14 restricts every image file
+   to an allowlist; the allowlist holds the portraits under
+   `img/own/art/` and the site's own generated PNGs (the tier-board
+   images and og.png, rendered from the site's own text/data). No ripped
+   game files, no datamined assets — those are banned site-wide by the
+   plan's hard constraints.
 
 4. **No modification or falsification of game material — PASS.**
    Guide: "You should not illegally modify, remake, or falsify Netmarble's
-   games or Netmarble's game images." The site alters no game material.
-   Its boards and PNGs are original renders of its own computed consensus
-   data. Animated/3D experiments, if ever added, are constrained by the
+   games or Netmarble's game images." The site falsifies no game
+   material. The only change to published art is cropping the portraits
+   to the face for the round frames — nothing redrawn, recoloured, or
+   misrepresented. Its boards and PNGs are original renders of its own
+   computed combined data. Animated/3D experiments, if ever added, are constrained by the
    plan to original or properly licensed art — never extracted assets.
 
 5. **No unreleased or unpublicized content — PASS.**

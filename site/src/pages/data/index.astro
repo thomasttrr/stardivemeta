@@ -16,15 +16,15 @@ import { data } from '../../lib/data';
     <li class="panel-row" data-panel>
       <a href="/data/tierlist.json">tierlist.json</a>
       <span>
-        The consensus board: every character, every list's placement,
+        The combined board: every character, every list's placement,
         the scores and labels.
       </span>
     </li>
     <li class="panel-row" data-panel>
       <a href="/data/codes.json">codes.json</a>
       <span>
-        The codes, with each site's claim and the status we computed
-        from them.
+        The codes, each site's claim, and the status we worked out from
+        them.
       </span>
     </li>
     <li class="panel-row" data-panel>
@@ -32,7 +32,7 @@ import { data } from '../../lib/data';
       <span>The snapshot index — one entry per saved snapshot.</span>
     </li>
   </ul>
-  <p class="built">Contract version {data.contract_version}.</p>
+  <p class="built">Format version {data.contract_version}.</p>
   <p class="built">
     Source lists belong to their publishers. We link to every one.
   </p>

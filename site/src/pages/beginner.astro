@@ -14,14 +14,14 @@ const byId = (id: string) => charactersById.get(id)!;
 ---
 
 <Base title="Beginner – StarDiveMeta" path="/beginner/">
-  <h1 class="page-title">Starting out</h1>
+  <h1 class="page-title">Beginner</h1>
   <p class="built">
     This is not pull advice. It's what the lists say about low investment.
   </p>
 
   <section>
     <h2>Lists agree these are strong at Low</h2>
-    <p class="rule">Low tier S or A, and the lists agree (Solid).</p>
+    <p class="rule">S or A tier at Low, and the lists agree (Solid).</p>
     <div class="cards">
       {
         beginner.agreed_low.map((id) => {
@@ -79,9 +79,8 @@ const byId = (id: string) => charactersById.get(id)!;
   }
 
   <p class="built">
-    How this page is built: the three lists above are derived from the
-    same scores as the tier list, by the rules in each heading. The full
-    method is on the <a href="/rules/">Rules page</a>.
+    Every section on this page comes from the same scores as the tier
+    list, picked by the rule in its heading. The full rules are on the <a href="/rules/">Rules page</a>.
   </p>
 
   <EvidenceDialogs />

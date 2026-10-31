@@ -27,7 +27,7 @@ const joinRows = (rows: [string, number][]) =>
   rows.map(([t, v]) => `${t} ${fmtSpread(v)}`).join(' · ');
 ---
 
-<Base title="Rules – StarDiveMeta" path="/rules/" width="prose">
+<Base title="How we score – StarDiveMeta" path="/rules/" width="prose">
   <h1 class="page-title">How we score</h1>
 
   <section data-panel>
@@ -52,7 +52,7 @@ const joinRows = (rows: [string, number][]) =>
             {s.level_definitions && (
               <>
                 {' '}
-                Its levels, in its own words — Low:{' '}
+                Its investment, in its own words — Low:{' '}
                 {s.level_definitions.low} High: {s.level_definitions.high}{' '}
                 Max: {s.level_definitions.max}
               </>
@@ -84,7 +84,7 @@ const joinRows = (rows: [string, number][]) =>
       <li>
         GameWith JP also publishes a picture table that covers the
         characters its text tiers skip. We read those cells as evidence,
-        but they don't count as votes in Method v{m.version}: JP's scale
+        but they don't count as votes in the v{m.version} rules: JP's scale
         starts a step higher than the others, so extending it downward
         would invent tiers no list gave.
       </li>
@@ -111,8 +111,9 @@ const joinRows = (rows: [string, number][]) =>
       <li>Score = the average of the votes.</li>
       <li>Pocket Gamer's vote is the average of its Conquest and Rift tiers.</li>
       <li>
-        S is {fmtVal(m.s_min)} and up · A {fmtVal(m.a_min)} · B{' '}
-        {fmtVal(m.b_min)} · C {fmtVal(m.c_min)} · D below {fmtVal(m.c_min)}.
+        S: {fmtVal(m.s_min)} and up · A: {fmtVal(m.a_min)} and up · B:{' '}
+        {fmtVal(m.b_min)} and up · C: {fmtVal(m.c_min)} and up · D: below{' '}
+        {fmtVal(m.c_min)}.
       </li>
     </ul>
   </section>
@@ -128,7 +129,7 @@ const joinRows = (rows: [string, number][]) =>
         Contested: at least 2 lists, more than {fmtVal(m.solid_max_spread)}{' '}
         apart.
       </li>
-      <li>Speculation: only 1 list.</li>
+      <li>One list: only 1 list has placed them.</li>
       <li>Unranked: no list yet.</li>
     </ul>
   </section>
@@ -153,17 +154,18 @@ const joinRows = (rows: [string, number][]) =>
     <ul>
       <li>
         Kaiden rates each character at Low, High and Max. When you switch
-        levels, only Kaiden's vote changes. Pocket Gamer and GameWith JP
+        investment, only Kaiden's vote changes. Pocket Gamer and GameWith JP
         publish one list, so their votes stay the same.
       </li>
       <li>
-        Where Kaiden gives two tiers for one level, we count the first one
+        Where Kaiden gives two tiers for one investment, we count the first one
         it lists.
       </li>
       <li>
         GameWith JP rates limited 5★ at A0, permanent 5★ up to A2, and 4★
         at A6.
       </li>
+      <li>A0 to A6 show how many awakenings a character has — A6 is the most.</li>
     </ul>
   </section>
 
@@ -188,9 +190,9 @@ const joinRows = (rows: [string, number][]) =>
         works.
       </li>
       <li>
-        Freshness guard (clarified Oct 29, 2026): each claim carries the
+        Which date counts (added Oct 29, 2026): each claim carries the
         date its own page was last updated — not the day we read it. If a
-        dated “expired” claim is older than a dated “active” claim for
+        dated "expired" claim is older than a dated "active" claim for
         the same code, the old claim can't make the code Expired; it only
         keeps the code Unconfirmed until a fresher check settles it. A
         claim with no date never overrides a dated one.
@@ -208,8 +210,8 @@ const joinRows = (rows: [string, number][]) =>
     <ul>
       <li>
         At Low, many characters are Contested. Part of that is real
-        disagreement. Part of it comes from the two fixed lists not
-        rating at Low.
+        disagreement. Part of it comes from Pocket Gamer and GameWith JP not
+        rating by investment.
       </li>
       <li>Mode views rest on one list.</li>
     </ul>
@@ -240,7 +242,7 @@ const joinRows = (rows: [string, number][]) =>
   <section data-panel>
     <h2>Changes</h2>
     <p>
-      This is Method v{m.version}. If the rules change, the version
+      This is version {m.version} of the rules. If the rules change, the version
       number changes. Old snapshots keep the rules they were made with.
     </p>
   </section>
