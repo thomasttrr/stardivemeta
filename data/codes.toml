@@ -13,7 +13,7 @@
 # date for this sweep — the date of the CLAIM, distinct from seen_at.
 # This sweep's page dates: official 2026-10-14 (announcement date),
 # pocket-gamer 2026-10-25, ldshop 2026-09-02, dexerto 2026-09-20,
-# gamewith-en 2026-10-29, kaiden 2026-10-19, supercheats 2026-10-13,
+# gamewith-en 2026-10-31, kaiden 2026-10-19, supercheats 2026-10-13,
 # gamsgo 2026-09-30, cosm-game 2026-10-27 ("last checked"),
 # gamingonphone 2026-08-03. GamesRadar and Pocket Tactics display no
 # page-level updated date, so their observations carry NO claim_date
@@ -153,8 +153,8 @@ url = "https://www.dexerto.com/codes/mongil-star-dive-codes-3352116/"
 [[code.observation]]
 source = "gamewith-en"
 status = "active"
-seen_at = "2026-10-29T21:10:00-04:00"
-claim_date = "2026-10-29"
+seen_at = "2026-10-31T09:05:00-04:00"
+claim_date = "2026-10-31"
 url = "https://gamewith.net/mongil-stardive/73780"
 [[code.observation]]
 source = "supercheats"
@@ -257,8 +257,8 @@ reward_source = "gamsgo"
 [[code.observation]]
 source = "gamewith-en"
 status = "active"
-seen_at = "2026-10-29T21:10:00-04:00"
-claim_date = "2026-10-29"
+seen_at = "2026-10-31T09:05:00-04:00"
+claim_date = "2026-10-31"
 url = "https://gamewith.net/mongil-stardive/73780"
 [[code.observation]]
 source = "gamsgo"
@@ -286,8 +286,8 @@ reward_source = "gamsgo"
 [[code.observation]]
 source = "gamewith-en"
 status = "active"
-seen_at = "2026-10-29T21:10:00-04:00"
-claim_date = "2026-10-29"
+seen_at = "2026-10-31T09:05:00-04:00"
+claim_date = "2026-10-31"
 url = "https://gamewith.net/mongil-stardive/73780"
 [[code.observation]]
 source = "gamsgo"
@@ -333,8 +333,8 @@ url = "https://www.dexerto.com/codes/mongil-star-dive-codes-3352116/"
 [[code.observation]]
 source = "gamewith-en"
 status = "active"
-seen_at = "2026-10-29T21:10:00-04:00"
-claim_date = "2026-10-29"
+seen_at = "2026-10-31T09:05:00-04:00"
+claim_date = "2026-10-31"
 url = "https://gamewith.net/mongil-stardive/73780"
 [[code.observation]]
 source = "supercheats"
@@ -397,8 +397,8 @@ url = "https://www.dexerto.com/codes/mongil-star-dive-codes-3352116/"
 [[code.observation]]
 source = "gamewith-en"
 status = "active"
-seen_at = "2026-10-29T21:10:00-04:00"
-claim_date = "2026-10-29"
+seen_at = "2026-10-31T09:05:00-04:00"
+claim_date = "2026-10-31"
 url = "https://gamewith.net/mongil-stardive/73780"
 [[code.observation]]
 source = "supercheats"
@@ -461,8 +461,8 @@ url = "https://www.dexerto.com/codes/mongil-star-dive-codes-3352116/"
 [[code.observation]]
 source = "gamewith-en"
 status = "active"
-seen_at = "2026-10-29T21:10:00-04:00"
-claim_date = "2026-10-29"
+seen_at = "2026-10-31T09:05:00-04:00"
+claim_date = "2026-10-31"
 url = "https://gamewith.net/mongil-stardive/73780"
 [[code.observation]]
 source = "supercheats"
@@ -525,8 +525,8 @@ url = "https://www.dexerto.com/codes/mongil-star-dive-codes-3352116/"
 [[code.observation]]
 source = "gamewith-en"
 status = "active"
-seen_at = "2026-10-29T21:10:00-04:00"
-claim_date = "2026-10-29"
+seen_at = "2026-10-31T09:05:00-04:00"
+claim_date = "2026-10-31"
 url = "https://gamewith.net/mongil-stardive/73780"
 [[code.observation]]
 source = "supercheats"
@@ -583,8 +583,8 @@ url = "https://www.dexerto.com/codes/mongil-star-dive-codes-3352116/"
 [[code.observation]]
 source = "gamewith-en"
 status = "active"
-seen_at = "2026-10-29T21:10:00-04:00"
-claim_date = "2026-10-29"
+seen_at = "2026-10-31T09:05:00-04:00"
+claim_date = "2026-10-31"
 url = "https://gamewith.net/mongil-stardive/73780"
 [[code.observation]]
 source = "supercheats"
@@ -635,8 +635,8 @@ url = "https://www.dexerto.com/codes/mongil-star-dive-codes-3352116/"
 [[code.observation]]
 source = "gamewith-en"
 status = "active"
-seen_at = "2026-10-29T21:10:00-04:00"
-claim_date = "2026-10-29"
+seen_at = "2026-10-31T09:05:00-04:00"
+claim_date = "2026-10-31"
 url = "https://gamewith.net/mongil-stardive/73780"
 [[code.observation]]
 source = "supercheats"
@@ -676,8 +676,8 @@ url = "https://www.dexerto.com/codes/mongil-star-dive-codes-3352116/"
 [[code.observation]]
 source = "gamewith-en"
 status = "active"
-seen_at = "2026-10-29T21:10:00-04:00"
-claim_date = "2026-10-29"
+seen_at = "2026-10-31T09:05:00-04:00"
+claim_date = "2026-10-31"
 url = "https://gamewith.net/mongil-stardive/73780"
 [[code.observation]]
 source = "supercheats"
@@ -711,8 +711,8 @@ reward_source = "cosm-game"
 [[code.observation]]
 source = "gamewith-en"
 status = "active"
-seen_at = "2026-10-29T21:10:00-04:00"
-claim_date = "2026-10-29"
+seen_at = "2026-10-31T09:05:00-04:00"
+claim_date = "2026-10-31"
 url = "https://gamewith.net/mongil-stardive/73780"
 [[code.observation]]
 source = "gamsgo"
@@ -933,8 +933,8 @@ url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
 [[code.observation]]
 source = "gamewith-en"
 status = "expired"
-seen_at = "2026-10-29T21:10:00-04:00"
-claim_date = "2026-10-29"
+seen_at = "2026-10-31T09:05:00-04:00"
+claim_date = "2026-10-31"
 url = "https://gamewith.net/mongil-stardive/73780"
 [[code.observation]]
 source = "cosm-game"
