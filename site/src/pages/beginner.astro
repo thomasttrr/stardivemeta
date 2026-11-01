@@ -78,6 +78,46 @@ const byId = (id: string) => charactersById.get(id)!;
     )
   }
 
+  <section>
+    <h2>Common questions</h2>
+    <div class="faq" data-panel>
+      <h3>How does rerolling work?</h3>
+      <p>
+        Rerolling means starting a fresh account, playing the opening
+        until pulls unlock, and spending the pulls a new account starts
+        with. If the results are not what you wanted, you delete or
+        abandon that account and start over. It costs time, not money —
+        how long one attempt takes depends on how much of the opening
+        can be skipped, which changes with game updates.
+      </p>
+      <h3>Which character should I reroll for?</h3>
+      <p>
+        We do not name one. Only one of the lists we track publishes a
+        reroll pick, and this site never presents a single source as
+        settled — the same two-source rule as everything else here.
+        What the lists do agree on is in the first section above:
+        characters that are strong at Low investment.
+      </p>
+      <h3>I am stuck in the 魑魅魍魎 quest. Is it bugged?</h3>
+      <p>
+        Players have reported a problem with this quest: being unable
+        to leave the spirit world, with the boss unable to be beaten.
+        That is a reported issue, not something we have verified
+        ourselves, and we do not have a confirmed workaround. Fixes
+        for quest bugs arrive in game updates, so check the official
+        in-game notices for word of a fix.
+      </p>
+      <h3>What should a new account do first?</h3>
+      <p>
+        Finish the opening story until pulls and the permanent banner
+        unlock, then redeem any working codes — the{' '}
+        <a href="/codes/">Codes page</a> only lists a code as Active
+        when two separate sites say it works. After that, the sections above show what the lists rate
+        at Low investment, which is where a new account plays.
+      </p>
+    </div>
+  </section>
+
   <p class="built">
     Every section on this page comes from the same scores as the tier
     list, picked by the rule in its heading. The full rules are on the <a href="/rules/">Rules page</a>.
@@ -87,6 +127,20 @@ const byId = (id: string) => charactersById.get(id)!;
 </Base>
 
 <style>
+  .faq {
+    border-radius: var(--radius-xl);
+    padding: 6px var(--space-panel) 10px;
+  }
+  .faq h3 {
+    font-size: var(--text-base);
+    font-weight: var(--weight-bold);
+    margin: 18px 0 0;
+  }
+  .faq p {
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+    margin: 5px 0 8px;
+  }
   .rise a {
     color: var(--text);
     text-decoration: none;
