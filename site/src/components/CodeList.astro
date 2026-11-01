@@ -74,7 +74,16 @@ const visible = entries.filter((entry) => {
           variant === 'active' && entry.expires_at ? entry.expires_at : undefined
         }
       >
-        <code class="code">{entry.code}</code>
+        <span class="coderow">
+          <code class="code">{entry.code}</code>
+          {
+            variant !== 'expired' && (
+              <button class="copybtn" type="button" data-copy={entry.code} aria-label={`Copy code ${entry.code}`}>
+                <span class="copy-label">Copy</span>
+              </button>
+            )
+          }
+        </span>
         {variant === 'active' && (
           <>
             <p class="line">
@@ -147,6 +156,40 @@ const visible = entries.filter((entry) => {
   }
   .code-active .code {
     color: var(--aqua);
+  }
+  .coderow {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .copybtn {
+    flex: none;
+    min-height: 32px;
+    padding: 0 13px;
+    margin-top: 1px;
+    border-radius: var(--radius-pill);
+    background: var(--chip-fill);
+    border: 1px solid var(--chip-rim);
+    color: var(--sub);
+    font-family: var(--font-sans);
+    font-size: var(--text-note);
+    font-weight: var(--weight-bold);
+    cursor: pointer;
+    transition:
+      background-color var(--duration-fast),
+      color var(--duration-fast);
+  }
+  .copybtn:hover {
+    background: var(--chip-fill-hover);
+    color: var(--text);
+  }
+  .copybtn.copied {
+    color: var(--aqua);
+    border-color: var(--success-rim);
+  }
+  .copybtn:focus-visible {
+    outline: 2px solid var(--starlight);
+    outline-offset: 2px;
   }
   .line {
     margin: 6px 0 0;
