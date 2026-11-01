@@ -409,6 +409,24 @@ a.panel-row:active {
   outline: 1.5px dashed var(--lavender);
   outline-offset: 9px;
 }
+/* Moved since the visitor's last visit (home board script): one small
+   starlight sparkle on the medallion's rim — a cue, not a label, so
+   the board surface stays text-free. */
+.chip {
+  position: relative;
+}
+.chip.moved::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: calc(50% + var(--med) / 2 - 7px);
+  width: 14px;
+  height: 14px;
+  background: var(--starlight);
+  clip-path: polygon(50% 0, 63% 37%, 100% 50%, 63% 63%, 50% 100%, 37% 63%, 0 50%, 37% 37%);
+  filter: drop-shadow(0 0 4px var(--glow));
+  pointer-events: none;
+}
 .chip-name {
   font-weight: var(--weight-semibold);
   font-size: var(--text-card-name);

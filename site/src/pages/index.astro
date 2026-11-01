@@ -36,6 +36,49 @@ const stamp = `Lists last checked ${stampChecked()} · v${data.method.version} �
     ))
   }
 
+  <script is:inline>
+    // Moved-since-last-visit markers: remember the tier each character
+    // was in per level (localStorage sdm.tiers.<level>); on a later
+    // visit, chips whose tier changed get the quiet .moved sparkle.
+    // First visit only records — no markers. No surface text is added;
+    // the change is named in the chip's aria-label only.
+    (function () {
+      try {
+        ['low', 'high', 'max'].forEach(function (lv) {
+          var board = document.querySelector('.lvl-' + lv + ' .tierboard');
+          if (!board) return;
+          var now = {};
+          board.querySelectorAll('.rack').forEach(function (rack) {
+            var tier = rack.getAttribute('data-tier');
+            rack.querySelectorAll('.chip').forEach(function (chip) {
+              now[chip.getAttribute('data-slug')] = tier;
+            });
+          });
+          var key = 'sdm.tiers.' + lv;
+          var prev = null;
+          try {
+            prev = JSON.parse(localStorage.getItem(key) || 'null');
+          } catch (e) {}
+          if (prev) {
+            board.querySelectorAll('.chip').forEach(function (chip) {
+              var slug = chip.getAttribute('data-slug');
+              if (prev[slug] && prev[slug] !== now[slug]) {
+                chip.classList.add('moved');
+                chip.setAttribute(
+                  'aria-label',
+                  chip.getAttribute('aria-label') + '; moved since your last visit',
+                );
+              }
+            });
+          }
+          try {
+            localStorage.setItem(key, JSON.stringify(now));
+          } catch (e) {}
+        });
+      } catch (e) {}
+    })();
+  </script>
+
   <Legend />
   <Stamp text={stamp} />
 
