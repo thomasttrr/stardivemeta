@@ -158,6 +158,23 @@ const modeRank = (c: Character, mode: 'conquest' | 'rift') => TIER_ORDER[String(
     font-weight: var(--weight-bold);
     padding-left: 18px;
   }
+  /* Phones: the table scrolls sideways — keep the character name
+     pinned at the left so rows stay identifiable mid-scroll. The
+     pinned cell needs the panel's own background, or the cells
+     sliding under it show through. Desktop widths are unchanged. */
+  @media (max-width: 700px) {
+    thead th:first-child,
+    tbody th[scope="row"] {
+      position: sticky;
+      left: 0;
+      z-index: 2;
+      background: var(--panel-fill-strong);
+      box-shadow: 1px 0 0 var(--hairline);
+    }
+    tbody tr:hover th[scope="row"] {
+      background: var(--panel-fill-strong);
+    }
+  }
   tbody th a {
     color: var(--text);
     text-decoration: none;
