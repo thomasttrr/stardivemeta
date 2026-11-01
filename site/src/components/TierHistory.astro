@@ -1,0 +1,129 @@
+---
+// Tier history (character pages): how this character's combined tier
+// has moved across the stored snapshots, per investment level. Data
+// is the frozen snapshot files only (adapters/snapshot-v1) plus the
+// live result when the board has moved past the newest snapshot —
+// factual, no recomputation. With few snapshots the strip is short;
+// it shows exactly what exists.
+import type { Character } from '../types/contract/Character';
+import type { Level } from '../types/contract/Level';
+import type { Tier } from '../types/contract/Tier';
+import { snapshotFiles } from '../adapters/snapshot-v1';
+import { LEVELS, LEVEL_NAME, data, fmtDate, tierDisplay } from '../lib/data';
+
+interface Props {
+  character: Character;
+}
+const { character: c } = Astro.props;
+
+interface Point {
+  date: string;
+  tier: Tier;
+}
+
+function pointsFor(level: Level): Point[] {
+  const pts: Point[] = [];
+  for (const f of snapshotFiles) {
+    const frozen = f.snapshot.results.characters[c.id]?.[level];
+    if (!frozen) continue;
+    const date = /^\d{4}-\d{2}-\d{2}/.test(f.id)
+      ? f.id.slice(0, 10)
+      : f.snapshot.created_at.slice(0, 10);
+    pts.push({ date, tier: frozen.tier });
+  }
+  const newest = snapshotFiles[snapshotFiles.length - 1];
+  if (!newest || newest.id !== data.snapshot_id) {
+    pts.push({ date: 'Now', tier: c.results[level].tier });
+  }
+  return pts;
+}
+
+const rows = LEVELS.map((lv) => ({ lv, pts: pointsFor(lv) })).filter(
+  (r) => r.pts.length > 0,
+);
+---
+
+{
+  rows.length > 0 && (
+    <section class="thist" data-panel>
+      <h2 class="thist-title">Tier history</h2>
+      <p class="thist-note">
+        Combined tier at each snapshot we have saved.
+      </p>
+      {rows.map(({ lv, pts }) => (
+        <p class="thist-row">
+          <span class="thist-lvl">{LEVEL_NAME[lv]}</span>
+          <span class="thist-pts">
+            {pts.map((p, i) => (
+              <>
+                {i > 0 && <span class="thist-arrow" aria-hidden="true">→</span>}
+                <span class="thist-pt">
+                  <span class="thist-date">{p.date === 'Now' ? 'Now' : fmtDate(p.date)}</span>{' '}
+                  <b data-tier={p.tier}>{tierDisplay(p.tier)}</b>
+                </span>
+              </>
+            ))}
+          </span>
+        </p>
+      ))}
+    </section>
+  )
+}
+
+<style>
+  .thist {
+    margin-top: 14px;
+    border-radius: var(--radius-xl);
+    padding: 20px var(--space-panel) 14px;
+  }
+  .thist-title {
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    font-weight: var(--weight-bold);
+    margin: 0;
+  }
+  .thist-note {
+    color: var(--sub);
+    font-size: var(--text-body-sm);
+    margin: 4px 0 6px;
+  }
+  .thist-row {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    padding: 9px 0;
+    border-top: 1px solid var(--hairline);
+    margin: 0;
+    font-size: var(--text-body-sm);
+  }
+  .thist-lvl {
+    flex: 0 0 44px;
+    font-weight: var(--weight-bold);
+    color: var(--sub);
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+  }
+  .thist-pts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    align-items: baseline;
+  }
+  .thist-pt b {
+    font-size: var(--text-base);
+  }
+  .thist-pt b[data-tier="S"] { color: var(--tier-s); }
+  .thist-pt b[data-tier="A"] { color: var(--tier-a); }
+  .thist-pt b[data-tier="B"] { color: var(--tier-b); }
+  .thist-pt b[data-tier="C"] { color: var(--tier-c); }
+  .thist-pt b[data-tier="D"] { color: var(--tier-d); }
+  .thist-pt b[data-tier="MODE_SPLIT"] { color: var(--tier-mode-split); }
+  .thist-date {
+    color: var(--sub);
+    font-variant-numeric: tabular-nums;
+  }
+  .thist-arrow {
+    color: var(--sub);
+  }
+</style>

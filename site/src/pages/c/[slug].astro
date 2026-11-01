@@ -3,6 +3,7 @@
 // component as the board dialog, as its own linkable page.
 import Base from '../../layouts/Base.astro';
 import EvidencePanel from '../../components/EvidencePanel.astro';
+import TierHistory from '../../components/TierHistory.astro';
 import { data } from '../../lib/data';
 import type { Character } from '../../types/contract/Character';
 
@@ -27,6 +28,7 @@ const { character: c } = Astro.props;
   <div class="page-panel">
     <EvidencePanel character={c} asPage />
   </div>
+  <TierHistory character={c} />
 </Base>
 
 <style>
