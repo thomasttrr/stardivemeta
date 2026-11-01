@@ -69,3 +69,20 @@ start = "2026-10-21"
 end = "2026-11-10"
 source = "https://www.prydwen.gg/other-games/mongil-star-dive/banners"
 
+# Officially announced future events (banner page "What's next").
+# Facts announced by Netmarble for version 1.5; the page hides each
+# entry once its date passes, so this list cannot go stale silently —
+# add the next announcement here when one lands.
+
+[[upcoming]]
+title = "Dev Lounge Talk — version 1.5 preview"
+date = "2026-11-05"
+note = "Official developer stream (10:00 UTC) previewing version 1.5, including two new characters and new banners."
+source = "Netmarble (official announcement)"
+
+[[upcoming]]
+title = "Version 1.5 launches"
+date = "2026-11-10"
+note = "The next game version goes live. New characters join the roster; placements land on their pages as each list ranks them."
+source = "Netmarble (official announcement)"
+

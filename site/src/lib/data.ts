@@ -70,6 +70,19 @@ export interface BannerEntry {
 export const banners = (bannersJson as unknown as { banners: BannerEntry[] })
   .banners;
 
+/** One officially announced future event for the banner page's
+ * "What's next" panel (emitted from data/banners.toml `[[upcoming]]`). */
+export interface UpcomingEntry {
+  title: string;
+  date: string;
+  note: string;
+  source: string;
+}
+
+export const upcoming = (
+  bannersJson as unknown as { upcoming: UpcomingEntry[] }
+).upcoming;
+
 export const data = tierlistJson as unknown as TierListData;
 export const meta = metaJson as unknown as {
   commit: string;

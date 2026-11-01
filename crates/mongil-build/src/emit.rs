@@ -1012,6 +1012,7 @@ fn build_errata(ds: &Dataset) -> ErrataFile {
 #[derive(serde::Serialize)]
 struct BannersFile {
     banners: Vec<BannerEntry>,
+    upcoming: Vec<UpcomingEntry>,
 }
 
 #[derive(serde::Serialize)]
@@ -1020,6 +1021,14 @@ struct BannerEntry {
     name: String,
     start: String,
     end: Option<String>,
+    source: String,
+}
+
+#[derive(serde::Serialize)]
+struct UpcomingEntry {
+    title: String,
+    date: String,
+    note: String,
     source: String,
 }
 
@@ -1049,7 +1058,23 @@ fn build_banners(ds: &Dataset) -> BannersFile {
         })
         .unwrap_or_default();
     banners.sort_by(|a, b| a.start.cmp(&b.start).then(a.character.cmp(&b.character)));
-    BannersFile { banners }
+    let mut upcoming: Vec<UpcomingEntry> = ds
+        .banners
+        .as_ref()
+        .map(|b| {
+            b.upcoming
+                .iter()
+                .map(|u| UpcomingEntry {
+                    title: u.title.clone(),
+                    date: u.date.clone(),
+                    note: u.note.clone(),
+                    source: u.source.clone(),
+                })
+                .collect()
+        })
+        .unwrap_or_default();
+    upcoming.sort_by(|a, b| a.date.cmp(&b.date).then(a.title.cmp(&b.title)));
+    BannersFile { banners, upcoming }
 }
 
 /// One snapshot's site file (`generated/snapshots/<id>.json`): the

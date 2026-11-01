@@ -12,6 +12,7 @@ import {
   fmtDate,
   LABEL_WORD,
   tierDisplay,
+  upcoming,
 } from '../lib/data';
 
 const today = new Date().toISOString().slice(0, 10);
@@ -40,6 +41,11 @@ const currentChar = current ? charactersById.get(current.character) : undefined;
 
 // Debut history, newest first.
 const debuts = [...banners].sort((a, b) => b.start.localeCompare(a.start));
+
+// What's next: officially announced events whose date has not
+// passed yet (data/banners.toml [[upcoming]]). Entries remove
+// themselves as their dates pass, so the panel cannot go stale.
+const next = upcoming.filter((u) => u.date >= today);
 ---
 
 <Base title="New characters – StarDiveMeta" path="/banner/" width="prose">
@@ -67,6 +73,25 @@ const debuts = [...banners].sort((a, b) => b.start.localeCompare(a.start));
             far.
           </p>
         )}
+      </section>
+    )
+  }
+
+  {
+    next.length > 0 && (
+      <section>
+        <h2>What's next</h2>
+        {next.map((u) => (
+          <div class="next-item">
+            <p class="banner-line panel-row split" data-panel>
+              <span class="nm">{u.title}</span>
+              <span class="dim">{fmtDate(u.date)}</span>
+            </p>
+            <p class="rule">
+              {u.note} (via {u.source})
+            </p>
+          </div>
+        ))}
       </section>
     )
   }
@@ -156,5 +181,11 @@ const debuts = [...banners].sort((a, b) => b.start.localeCompare(a.start));
   }
   .chars .facts a {
     color: var(--link);
+  }
+  .next-item {
+    margin-bottom: 12px;
+  }
+  .next-item .nm {
+    font-weight: var(--weight-semibold);
   }
 </style>

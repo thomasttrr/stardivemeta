@@ -448,6 +448,24 @@ pub struct CodeObservation {
 pub struct Banners {
     #[serde(rename = "banner", default, skip_serializing_if = "Vec::is_empty")]
     pub banners: Vec<Banner>,
+    /// Officially announced future events for the banner page's
+    /// "What's next" panel (streams, version launches). Dates only —
+    /// the page hides entries once their date passes, so a stale
+    /// entry removes itself instead of lingering.
+    #[serde(rename = "upcoming", default, skip_serializing_if = "Vec::is_empty")]
+    pub upcoming: Vec<Upcoming>,
+}
+
+/// One officially announced future event (`data/banners.toml`
+/// `[[upcoming]]`). `source` is a display label naming the official
+/// channel that announced it, not a URL.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Upcoming {
+    pub title: String,
+    pub date: String,
+    pub note: String,
+    pub source: String,
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
