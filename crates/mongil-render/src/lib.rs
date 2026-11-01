@@ -3,9 +3,9 @@
 //!
 //! An SVG string is built here from plain view structs (no dependency
 //! on the method engine), then rendered with usvg/resvg using ONLY the
-//! bundled Inter variable font (`fonts/Inter-Variable.ttf`, OFL 1.1) —
-//! the fontdb starts empty, so no system font can leak in and change
-//! the output. Names only, no game art (plan §B.5 PNG).
+//! bundled fonts (`fonts/Inter-Variable.ttf` and `fonts/Cardo-Bold.ttf`,
+//! both OFL 1.1) — the fontdb starts empty, so no system font can leak
+//! in and change the output. Names only, no game art (plan §B.5 PNG).
 //!
 //! Colours are the DESIGN.md tokens (the same values as
 //! `site/src/styles/tokens.css`).
@@ -19,7 +19,6 @@ const PANEL_2: &str = "#1f2637";
 const LINE: &str = "#2c3549";
 const TEXT: &str = "#f2f4f8";
 const SUB: &str = "#aeb8c9";
-const TEAL: &str = "#3fd0c9";
 const ON_TIER: &str = "#12141c";
 const ON_TEAL: &str = "#0b2b29";
 const ON_GOLD: &str = "#221a02";
@@ -315,8 +314,124 @@ pub fn render_board_png(board: &BoardView) -> Result<Vec<u8>, RenderError> {
     rasterize(&svg, WIDTH, height)
 }
 
+// Starfield palette for the OG image (docs/DESIGN.md tokens — the
+// same values as site/src/styles/tokens.css). The per-level board
+// PNGs above keep their own palette; only the OG image carries the
+// site's current Starfield look.
+const SF_NIGHT_0: &str = "#0d0a26";
+const SF_NIGHT_2: &str = "#2e1c78";
+const SF_TEXT: &str = "#f3f0ff";
+const SF_SUB: &str = "#b9b0e2";
+const SF_LAVENDER: &str = "#ddd6ff";
+const SF_STARLIGHT: &str = "#ffd98a";
+const SF_PANEL: &str = "#1c1347";
+
+/// Starfield tier colours + the text colour that sits on them.
+fn sf_tier_colors(tier: &str) -> (&'static str, &'static str) {
+    match tier {
+        "S" => ("#ffd98a", "#221a02"),
+        "A" => ("#ffb3c2", "#2b0f1a"),
+        "B" => ("#9fe6cf", "#0b2b29"),
+        "C" => ("#a9c3ff", "#101d3d"),
+        "D" => ("#bdb6d6", "#1d1830"),
+        _ => ("#e3d2ff", "#241236"), // MODE_SPLIT / UNRANKED
+    }
+}
+
+fn sf_glyph_color(label: &str) -> &'static str {
+    match label {
+        "SOLID" => "#9fe6cf",
+        "CONTESTED" => "#ffb3c2",
+        "SPECULATION" => "#b9b0e2",
+        "MODE_SPLIT" => "#e3d2ff",
+        _ => SF_SUB,
+    }
+}
+
+/// The site's four-point sparkle path (24×24 viewBox), drawn at
+/// (x, y) with the given scale and fill.
+fn sparkle_svg(x: f64, y: f64, scale: f64, fill: &str, opacity: f64) -> String {
+    format!(
+        "<path transform=\"translate({x:.0} {y:.0}) scale({scale:.2})\" fill=\"{fill}\" opacity=\"{opacity:.2}\" d=\"M12 0C12.7 7.6 16.4 11.3 24 12 16.4 12.7 12.7 16.4 12 24 11.3 16.4 7.6 12.7 0 12 7.6 11.3 11.3 7.6 12 0Z\"/>"
+    )
+}
+
+/// A deterministic scatter of star dots over the sky (fixed LCG seed,
+/// so the image is byte-stable between renders of the same board).
+fn starfield_svg() -> String {
+    let mut s = String::new();
+    let mut seed: u64 = 0x5eed_2026_1031;
+    let mut next = move || {
+        seed = seed
+            .wrapping_mul(6364136223846793005)
+            .wrapping_add(1442695040888963407);
+        (seed >> 33) as f64 / (1u64 << 31) as f64
+    };
+    for _ in 0..110 {
+        let x = next() * WIDTH as f64;
+        let y = next() * 630.0;
+        let r = 0.8 + next() * 1.5;
+        let o = 0.18 + next() * 0.55;
+        s.push_str(&format!(
+            "<circle cx=\"{x:.0}\" cy=\"{y:.0}\" r=\"{r:.1}\" fill=\"#ffffff\" opacity=\"{o:.2}\"/>"
+        ));
+    }
+    s
+}
+
+/// One OG tier row in the Starfield look: a tier-colour badge and
+/// flat night-panel chips. Same geometry as `row_svg`.
+fn og_row_svg(row: &RowView, y: f64) -> String {
+    let (fill, on) = sf_tier_colors(&row.tier);
+    let mut s = String::new();
+    s.push_str(&format!(
+        "<rect x=\"{MARGIN}\" y=\"{:.0}\" width=\"{BADGE_W}\" height=\"96\" rx=\"12\" fill=\"{fill}\"/>",
+        y + 12.0
+    ));
+    s.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"{:.0}\" font-family=\"Cardo\" font-size=\"44\" font-weight=\"700\" fill=\"{on}\" text-anchor=\"middle\">{}</text>",
+        MARGIN + BADGE_W / 2.0,
+        y + 12.0 + 58.0,
+        esc(&row.tier)
+    ));
+    s.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"13\" font-weight=\"700\" fill=\"{on}\" text-anchor=\"middle\">{} {}</text>",
+        MARGIN + BADGE_W / 2.0,
+        y + 12.0 + 80.0,
+        row.chips.len(),
+        if row.chips.len() == 1 { "char" } else { "chars" }
+    ));
+    let area_w = WIDTH as f64 - CHIPS_X - MARGIN;
+    let lines = flow(&row.chips, area_w);
+    for (i, line) in lines.iter().take(2).enumerate() {
+        let cy = y + 14.0 + i as f64 * (CHIP_H + 8.0);
+        for (chip, xoff) in line {
+            let cx = CHIPS_X + xoff;
+            let w = chip_width(chip).min(area_w);
+            s.push_str(&format!(
+                "<rect x=\"{cx:.0}\" y=\"{cy:.0}\" width=\"{w:.0}\" height=\"{CHIP_H}\" rx=\"10\" fill=\"{SF_PANEL}\" stroke=\"{SF_LAVENDER}\" stroke-opacity=\"0.25\"/>"
+            ));
+            s.push_str(&format!(
+                "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"19\" font-weight=\"600\" fill=\"{SF_TEXT}\">{}</text>",
+                cx + 14.0,
+                cy + 29.0,
+                esc(&chip.name)
+            ));
+            s.push_str(&glyph_shapes(
+                &chip.label,
+                cx + w - 19.0,
+                cy + CHIP_H / 2.0,
+                7.0,
+                sf_glyph_color(&chip.label),
+            ));
+        }
+    }
+    s
+}
+
 /// Render the OG image (1200×630): S and A rows at Low + the site name
-/// + the positioning line (§B.5 PNG).
+/// + the positioning line (§B.5 PNG), in the Starfield look — night
+/// sky gradient, star scatter, the sparkle motif, Cardo display type.
 pub fn render_og_png(low: &BoardView) -> Result<Vec<u8>, RenderError> {
     let height = 630;
     let mut svg = String::new();
@@ -324,26 +439,40 @@ pub fn render_og_png(low: &BoardView) -> Result<Vec<u8>, RenderError> {
         "<svg xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Inter\" width=\"{WIDTH}\" height=\"{height}\" viewBox=\"0 0 {WIDTH} {height}\">"
     ));
     svg.push_str(&format!(
-        "<rect width=\"{WIDTH}\" height=\"{height}\" fill=\"{BG}\"/>"
+        "<defs><linearGradient id=\"sky\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\
+         <stop offset=\"0\" stop-color=\"{SF_NIGHT_2}\"/>\
+         <stop offset=\"0.55\" stop-color=\"#150f38\"/>\
+         <stop offset=\"1\" stop-color=\"{SF_NIGHT_0}\"/></linearGradient></defs>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{MARGIN}\" y=\"94\" font-size=\"56\" font-weight=\"800\" fill=\"{TEXT}\">StarDive<tspan fill=\"{TEAL}\">Meta</tspan></text>"
+        "<rect width=\"{WIDTH}\" height=\"{height}\" fill=\"url(#sky)\"/>"
+    ));
+    svg.push_str(&starfield_svg());
+    svg.push_str(&sparkle_svg(1052.0, 44.0, 2.1, SF_STARLIGHT, 0.95));
+    svg.push_str(&sparkle_svg(972.0, 128.0, 1.0, SF_LAVENDER, 0.8));
+    svg.push_str(&sparkle_svg(1108.0, 168.0, 0.7, SF_LAVENDER, 0.65));
+    svg.push_str(&sparkle_svg(MARGIN, 34.0, 1.1, SF_STARLIGHT, 0.95));
+    svg.push_str(&format!(
+        "<text x=\"{MARGIN}\" y=\"140\" font-family=\"Cardo\" font-size=\"68\" font-weight=\"700\" fill=\"{SF_TEXT}\">StarDive<tspan fill=\"{SF_LAVENDER}\">Meta</tspan></text>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{MARGIN}\" y=\"142\" font-size=\"27\" fill=\"{SUB}\">Every list disagrees. We show you by how much.</text>"
+        "<text x=\"{MARGIN}\" y=\"188\" font-size=\"27\" fill=\"{SF_SUB}\">Every list disagrees. We show you by how much.</text>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{MARGIN}\" y=\"180\" font-size=\"20\" fill=\"{SUB}\">MONGIL: STAR DIVE — combined tier list · Low investment · v{}</text>",
+        "<text x=\"{MARGIN}\" y=\"224\" font-size=\"20\" fill=\"{SF_SUB}\">MONGIL: STAR DIVE — combined tier list · Low investment · v{}</text>",
         esc(&low.method_version)
     ));
-    let mut y = 208.0;
+    let mut y = 246.0;
     for tier in ["S", "A"] {
         if let Some(row) = low.rows.iter().find(|r| r.tier == tier) {
-            svg.push_str(&row_svg(row, y));
+            svg.push_str(&og_row_svg(row, y));
             y += ROW_H;
         }
     }
-    svg.push_str(&footer_svg(height));
+    svg.push_str(&format!(
+        "<text x=\"{MARGIN}\" y=\"{:.0}\" font-size=\"16\" fill=\"{SF_SUB}\">stardivemeta.com · Fan-made. Not affiliated with Netmarble.</text>",
+        height as f64 - 18.0
+    ));
     svg.push_str("</svg>");
     rasterize(&svg, WIDTH, height)
 }
@@ -355,6 +484,12 @@ fn rasterize(svg: &str, width: u32, height: u32) -> Result<Vec<u8>, RenderError>
     db.load_font_file(font_path)
         .map_err(|e| RenderError(format!("loading bundled Inter font: {e}")))?;
     db.set_sans_serif_family("Inter");
+    // Cardo Bold (the site's display serif, OFL 1.1 — fonts/OFL-Cardo.txt)
+    // for the OG image's wordmark and tier badges.
+    let cardo_path = concat!(env!("CARGO_MANIFEST_DIR"), "/fonts/Cardo-Bold.ttf");
+    db.load_font_file(cardo_path)
+        .map_err(|e| RenderError(format!("loading bundled Cardo font: {e}")))?;
+    db.set_serif_family("Cardo");
     let opt = Options {
         fontdb: Arc::new(db),
         font_family: "Inter".to_string(),
