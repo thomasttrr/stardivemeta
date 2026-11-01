@@ -18,8 +18,10 @@ interface Props {
   result: Result;
   /** Show the "Overall …" line (mode pages). */
   overallLine?: boolean;
+  /** Eager-load the portrait (the board's first rack is above the fold). */
+  eager?: boolean;
 }
-const { character: c, result: r, overallLine = false } = Astro.props;
+const { character: c, result: r, overallLine = false, eager = false } = Astro.props;
 const word = LABEL_WORD[r.label];
 const tierWord = r.tier === 'MODE_SPLIT' ? 'mode-split' : r.tier === 'UNRANKED' ? 'unranked' : r.tier;
 const srText = `${c.name}: tier ${tierWord}, ${word}, score ${r.score_display ?? '—'} of 4, ${r.coverage} lists`;
@@ -33,7 +35,7 @@ const srText = `${c.name}: tier ${tierWord}, ${word}, score ${r.score_display ??
   data-dialog={`ev-${c.id}`}
   aria-label={srText}
 >
-  <Medallion id={c.id} name={c.name} />
+  <Medallion id={c.id} name={c.name} eager={eager} />
   <span class="chip-name">{c.name}</span>
   <span class="chip-sub">
     <span class="mk"><LabelMark label={r.label} size={11} /></span>

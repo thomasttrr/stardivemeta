@@ -8,11 +8,14 @@ import { portraitSrc } from '../lib/portraits';
 interface Props {
   id: string;
   name: string;
+  /** Load eagerly (above-the-fold portraits); everything else stays
+   * lazy so the first paint is not held up by off-screen faces. */
+  eager?: boolean;
 }
-const { id, name } = Astro.props;
+const { id, name, eager = false } = Astro.props;
 const src = portraitSrc(id);
 ---
 
 <span class="med" aria-hidden="true">
-  {src ? <img src={src} alt="" width="320" height="320" loading="lazy" decoding="async" /> : name.charAt(0)}
+  {src ? <img src={src} alt="" width="320" height="320" loading={eager ? 'eager' : 'lazy'} decoding="async" /> : name.charAt(0)}
 </span>
