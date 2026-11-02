@@ -104,9 +104,28 @@ const BADGE_W: f64 = 84.0;
 const CHIPS_X: f64 = MARGIN + BADGE_W + 16.0;
 
 /// PNG height for a board with `rows` rendered rows (plan T3.9):
-/// 220 + 120 per row, capped at 2000.
+/// 220 + 120 per row, capped at 2000. This is the height whenever every
+/// row's chips fit two lines; `render_board_png` grows a row that needs
+/// more (see `row_height`).
 pub fn board_height(rows: usize) -> u32 {
     (220 + 120 * rows as u32).min(2000)
+}
+
+/// The tallest board PNG the renderer will produce.
+const MAX_HEIGHT: f64 = 2000.0;
+/// Chip lines a ROW_H band holds; each further line adds one LINE_STEP.
+const BAND_LINES: usize = 2;
+const LINE_STEP: f64 = CHIP_H + 8.0;
+
+fn chips_area_w() -> f64 {
+    WIDTH as f64 - CHIPS_X - MARGIN
+}
+
+/// Height of one tier row band: ROW_H for up to two chip lines, plus
+/// LINE_STEP per extra line, so no chip is ever dropped.
+fn row_height(row: &RowView) -> f64 {
+    let lines = flow(&row.chips, chips_area_w()).len();
+    ROW_H + lines.saturating_sub(BAND_LINES) as f64 * LINE_STEP
 }
 
 /// Estimated chip width at 19px Inter semibold. Deliberately generous
@@ -214,10 +233,10 @@ fn row_svg(row: &RowView, y: f64) -> String {
         row.chips.len(),
         if row.chips.len() == 1 { "char" } else { "chars" }
     ));
-    // Chips, up to two lines inside the band.
-    let area_w = WIDTH as f64 - CHIPS_X - MARGIN;
+    // Chips, every line: the band grows past two lines (row_height).
+    let area_w = chips_area_w();
     let lines = flow(&row.chips, area_w);
-    for (i, line) in lines.iter().take(2).enumerate() {
+    for (i, line) in lines.iter().enumerate() {
         let cy = y + 14.0 + i as f64 * (CHIP_H + 8.0);
         for (chip, xoff) in line {
             let cx = CHIPS_X + xoff;
@@ -286,8 +305,19 @@ fn footer_svg(height: u32) -> String {
 }
 
 /// Render a per-level board PNG (plan T3.9 + §B.5 PNG contents).
+/// Every chip is drawn: a row that needs more than two lines grows the
+/// image, and a board too tall for the 2000px cap is an error, never a
+/// silent crop.
 pub fn render_board_png(board: &BoardView) -> Result<Vec<u8>, RenderError> {
-    let height = board_height(board.rows.len());
+    let rows_h: f64 = board.rows.iter().map(row_height).sum();
+    let needed = 220.0 + rows_h;
+    if needed > MAX_HEIGHT {
+        return Err(RenderError(format!(
+            "board for {} needs {needed:.0}px, over the {MAX_HEIGHT:.0}px cap",
+            board.level_name
+        )));
+    }
+    let height = needed as u32;
     let mut svg = String::new();
     svg.push_str(&format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Inter\" width=\"{WIDTH}\" height=\"{height}\" viewBox=\"0 0 {WIDTH} {height}\">"
@@ -304,10 +334,12 @@ pub fn render_board_png(board: &BoardView) -> Result<Vec<u8>, RenderError> {
         esc(&board.method_version),
         esc(&board.date_text)
     ));
-    for (i, row) in board.rows.iter().enumerate() {
-        svg.push_str(&row_svg(row, HEADER_H + i as f64 * ROW_H));
+    let mut y = HEADER_H;
+    for row in &board.rows {
+        svg.push_str(&row_svg(row, y));
+        y += row_height(row);
     }
-    let legend_y = HEADER_H + board.rows.len() as f64 * ROW_H + 28.0;
+    let legend_y = y + 28.0;
     svg.push_str(&legend_svg(legend_y));
     svg.push_str(&footer_svg(height));
     svg.push_str("</svg>");
@@ -401,10 +433,30 @@ fn og_row_svg(row: &RowView, y: f64) -> String {
         row.chips.len(),
         if row.chips.len() == 1 { "char" } else { "chars" }
     ));
-    let area_w = WIDTH as f64 - CHIPS_X - MARGIN;
-    let lines = flow(&row.chips, area_w);
-    for (i, line) in lines.iter().take(2).enumerate() {
+    // The OG image has a fixed 1200×630 canvas, so a row keeps two
+    // lines; chips that do not fit are counted in a "+N more" pill
+    // instead of vanishing.
+    let area_w = chips_area_w();
+    let (lines, hidden) = fit_two_lines(&row.chips, area_w);
+    for (i, line) in lines.iter().enumerate() {
         let cy = y + 14.0 + i as f64 * (CHIP_H + 8.0);
+        if i == 1 && hidden > 0 {
+            let cx = CHIPS_X
+                + line
+                    .last()
+                    .map(|(chip, x)| x + chip_width(chip).min(area_w) + CHIP_GAP)
+                    .unwrap_or(0.0);
+            s.push_str(&format!(
+                "<rect x=\"{cx:.0}\" y=\"{cy:.0}\" width=\"{:.0}\" height=\"{CHIP_H}\" rx=\"10\" fill=\"none\" stroke=\"{SF_LAVENDER}\" stroke-opacity=\"0.45\"/>",
+                more_width(hidden)
+            ));
+            s.push_str(&format!(
+                "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"19\" font-weight=\"600\" fill=\"{SF_SUB}\">{}</text>",
+                cx + 14.0,
+                cy + 29.0,
+                esc(&more_label(hidden))
+            ));
+        }
         for (chip, xoff) in line {
             let cx = CHIPS_X + xoff;
             let w = chip_width(chip).min(area_w);
@@ -429,8 +481,39 @@ fn og_row_svg(row: &RowView, y: f64) -> String {
     s
 }
 
-/// Render the OG image (1200×630): S and A rows at Low + the site name
-/// + the positioning line (§B.5 PNG), in the Starfield look — night
+fn more_label(hidden: usize) -> String {
+    format!("+{hidden} more")
+}
+
+fn more_width(hidden: usize) -> f64 {
+    28.0 + more_label(hidden).chars().count() as f64 * 10.6
+}
+
+/// Flow chips into at most two lines. When more would be needed, the
+/// second line gives up chips from its end until a "+N more" pill fits;
+/// returns the lines and N (0 when everything fits).
+fn fit_two_lines(chips: &[ChipView], area_w: f64) -> (Vec<Vec<(&ChipView, f64)>>, usize) {
+    let mut lines = flow(chips, area_w);
+    if lines.len() <= 2 {
+        return (lines, 0);
+    }
+    lines.truncate(2);
+    let shown: usize = lines.iter().map(Vec::len).sum();
+    let mut hidden = chips.len() - shown;
+    let last = &mut lines[1];
+    while let Some(&(chip, x)) = last.last() {
+        let end = x + chip_width(chip).min(area_w) + CHIP_GAP;
+        if end + more_width(hidden) <= area_w {
+            break;
+        }
+        last.pop();
+        hidden += 1;
+    }
+    (lines, hidden)
+}
+
+/// Render the OG image (1200×630): S and A rows at Low, the site name
+/// and the positioning line (§B.5 PNG), in the Starfield look — night
 /// sky gradient, star scatter, the sparkle motif, Cardo display type.
 pub fn render_og_png(low: &BoardView) -> Result<Vec<u8>, RenderError> {
     let height = 630;
@@ -629,6 +712,52 @@ mod tests {
         let png = render_og_png(&low_board()).expect("render og");
         assert_eq!(png_dimensions(&png), (1200, 630));
         assert!(png.len() <= 300 * 1024);
+    }
+
+    /// A board whose S row holds the whole roster needs four chip lines.
+    fn crowded_board() -> BoardView {
+        let mut board = low_board();
+        let all: Vec<ChipView> = board.rows.iter().flat_map(|r| r.chips.clone()).collect();
+        board.rows = vec![RowView {
+            tier: "S".into(),
+            chips: all,
+        }];
+        board
+    }
+
+    #[test]
+    fn crowded_row_grows_instead_of_dropping_chips() {
+        let board = crowded_board();
+        let lines = flow(&board.rows[0].chips, chips_area_w()).len();
+        assert!(lines > 2, "the fixture must overflow two lines");
+        let png = render_board_png(&board).expect("render crowded board");
+        let expected = 220 + 120 + (lines as u32 - 2) * LINE_STEP as u32;
+        assert_eq!(png_dimensions(&png), (1200, expected));
+    }
+
+    #[test]
+    fn board_over_the_cap_is_an_error() {
+        let mut board = crowded_board();
+        let row = board.rows[0].clone();
+        board.rows = vec![row; 8];
+        assert!(render_board_png(&board).is_err());
+    }
+
+    #[test]
+    fn og_counts_chips_it_cannot_fit() {
+        let board = crowded_board();
+        let chips = &board.rows[0].chips;
+        let (lines, hidden) = fit_two_lines(chips, chips_area_w());
+        assert_eq!(lines.len(), 2);
+        let shown: usize = lines.iter().map(Vec::len).sum();
+        assert!(hidden > 0);
+        assert_eq!(
+            shown + hidden,
+            chips.len(),
+            "every chip is shown or counted"
+        );
+        let png = render_og_png(&board).expect("render og");
+        assert_eq!(png_dimensions(&png), (1200, 630));
     }
 
     #[test]
