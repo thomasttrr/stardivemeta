@@ -13,7 +13,9 @@
 //!   rule has no window and cannot trip.
 //!
 //! Dates compare by UTC day. An erratum's `found_at` may be a bare
-//! date or a timestamp; its first 10 chars are the date.
+//! date or a timestamp; its first 10 chars are the date. A `found_at`
+//! or `launch_date` that is not a real date is an error (exit 2), never
+//! a silent skip: the lane classifier treats that error as closed.
 
 use mongil_core::model::{Errata, ErratumSeverity};
 use serde::Deserialize;
@@ -79,31 +81,46 @@ pub fn evaluate(data_dir: &Path, today: &str) -> Result<TripwireOutcome, String>
     let today_ord =
         day_ordinal(today).ok_or_else(|| format!("today `{today}` is not a YYYY-MM-DD date"))?;
 
+    // Every date must parse before any rule runs: a corrupt record must
+    // not read as "clear".
+    let mut found: Vec<i64> = Vec::with_capacity(errata.errata.len());
+    for e in &errata.errata {
+        found.push(day_ordinal(&e.found_at).ok_or_else(|| {
+            format!(
+                "erratum {} has found_at `{}`, which is not a real YYYY-MM-DD date",
+                e.id, e.found_at
+            )
+        })?);
+    }
+    let launch = match ops.launch_date.as_deref() {
+        Some(date) => Some(day_ordinal(date).ok_or_else(|| {
+            format!(
+                "launch_date `{date}` in data/ops/autodeploy.toml is not a real YYYY-MM-DD date"
+            )
+        })?),
+        None => None,
+    };
+
     let mut reasons = Vec::new();
 
     // Rule 1: an unreviewed major erratum from the last 7 days.
-    for e in &errata.errata {
+    for (e, &found) in errata.errata.iter().zip(&found) {
         if e.severity != ErratumSeverity::Major || e.review_done {
             continue;
         }
-        if let Some(found) = day_ordinal(&e.found_at) {
-            if (0..=7).contains(&(today_ord - found)) {
-                reasons.push(format!(
-                    "major erratum {} dated {} is unreviewed (within the last 7 days)",
-                    e.id, e.found_at
-                ));
-            }
+        if (0..=7).contains(&(today_ord - found)) {
+            reasons.push(format!(
+                "major erratum {} dated {} is unreviewed (within the last 7 days)",
+                e.id, e.found_at
+            ));
         }
     }
 
     // Rule 2: three or more errata inside the month-one window.
-    if let Some(launch) = ops.launch_date.as_deref().and_then(day_ordinal) {
-        let in_window = errata
-            .errata
+    if let Some(launch) = launch {
+        let in_window = found
             .iter()
-            .filter(|e| {
-                day_ordinal(&e.found_at).is_some_and(|found| found >= launch && found < launch + 30)
-            })
+            .filter(|&&found| found >= launch && found < launch + 30)
             .count();
         if in_window >= 3 {
             reasons.push(format!(

@@ -88,8 +88,21 @@ function collectModule(file, out) {
 }
 const islandTotals = [];
 
-const files = walk(distDir);
+const files = existsSync(distDir) ? walk(distDir) : [];
 const htmlFiles = files.filter((f) => f.endsWith('.html'));
+
+// G12 completeness: a build that emitted nothing, or lost pages, must
+// not pass. The home page, the 404 page and one page per roster
+// character are required.
+function rosterIds() {
+  const rosterPath = join(dataDir, 'roster.toml');
+  if (!existsSync(rosterPath)) return [];
+  return [...readFileSync(rosterPath, 'utf8').matchAll(/^id\s*=\s*"([^"]+)"/gm)].map((m) => m[1]);
+}
+if (htmlFiles.length === 0) fail(`G12: dist ${distDir} contains no HTML pages`);
+for (const page of ['index.html', '404.html', ...rosterIds().map((id) => `c/${id}/index.html`)]) {
+  if (!existsSync(join(distDir, page))) fail(`G12: dist is missing the required page ${page}`);
+}
 
 for (const file of htmlFiles) {
   const rel = relative(distDir, file);
@@ -144,6 +157,7 @@ for (const date of draftNoteDates()) {
 }
 
 // G14: images only under img/own/ (allowlisted) or img/generated/.
+// Fails closed: with no ALLOWLIST.txt, no img/own/ image is allowed.
 const allowlistPath = join(distDir, 'img/own/ALLOWLIST.txt');
 const allowlist = existsSync(allowlistPath)
   ? readFileSync(allowlistPath, 'utf8')
@@ -156,7 +170,9 @@ for (const file of files) {
   if (!IMAGE_EXT.test(rel)) continue;
   if (rel.startsWith('img/own/')) {
     const name = rel.slice('img/own/'.length);
-    if (allowlist && !allowlist.includes(name)) {
+    if (!allowlist) {
+      fail(`G14: dist image img/own/${name} is present but img/own/ALLOWLIST.txt is missing`);
+    } else if (!allowlist.includes(name)) {
       fail(`G14: dist image img/own/${name} is not in ALLOWLIST.txt`);
     }
   } else if (!rel.startsWith('img/generated/')) {

@@ -529,3 +529,57 @@ fn gates_g14_rejects_stray_image() {
     let out = validate(&dir, &["--site", site.to_str().unwrap()]);
     expect_gate_failure("G14", &out, "G14");
 }
+
+/// G11 — stamps: a stamp of the right shape for a date/time that does
+/// not exist is rejected (bug hunt #14).
+#[test]
+fn gates_g11_rejects_impossible_stamp() {
+    let checks = r#"{"codes_checked_at":"2026-02-30T25:61:61Z","last_sweep":"2026-11-03-am","sources_checked_at":"2026-02-30T25:61:61Z"}"#;
+    let dir = dataset_plus("g11-impossible", "state/checks.json", checks);
+    let out = validate(&dir, &[]);
+    expect_gate_failure("G11", &out, "is not a real date and time");
+}
+
+/// G11 — dates: a banner or upcoming-event date that is not a real
+/// YYYY-MM-DD date is rejected (bug hunt #24).
+#[test]
+fn gates_g11_rejects_bad_banner_dates() {
+    for banners in [
+        "[[banner]]\ncharacter = \"mina\"\nstart = \"2026-11-5\"\nsource = \"https://example.com/b\"\n",
+        "[[banner]]\ncharacter = \"mina\"\nstart = \"2026-11-05\"\nend = \"2026-02-30\"\nsource = \"https://example.com/b\"\n",
+        "[[banner]]\ncharacter = \"mina\"\nstart = \"2026-11-05\"\nend = \"2026-11-01\"\nsource = \"https://example.com/b\"\n",
+        "[[upcoming]]\ntitle = \"Stream\"\ndate = \"Nov 10\"\nnote = \"n\"\nsource = \"Official\"\n",
+    ] {
+        let dir = dataset_plus("g11-banner", "banners.toml", banners);
+        let out = validate(&dir, &[]);
+        expect_gate_failure("G11", &out, "G11: banners.toml");
+    }
+}
+
+/// G12 — completeness: a dist with no pages (or missing the required
+/// home, 404 and character pages) is rejected (bug hunt #23).
+#[test]
+fn gates_g12_rejects_empty_dist() {
+    let dir = dataset_with("g12-empty", "roster.toml", common::ROSTER);
+    let dist = temp_dir("g12-empty-dist");
+    write_files(&dist, &[("img/generated/og.png", "png")]);
+    let out = validate(&dir, &["--dist", dist.to_str().unwrap()]);
+    expect_gate_failure("G12", &out, "contains no HTML pages");
+    assert!(
+        out.combined()
+            .contains("missing the required page c/mina/index.html"),
+        "output: {}",
+        out.combined()
+    );
+}
+
+/// G14 — images: with ALLOWLIST.txt missing, an img/own/ image fails
+/// instead of passing unchecked (bug hunt #13).
+#[test]
+fn gates_g14_missing_allowlist_fails_closed() {
+    let dir = dataset_with("g14-closed", "roster.toml", common::ROSTER);
+    let site = temp_dir("g14-closed-site");
+    write_files(&site, &[("public/img/own/ripped.png", "not-really-a-png")]);
+    let out = validate(&dir, &["--site", site.to_str().unwrap()]);
+    expect_gate_failure("G14", &out, "ALLOWLIST.txt is missing");
+}

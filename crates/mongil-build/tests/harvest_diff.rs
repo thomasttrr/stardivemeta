@@ -118,3 +118,44 @@ fn harvest_diff_raw_only_warns() {
     assert!(out.stdout.contains("0 blocking"));
     assert!(out.stdout.contains("clean"));
 }
+
+/// A per-mode read that disagrees only on `world` blocks the update:
+/// `world` is a structured field like `conquest` and `rift` (bug hunt #20).
+#[test]
+fn harvest_diff_world_mismatch_blocks() {
+    let a = r#"
+[meta]
+source = "mongil-gg"
+harvest = "2026-11-03-am"
+worker = "A"
+read_mode = "text"
+
+[[placement]]
+character = "mina"
+world = "S"
+conquest = "S"
+rift = "S"
+"#;
+    let b = a
+        .replace("world = \"S\"", "world = \"C\"")
+        .replace("worker = \"A\"", "worker = \"B\"");
+    let dir = temp_dir("hd-world");
+    write_files(
+        &dir,
+        &[("mongil-gg.a.toml", a), ("mongil-gg.b.toml", b.as_str())],
+    );
+    let out = run_bin(
+        &[
+            "harvest-diff",
+            dir.join("mongil-gg.a.toml").to_str().unwrap(),
+            dir.join("mongil-gg.b.toml").to_str().unwrap(),
+        ],
+        None,
+    );
+    assert_eq!(out.code, Some(1), "output: {}", out.combined());
+    assert!(
+        out.stdout.contains("MISMATCH mina.world"),
+        "output: {}",
+        out.combined()
+    );
+}

@@ -1,7 +1,7 @@
 //! `mongil-build harvest-diff` (plan T2.1): compare the two independent
 //! reads (A = rendered text, B = screenshot) of one source harvest.
 //!
-//! Structured fields are **blocking**: character set, `conquest`,
+//! Structured fields are **blocking**: character set, `world`, `conquest`,
 //! `rift`, `tier`, `low/high/max.tier`, `awakening`, `flags`, `status`,
 //! `page_updated`. `raw` and `note` are free text: they are compared
 //! after whitespace/punctuation normalisation and a difference there is
@@ -96,7 +96,14 @@ pub fn parse_harvest(path: &Path) -> Result<HarvestFile, String> {
         let warnings = out.warnings.entry(character.to_string()).or_default();
 
         // Fields shared by every source shape.
-        for key in ["conquest", "rift", "tier", "status", "page_updated"] {
+        for key in [
+            "world",
+            "conquest",
+            "rift",
+            "tier",
+            "status",
+            "page_updated",
+        ] {
             if let Some(v) = entry.get(key) {
                 blocking.insert(key.to_string(), fmt_value(v));
             }

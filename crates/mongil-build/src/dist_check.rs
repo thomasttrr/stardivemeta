@@ -1,12 +1,15 @@
 //! Built-output checks: gate G12's enforceable core and gate G14's
 //! dist half (plan §B.7, T2.10).
 //!
-//! G12 core, run when `validate --dist <dir>` is passed: every HTML
-//! page in `dist/` contains the disclaimer string; no page exists for
-//! a note whose status is `draft`; every internal link resolves to a
-//! file; each page's total JavaScript is ≤ 6 KB gzipped.
+//! G12 core, run when `validate --dist <dir>` is passed: the dist holds
+//! the home page, the 404 page and one page per roster character (an
+//! empty or partial build fails); every HTML page in `dist/` contains
+//! the disclaimer string; no page exists for a note whose status is
+//! `draft`; every internal link resolves to a file; each page's total
+//! JavaScript is ≤ 6 KB gzipped.
 //! G14 dist half: every image file in `dist/` lives under
-//! `img/own/` (and is allowlisted) or `img/generated/`.
+//! `img/own/` (and is listed in `img/own/ALLOWLIST.txt`, which must
+//! exist whenever `img/own/` holds an image) or `img/generated/`.
 
 use flate2::write::GzEncoder;
 use flate2::Compression;
@@ -89,6 +92,25 @@ pub fn check_dist(data_dir: &Path, dist_dir: &Path) -> Vec<String> {
 
     let draft_dates = draft_note_dates(data_dir);
 
+    // Completeness: an empty or partial build must not pass.
+    if html_files.is_empty() {
+        errors.push(format!(
+            "G12: dist {} contains no HTML pages",
+            dist_dir.display()
+        ));
+    }
+    let mut required = vec!["index.html".to_string(), "404.html".to_string()];
+    required.extend(
+        roster_ids(data_dir)
+            .into_iter()
+            .map(|id| format!("c/{id}/index.html")),
+    );
+    for page in required {
+        if !dist_dir.join(&page).is_file() {
+            errors.push(format!("G12: dist is missing the required page {page}"));
+        }
+    }
+
     for page in &html_files {
         let rel_path = rel(dist_dir, page);
         let Ok(html) = std::fs::read_to_string(page) else {
@@ -153,12 +175,14 @@ pub fn check_dist(data_dir: &Path, dist_dir: &Path) -> Vec<String> {
         }
         let rel_path = rel(dist_dir, file);
         if let Some(rest) = rel_path.strip_prefix("img/own/") {
-            if let Some(list) = &allowlist {
-                if !list.iter().any(|a| a == rest) {
-                    errors.push(format!(
-                        "G14: dist image img/own/{rest} is not in ALLOWLIST.txt"
-                    ));
-                }
+            match &allowlist {
+                None => errors.push(format!(
+                    "G14: dist image img/own/{rest} is present but img/own/ALLOWLIST.txt is missing"
+                )),
+                Some(list) if !list.iter().any(|a| a == rest) => errors.push(format!(
+                    "G14: dist image img/own/{rest} is not in ALLOWLIST.txt"
+                )),
+                Some(_) => {}
             }
         } else if !rel_path.starts_with("img/generated/") {
             errors.push(format!(
@@ -168,6 +192,16 @@ pub fn check_dist(data_dir: &Path, dist_dir: &Path) -> Vec<String> {
     }
 
     errors
+}
+
+/// Roster character ids from `<data>/roster.toml` (empty when the file
+/// is missing or does not parse; `validate` reports that separately).
+fn roster_ids(data_dir: &Path) -> Vec<String> {
+    std::fs::read_to_string(data_dir.join("roster.toml"))
+        .ok()
+        .and_then(|text| toml::from_str::<mongil_core::model::Roster>(&text).ok())
+        .map(|roster| roster.characters.into_iter().map(|c| c.id).collect())
+        .unwrap_or_default()
 }
 
 fn read_allowlist_from_dist(dist_dir: &Path) -> Option<Vec<String>> {
@@ -187,8 +221,8 @@ pub fn parse_allowlist(text: &str) -> Vec<String> {
 }
 
 /// Gate G14's source half: images under `site/public/img/` may only
-/// live in `own/` (and must be listed in `own/ALLOWLIST.txt` when that
-/// file exists) or in `generated/`.
+/// live in `own/` (and must be listed in `own/ALLOWLIST.txt`, which must
+/// exist whenever `own/` holds an image) or in `generated/`.
 pub fn check_site_images(site_dir: &Path) -> Vec<String> {
     let mut errors = Vec::new();
     let img_dir = site_dir.join("public/img");
@@ -207,12 +241,14 @@ pub fn check_site_images(site_dir: &Path) -> Vec<String> {
             continue;
         }
         if let Some(rest) = rel_path.strip_prefix("own/") {
-            if let Some(list) = &allowlist {
-                if !list.iter().any(|a| a == rest) {
-                    errors.push(format!(
-                        "G14: site/public/img/own/{rest} is not listed in ALLOWLIST.txt"
-                    ));
-                }
+            match &allowlist {
+                None => errors.push(format!(
+                    "G14: site/public/img/own/{rest} is present but own/ALLOWLIST.txt is missing"
+                )),
+                Some(list) if !list.iter().any(|a| a == rest) => errors.push(format!(
+                    "G14: site/public/img/own/{rest} is not listed in ALLOWLIST.txt"
+                )),
+                Some(_) => {}
             }
         } else if !rel_path.starts_with("generated/") {
             errors.push(format!(

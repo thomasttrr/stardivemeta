@@ -131,3 +131,48 @@ fn tripwire_no_errata_file_is_clear() {
     let out = tripwire(&dir, "2026-11-20");
     assert_eq!(out.code, Some(0), "output: {}", out.combined());
 }
+
+/// An erratum date that does not parse is an error (exit 2), never a
+/// silent "clear" (bug hunt #21).
+#[test]
+fn tripwire_unparseable_found_at_errors() {
+    for bad in ["garbage!!", "2026-02-30", "2026-13-01"] {
+        let errata = format!(
+            r#"
+[[erratum]]
+id = "e1"
+found_at = "{bad}"
+severity = "major"
+what = "Probe."
+characters = []
+snapshots = []
+review_done = false
+"#
+        );
+        let dir = dataset("tw-bad-date", &errata, None);
+        let out = tripwire(&dir, "2026-03-01");
+        assert_eq!(out.code, Some(2), "found_at {bad}: {}", out.combined());
+        assert!(
+            out.combined().contains("not a real YYYY-MM-DD date"),
+            "found_at {bad}: {}",
+            out.combined()
+        );
+    }
+}
+
+/// An unparseable launch_date is an error too, not a disabled rule.
+#[test]
+fn tripwire_unparseable_launch_date_errors() {
+    let dir = dataset(
+        "tw-bad-launch",
+        "",
+        Some("paused = false\npause_reason = \"\"\nlaunch_date = \"soon\"\n"),
+    );
+    let out = tripwire(&dir, "2026-11-20");
+    assert_eq!(out.code, Some(2), "output: {}", out.combined());
+    assert!(
+        out.combined().contains("launch_date"),
+        "output: {}",
+        out.combined()
+    );
+}
