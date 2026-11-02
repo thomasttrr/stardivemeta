@@ -510,7 +510,11 @@ a.panel-row:active {
     margin-bottom: 0;
   }
   .rack .cards {
-    justify-content: flex-start;
+    /* Centred in the space beside the rail: a one-face tier (D,
+       Mode-split) sits in the middle of its row instead of stranded
+       at the left with the rest of the row empty. Full rows are
+       unaffected. */
+    justify-content: center;
   }
 }
 @media (min-width: 1700px) {
