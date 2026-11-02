@@ -490,6 +490,32 @@ a.panel-row:active {
   }
 }
 
+/* In-between widths (tablets, an unfolded iPhone Duo at ~890px): a
+   step of their own — the desktop medallion sizes with slightly
+   tighter tier spacing — so rows fill evenly instead of the phone
+   layout stretched wide. The ≤700px phone look (centred stack,
+   phone sizes) and the ≥1100px desktop look (rail rows) are
+   untouched. */
+@media (min-width: 701px) and (max-width: 1099px) {
+  :root {
+    --med-s: 152px;
+    --med-a: 112px;
+    --med-rest: 80px;
+    --chip-w-s: 172px;
+    --chip-w-a: 128px;
+    --chip-w-rest: 90px;
+  }
+  .rack {
+    padding: 12px 0 14px;
+  }
+  .rack-head {
+    margin-bottom: 12px;
+  }
+  .cards {
+    gap: 16px 10px;
+  }
+}
+
 /* Wide screens (desktop density): the tier heading moves into a left
    rail beside its medallions, so each tier is one row instead of a
    stacked block; the board column widens and the medallions step up.
