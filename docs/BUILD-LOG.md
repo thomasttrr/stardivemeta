@@ -181,3 +181,50 @@ Format: one line per task — task id, date, commit, how it was checked (plan A.
 - Beginner FAQ · 2026-11-01 · branch `kit/improvements-nov1` · Improvement pick 4: a "Common questions" panel at the foot of the Beginner page, from real community questions — how rerolling works mechanically; why we do not name a best reroll character (one list only, so it stays unconfirmed under the two-source rule); the reported 魑魅魍魎 quest issue (players report being unable to leave the spirit world, boss unbeatable — phrased as reported, no workaround claimed); and first steps for a new account. Factual tone, no pull verdicts.
 - What's next on New characters · 2026-11-01 · branch `kit/improvements-nov1` · Improvement pick 8: a data-driven "What's next" panel on /banner/. data/banners.toml gains [[upcoming]] entries (mongil-core `Banners.upcoming` → emit → banners.json `upcoming`); the page shows only entries whose date has not passed, so the panel empties itself instead of going stale. Seeded with the two official announcements: the Nov 5, 2026 Dev Lounge Talk (10:00 UTC — version 1.5 preview, two new characters and new banners) and the Nov 10, 2026 version 1.5 launch. Evidence only, no pull verdicts.
 - OG image in the Starfield look · 2026-11-01 · branch `kit/improvements-nov1` · Improvement pick 5: render_og_png redrawn in the current Starfield look — night-sky gradient, a deterministic star scatter, the four-point sparkle motif, Starfield tier/panel colours, and Cardo Bold for the wordmark and tier badges (fonts/Cardo-Bold.ttf, OFL 1.1, loaded into the render fontdb alongside Inter). The image's wording is unchanged and it stays 1200×630; the per-level board PNGs keep their existing palette.
+- Bug-hunt fixes · 2026-11-01 · branch `claude/bughunt-fixes` · Fixes all 22 findings of the overnight bug hunt plus the 2 new candidates from its confirmation pass (`docs/BUGHUNT-CONFIRM.md`, verified at e6e3771). Method v1.0 and every live result are unchanged: the live board, the snapshots, and the tier PNGs and OG image (byte-identical) are the same before and after.
+  - **Engine and loader:**
+    - #1: a conversion value that isn't a whole or half point from 0 to 4 now fails the load, and the release-build rounding assert is gone.
+    - #2: a voting source counts only while its registry `role` is `voting`. A voting placement file with no registry entry fails the load.
+    - #3: method files are picked by numeric version, so v1.10 beats v1.9.
+  - **Snapshots:**
+    - #10: "unchanged" now also requires the same method version and frozen results, so a method-only change gets its own snapshot. The file format is unchanged, so committed snapshots stay valid and no spurious snapshot appears; the live data copy still exits 3.
+    - #11: "latest" follows sweep chronology through one parsed key. Within a date, scheduled sweeps sort by time, then patchN, then xN, with numeric counters. `list_snapshots`, validate's G4 and the lane's G5 base all use it.
+    - #12: sweep ids must be ASCII with a real date and time. `€€€€-am` exits 2 instead of panicking.
+  - **Gates:**
+    - #14: G11 stamps must be real dates and times. The shared timestamp parser now rejects impossible dates everywhere instead of rolling them over.
+    - #24: new G11 dates check: banner start/end (end ≥ start), `[[upcoming]]` dates and errata dates must be real YYYY-MM-DD dates.
+    - #13: G14 fails closed. An `img/own/` image with no `ALLOWLIST.txt` fails, in validate `--site` and `--dist` and in `check-dist.mjs`.
+    - #23: G12 needs the home page, the 404 page and one page per roster character. An empty or partial dist fails in both twins.
+    - #20: `world` is a blocking harvest-diff field, so G6 inherits it.
+    - #21: the tripwire errors (exit 2) on an unreadable or impossible erratum `found_at` or `launch_date`; the lane already treats that as closed.
+  - **Codes and PNGs:**
+    - #4: codes with no observation are not emitted, so NEWEPISODE7 and DIVEWITHISABELLA leave /codes/.
+    - #22: a board row that needs more than two chip lines grows the PNG instead of dropping chips. Above the 2000px cap the render errors. The fixed-size OG image shows a "+N more" pill.
+  - **Site:**
+    - #5: the current banner is the latest-started one only while it runs. From Nov 11, with no v1.5 entry yet, no current banner shows instead of Isabella.
+    - #6: the dead name lookup is gone; the "(via host)" label is unchanged.
+    - #7: one download link per Investment level, switched by `data-level` like the boards, so it works without JS.
+    - #8: 404 gets robots noindex, with no canonical or og:url.
+    - #9: every page has its own description, built from its own lead copy.
+    - #17: dossier sections are h2 on character pages and h3 in the dialog. They look identical: a 0-pixel diff on /c/francis/.
+    - #18: a "Skip to content" link is the first focus stop, and `<main id="main">` takes the focus.
+    - #19: a code that expires while the page is open turns into a real expired card ("Expired <date>", no Copy button or active-only lines).
+  - **CI:**
+    - #15: G9 on a push to main diffs against `github.event.before`, and fails if that base is unusable.
+    - #16: the method-file half is armed only by an uncommented `launch_date =` assignment.
+    - `deploy.yml` is untouched (deploy settings). It still has no G9 step of its own; the push run of CI now enforces G9.
+  - **Also:**
+    - The Windows-only `load_rejects_unknown_character_ref` test now builds its path per component.
+    - The proptest datasets register their three voting sources.
+    - A clippy `doc_lazy_continuation` error from Pick 5's OG doc comment, already on main, is fixed.
+  - **Checks (local, Windows):**
+    - `cargo fmt --check` and clippy `-D warnings` clean.
+    - `cargo test --workspace` 196 passed, 0 failed. It was 173 + 1 failed; there are new tests for each Rust fix.
+    - `validate` OK (13 checks; 14 with `--dist`).
+    - `tripwire` clear.
+    - Contract types unchanged.
+    - `astro check` 0 errors, 0 warnings.
+    - html-validate 0 errors.
+    - check-dist OK (46 pages).
+    - pa11y WCAG2AA 0 errors on the 18-page set.
+    - Every hunt probe re-run against the fix: each finding now behaves as intended.
