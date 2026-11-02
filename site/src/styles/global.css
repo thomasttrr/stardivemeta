@@ -443,6 +443,10 @@ a.panel-row:active {
   line-height: var(--leading-card);
   overflow-wrap: anywhere;
   max-width: 100%;
+  /* Two lines of room for every name, so a name that wraps
+     ("Verna: Summer Dive!") no longer pushes its Solid/Contested
+     label below its neighbours' — the labels line up across a row. */
+  min-height: calc(var(--leading-card) * 2em);
 }
 .rack:not([data-tier="S"], [data-tier="A"]) .chip-name {
   font-size: var(--text-card-name-sm);
