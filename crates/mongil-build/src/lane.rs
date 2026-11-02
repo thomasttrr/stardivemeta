@@ -147,7 +147,7 @@ fn mass_change_ok(base: &str, data_dir: &Path) -> Result<bool, String> {
         .filter_map(|f| f.strip_suffix(".json"))
         .map(str::to_string)
         .collect();
-    ids.sort();
+    ids.sort_by_cached_key(|id| crate::snapshots::sweep_order_key(id));
     let Some(latest) = ids.last() else {
         // No snapshot at the base ref yet: nothing to measure against.
         return Ok(true);

@@ -277,3 +277,65 @@ fn diff_reports_tier_label_coverage_and_placement_changes() {
     assert!(out.stdout.contains("## Count changes"));
     assert!(out.stdout.contains("## Placement changes"));
 }
+
+/// A method-only change (placements untouched) still gets a snapshot:
+/// the unchanged check compares the method version and the results, not
+/// just the inputs fingerprint (bug hunt #10).
+#[test]
+fn snapshot_method_only_change_is_recorded() {
+    let dir = dataset4("method-only");
+    assert_eq!(snapshot(&dir, "2026-11-03-am").code, Some(0));
+    let method = common::METHOD
+        .replace("version = \"1.0\"", "version = \"1.1\"")
+        .replace("s_min = 3.5", "s_min = 1.0");
+    assert_ne!(method, common::METHOD, "replacement must apply");
+    write_files(&dir, &[("method.toml", method.as_str())]);
+    let out = snapshot(&dir, "2026-11-03-pm");
+    assert_eq!(out.code, Some(0), "output: {}", out.combined());
+    assert!(dir.join("snapshots/2026-11-03-pm.json").is_file());
+}
+
+/// "Latest" follows sweep chronology: patch10 is newer than patch2, so
+/// reverting to patch2's inputs after patch10 is a change (bug hunt #11).
+#[test]
+fn snapshot_latest_is_chronological() {
+    let dir = dataset4("chronology");
+    assert_eq!(snapshot(&dir, "2026-11-03-patch2").code, Some(0));
+    let changed = PG4.replacen("conquest = \"S\"", "conquest = \"C\"", 1);
+    write_files(&dir, &[("placements/pg.toml", changed.as_str())]);
+    assert_eq!(snapshot(&dir, "2026-11-03-patch10").code, Some(0));
+    write_files(&dir, &[("placements/pg.toml", PG4)]);
+    let out = snapshot(&dir, "2026-11-03-patch11");
+    assert_eq!(out.code, Some(0), "output: {}", out.combined());
+    assert!(dir.join("snapshots/2026-11-03-patch11.json").is_file());
+}
+
+/// Impossible dates/times and non-ASCII ids are rejected with exit 2,
+/// never written and never a panic (bug hunt #12).
+#[test]
+fn snapshot_rejects_impossible_and_non_ascii_ids() {
+    for bad in [
+        "2026-99-99-am",
+        "2026-02-30-pm",
+        "2026-11-03T9999-sweep-am",
+        "2026-11-03T2460-sweep-pm",
+        "0000-00-00-x1",
+        "2026-11-03-patch",
+        "€€€€-am",
+        "ééééé-am",
+    ] {
+        let dir = dataset4("bad-id");
+        let out = snapshot(&dir, bad);
+        assert_eq!(out.code, Some(2), "id {bad}: {}", out.combined());
+        assert!(!dir.join("snapshots").exists(), "id {bad} wrote a file");
+    }
+    for good in [
+        "2024-02-29-am",
+        "2026-11-03T2359-sweep-pm",
+        "2026-11-06-patch10",
+    ] {
+        let dir = dataset4("good-id");
+        let out = snapshot(&dir, good);
+        assert_eq!(out.code, Some(0), "id {good}: {}", out.combined());
+    }
+}
