@@ -53,6 +53,32 @@ const STATUS_WORD: Record<string, string> = {
   not_listed: 'not listed',
 };
 
+/** One-line summary for an Unconfirmed card: how many sites list the
+ * code, how many say expired, and when it was last checked — all from
+ * the freshest sighting per source. The per-site lines sit behind it,
+ * one tap away, instead of repeating down the card. */
+function summaryFor(entry: CodeEntry): string {
+  const latest = latestPerSource(entry);
+  const listing = latest.filter((o) => o.status === 'active').length;
+  const expired = latest.filter((o) => o.status === 'expired').length;
+  // The freshest sighting's own date, sliced from its timestamp like
+  // the per-site lines below — re-deriving it in UTC would shift the
+  // day for evening sightings in negative-offset zones.
+  const lastSeen = [...entry.observations]
+    .sort((a, b) => Date.parse(b.seen_at) - Date.parse(a.seen_at))[0]
+    .seen_at.slice(0, 10);
+  const parts = [
+    listing === 0
+      ? 'No sites list it'
+      : `${listing} ${listing === 1 ? 'site lists' : 'sites list'} it`,
+  ];
+  if (expired > 0) {
+    parts.push(`${expired} ${expired === 1 ? 'says' : 'say'} expired`);
+  }
+  parts.push(`Last checked ${fmtDate(lastSeen)}`);
+  return parts.join(' · ');
+}
+
 const DAY = 86_400_000;
 const visible = entries.filter((entry) => {
   if (variant !== 'expired') return true;
@@ -100,16 +126,19 @@ const visible = entries.filter((entry) => {
           </>
         )}
         {variant === 'unconfirmed' && (
-          <ul class="sightings">
-            {latestPerSource(entry)
-              .sort((a, b) => nameOf(a.source).localeCompare(nameOf(b.source)))
-              .map((o) => (
-                <li>
-                  {nameOf(o.source)}: {STATUS_WORD[o.status] ?? o.status}, seen{' '}
-                  {fmtDate(o.seen_at.slice(0, 10))}
-                </li>
-              ))}
-          </ul>
+          <details class="sightings-fold">
+            <summary>{summaryFor(entry)}</summary>
+            <ul class="sightings">
+              {latestPerSource(entry)
+                .sort((a, b) => nameOf(a.source).localeCompare(nameOf(b.source)))
+                .map((o) => (
+                  <li>
+                    {nameOf(o.source)}: {STATUS_WORD[o.status] ?? o.status}, seen{' '}
+                    {fmtDate(o.seen_at.slice(0, 10))}
+                  </li>
+                ))}
+            </ul>
+          </details>
         )}
         {variant === 'expired' && (
           <p class="line dim">
@@ -212,5 +241,14 @@ const visible = entries.filter((entry) => {
     display: flex;
     flex-direction: column;
     gap: 3px;
+  }
+  .sightings-fold summary {
+    margin-top: 8px;
+    color: var(--sub);
+    font-size: var(--text-note);
+    cursor: pointer;
+  }
+  .sightings-fold summary:hover {
+    color: var(--text);
   }
 </style>
