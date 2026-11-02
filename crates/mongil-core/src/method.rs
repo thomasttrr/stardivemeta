@@ -19,10 +19,11 @@ fn milli(points: f64) -> i64 {
 }
 
 /// Points → integer half-points. Conversion tables only ever hold whole
-/// or half points (0.0, 0.5, …, 4.0).
+/// or half points (0.0, 0.5, …, 4.0); `load_dataset` rejects anything
+/// else, and this assert holds in release builds too.
 fn half_points(points: f64) -> u8 {
     let doubled = points * 2.0;
-    debug_assert!(
+    assert!(
         (doubled - doubled.round()).abs() < 1e-9,
         "conversion value {points} is not a whole number of half-points"
     );
@@ -428,16 +429,20 @@ pub fn compute(ds: &Dataset, method: &MethodConfig, level: Level) -> LevelResult
     }
 }
 
-/// Whether a voting source currently casts votes. Sources with no registry
-/// entry, or no recorded status, count (the fixture predates T2.3 status
-/// assignment); `stale_check_only` / `unavailable` sources do not.
+/// Whether a voting source currently casts votes: its registry role must
+/// be `voting`, and its status must not be `stale_check_only` or
+/// `unavailable` (no recorded status counts as current). A source with
+/// no registry entry never votes; `load_dataset` refuses that case.
 fn source_counts(ds: &Dataset, id: &str) -> bool {
     match ds.sources.sources.iter().find(|s| s.id == id) {
-        Some(source) => !matches!(
-            source.status,
-            Some(SourceStatus::StaleCheckOnly) | Some(SourceStatus::Unavailable)
-        ),
-        None => true,
+        Some(source) => {
+            source.role == SourceRole::Voting
+                && !matches!(
+                    source.status,
+                    Some(SourceStatus::StaleCheckOnly) | Some(SourceStatus::Unavailable)
+                )
+        }
+        None => false,
     }
 }
 

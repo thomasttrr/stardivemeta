@@ -10,6 +10,31 @@ use mongil_core::model::*;
 use proptest::prelude::*;
 use std::collections::BTreeMap;
 
+/// The three voting sources as live data registers them (voting,
+/// current): `load_dataset` requires the entries, and the engine reads
+/// their role and status.
+fn voting_registry() -> SourceRegistry {
+    let source = |id: &str, kind: SourceKind| Source {
+        id: id.to_string(),
+        name: id.to_string(),
+        role: SourceRole::Voting,
+        kind,
+        url: format!("https://example.com/{id}"),
+        list_date: None,
+        game_version: None,
+        status: Some(SourceStatus::Current),
+        criteria_caveat: None,
+        level_definitions: None,
+    };
+    SourceRegistry {
+        sources: vec![
+            source("pg", SourceKind::PerMode),
+            source("kaiden", SourceKind::OverallByInvestment),
+            source("gamewith-jp", SourceKind::Overall),
+        ],
+    }
+}
+
 const METHOD_TOML: &str = r#"
 version = "1.0"
 weights = "equal"
@@ -208,7 +233,7 @@ fn build_dataset(specs: &[Spec], extra_character: bool, with_check_only: bool) -
     }
     Dataset {
         roster: Roster { characters: chars },
-        sources: SourceRegistry { sources: vec![] },
+        sources: voting_registry(),
         method: method(),
         pg: PgPlacements {
             meta: None,
