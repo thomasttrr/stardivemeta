@@ -136,4 +136,29 @@ const stamp = `Lists last checked ${stampChecked()} · v${data.method.version} �
   .hero .built {
     margin-inline: auto;
   }
+
+  /* Short screens (an unfolded iPhone Duo is only ~626px tall): slim
+     the opening — smaller title, tighter gaps, no "Combined from…"
+     line — so the S tier row shows without scrolling. Screens of a
+     normal height keep the full opening. */
+  @media (max-height: 700px) {
+    .hero {
+      padding-top: 10px;
+    }
+    .display {
+      font-size: 34px;
+    }
+    .display span {
+      margin-top: 2px;
+    }
+    .hero .star-rule {
+      margin-top: 8px;
+    }
+    .tagline {
+      margin-top: 6px;
+    }
+    .hero .built {
+      display: none;
+    }
+  }
 </style>
