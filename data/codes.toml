@@ -12,9 +12,9 @@
 # observation also carries its source page's own stated "last updated"
 # date for this sweep — the date of the CLAIM, distinct from seen_at.
 # This sweep's page dates: official 2026-10-14 (announcement date),
-# pocket-gamer 2026-10-25, ldshop 2026-09-02, dexerto 2026-09-20,
-# gamewith-en 2026-10-31, kaiden 2026-10-19, supercheats 2026-10-13,
-# gamsgo 2026-09-30, cosm-game 2026-10-27 ("last checked"),
+# pocket-gamer 2026-11-01, ldshop 2026-09-02, dexerto 2026-09-20,
+# gamewith-en 2026-11-01, kaiden 2026-10-19, supercheats 2026-10-13,
+# gamsgo 2026-11-02, cosm-game 2026-10-27 ("last checked"),
 # gamingonphone 2026-08-03. GamesRadar and Pocket Tactics display no
 # page-level updated date, so their observations carry NO claim_date
 # (dateless) — an undated claim never overrides a dated one.
@@ -40,6 +40,12 @@ claim_date = "2026-10-27"
 url = "https://cosm-game.com/codes/mongil-star-dive-redeem-codes/"
 
 # SuperCheats prints "5 Compass of Promise" against the majority's 3 — reward text above is the majority wording (reward_source = pocket-gamer).
+[[code.observation]]
+source = "gamsgo"
+status = "active"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-02"
+url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
 [[code]]
 code = "REGINULAUPDATE"
 reward = "10 Premium Salmon Puree, 1 Purple Upgrade Stone, 3 Compass of Promise"
@@ -47,8 +53,8 @@ reward_source = "pocket-gamer"
 [[code.observation]]
 source = "pocket-gamer"
 status = "active"
-seen_at = "2026-10-29T21:06:00-04:00"
-claim_date = "2026-10-25"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-01"
 url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
 [[code.observation]]
 source = "ldshop"
@@ -71,8 +77,8 @@ url = "https://www.supercheats.com/mongil-star-dive-codes"
 [[code.observation]]
 source = "gamsgo"
 status = "active"
-seen_at = "2026-10-29T21:13:00-04:00"
-claim_date = "2026-09-30"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-02"
 url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
 [[code.observation]]
 source = "cosm-game"
@@ -93,8 +99,8 @@ reward_source = "pocket-gamer"
 [[code.observation]]
 source = "pocket-gamer"
 status = "active"
-seen_at = "2026-10-29T21:06:00-04:00"
-claim_date = "2026-10-25"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-01"
 url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
 [[code.observation]]
 source = "ldshop"
@@ -117,8 +123,8 @@ url = "https://www.supercheats.com/mongil-star-dive-codes"
 [[code.observation]]
 source = "gamsgo"
 status = "active"
-seen_at = "2026-10-29T21:13:00-04:00"
-claim_date = "2026-09-30"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-02"
 url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
 [[code.observation]]
 source = "cosm-game"
@@ -135,8 +141,8 @@ reward_source = "pocket-gamer"
 [[code.observation]]
 source = "pocket-gamer"
 status = "active"
-seen_at = "2026-10-29T21:06:00-04:00"
-claim_date = "2026-10-25"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-01"
 url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
 [[code.observation]]
 source = "ldshop"
@@ -165,8 +171,8 @@ url = "https://www.supercheats.com/mongil-star-dive-codes"
 [[code.observation]]
 source = "gamsgo"
 status = "active"
-seen_at = "2026-10-29T21:13:00-04:00"
-claim_date = "2026-09-30"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-02"
 url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
 [[code.observation]]
 source = "cosm-game"
@@ -199,8 +205,8 @@ reward_source = "pocket-gamer"
 [[code.observation]]
 source = "pocket-gamer"
 status = "active"
-seen_at = "2026-10-29T21:06:00-04:00"
-claim_date = "2026-10-25"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-01"
 url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
 [[code.observation]]
 source = "ldshop"
@@ -223,8 +229,8 @@ url = "https://www.supercheats.com/mongil-star-dive-codes"
 [[code.observation]]
 source = "gamsgo"
 status = "active"
-seen_at = "2026-10-29T21:13:00-04:00"
-claim_date = "2026-09-30"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-02"
 url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
 [[code.observation]]
 source = "cosm-game"
@@ -249,7 +255,7 @@ seen_at = "2026-10-29T21:18:00-04:00"
 claim_date = "2026-08-03"
 url = "https://gamingonphone.com/guides/mongil-star-dive-redeem-codes-and-how-to-use-them/"
 
-# Freshness caveat from the harvest: only COSM (Oct 27) and GamsGo (Sep 30) are recent witnesses; GW-EN's confirmation is from April and GamesRadar's page is stale.
+# Freshness caveat from the harvest: only COSM (Oct 27) and GamsGo (Nov 2, sweep 2026-11-02T0900-sweep-am) are recent witnesses; GW-EN's confirmation is from April and GamesRadar's page is stale.
 [[code]]
 code = "GSBGMONGIL"
 reward = "Uncle Cappy ×1, 10,000 Gold"
@@ -263,8 +269,8 @@ url = "https://gamewith.net/mongil-stardive/73780"
 [[code.observation]]
 source = "gamsgo"
 status = "active"
-seen_at = "2026-10-29T21:13:00-04:00"
-claim_date = "2026-09-30"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-02"
 url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
 [[code.observation]]
 source = "cosm-game"
@@ -292,8 +298,8 @@ url = "https://gamewith.net/mongil-stardive/73780"
 [[code.observation]]
 source = "gamsgo"
 status = "active"
-seen_at = "2026-10-29T21:13:00-04:00"
-claim_date = "2026-09-30"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-02"
 url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
 [[code.observation]]
 source = "cosm-game"
@@ -307,7 +313,7 @@ status = "active"
 seen_at = "2026-10-29T21:16:00-04:00"
 url = "https://www.gamesradar.com/games/rpg/mongil-star-dive-codes/"
 
-# April launch trio — conflicted: SuperCheats + GamingOnPhone say expired, GamsGo flags it "reported active / conflicting". Reward text not recorded in this harvest (empty).
+# April launch trio — conflicted: SuperCheats + GamingOnPhone say expired; GamsGo flagged it "reported active / conflicting" until 2026-11-01, then moved it to expired on its 2026-11-02 page (sweep 2026-11-02T0900-sweep-am). Reward text not recorded in this harvest (empty).
 [[code]]
 code = "MONGILREPORT"
 reward = ""
@@ -315,8 +321,8 @@ reward_source = "pocket-gamer"
 [[code.observation]]
 source = "pocket-gamer"
 status = "active"
-seen_at = "2026-10-29T21:06:00-04:00"
-claim_date = "2026-10-25"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-01"
 url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
 [[code.observation]]
 source = "ldshop"
@@ -344,9 +350,9 @@ claim_date = "2026-10-13"
 url = "https://www.supercheats.com/mongil-star-dive-codes"
 [[code.observation]]
 source = "gamsgo"
-status = "active"
-seen_at = "2026-10-29T21:13:00-04:00"
-claim_date = "2026-09-30"
+status = "expired"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-02"
 url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
 [[code.observation]]
 source = "cosm-game"
@@ -379,8 +385,8 @@ reward_source = "pocket-gamer"
 [[code.observation]]
 source = "pocket-gamer"
 status = "active"
-seen_at = "2026-10-29T21:06:00-04:00"
-claim_date = "2026-10-25"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-01"
 url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
 [[code.observation]]
 source = "ldshop"
@@ -408,9 +414,9 @@ claim_date = "2026-10-13"
 url = "https://www.supercheats.com/mongil-star-dive-codes"
 [[code.observation]]
 source = "gamsgo"
-status = "active"
-seen_at = "2026-10-29T21:13:00-04:00"
-claim_date = "2026-09-30"
+status = "expired"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-02"
 url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
 [[code.observation]]
 source = "cosm-game"
@@ -443,8 +449,8 @@ reward_source = "pocket-gamer"
 [[code.observation]]
 source = "pocket-gamer"
 status = "active"
-seen_at = "2026-10-29T21:06:00-04:00"
-claim_date = "2026-10-25"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-01"
 url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
 [[code.observation]]
 source = "ldshop"
@@ -472,9 +478,9 @@ claim_date = "2026-10-13"
 url = "https://www.supercheats.com/mongil-star-dive-codes"
 [[code.observation]]
 source = "gamsgo"
-status = "active"
-seen_at = "2026-10-29T21:13:00-04:00"
-claim_date = "2026-09-30"
+status = "expired"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-02"
 url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
 [[code.observation]]
 source = "cosm-game"
@@ -507,8 +513,8 @@ reward_source = "pocket-gamer"
 [[code.observation]]
 source = "pocket-gamer"
 status = "active"
-seen_at = "2026-10-29T21:06:00-04:00"
-claim_date = "2026-10-25"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-01"
 url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
 [[code.observation]]
 source = "ldshop"
@@ -565,8 +571,8 @@ reward_source = "pocket-gamer"
 [[code.observation]]
 source = "pocket-gamer"
 status = "active"
-seen_at = "2026-10-29T21:06:00-04:00"
-claim_date = "2026-10-25"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-01"
 url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
 [[code.observation]]
 source = "ldshop"
@@ -594,9 +600,9 @@ claim_date = "2026-10-13"
 url = "https://www.supercheats.com/mongil-star-dive-codes"
 [[code.observation]]
 source = "gamsgo"
-status = "active"
-seen_at = "2026-10-29T21:13:00-04:00"
-claim_date = "2026-09-30"
+status = "expired"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-02"
 url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
 [[code.observation]]
 source = "cosm-game"
@@ -647,8 +653,8 @@ url = "https://www.supercheats.com/mongil-star-dive-codes"
 [[code.observation]]
 source = "gamsgo"
 status = "active"
-seen_at = "2026-10-29T21:13:00-04:00"
-claim_date = "2026-09-30"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-02"
 url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
 [[code.observation]]
 source = "cosm-game"
@@ -688,8 +694,8 @@ url = "https://www.supercheats.com/mongil-star-dive-codes"
 [[code.observation]]
 source = "gamsgo"
 status = "active"
-seen_at = "2026-10-29T21:13:00-04:00"
-claim_date = "2026-09-30"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-02"
 url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
 [[code.observation]]
 source = "cosm-game"
@@ -716,9 +722,9 @@ claim_date = "2026-11-01"
 url = "https://gamewith.net/mongil-stardive/73780"
 [[code.observation]]
 source = "gamsgo"
-status = "active"
-seen_at = "2026-10-29T21:13:00-04:00"
-claim_date = "2026-09-30"
+status = "expired"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-02"
 url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
 [[code.observation]]
 source = "cosm-game"
@@ -787,8 +793,8 @@ url = "https://www.supercheats.com/mongil-star-dive-codes"
 [[code.observation]]
 source = "gamsgo"
 status = "expired"
-seen_at = "2026-10-29T21:13:00-04:00"
-claim_date = "2026-09-30"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-02"
 url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
 [[code.observation]]
 source = "cosm-game"
@@ -817,8 +823,8 @@ url = "https://www.supercheats.com/mongil-star-dive-codes"
 [[code.observation]]
 source = "gamsgo"
 status = "expired"
-seen_at = "2026-10-29T21:13:00-04:00"
-claim_date = "2026-09-30"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-02"
 url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
 [[code.observation]]
 source = "cosm-game"
@@ -847,8 +853,8 @@ url = "https://www.supercheats.com/mongil-star-dive-codes"
 [[code.observation]]
 source = "gamsgo"
 status = "expired"
-seen_at = "2026-10-29T21:13:00-04:00"
-claim_date = "2026-09-30"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-02"
 url = "https://www.gamsgo.com/blog/mongil-star-dive-codes"
 [[code.observation]]
 source = "cosm-game"
@@ -893,8 +899,8 @@ reward_source = "pocket-gamer"
 [[code.observation]]
 source = "pocket-gamer"
 status = "expired"
-seen_at = "2026-10-29T21:06:00-04:00"
-claim_date = "2026-10-25"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-01"
 url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
 [[code.observation]]
 source = "supercheats"
@@ -927,8 +933,8 @@ reward_source = "pocket-gamer"
 [[code.observation]]
 source = "pocket-gamer"
 status = "expired"
-seen_at = "2026-10-29T21:06:00-04:00"
-claim_date = "2026-10-25"
+seen_at = "2026-11-02T09:06:00-05:00"
+claim_date = "2026-11-01"
 url = "https://www.pocketgamer.com/mongil-star-dive/codes/"
 [[code.observation]]
 source = "gamewith-en"
