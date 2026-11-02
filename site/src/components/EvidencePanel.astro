@@ -32,8 +32,11 @@ interface Props {
   character: Character;
   /** Render the name as <h1> (character page) instead of <h2> (dialog). */
   asPage?: boolean;
+  /** Eager-load the portrait (character page: it is above the fold).
+   * Dialogs leave it lazy — every dossier sits in the board's HTML. */
+  eager?: boolean;
 }
-const { character: c, asPage = false } = Astro.props;
+const { character: c, asPage = false, eager = false } = Astro.props;
 
 interface RowVM {
   name: string;
@@ -122,7 +125,7 @@ const SecTag = asPage ? 'h2' : 'h3';
 
 <article class="dossier" data-panel={asPage ? '' : undefined}>
   <div class="dhead">
-    <Medallion id={c.id} name={c.name} />
+    <Medallion id={c.id} name={c.name} eager={eager} />
     <div>
       <p class="evkicker">Character file</p>
       <NameTag class="dname">

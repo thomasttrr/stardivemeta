@@ -5,6 +5,7 @@
 // plus the current banner and the debut history from banners.json.
 // Evidence only — this page carries no pull verdict (Package B).
 import Base from '../layouts/Base.astro';
+import Medallion from '../components/Medallion.astro';
 import {
   banners,
   charactersById,
@@ -49,7 +50,7 @@ const debuts = [...banners].sort((a, b) => b.start.localeCompare(a.start));
 const next = upcoming.filter((u) => u.date >= today);
 ---
 
-<Base description="New MONGIL: STAR DIVE characters and the current banner. We add a new character's placements as each list ranks them." title="New characters – StarDiveMeta" path="/banner/" width="prose">
+<Base description="New MONGIL: STAR DIVE characters and the current banner. We add a new character's placements as each list ranks them." title="New characters – StarDiveMeta" path="/banner/">
   <h1 class="page-title">New characters</h1>
   <p class="built">
     We add a new character's placements as each list ranks them. No
@@ -60,8 +61,11 @@ const next = upcoming.filter((u) => u.date >= today);
     current && (
       <section class="banner-now">
         <h2>Current banner</h2>
-        <p class="banner-line panel-row split" data-panel>
-          <a href={`/c/${current.character}/`}>{current.name}</a>
+        <p class="banner-line panel-row split vcent" data-panel>
+          <span class="who">
+            <Medallion id={current.character} name={current.name} />
+            <a href={`/c/${current.character}/`}>{current.name}</a>
+          </span>
           <span class="dim">
             {fmtDate(current.start)}
             {current.end && ` – ${fmtDate(current.end)}`} (via{' '}
@@ -107,8 +111,11 @@ const next = upcoming.filter((u) => u.date >= today);
           {listed.map((c) => {
             const r = c.results.low;
             return (
-              <li class="panel-row split" data-panel>
-                <span class="nm">{c.name}</span>
+              <li class="panel-row split vcent" data-panel>
+                <span class="nm who">
+                  <Medallion id={c.id} name={c.name} />
+                  {c.name}
+                </span>
                 <span class="facts">
                   {r.coverage} of 3 lists have placed them
                   {r.coverage > 0 && (
@@ -134,8 +141,9 @@ const next = upcoming.filter((u) => u.date >= today);
     <ul class="panel-list chars">
       {
         debuts.map((b) => (
-          <li class="panel-row split" data-panel>
-            <span class="nm">
+          <li class="panel-row split vcent" data-panel>
+            <span class="nm who">
+              <Medallion id={b.character} name={b.name} />
               <a href={`/c/${b.character}/`}>{b.name}</a>
             </span>
             <span class="facts">
@@ -182,6 +190,21 @@ const next = upcoming.filter((u) => u.date >= today);
   }
   .chars .facts a {
     color: var(--link);
+    /* Keep "See the evidence" whole: on phone cards it wrapped
+       mid-phrase ("See the / evidence"). */
+    white-space: nowrap;
+  }
+  /* Rows that name a character carry a small round portrait, so the
+     row reads as a character and not an empty bar. The size rides in
+     on --med, which the medallion inherits. */
+  .who {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    --med: 40px;
+  }
+  .panel-row.split.vcent {
+    align-items: center;
   }
   .next-item {
     margin-bottom: 12px;

@@ -366,7 +366,17 @@ a.panel-row:active {
   font-size: calc(var(--med) * 0.42);
   color: var(--text);
 }
+/* The first letter waits behind the portrait while it loads (and
+   stays if the file ever fails), so a ring is never an empty disc. */
+.med-letter {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
 .med img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   display: block;
@@ -433,6 +443,10 @@ a.panel-row:active {
   line-height: var(--leading-card);
   overflow-wrap: anywhere;
   max-width: 100%;
+  /* Two lines of room for every name, so a name that wraps
+     ("Verna: Summer Dive!") no longer pushes its Solid/Contested
+     label below its neighbours' — the labels line up across a row. */
+  min-height: calc(var(--leading-card) * 2em);
 }
 .rack:not([data-tier="S"], [data-tier="A"]) .chip-name {
   font-size: var(--text-card-name-sm);
@@ -480,6 +494,32 @@ a.panel-row:active {
   }
 }
 
+/* In-between widths (tablets, an unfolded iPhone Duo at ~890px): a
+   step of their own — the desktop medallion sizes with slightly
+   tighter tier spacing — so rows fill evenly instead of the phone
+   layout stretched wide. The ≤700px phone look (centred stack,
+   phone sizes) and the ≥1100px desktop look (rail rows) are
+   untouched. */
+@media (min-width: 701px) and (max-width: 1099px) {
+  :root {
+    --med-s: 152px;
+    --med-a: 112px;
+    --med-rest: 80px;
+    --chip-w-s: 172px;
+    --chip-w-a: 128px;
+    --chip-w-rest: 90px;
+  }
+  .rack {
+    padding: 12px 0 14px;
+  }
+  .rack-head {
+    margin-bottom: 12px;
+  }
+  .cards {
+    gap: 16px 10px;
+  }
+}
+
 /* Wide screens (desktop density): the tier heading moves into a left
    rail beside its medallions, so each tier is one row instead of a
    stacked block; the board column widens and the medallions step up.
@@ -510,7 +550,11 @@ a.panel-row:active {
     margin-bottom: 0;
   }
   .rack .cards {
-    justify-content: flex-start;
+    /* Centred in the space beside the rail: a one-face tier (D,
+       Mode-split) sits in the middle of its row instead of stranded
+       at the left with the rest of the row empty. Full rows are
+       unaffected. */
+    justify-content: center;
   }
 }
 @media (min-width: 1700px) {

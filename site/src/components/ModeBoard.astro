@@ -22,14 +22,21 @@ const byName = (ids: string[]) =>
 
 <div class="tierboard">
   {
-    ROWS.filter((key) => board[key].length > 0).map((key) => (
+    ROWS.filter((key) => board[key].length > 0).map((key, rackIdx) => (
       <section class="rack" data-tier={key}>
         <h2 class="sr-only">Tier {key}</h2>
         <TierLens tier={key} count={board[key].length} />
         <div class="cards">
           {byName(board[key]).map((id) => {
             const c = charactersById.get(id)!;
-            return <CharacterChip character={c} result={c.results.low} overallLine />;
+            return (
+              <CharacterChip
+                character={c}
+                result={c.results.low}
+                overallLine
+                eager={rackIdx === 0}
+              />
+            );
           })}
         </div>
       </section>
