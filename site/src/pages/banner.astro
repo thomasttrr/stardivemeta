@@ -190,6 +190,9 @@ const next = upcoming.filter((u) => u.date >= today);
   }
   .chars .facts a {
     color: var(--link);
+    /* Keep "See the evidence" whole: on phone cards it wrapped
+       mid-phrase ("See the / evidence"). */
+    white-space: nowrap;
   }
   /* Rows that name a character carry a small round portrait, so the
      row reads as a character and not an empty bar. The size rides in
