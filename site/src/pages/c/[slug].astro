@@ -4,7 +4,7 @@
 import Base from '../../layouts/Base.astro';
 import EvidencePanel from '../../components/EvidencePanel.astro';
 import TierHistory from '../../components/TierHistory.astro';
-import { data } from '../../lib/data';
+import { data, LABEL_WORD, LEVEL_NAME, LEVELS } from '../../lib/data';
 import type { Character } from '../../types/contract/Character';
 
 export function getStaticPaths() {
@@ -18,10 +18,20 @@ interface Props {
   character: Character;
 }
 const { character: c } = Astro.props;
+
+// "Low: A · Contested, High: …" — the dossier's own summary line
+// (a mode-split or unranked result has no tier letter, only its label).
+const placements = LEVELS.map((lv) => {
+  const r = c.results[lv];
+  const letter = r.tier === 'MODE_SPLIT' || r.tier === 'UNRANKED' ? '' : `${r.tier} · `;
+  return `${LEVEL_NAME[lv]}: ${letter}${LABEL_WORD[r.label]}`;
+}).join(', ');
+const description = `${c.name} in MONGIL: STAR DIVE. ${placements}. What each tier list says, side by side.`;
 ---
 
 <Base
   title={`${c.name} Tier – MONGIL: STAR DIVE – StarDiveMeta`}
+  description={description}
   path={`/c/${c.id}/`}
   width="prose"
 >

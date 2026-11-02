@@ -15,6 +15,7 @@ const stamp = `Lists last checked ${stampChecked()} Â· v${data.method.version} Â
 
 <Base
   title={`MONGIL: STAR DIVE Tier List (${titleMonth()}) â€“ StarDiveMeta`}
+  description="Every list disagrees. We show you by how much. The MONGIL: STAR DIVE tier list, combined from Pocket Gamer, Kaiden and GameWith JP."
   path="/"
 >
   <section class="hero">
@@ -86,9 +87,15 @@ const stamp = `Lists last checked ${stampChecked()} Â· v${data.method.version} Â
     <li><a class="pill-link" href="/table/">See the full table</a></li>
     <li><a class="pill-link" href="/rules/">How we score</a></li>
     <li><a class="pill-link" href="/notes/">What moved this week</a></li>
-    <li>
-      <a class="pill-link" href="/img/generated/tierlist-low.png">Download this list (PNG)</a>
-    </li>
+    {
+      /* One link per investment level; <html data-level> shows the one
+         matching the board on screen (Low without JS). */
+      LEVELS.map((lv) => (
+        <li class={`lvl lvl-${lv}`}>
+          <a class="pill-link" href={`/img/generated/tierlist-${lv}.png`}>Download this list (PNG)</a>
+        </li>
+      ))
+    }
   </ul>
 
   <EvidenceDialogs />

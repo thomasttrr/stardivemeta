@@ -19,6 +19,9 @@ interface Props {
   levelScript?: boolean;
   /** Column width: "wide" for boards and tables, "prose" for reading. */
   width?: 'wide' | 'prose';
+  /** Keep the page out of search (the 404 page): robots noindex, and
+   * no canonical / og:url claiming the URL as a real page. */
+  noindex?: boolean;
 }
 
 const {
@@ -27,6 +30,7 @@ const {
   path,
   levelScript = true,
   width = 'wide',
+  noindex = false,
 } = Astro.props;
 
 const canonical = `https://stardivemeta.com${path}`;
@@ -69,11 +73,12 @@ const current = (href: string) =>
     <link rel="icon" type="image/svg+xml" href={favicon} />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    {!noindex && <link rel="canonical" href={canonical} />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonical} />
+    {!noindex && <meta property="og:url" content={canonical} />}
     <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary_large_image" />
     {
@@ -95,6 +100,7 @@ const current = (href: string) =>
     }
   </head>
   <body>
+    <a class="skip-link" href="#main">Skip to content</a>
     <div class="scene" aria-hidden="true">
       <svg class="orbit" viewBox="0 0 1000 1000" preserveAspectRatio="none">
         <ellipse cx="1080" cy="150" rx="900" ry="560" />
@@ -127,7 +133,7 @@ const current = (href: string) =>
         })();
       </script>
 
-      <main>
+      <main id="main" tabindex="-1">
         <slot />
       </main>
 

@@ -19,7 +19,12 @@ const { note } = Astro.props;
 const html = renderNoteBody(note.body);
 ---
 
-<Base title={`${note.title} – StarDiveMeta`} path={`/notes/${note.date}/`} width="prose">
+<Base
+  title={`${note.title} – StarDiveMeta`}
+  description={`${note.title}: what moved in the MONGIL: STAR DIVE tier lists, with every change linked to the list behind it.`}
+  path={`/notes/${note.date}/`}
+  width="prose"
+>
   <article class="note" data-panel set:html={html} />
   <p class="back"><a href="/notes/">All notes</a></p>
 </Base>

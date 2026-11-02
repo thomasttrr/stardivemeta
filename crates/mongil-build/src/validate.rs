@@ -70,10 +70,45 @@ fn check_stamp(value: &str, errors: &mut Vec<String>, where_: &str) {
         ));
         return;
     }
+    if parse_rfc3339(value).is_none() {
+        errors.push(format!(
+            "G11: {where_} is not a real date and time: {value:?}"
+        ));
+        return;
+    }
     let now = crate::emit::now_iso_utc();
     if value > now.as_str() {
         errors.push(format!("G11: {where_} is in the future: {value} > {now}"));
     }
+}
+
+/// A `YYYY-MM-DD` day that must exist; pushes a G11 error and returns
+/// `None` otherwise. Returns the epoch seconds of midnight UTC.
+fn check_day(value: &str, errors: &mut Vec<String>, where_: &str) -> Option<i64> {
+    let parsed = if value.len() == 10 {
+        parse_rfc3339(value)
+    } else {
+        None
+    };
+    if parsed.is_none() {
+        errors.push(format!(
+            "G11: {where_} is not a real YYYY-MM-DD date: {value:?}"
+        ));
+    }
+    parsed
+}
+
+/// Whether `year-month-day` is a real Gregorian calendar date.
+pub(crate) fn valid_civil_date(year: i64, month: i64, day: i64) -> bool {
+    let leap = (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
+    let days = match month {
+        1 | 3 | 5 | 7 | 8 | 10 | 12 => 31,
+        4 | 6 | 9 | 11 => 30,
+        2 if leap => 29,
+        2 => 28,
+        _ => return false,
+    };
+    (1..=days).contains(&day)
 }
 
 /// Days since 1970-01-01 for a civil date (Howard Hinnant's algorithm).
@@ -129,6 +164,16 @@ pub(crate) fn parse_rfc3339(s: &str) -> Option<i64> {
     let hour: i64 = tparts.next()?.parse().ok()?;
     let minute: i64 = tparts.next()?.parse().ok()?;
     let second: i64 = tparts.next().and_then(|p| p.parse().ok()).unwrap_or(0);
+    // A date or time that does not exist (Feb 30, hour 25) is not a
+    // timestamp: callers get `None` instead of a silently rolled-over day.
+    if !valid_civil_date(year, month, day)
+        || !(0..24).contains(&hour)
+        || !(0..60).contains(&minute)
+        || !(0..60).contains(&second)
+        || offset_secs.abs() >= 24 * 3600
+    {
+        return None;
+    }
     Some(
         days_from_civil(year, month, day) * 86_400 + hour * 3600 + minute * 60 + second
             - offset_secs,
@@ -601,6 +646,61 @@ pub fn run(data_dir: &Path, site_dir: Option<&Path>, dist_dir: Option<&Path>) ->
             "G11 stamps (monotonic half): compared against git history in CI from P2 on"
                 .to_string(),
         );
+    }
+
+    // -- G11 (dates): banner, upcoming-event and errata dates -------------
+    // The banner page compares these as strings and the tripwire reads
+    // errata dates, so each must be a real date in the canonical shape.
+    {
+        let before = out.errors.len();
+        if let Some(banners) = &ds.banners {
+            for banner in &banners.banners {
+                let where_ = format!("banners.toml {} ", banner.character);
+                let start = check_day(&banner.start, &mut out.errors, &format!("{where_}start"));
+                if let Some(end) = &banner.end {
+                    let end_day = check_day(end, &mut out.errors, &format!("{where_}end"));
+                    if let (Some(s), Some(e)) = (start, end_day) {
+                        if e < s {
+                            out.errors.push(format!(
+                                "G11: {where_}ends ({end}) before it starts ({})",
+                                banner.start
+                            ));
+                        }
+                    }
+                }
+            }
+            for event in &banners.upcoming {
+                check_day(
+                    &event.date,
+                    &mut out.errors,
+                    &format!("banners.toml upcoming {:?} date", event.title),
+                );
+            }
+        }
+        if let Some(errata) = &ds.errata {
+            for e in &errata.errata {
+                if parse_rfc3339(&e.found_at).is_none() {
+                    out.errors.push(format!(
+                        "G11: errata.toml {} found_at is not a real date: {:?}",
+                        e.id, e.found_at
+                    ));
+                }
+                if let Some(fixed) = &e.fixed_at {
+                    if parse_rfc3339(fixed).is_none() {
+                        out.errors.push(format!(
+                            "G11: errata.toml {} fixed_at is not a real date: {fixed:?}",
+                            e.id
+                        ));
+                    }
+                }
+            }
+        }
+        if out.errors.len() == before {
+            out.passed.push(
+                "G11 dates: banner, upcoming and errata dates are real YYYY-MM-DD dates"
+                    .to_string(),
+            );
+        }
     }
 
     // -- G4 core + G5 report: versus the latest snapshot on disk ---------

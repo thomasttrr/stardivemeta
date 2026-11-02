@@ -78,7 +78,7 @@ const visible = entries.filter((entry) => {
           <code class="code">{entry.code}</code>
           {
             variant !== 'expired' && (
-              <button class="copybtn" type="button" data-copy={entry.code} aria-label={`Copy code ${entry.code}`}>
+              <button class="copybtn" type="button" data-copy={entry.code} data-active-only aria-label={`Copy code ${entry.code}`}>
                 <span class="copy-label">Copy</span>
               </button>
             )
@@ -86,13 +86,17 @@ const visible = entries.filter((entry) => {
         </span>
         {variant === 'active' && (
           <>
-            <p class="line">
+            <p class="line" data-active-only>
               Reward: {entry.reward.text} (via {nameOf(entry.reward.source)})
             </p>
             {entry.expires_at && (
-              <p class="line">Expires {fmtDate(entry.expires_at.slice(0, 10))}</p>
+              <p class="line" data-exp-line>
+                Expires {fmtDate(entry.expires_at.slice(0, 10))}
+              </p>
             )}
-            <p class="line dim">Confirmed by {confirmedBy(entry)}</p>
+            <p class="line dim" data-active-only>
+              Confirmed by {confirmedBy(entry)}
+            </p>
           </>
         )}
         {variant === 'unconfirmed' && (

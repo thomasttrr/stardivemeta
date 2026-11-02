@@ -792,6 +792,12 @@ pub fn build_codes(ds: &Dataset) -> Result<CodesFile, String> {
     let mut entries: Vec<CodeEntry> = Vec::new();
     if let Some(codes) = &ds.codes {
         for code in &codes.codes {
+            // A code with no recorded observation has no evidence to
+            // show (codes.toml keeps such strings as "never publish on
+            // this evidence"), so it is not published at all.
+            if code.observations.is_empty() {
+                continue;
+            }
             let group_of = |source: &str| {
                 groups
                     .get(source)
@@ -1509,6 +1515,20 @@ mod tests {
             .find(|e| e.code == code)
             .unwrap_or_else(|| panic!("{code} missing from emitted codes"))
             .status
+    }
+
+    #[test]
+    fn codes_without_observations_are_not_published() {
+        // NEWEPISODE7 and DIVEWITHISABELLA are named by COSM with no
+        // readable status: no observation, so no card on /codes/.
+        let entries = real_codes();
+        for code in ["NEWEPISODE7", "DIVEWITHISABELLA"] {
+            assert!(
+                entries.iter().all(|e| e.code != code),
+                "{code} has no observation and must not be emitted"
+            );
+        }
+        assert!(entries.iter().all(|e| !e.observations.is_empty()));
     }
 
     #[test]

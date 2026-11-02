@@ -62,6 +62,19 @@ pub enum LoadError {
         file: String,
         declared: String,
     },
+    /// A method conversion value the engine cannot represent exactly
+    /// (conversion tables hold whole or half points only).
+    InvalidConversion {
+        path: PathBuf,
+        table: String,
+        tier: String,
+        value: f64,
+    },
+    /// A voting source's placement file has no entry in sources.toml,
+    /// so whether it may vote is unknown.
+    MissingVotingSource {
+        id: String,
+    },
 }
 
 impl fmt::Display for LoadError {
@@ -98,6 +111,20 @@ impl fmt::Display for LoadError {
                     "{file}: [meta] source is \"{declared}\" but the file is for a different source"
                 )
             }
+            LoadError::InvalidConversion {
+                path,
+                table,
+                tier,
+                value,
+            } => write!(
+                f,
+                "{}: conversion.{table}.{tier} = {value} is not a whole or half point from 0 to 4",
+                path.display()
+            ),
+            LoadError::MissingVotingSource { id } => write!(
+                f,
+                "sources.toml: voting source \"{id}\" has placements but no registry entry"
+            ),
         }
     }
 }
@@ -135,7 +162,8 @@ fn parse_toml_opt<T: DeserializeOwned>(path: &Path) -> Result<Option<T>, LoadErr
 
 /// The method file lives at `method.toml` in a self-contained dataset dir
 /// (the test fixture) or at `method/v<version>.toml` in the live `data/`
-/// tree (plan §B.1). With several versioned files, the highest name wins.
+/// tree (plan §B.1). With several versioned files, the highest version
+/// wins, compared numerically (v1.10 is newer than v1.9).
 fn method_path(dir: &Path) -> PathBuf {
     let flat = dir.join("method.toml");
     if flat.exists() {
@@ -151,8 +179,54 @@ fn method_path(dir: &Path) -> PathBuf {
             }
         }
     }
-    versions.sort();
+    versions.sort_by_key(|path| method_version_key(path));
     versions.pop().unwrap_or(flat)
+}
+
+/// Sort key for `v<major>.<minor>[.<patch>…].toml`: the numeric parts,
+/// then the file name. Names that do not parse sort first.
+fn method_version_key(path: &Path) -> (Option<Vec<u64>>, String) {
+    let name = path
+        .file_name()
+        .and_then(|n| n.to_str())
+        .unwrap_or_default()
+        .to_string();
+    let numbers = path
+        .file_stem()
+        .and_then(|s| s.to_str())
+        .and_then(|s| s.strip_prefix('v'))
+        .and_then(|v| {
+            v.split('.')
+                .map(|part| part.parse::<u64>().ok())
+                .collect::<Option<Vec<u64>>>()
+        });
+    (numbers, name)
+}
+
+/// Every conversion value must be a whole or half point in 0..=4: the
+/// engine works in integer half-points, so anything else would be
+/// silently rounded.
+fn check_conversions(path: &Path, method: &MethodConfig) -> Result<(), LoadError> {
+    let tables = [
+        ("pg", &method.conversion.pg),
+        ("gamewith-jp", &method.conversion.gamewith_jp),
+        ("kaiden", &method.conversion.kaiden),
+    ];
+    for (table, values) in tables {
+        for (tier, &value) in values {
+            let doubled = value * 2.0;
+            let exact = value.is_finite() && (doubled - doubled.round()).abs() < 1e-9;
+            if !exact || !(0.0..=4.0).contains(&value) {
+                return Err(LoadError::InvalidConversion {
+                    path: path.to_path_buf(),
+                    table: table.to_string(),
+                    tier: tier.clone(),
+                    value,
+                });
+            }
+        }
+    }
+    Ok(())
 }
 
 fn check_meta_source(
@@ -206,7 +280,9 @@ fn check_unique<'a>(
 pub fn load_dataset(dir: &Path) -> Result<Dataset, LoadError> {
     let roster: Roster = parse_toml(&dir.join("roster.toml"))?;
     let sources: SourceRegistry = parse_toml(&dir.join("sources.toml"))?;
-    let method: MethodConfig = parse_toml(&method_path(dir))?;
+    let method_file = method_path(dir);
+    let method: MethodConfig = parse_toml(&method_file)?;
+    check_conversions(&method_file, &method)?;
 
     // Roster / registry integrity.
     let mut roster_ids: HashSet<&str> = HashSet::new();
@@ -309,6 +385,14 @@ pub fn load_dataset(dir: &Path) -> Result<Dataset, LoadError> {
     let jp = jp.ok_or_else(|| LoadError::Missing {
         path: pdir.join("gamewith-jp.toml"),
     })?;
+    // The voting placement files above always load, so each voting
+    // source needs a registry entry: its role and status decide whether
+    // it casts votes (method.rs `source_counts`).
+    for id in ["pg", "kaiden", "gamewith-jp"] {
+        if !source_ids.contains(id) {
+            return Err(LoadError::MissingVotingSource { id: id.to_string() });
+        }
+    }
 
     let game: Option<GameInfo> = parse_toml_opt(&dir.join("game.toml"))?;
     let codes: Option<Codes> = parse_toml_opt(&dir.join("codes.toml"))?;
@@ -542,10 +626,66 @@ raw = "SS"
         assert_eq!(
             err,
             LoadError::UnknownCharacterRef {
-                file: dir.join("placements/pg.toml").display().to_string(),
+                // Joined per component so the separator matches the
+                // loader's on every platform.
+                file: dir.join("placements").join("pg.toml").display().to_string(),
                 character: "ghost".to_string(),
             }
         );
+        let _ = fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn load_rejects_off_half_point_conversion() {
+        for bad in ["3.7", "3.25", "4.5", "-1.0"] {
+            let method = METHOD.replace(
+                "S = 4.0
+A = 3.0",
+                &format!(
+                    "S = {bad}
+A = 3.0"
+                ),
+            );
+            assert_ne!(method, METHOD, "replacement must apply");
+            let dir = with_file("bad-conversion", "method.toml", &method);
+            let err = load_dataset(&dir).expect_err("off-half-point conversion must fail");
+            assert!(
+                matches!(&err, LoadError::InvalidConversion { table, tier, .. } if table == "pg" && tier == "S"),
+                "expected InvalidConversion for pg S = {bad}, got {err:?}"
+            );
+            let _ = fs::remove_dir_all(&dir);
+        }
+    }
+
+    #[test]
+    fn load_rejects_voting_source_missing_from_registry() {
+        let sources = SOURCES.replace("id = \"pg\"", "id = \"pg-typo\"");
+        let dir = with_file("missing-voting", "sources.toml", &sources);
+        let err = load_dataset(&dir).expect_err("unregistered voting source must fail");
+        assert_eq!(
+            err,
+            LoadError::MissingVotingSource {
+                id: "pg".to_string()
+            }
+        );
+        let _ = fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn method_versions_compare_numerically() {
+        let mut files: Vec<(String, String)> = base_files()
+            .into_iter()
+            .filter(|(rel, _)| rel != "method.toml")
+            .collect();
+        for v in ["1.0", "1.9", "1.10", "1.2"] {
+            files.push((
+                format!("method/v{v}.toml"),
+                METHOD.replace("version = \"1.0\"", &format!("version = \"{v}\"")),
+            ));
+        }
+        let dir = write_dataset("method-versions", &files);
+        let ds = load_dataset(&dir).expect("dataset loads");
+        assert_eq!(ds.method.version, "1.10");
         let _ = fs::remove_dir_all(&dir);
     }
 }

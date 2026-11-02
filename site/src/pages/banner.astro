@@ -16,27 +16,28 @@ import {
 } from '../lib/data';
 
 const today = new Date().toISOString().slice(0, 10);
-const sourceNames = new Map(data.sources.map((s) => [s.id, s.name]));
 
 // Characters the page lists: new, or Low coverage under 2 (§B.5).
 const listed = data.characters.filter(
   (c) => c.is_new || c.results.low.coverage < 2,
 );
 
-// The current banner: started, and not ended before today. Several
-// debut entries have no recorded end date, so among the open banners
-// the one that started latest is current.
-const current = banners
-  .filter((b) => b.start <= today && (b.end === null || b.end >= today))
+// The current banner: the banner that started most recently, while it
+// has not ended. Several older debut entries have no recorded end date;
+// they never count as current once a newer banner has started, and when
+// the latest banner has ended there is no current banner to show.
+const latestStarted = banners
+  .filter((b) => b.start <= today)
   .sort((a, b) => b.start.localeCompare(a.start))[0];
+const current =
+  latestStarted && (latestStarted.end === null || latestStarted.end >= today)
+    ? latestStarted
+    : undefined;
 
-// Banner sources are stored as URLs; show the site's name when the
-// source list knows it, else the URL's host.
+// Banner sources are stored as URLs and none is a tier-list source, so
+// the label is the source's host name (e.g. prydwen.gg).
 const sourceLabel = (url: string) =>
-  sourceNames.get(url) ??
-  (url.startsWith('http')
-    ? new URL(url).hostname.replace(/^www\./, '')
-    : url);
+  url.startsWith('http') ? new URL(url).hostname.replace(/^www\./, '') : url;
 const currentChar = current ? charactersById.get(current.character) : undefined;
 
 // Debut history, newest first.
@@ -48,7 +49,7 @@ const debuts = [...banners].sort((a, b) => b.start.localeCompare(a.start));
 const next = upcoming.filter((u) => u.date >= today);
 ---
 
-<Base title="New characters – StarDiveMeta" path="/banner/" width="prose">
+<Base description="New MONGIL: STAR DIVE characters and the current banner. We add a new character's placements as each list ranks them." title="New characters – StarDiveMeta" path="/banner/" width="prose">
   <h1 class="page-title">New characters</h1>
   <p class="built">
     We add a new character's placements as each list ranks them. No
