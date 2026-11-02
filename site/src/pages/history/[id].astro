@@ -51,7 +51,11 @@ const linked: ErrataEntry[] = errata.filter((e) =>
 );
 ---
 
-<Base title={`Snapshot ${date} – StarDiveMeta`} path={`/history/${snap.id}/`}>
+<Base
+  title={`Snapshot ${date} – StarDiveMeta`}
+  description={`The StarDiveMeta board as of ${date}. This board is frozen: it shows exactly what the lists said then.`}
+  path={`/history/${snap.id}/`}
+>
   <h1 class="page-title">Snapshot {date}</h1>
   <p class="built">
     v{snap.method_version} · Game version {snap.game_version}. This

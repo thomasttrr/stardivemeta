@@ -114,7 +114,10 @@ const criteria = c.evidence
   }))
   .filter((x) => x.caveat !== null);
 
+// The name heads the page (h1) or the dialog (h2); its sections sit
+// one level below it either way.
 const NameTag = asPage ? 'h1' : 'h2';
+const SecTag = asPage ? 'h2' : 'h3';
 ---
 
 <article class="dossier" data-panel={asPage ? '' : undefined}>
@@ -196,7 +199,7 @@ const NameTag = asPage ? 'h1' : 'h2';
     ))
   }
 
-  <h3 class="seclabel">What each list says</h3>
+  <SecTag class="seclabel">What each list says</SecTag>
   {
     votingRows.map((row) => (
       <div class="evrow">
@@ -239,7 +242,7 @@ const NameTag = asPage ? 'h1' : 'h2';
   {
     criteria.length > 0 && (
       <>
-        <h3 class="seclabel">Rating notes</h3>
+        <SecTag class="seclabel">Rating notes</SecTag>
         {criteria.map((x) => (
           <p class="criteria">
             <b>{x.name}:</b> {x.caveat}
@@ -252,7 +255,7 @@ const NameTag = asPage ? 'h1' : 'h2';
   {
     checkRows.length > 0 && (
       <>
-        <h3 class="seclabel">Not counted (shown for context)</h3>
+        <SecTag class="seclabel">Not counted (shown for context)</SecTag>
         {checkRows.map((row) => (
           <div class="evrow">
             <span class="src">
@@ -278,7 +281,7 @@ const NameTag = asPage ? 'h1' : 'h2';
   {
     c.errata.length > 0 && (
       <>
-        <h3 class="seclabel">Corrections for this character</h3>
+        <SecTag class="seclabel">Corrections for this character</SecTag>
         {c.errata.map((id) => {
           const entry = errataById.get(id);
           return (
@@ -437,6 +440,10 @@ const NameTag = asPage ? 'h1' : 'h2';
     color: var(--rose);
   }
   .seclabel {
+    /* h2 on the page, h3 in the dialog: keep both looking the same
+       (main h2 would otherwise set the display serif). */
+    font-family: inherit;
+    line-height: inherit;
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
