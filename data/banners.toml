@@ -69,6 +69,18 @@ start = "2026-10-21"
 end = "2026-11-10"
 source = "https://www.prydwen.gg/other-games/mongil-star-dive/banners"
 
+# Version 1.5 first-half debut banner (pre-stage, kit/v15-prestage).
+# Start is the announced version launch — Nov 11 KST, which is
+# Nov 10 in the US — from the official Dev Lounge Talk stream of
+# 2026-11-05. No end date was announced, so none is recorded; the
+# start-only entries above (Mabel, Brisshell, Vivian, Isabella)
+# are the precedent. Lou gets no banner entry: she arrives in the
+# second half of v1.5 and no dates were given for her.
+[[banner]]
+character = "m-a-d"
+start = "2026-11-11"
+source = "https://www.youtube.com/live/_XpMNaGwPmc"
+
 # Officially announced future events (banner page "What's next").
 # Facts announced by Netmarble for version 1.5; the page hides each
 # entry once its date passes, so this list cannot go stale silently —
@@ -82,7 +94,7 @@ source = "Netmarble (official announcement)"
 
 [[upcoming]]
 title = "Version 1.5 launches"
-date = "2026-11-10"
-note = "The next game version goes live. New characters join the roster; placements land on their pages as each list ranks them."
+date = "2026-11-11"
+note = "The next game version goes live — Nov 11 Korea time, Nov 10 in the US. New characters join the roster; placements land on their pages as each list ranks them."
 source = "Netmarble (official announcement)"
 

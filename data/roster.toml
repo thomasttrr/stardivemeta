@@ -182,3 +182,23 @@ name = "Angel"
 released_on = "2026-04-15"
 released_on_sources = ["https://gamewith.net/mongil-stardive/73714", "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"]
 
+# Version 1.5 pre-stage (branch kit/v15-prestage — revealed, NOT yet
+# released): both characters were announced in the official Dev
+# Lounge Talk stream of 2026-11-05 (MONGIL: STAR DIVE DEV TALK,
+# https://www.youtube.com/live/_XpMNaGwPmc). The roster schema has
+# no element or role fields, so those stream facts are recorded in
+# this comment only: M.A.D — fire attribute, assassin type, first
+# half of v1.5 (arrives with the version, Nov 11 KST); Lou —
+# lightning attribute, android type, second half of v1.5, no date
+# announced. released_on is omitted for both: this file sets it
+# only where two independent sources give the date, and the stream
+# is a single source so far. Neither has any placements — both are
+# Unranked until the lists publish.
+
+[[character]]
+id = "m-a-d"
+name = "M.A.D"
+
+[[character]]
+id = "lou"
+name = "Lou"
