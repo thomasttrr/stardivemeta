@@ -954,3 +954,22 @@ status = "expired"
 seen_at = "2026-10-29T21:16:00-04:00"
 url = "https://www.gamesradar.com/games/rpg/mongil-star-dive-codes/"
 
+# Announced in the Nov 5, 2026 Dev Lounge Talk stream (official
+# MONGIL: STAR DIVE DEV TALK channel): the coupon was shown on
+# screen only and no reward was stated, so reward is empty. Expiry
+# as announced: usable until Nov 11, 2026, 08:30 KST — that is
+# Nov 10, 2026, 23:30 UTC. A single official observation so far:
+# the emit engine caps a one-source code at Unconfirmed until a
+# second independent source lists it (pre-stage, kit/v15-prestage).
+[[code]]
+code = "MAKEANDDESTROY"
+reward = ""
+reward_source = "official"
+expires_at = "2026-11-10T23:30:00Z"
+expires_source = "official"
+[[code.observation]]
+source = "official"
+status = "active"
+seen_at = "2026-11-05T10:15:00-05:00"
+claim_date = "2026-11-05"
+url = "https://www.youtube.com/live/_XpMNaGwPmc"
