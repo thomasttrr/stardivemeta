@@ -231,6 +231,24 @@ pub fn band_for(sum_h: u32, n: usize, method: &MethodConfig) -> TierBand {
     }
 }
 
+/// Whether the counted votes are a genuine cross-source disagreement.
+///
+/// `votes` are the like-for-like overall placements at one investment
+/// level: at most one per voting source (Pocket Gamer's overall, Kaiden
+/// at that level, GameWith JP's single tier). A source with no placement
+/// is absent, so a missing vote is neither agreement nor disagreement.
+/// Fewer than two votes is not enough evidence. Otherwise the sources
+/// disagree when the converted half-point values are not all equal.
+/// One source's Conquest and Rift tiers are not compared to each other
+/// here; only those overall votes are.
+pub fn sources_disagree(votes: &[VoteOut]) -> bool {
+    if votes.len() < 2 {
+        return false;
+    }
+    let first = votes[0].value_h;
+    votes.iter().any(|vote| vote.value_h != first)
+}
+
 /// Step 4: the confidence label from coverage and spread.
 pub fn label_for(coverage: usize, spread_h: u8, method: &MethodConfig) -> Label {
     match coverage {
@@ -638,6 +656,8 @@ T4 = 0.0
         assert_eq!(result.coverage, 3);
         assert_eq!(result.spread, Some(0.5));
         assert_eq!(result.score_display.as_deref(), Some("2.2"));
+        // The mode split is one source. The overall votes still differ.
+        assert!(sources_disagree(&result.votes));
     }
 
     #[test]
@@ -648,6 +668,27 @@ T4 = 0.0
         assert_eq!(result.label, Label::Unranked);
         assert_eq!(result.score, None);
         assert_eq!(result.spread, None);
+        assert!(!sources_disagree(&result.votes));
+    }
+
+    #[test]
+    fn sources_disagree_needs_two_different_placements() {
+        assert!(!sources_disagree(&[]));
+        assert!(!sources_disagree(&[vote("pg", 8)]));
+        // Two lists agree; a third source is simply absent from the slice.
+        assert!(!sources_disagree(&[vote("pg", 8), vote("gamewith-jp", 8)]));
+        assert!(!sources_disagree(&[
+            vote("pg", 8),
+            vote("kaiden", 8),
+            vote("gamewith-jp", 8),
+        ]));
+        // Half a tier step still varies. Equal converted values do not.
+        assert!(sources_disagree(&[vote("pg", 8), vote("kaiden", 7)]));
+        assert!(sources_disagree(&[
+            vote("pg", 8),
+            vote("kaiden", 8),
+            vote("gamewith-jp", 4),
+        ]));
     }
 
     // Step 7

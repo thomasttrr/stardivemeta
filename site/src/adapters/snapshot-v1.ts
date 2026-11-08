@@ -120,6 +120,9 @@ function toResult(frozen: FrozenResult): Result {
     score_display: frozen.coverage > 0 ? frozen.score.toFixed(1) : null,
     coverage: frozen.coverage,
     spread: frozen.spread,
+    // Snapshots do not store the flag, and history pages do not offer
+    // the filter. Left false so this reconstruction does not invent one.
+    sources_disagree: false,
     votes: [],
     why: { high: null, low: null, mode_split: null },
   };

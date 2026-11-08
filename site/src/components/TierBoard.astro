@@ -15,8 +15,11 @@ interface Props {
   /** Character map to resolve chips against. Defaults to the live
    * data; history pages pass the snapshot's frozen characters (T4.3). */
   characters?: Map<string, Character>;
+  /** Mark each chip with the emitted disagreement flag so the home
+   * filter can show and hide without calculating anything. */
+  markDisagree?: boolean;
 }
-const { board, level, characters = charactersById } = Astro.props;
+const { board, level, characters = charactersById, markDisagree = false } = Astro.props;
 
 const ROWS: (keyof TierBoardData)[] = ['S', 'A', 'B', 'C', 'D', 'MODE_SPLIT', 'UNRANKED'];
 const heading = (k: keyof TierBoardData) =>
@@ -28,7 +31,15 @@ const heading = (k: keyof TierBoardData) =>
     ROWS.filter((key) => board[key].length > 0).map((key, rackIdx) => (
       <section class="rack" data-tier={key}>
         <h2 class="sr-only">Tier {heading(key)}</h2>
-        <TierLens tier={key} count={board[key].length} />
+        <TierLens
+          tier={key}
+          count={board[key].length}
+          disagreeCount={
+            markDisagree
+              ? board[key].filter((id) => characters.get(id)!.results[level].sources_disagree).length
+              : undefined
+          }
+        />
         <div class="cards">
           {board[key].map((id) => {
             const c = characters.get(id)!;
@@ -37,6 +48,7 @@ const heading = (k: keyof TierBoardData) =>
                 character={c}
                 result={c.results[level]}
                 eager={rackIdx === 0}
+                disagree={markDisagree ? c.results[level].sources_disagree : undefined}
               />
             );
           })}

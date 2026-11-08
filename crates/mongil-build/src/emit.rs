@@ -18,8 +18,8 @@ use mongil_core::contract::{
 use mongil_core::derive;
 use mongil_core::load::Dataset;
 use mongil_core::method::{
-    compute, compute_modes, pg_overall_h, CharResult, LevelResult, ModeTier as EngineModeTier,
-    TierBand,
+    compute, compute_modes, pg_overall_h, sources_disagree, CharResult, LevelResult,
+    ModeTier as EngineModeTier, TierBand,
 };
 use mongil_core::model::{
     CheckOnlyKind, Code, CodeObservationStatus, KaidenFlag as ModelFlag, Level, PlacementStatus,
@@ -171,6 +171,7 @@ fn result_of(result: &CharResult) -> ContractResult {
         score_display: result.score_display.clone(),
         coverage: result.coverage as u32,
         spread: result.spread,
+        sources_disagree: sources_disagree(&result.votes),
         votes,
         why,
     }
@@ -1619,5 +1620,67 @@ mod tests {
         assert!(!is_new_release(Some("2026-12-01"), at("2026-11-20")));
         assert!(!is_new_release(None, at("2026-11-20")));
         assert!(!is_new_release(Some("not-a-date"), at("2026-11-20")));
+    }
+
+    /// The emitted flag matches the counted votes on the live dataset.
+    /// Check-only sources never appear. Chloe stays out while Kaiden
+    /// has no placement and the other two lists agree.
+    #[test]
+    fn emitted_disagreement_matches_votes() {
+        let dir = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../data");
+        let ds = mongil_core::load_dataset(&dir).expect("live data loads");
+        let list = build_tierlist(&ds);
+        let allowed = ["pg", "kaiden", "gamewith-jp"];
+        for character in &list.characters {
+            for result in [
+                &character.results.low,
+                &character.results.high,
+                &character.results.max,
+            ] {
+                let mut seen = std::collections::BTreeSet::new();
+                for vote in &result.votes {
+                    assert!(
+                        allowed.contains(&vote.source.as_str()),
+                        "{} source {}",
+                        character.id,
+                        vote.source
+                    );
+                    assert!(
+                        seen.insert(vote.source.as_str()),
+                        "{} duplicate {}",
+                        character.id,
+                        vote.source
+                    );
+                }
+                assert_eq!(
+                    result.votes.len() as u32,
+                    result.coverage,
+                    "{}",
+                    character.id
+                );
+                let flag = result.coverage >= 2
+                    && result
+                        .votes
+                        .iter()
+                        .any(|vote| vote.value != result.votes[0].value);
+                assert_eq!(
+                    result.sources_disagree, flag,
+                    "{} disagreement drifted from its votes",
+                    character.id
+                );
+                if result.coverage < 2 {
+                    assert!(!result.sources_disagree, "{}", character.id);
+                }
+            }
+        }
+        let chloe = list
+            .characters
+            .iter()
+            .find(|character| character.id == "chloe")
+            .expect("chloe");
+        for result in [&chloe.results.low, &chloe.results.high, &chloe.results.max] {
+            assert!(result.votes.iter().all(|vote| vote.source != "kaiden"));
+            assert!(!result.sources_disagree);
+        }
     }
 }

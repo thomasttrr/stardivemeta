@@ -20,8 +20,11 @@ interface Props {
   overallLine?: boolean;
   /** Eager-load the portrait (the board's first rack is above the fold). */
   eager?: boolean;
+  /** Emitted disagreement flag for this chip's level. Omit on pages
+   * that do not offer the filter. */
+  disagree?: boolean;
 }
-const { character: c, result: r, overallLine = false, eager = false } = Astro.props;
+const { character: c, result: r, overallLine = false, eager = false, disagree } = Astro.props;
 const word = LABEL_WORD[r.label];
 const tierWord = r.tier === 'MODE_SPLIT' ? 'mode-split' : r.tier === 'UNRANKED' ? 'unranked' : r.tier;
 const srText = `${c.name}: tier ${tierWord}, ${word}, score ${r.score_display ?? '—'} of 4, ${r.coverage} lists`;
@@ -33,6 +36,7 @@ const srText = `${c.name}: tier ${tierWord}, ${word}, score ${r.score_display ??
   data-slug={c.id}
   data-label={r.label}
   data-dialog={`ev-${c.id}`}
+  data-disagree={disagree === undefined ? undefined : disagree ? '1' : '0'}
   aria-label={srText}
 >
   <Medallion id={c.id} name={c.name} eager={eager} />

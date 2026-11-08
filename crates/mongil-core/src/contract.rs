@@ -182,6 +182,11 @@ pub struct Result {
     pub coverage: u32,
     /// Highest vote − lowest vote, in points. `None` when unranked.
     pub spread: Option<f64>,
+    /// True when at least two voting sources have a like-for-like
+    /// overall placement at this level and those converted placements
+    /// are not all equal. A missing source is not a vote. Set by
+    /// `method::sources_disagree`; pages do not recalculate it.
+    pub sources_disagree: bool,
     pub votes: Vec<Vote>,
     pub why: Why,
 }

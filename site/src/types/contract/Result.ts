@@ -15,4 +15,11 @@ score: number | null, score_display: string | null, coverage: number,
 /**
  * Highest vote − lowest vote, in points. `None` when unranked.
  */
-spread: number | null, votes: Array<Vote>, why: Why, };
+spread: number | null, 
+/**
+ * True when at least two voting sources have a like-for-like
+ * overall placement at this level and those converted placements
+ * are not all equal. A missing source is not a vote. Set by
+ * `method::sources_disagree`; pages do not recalculate it.
+ */
+sources_disagree: boolean, votes: Array<Vote>, why: Why, };

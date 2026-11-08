@@ -6,7 +6,9 @@
 
 use mongil_core::derive;
 use mongil_core::load::load_dataset;
-use mongil_core::method::{compute, compute_modes, CharResult, LevelResult, ModeTier, TierBand};
+use mongil_core::method::{
+    compute, compute_modes, sources_disagree, CharResult, LevelResult, ModeTier, TierBand,
+};
 use mongil_core::model::{Level, PlacementStatus};
 use mongil_core::Dataset;
 use serde::Deserialize;
@@ -581,4 +583,68 @@ fn derive_beginner_v1() {
     assert!(contested_names.contains("Sangun") && contested_names.contains("Mina"));
     // No pool data in the fixture → no reroll section (plan D-3).
     assert_eq!(lists.reroll, None);
+}
+
+/// Disagreement reuses the counted votes. It is not the Contested label:
+/// any converted difference counts, and a missing vote does not.
+#[test]
+fn sources_disagree_follows_existing_votes() {
+    let (low, high, max) = levels();
+    for (id, exp) in &expected().characters {
+        for (result, want) in [
+            (result_of(&low, id), &exp.low),
+            (result_of(&high, id), &exp.high),
+            (result_of(&max, id), &exp.max),
+        ] {
+            let flag = sources_disagree(&result.votes);
+            assert_eq!(
+                flag,
+                want.coverage >= 2 && want.spread > 0.0,
+                "{id}: disagreement must match coverage and spread"
+            );
+            assert_eq!(result.votes.len(), result.coverage, "{id}");
+            let mut seen = std::collections::BTreeSet::new();
+            for vote in &result.votes {
+                assert!(
+                    matches!(vote.source.as_str(), "pg" | "kaiden" | "gamewith-jp"),
+                    "{id} unexpected source {}",
+                    vote.source
+                );
+                assert!(
+                    seen.insert(vote.source.as_str()),
+                    "{id} duplicate source {}",
+                    vote.source
+                );
+            }
+        }
+    }
+
+    // Chloe: Pocket Gamer and GameWith JP agree; Kaiden has no placement.
+    let chloe = result_of(&low, "chloe");
+    assert_eq!(chloe.coverage, 2);
+    assert!(chloe.votes.iter().all(|vote| vote.source != "kaiden"));
+    assert!(!sources_disagree(&chloe.votes));
+    assert!(!sources_disagree(&result_of(&high, "chloe").votes));
+    assert!(!sources_disagree(&result_of(&max, "chloe").votes));
+
+    // Narae: all three voting sources place her the same.
+    let narae = result_of(&low, "narae");
+    assert_eq!(narae.coverage, 3);
+    assert_eq!(narae.spread, Some(0.0));
+    assert!(!sources_disagree(&narae.votes));
+
+    assert!(sources_disagree(&result_of(&low, "francis").votes));
+
+    // Angel is mode-split because Pocket Gamer's modes differ. The filter
+    // still follows the overall votes, which are not equal.
+    let angel = result_of(&low, "angel");
+    assert_eq!(angel.label, mongil_core::method::Label::ModeSplit);
+    assert_eq!(angel.spread, Some(0.5));
+    assert!(sources_disagree(&angel.votes));
+
+    // Ophelia at High is Solid (spread exactly 1.0) and still disagrees.
+    let ophelia_high = result_of(&high, "ophelia");
+    assert_eq!(ophelia_high.label, mongil_core::method::Label::Solid);
+    assert_eq!(ophelia_high.spread, Some(1.0));
+    assert!(sources_disagree(&ophelia_high.votes));
 }

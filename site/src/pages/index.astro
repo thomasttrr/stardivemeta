@@ -8,9 +8,18 @@ import Legend from '../components/Legend.astro';
 import Stamp from '../components/Stamp.astro';
 import Sparkle from '../components/Sparkle.astro';
 import EvidenceDialogs from '../components/EvidenceDialogs.astro';
-import { LEVELS, data, stampChecked, titleMonth } from '../lib/data';
+import DisagreeFilter from '../components/DisagreeFilter.astro';
+import { LEVELS, charactersById, data, stampChecked, titleMonth } from '../lib/data';
+import type { Level } from '../types/contract/Level';
+import type { TierBoard as TierBoardData } from '../types/contract/TierBoard';
 
 const stamp = `Lists last checked ${stampChecked()} · v${data.method.version} · Game version ${data.game_version}`;
+const BOARD_ROWS: (keyof TierBoardData)[] = ['S', 'A', 'B', 'C', 'D', 'MODE_SPLIT', 'UNRANKED'];
+const levelHasDisagree = (lv: Level) =>
+  BOARD_ROWS.some((key) =>
+    data.boards[lv][key].some((id) => charactersById.get(id)!.results[lv].sources_disagree),
+  );
+const emptyDisagree = LEVELS.filter((lv) => !levelHasDisagree(lv));
 ---
 
 <Base
@@ -28,11 +37,12 @@ const stamp = `Lists last checked ${stampChecked()} · v${data.method.version} �
     </p>
   </section>
   <LevelToggle />
+  <DisagreeFilter emptyLevels={emptyDisagree} />
 
   {
     LEVELS.map((lv) => (
       <div class={`lvl lvl-${lv}`}>
-        <TierBoard board={data.boards[lv]} level={lv} />
+        <TierBoard board={data.boards[lv]} level={lv} markDisagree />
       </div>
     ))
   }

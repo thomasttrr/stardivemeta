@@ -595,6 +595,38 @@ a.panel-row:active {
   display: block;
 }
 
+/* "Where sources disagree" (home). The flag is on each chip; nothing
+   here compares placements. Off unless the checkbox is checked, so the
+   default board is unchanged. Investment level is a separate control:
+   each board carries its own flag. */
+html:has(#sdm-disagree:checked) .chip[data-disagree="0"] {
+  display: none;
+}
+html:has(#sdm-disagree:checked) .rack:not(:has(.chip[data-disagree="1"])) {
+  display: none;
+}
+html:has(#sdm-disagree:checked) .rack-count .count-all {
+  display: none;
+}
+.rack-count .count-on {
+  display: none;
+}
+html:has(#sdm-disagree:checked) .rack-count .count-on {
+  display: inline;
+}
+.disagree-empty {
+  display: none;
+  color: var(--sub);
+  font-size: var(--text-note);
+  text-align: center;
+  margin: 18px 0 0;
+}
+html:has(#sdm-disagree:checked)[data-level="low"] .disagree-empty[data-for="low"],
+html:has(#sdm-disagree:checked)[data-level="high"] .disagree-empty[data-for="high"],
+html:has(#sdm-disagree:checked)[data-level="max"] .disagree-empty[data-for="max"] {
+  display: block;
+}
+
 /* Screen-reader-only text (label descriptions, toggle legend). */
 .sr-only {
   position: absolute;

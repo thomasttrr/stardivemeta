@@ -1,0 +1,83 @@
+---
+// Home-only filter. The checkbox shows chips whose emitted
+// `sources_disagree` flag is set for the investment level on screen.
+// Rust decides the flag; this control does not compare placements.
+import type { Level } from '../types/contract/Level';
+
+interface Props {
+  /** Investment levels whose emitted disagreement set is empty. */
+  emptyLevels: Level[];
+}
+const { emptyLevels } = Astro.props;
+---
+
+<div class="disagree-filter">
+  <label class="disagree-pill">
+    <input
+      type="checkbox"
+      id="sdm-disagree"
+      aria-describedby="sdm-disagree-hint"
+    />
+    <span>Where sources disagree</span>
+  </label>
+  <p id="sdm-disagree-hint" class="sr-only">
+    Shows characters placed differently by at least two lists. A missing placement is not counted.
+  </p>
+  {
+    emptyLevels.map((lv) => (
+      <p class="disagree-empty" data-for={lv} aria-live="polite">
+        No characters where the lists disagree at this investment.
+      </p>
+    ))
+  }
+</div>
+
+<style>
+  .disagree-filter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 12px;
+  }
+  .disagree-pill {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    max-width: 100%;
+    padding: 0 18px;
+    border-radius: var(--radius-pill);
+    background: var(--pill);
+    box-shadow: inset 0 0 0 1px var(--pill-rim);
+    color: var(--text);
+    font-weight: var(--weight-bold);
+    font-size: var(--text-body-sm);
+    line-height: 1.2;
+    text-align: center;
+    cursor: pointer;
+    transition:
+      background-color var(--duration-fast),
+      transform var(--duration-base) var(--ease-spring);
+  }
+  .disagree-pill:hover {
+    transform: translateY(-1px);
+  }
+  .disagree-pill input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .disagree-pill:has(input:checked) {
+    background: var(--lavender);
+    color: var(--on-lavender);
+  }
+  .disagree-pill:has(input:focus-visible) {
+    outline: 2px solid var(--starlight);
+    outline-offset: 3px;
+  }
+</style>

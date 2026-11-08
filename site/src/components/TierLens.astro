@@ -7,8 +7,11 @@ import Sparkle from './Sparkle.astro';
 interface Props {
   tier: string;
   count: number;
+  /** Count while "Where sources disagree" is on. Omitted on pages
+   * that do not offer the filter. */
+  disagreeCount?: number;
 }
-const { tier, count } = Astro.props;
+const { tier, count, disagreeCount } = Astro.props;
 const ARC: [number, number, number][] = [
   [14, 19, 5],
   [34, 9, 6],
@@ -31,5 +34,14 @@ const SPARK = 'M12 0C12.7 7.6 16.4 11.3 24 12 16.4 12.7 12.7 16.4 12 24 11.3 16.
   }
   <span class="lens" aria-hidden="true">{tier === 'MODE_SPLIT' ? 'Mode-split' : tier === 'UNRANKED' ? 'Unranked' : tier}</span>
   <span class="star-rule" aria-hidden="true"><Sparkle /></span>
-  <span class="rack-count">{count} {count === 1 ? 'character' : 'characters'}</span>
+  <span class="rack-count">
+    <span class="count-all">{count} {count === 1 ? 'character' : 'characters'}</span>
+    {
+      disagreeCount !== undefined && (
+        <span class="count-on">
+          {disagreeCount} {disagreeCount === 1 ? 'character' : 'characters'}
+        </span>
+      )
+    }
+  </span>
 </div>

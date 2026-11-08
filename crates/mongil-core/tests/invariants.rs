@@ -4,7 +4,7 @@
 
 use mongil_core::load::Dataset;
 use mongil_core::method::{
-    band_for, compute, pg_tier_h, score_display, Label, LevelResult, TierBand,
+    band_for, compute, pg_tier_h, score_display, sources_disagree, Label, LevelResult, TierBand,
 };
 use mongil_core::model::*;
 use proptest::prelude::*;
@@ -462,6 +462,37 @@ proptest! {
                     .find(|x| x.id == c.id)
                     .expect("character still present");
                 prop_assert_eq!(other, c);
+            }
+        }
+    }
+
+    /// Disagreement is derived from the votes already counted. A missing
+    /// source adds no vote. A mode split does not disagree on its own
+    /// when the overall votes are equal.
+    #[test]
+    fn sources_disagree_follows_counted_votes(specs in specs()) {
+        let ds = build_dataset(&specs, false, false);
+        for result in all_levels(&ds) {
+            for c in &result.characters {
+                let mut seen = std::collections::BTreeSet::new();
+                for vote in &c.votes {
+                    prop_assert!(seen.insert(vote.source.as_str()));
+                    prop_assert!(matches!(
+                        vote.source.as_str(),
+                        "pg" | "kaiden" | "gamewith-jp"
+                    ));
+                }
+                let want = c.votes.len() >= 2
+                    && c.votes.iter().any(|v| v.value_h != c.votes[0].value_h);
+                prop_assert_eq!(sources_disagree(&c.votes), want);
+                if let Some((conquest, rift)) = c.mode_split {
+                    if conquest != rift
+                        && !c.votes.is_empty()
+                        && c.votes.iter().all(|v| v.value_h == c.votes[0].value_h)
+                    {
+                        prop_assert!(!sources_disagree(&c.votes));
+                    }
+                }
             }
         }
     }

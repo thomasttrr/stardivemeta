@@ -204,6 +204,13 @@ count. (`site/src/components/LabelMark.astro`)
   caret pointing at the board. They sit in a sticky night band with a
   hairline and a soft fade below. The one-line Kaiden note sits under
   them.
+- **Disagreement filter** (home tier list only): a violet pill checkbox
+  under that note, labelled "Where sources disagree". Checked, it is
+  lavender, like a selected tab, with no caret. It shows only characters
+  the emitted `sources_disagree` flag marks at the investment level on
+  screen. Tier counts follow the visible chips, and a level with none
+  shows "No characters where the lists disagree at this investment."
+  Off by default. The page does not calculate the flag.
 - **Evidence dossier:**
   - Header: the 84px medallion beside a lavender "Character file" kicker,
     the Cardo name and a violet New pill.
