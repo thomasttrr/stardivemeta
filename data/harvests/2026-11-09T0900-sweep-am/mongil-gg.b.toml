@@ -1,0 +1,139 @@
+# B-read (screenshot/visual) — mongil.gg tier list, sweep 2026-11-09T0900-sweep-am.
+# Visual read of the rendered page (browser, 2026-11-09 08:57-09:04 ET):
+# heading "MONGIL: STAR DIVE CHARACTER TIER LIST (NOVEMBER 2026)"; same 21
+# characters in all three lists; page states A0 assumed unless marked A6.
+
+kind = "per_mode"
+
+[meta]
+source = "mongil-gg"
+harvest = "2026-11-09T0900-sweep-am"
+worker = "B"
+read_mode = "screenshot"
+read_at = "2026-11-09T09:04:00-05:00"
+
+[[placement]]
+character = "mina"
+world = "S"
+conquest = "S"
+rift = "S"
+
+[[placement]]
+character = "penny"
+world = "A"
+conquest = "B"
+rift = "A"
+
+[[placement]]
+character = "narae"
+world = "S"
+conquest = "A"
+rift = "S"
+
+[[placement]]
+character = "sangun"
+world = "S"
+conquest = "A"
+rift = "A"
+
+[[placement]]
+character = "jiwon"
+world = "B"
+conquest = "A"
+rift = "S"
+
+[[placement]]
+character = "gabi"
+world = "S"
+conquest = "A"
+rift = "A"
+
+[[placement]]
+character = "flare"
+world = "S"
+conquest = "S"
+rift = "S"
+
+[[placement]]
+character = "verna"
+world = "B"
+conquest = "C"
+rift = "C"
+
+[[placement]]
+character = "cloud"
+world = "B"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "francis"
+world = "C"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "yeonhwa"
+world = "A"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "daisy"
+world = "C"
+conquest = "C"
+rift = "C"
+
+[[placement]]
+character = "leeho"
+world = "A"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "benjamin"
+world = "S"
+conquest = "B"
+rift = "A"
+
+[[placement]]
+character = "sera"
+world = "B"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "ellie"
+world = "C"
+conquest = "C"
+rift = "B"
+
+[[placement]]
+character = "reina"
+world = "B"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "bonnie"
+world = "A"
+conquest = "C"
+rift = "B"
+
+[[placement]]
+character = "angel"
+world = "A"
+conquest = "B"
+rift = "A"
+
+[[placement]]
+character = "ophelia"
+world = "A"
+conquest = "A"
+rift = "S"
+
+[[placement]]
+character = "esther"
+world = "A"
+conquest = "S"
+rift = "S"
