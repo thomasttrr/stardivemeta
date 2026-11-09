@@ -10,9 +10,11 @@ name = "Pocket Gamer"
 role = "voting"
 kind = "per_mode"
 url = "https://www.pocketgamer.com/mongil-star-dive/tier-list/"
-list_date = "2026-10-05"
-# The page states "1.04.00" — the App Store build string of the
-# official 1.4 release (T2.3); mapped to the official string here.
+list_date = "2026-11-07"
+# The page states "1.04.10" (sweep 2026-11-08T0900-sweep-am; it
+# stated "1.04.00" until the 2026-11-07 republication) — the App
+# Store build string of the official 1.4 release (T2.3); mapped to
+# the official string here.
 game_version = "1.4"
 status = "current"
 criteria_caveat = "Conquest = boss, single target. Rift = dungeon, many enemies. World/Story list not used (the Summer variants aren't marked)."
