@@ -1,0 +1,168 @@
+# B-read (screenshot/visual) — GameWith JP strongest-character ranking,
+# sweep 2026-11-11T0900-sweep-am. Independent visual read of the rendered
+# page (live browser, 2026-11-11 09:02–09:03 ET): the
+# "最強キャラランキング / 最強キャラ早見表" table plus the SS / S / A
+# evaluation sections below it (page labels Tier1 = SS, Tier2 = S,
+# Tier3 = A). Page shows 最終更新：2026年11月11日14:11 — updated
+# 2026-11-11, matching A's page metadata. Names are shown in Japanese
+# katakana on the page (M.A.D. in Latin letters, exactly as "M.A.D.");
+# identifications: ナレ = Narae, ブリシェル = Brisshell,
+# 水着ベルナ / ベルナ：サマーダイブ！ = Verna: Summer Dive!,
+# 水着フランシス = Francis: Summer Dive!. Counts: SS 9, S 11, A 4 —
+# the same 24 tiered characters as A; the 6 characters in neither
+# read's tiers are recorded not_in_text_tiers, as in A.
+
+[meta]
+source = "gamewith-jp"
+harvest = "2026-11-11T0900-sweep-am"
+worker = "B"
+read_mode = "screenshot"
+read_at = "2026-11-11T09:03:00-05:00"
+page_updated = "2026-11-11"
+note = "Visual read: SS row and SS evaluation section agree; S row and S evaluation section agree; A row and A evaluation section agree."
+
+[[placement]]
+character = "mina"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "penny"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "narae"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "sangun"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "jiwon"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "gabi"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "isabella"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "flare"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "chloe"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "ophelia"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "esther"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "nagi"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "brisshell"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "mabel"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "verna-summer-dive"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "francis-summer-dive"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "vivian"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "verna"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "cloud"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "francis"
+tier = "SS"
+raw = "SS"
+note = "Visual read shows Francis at 6凸 (A6) in the SS row, consistent with the page criteria evaluating 4★ up to A6."
+
+[[placement]]
+character = "yeonhwa"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "daisy"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "leeho"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "benjamin"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "sera"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "ellie"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "reina"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "bonnie"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "angel"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "m-a-d"
+tier = "S"
+raw = "S"
+note = "New v1.5 character, written exactly as M.A.D. on the page; also featured at the top under 最新PUキャラの最強評価 at S."
