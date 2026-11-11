@@ -7,7 +7,7 @@
 # whose store changelog itself reads "1.4 Version Major Update"), so
 # sources.toml maps PG's stated version to the official "1.4".
 
-current_version = "1.4"
+current_version = "1.5"
 
 [[release]]
 version = "1.4"
@@ -20,3 +20,24 @@ roster_change = ["isabella"]
 # Adjustments", hence balance_changes = true. Chloe followed on
 # 2026-10-20/21 as an update within 1.4 (no new version number).
 source = "https://www.capsulecomputers.com.au/2026/10/mongil-star-dive-launches-version-1-4-update-featuring-new-character-isabella/"
+
+[[release]]
+version = "1.5"
+date = "2026-11-10"
+balance_changes = false
+roster_change = ["m-a-d"]
+# Found by patch-watch in sweep 2026-11-10T2345-sweep-pm
+# (data/harvests/2026-11-10T2345-sweep-pm/patch-watch.md): the App
+# Store listing moved to build 1.05.00 on 2026-11-10 ("Version
+# 1.05.00 5h ago" when read 2026-11-11 04:43 UTC) with the What's
+# New text "1.5 Version Update — New Character: M.A.D. — Main
+# Story: Episode Light From a Fallen Star Added — Special Event
+# Story: A Flame Chasing Freedom Added — New Content: Honor
+# Ranking, Special Conquest, and Archive Added — Friends Feature
+# Improved". That changelog lists no character balance
+# adjustments (unlike the 1.4 changelog), hence
+# balance_changes = false and no source becomes stale_check_only
+# (see patch-staleness.md in the same harvest). Lou, the second
+# announced 1.5 character, is not in the 1.05.00 changelog and is
+# not recorded as released.
+source = "https://apps.apple.com/us/app/mongil-star-dive/id6483252725"
