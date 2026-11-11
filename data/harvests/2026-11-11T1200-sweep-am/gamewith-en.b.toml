@@ -1,0 +1,76 @@
+# B-read (screenshot/visual) — GameWith EN check-only placements, sweep
+# 2026-11-11T1200-sweep-am. Visual read of the rendered page (live browser,
+# 2026-11-11 12:02-12:11 ET): last updated shown Nov 10, 2026, 6:21 PM;
+# SS / S / A sections as rendered. The rendered chart also shows lower
+# tiers (B: Bonnie, Sera, Verna; C: Daisy, Reina) — outside the guide's
+# SS/S/A read, note only. Never counted.
+
+kind = "single_tier"
+
+[meta]
+source = "gamewith-en"
+harvest = "2026-11-11T1200-sweep-am"
+worker = "B"
+read_mode = "screenshot"
+read_at = "2026-11-11T12:11:00-05:00"
+page_updated = "2026-11-10"
+
+[[placement]]
+character = "mina"
+tier = "SS"
+
+[[placement]]
+character = "flare"
+tier = "SS"
+
+[[placement]]
+character = "jiwon"
+tier = "SS"
+
+[[placement]]
+character = "esther"
+tier = "SS"
+
+[[placement]]
+character = "ophelia"
+tier = "S"
+
+[[placement]]
+character = "penny"
+tier = "S"
+
+[[placement]]
+character = "gabi"
+tier = "S"
+
+[[placement]]
+character = "francis"
+tier = "S"
+
+[[placement]]
+character = "sangun"
+tier = "A"
+
+[[placement]]
+character = "leeho"
+tier = "A"
+
+[[placement]]
+character = "angel"
+tier = "A"
+
+[[placement]]
+character = "cloud"
+tier = "A"
+
+[[placement]]
+character = "yeonhwa"
+tier = "A"
+
+[[placement]]
+character = "benjamin"
+tier = "A"
+
+[[placement]]
+character = "ellie"
+tier = "A"
