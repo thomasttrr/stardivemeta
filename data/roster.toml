@@ -182,3 +182,14 @@ name = "Angel"
 released_on = "2026-04-15"
 released_on_sources = ["https://gamewith.net/mongil-stardive/73714", "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"]
 
+# Added in sweep 2026-11-11T0900-sweep-am: M.A.D., the version 1.5
+# character (released 2026-11-10, store build 1.05.00 — see the
+# 2026-11-10T2345-sweep-pm patch-watch), first ranked by GameWith JP
+# on 2026-11-11. released_on is omitted for now: this file sets it
+# only where two independent sources give the date (the pre-stage on
+# branch kit/v15-prestage took the same line).
+
+[[character]]
+id = "m-a-d"
+name = "M.A.D"
+

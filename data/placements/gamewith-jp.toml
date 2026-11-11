@@ -1,15 +1,18 @@
-# GameWith JP placements — merged from the 2026-10-29T2105-sweep-pm harvest
-# (merge rule: structured fields equal worker A's read; B's screenshot
-# read agreed 0 blocking, 1 free-text warning). A read
-# 2026-10-29T21:05:00-04:00 (rendered text), page updated 2026-10-21.
+# GameWith JP placements — merged from the 2026-11-11T0900-sweep-am
+# harvest (merge rule: structured fields equal worker A's read; B's
+# screenshot read agreed 0 blocking, 2 free-text warnings).
+# A read 2026-11-11T09:05:00-05:00 (rendered text); B read
+# 2026-11-11T09:03:00-05:00 (screenshot). Page updated 2026-11-11 —
+# the page's first republication for version 1.5: Nagi S -> SS,
+# Flare A -> S, Esther SS -> S, and new character M.A.D. enters at S.
 # SS / S / A text sections only. The six characters absent from the
 # text tiers get status = "not_in_text_tiers" (missing is never a low
-# vote); the page's visual tier table was read under T2.5 and is NOT
-# merged — it enters the data only if Tom approves at CP2.
+# vote); the page's visual tier table is NOT merged — it enters the
+# data only if Tom approves the method extension at CP2.
 
 [meta]
 source = "gamewith-jp"
-harvest = "2026-10-29T2105-sweep-pm"
+harvest = "2026-11-11T0900-sweep-am"
 
 [[placement]]
 character = "mina"
@@ -47,8 +50,8 @@ raw = "SS"
 
 [[placement]]
 character = "flare"
-tier = "A"
-raw = "A"
+tier = "S"
+raw = "S"
 
 [[placement]]
 character = "chloe"
@@ -62,13 +65,13 @@ raw = "SS"
 
 [[placement]]
 character = "esther"
-tier = "SS"
-raw = "SS"
+tier = "S"
+raw = "S"
 
 [[placement]]
 character = "nagi"
-tier = "S"
-raw = "S"
+tier = "SS"
+raw = "SS"
 
 [[placement]]
 character = "brisshell"
@@ -150,3 +153,9 @@ status = "not_in_text_tiers"
 character = "angel"
 tier = "A"
 raw = "A"
+
+[[placement]]
+character = "m-a-d"
+tier = "S"
+raw = "S"
+note = "New v1.5 character M.A.D.; page's latest-PU box also rates M.A.D. at S."
