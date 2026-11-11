@@ -1,0 +1,163 @@
+# B-read (screenshot/visual) — GameWith JP strongest-character ranking,
+# sweep 2026-11-11T1200-sweep-am. Independent visual read of the rendered
+# page (live browser, 2026-11-11 12:02-12:11 ET): the summary tier table
+# plus the SS / S / A evaluation sections (page labels Tier1 = SS,
+# Tier2 = S, Tier3 = A). Page shows updated 2026-11-11 14:11 — matching
+# A's page metadata. Counts: SS 9, S 11, A 4 — the same 24 tiered
+# characters as A; the 6 characters in neither read's SS/S/A tiers are
+# recorded not_in_text_tiers, as in A (they appear only in the visual
+# table's lower B/C/D rows). M.A.D. confirmed at S; Nagi SS, Flare S,
+# Esther S.
+
+[meta]
+source = "gamewith-jp"
+harvest = "2026-11-11T1200-sweep-am"
+worker = "B"
+read_mode = "screenshot"
+read_at = "2026-11-11T12:11:00-05:00"
+page_updated = "2026-11-11"
+note = "Visual read: summary table and SS/S/A evaluation sections agree."
+
+[[placement]]
+character = "mina"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "penny"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "narae"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "sangun"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "jiwon"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "gabi"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "isabella"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "flare"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "chloe"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "ophelia"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "esther"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "nagi"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "brisshell"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "mabel"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "verna-summer-dive"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "francis-summer-dive"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "vivian"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "verna"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "cloud"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "francis"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "yeonhwa"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "daisy"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "leeho"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "benjamin"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "sera"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "ellie"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "reina"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "bonnie"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "angel"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "m-a-d"
+tier = "S"
+raw = "S"
