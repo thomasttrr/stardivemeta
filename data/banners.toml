@@ -4,8 +4,11 @@
 # (Reruns — Mina + Narae in v1.4, Esther + Nagi alongside Chloe —
 # are recorded in the harvest note; the format keys banners by
 # character.) Narae's banner window opens 2026-05-26 UTC per Game8;
-# v1.1.0 went live 2026-05-27, which is her released_on. Current
-# banner at sweep time: Chloe (Oct 21 – Nov 10, 2026).
+# v1.1.0 went live 2026-05-27, which is her released_on. Chloe's
+# banner (Oct 21 – Nov 10, 2026), current at the October sweep, ended
+# Nov 10. M.A.D's debut starts 2026-11-11 (Prydwen). End is omitted:
+# Prydwen says Dec 1 and Netmarble's press release says the
+# recruitment event runs through Dec 2.
 
 [[banner]]
 character = "esther"
@@ -67,6 +70,11 @@ source = "https://www.invenglobal.com/articles/26667/mongil-star-dive-version-14
 character = "chloe"
 start = "2026-10-21"
 end = "2026-11-10"
+source = "https://www.prydwen.gg/other-games/mongil-star-dive/banners"
+
+[[banner]]
+character = "m-a-d"
+start = "2026-11-11"
 source = "https://www.prydwen.gg/other-games/mongil-star-dive/banners"
 
 # Officially announced future events (banner page "What's next").
