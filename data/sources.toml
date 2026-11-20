@@ -59,7 +59,7 @@ name = "gacha.gg"
 role = "check_only"
 kind = "overall"
 url = "https://www.gacha.gg/mongil-star-dive/tier-list"
-list_date = "2026-10-29"
+list_date = "2026-11-19"
 criteria_caveat = "Aggregate of 9 community lists including Kaiden and mongil.gg. Counting it would count those lists twice."
 
 [[source]]
