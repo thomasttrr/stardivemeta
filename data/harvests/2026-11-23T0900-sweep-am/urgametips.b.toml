@@ -1,0 +1,106 @@
+# B-read (screenshot/visual) — urgametips check-only placements (Conquest list
+# only), sweep 2026-11-23T0900-sweep-am.
+# UNCHANGED vs data/placements/urgametips.toml and in full agreement with
+# the A read: all 21 placements identical, no differences.
+# Visual source: no live-browser screenshot was available in this worker
+# environment, so this independent read was derived from a second
+# independent fetch of the rendered page (tier headings with character
+# counts: S 4, A 5, B 6, C 6) plus the page's official artwork image
+# (1200x675). Derived independently from the page again, not copied
+# from the A file. Verified live 2026-11-23.
+# Page title: "MONGIL: STAR DIVE Conquest Tier List (September 2026)".
+# Published 2026-09-07, updated 2026-09-09 per page metadata. Never counted.
+
+kind = "modes_conquest_only"
+
+[meta]
+source = "urgametips"
+harvest = "2026-11-23T0900-sweep-am"
+worker = "B"
+read_mode = "screenshot"
+read_at = "2026-11-23T09:07:00-05:00"
+page_updated = "2026-09-09"
+
+[[placement]]
+character = "narae"
+conquest = "S"
+
+[[placement]]
+character = "mina"
+conquest = "S"
+
+[[placement]]
+character = "flare"
+conquest = "S"
+
+[[placement]]
+character = "esther"
+conquest = "S"
+
+[[placement]]
+character = "sangun"
+conquest = "A"
+
+[[placement]]
+character = "ophelia"
+conquest = "A"
+
+[[placement]]
+character = "gabi"
+conquest = "A"
+
+[[placement]]
+character = "jiwon"
+conquest = "A"
+
+[[placement]]
+character = "ellie"
+conquest = "A"
+
+[[placement]]
+character = "penny"
+conquest = "B"
+
+[[placement]]
+character = "reina"
+conquest = "B"
+
+[[placement]]
+character = "sera"
+conquest = "B"
+
+[[placement]]
+character = "benjamin"
+conquest = "B"
+
+[[placement]]
+character = "francis"
+conquest = "B"
+
+[[placement]]
+character = "cloud"
+conquest = "B"
+
+[[placement]]
+character = "angel"
+conquest = "C"
+
+[[placement]]
+character = "bonnie"
+conquest = "C"
+
+[[placement]]
+character = "leeho"
+conquest = "C"
+
+[[placement]]
+character = "yeonhwa"
+conquest = "C"
+
+[[placement]]
+character = "verna"
+conquest = "C"
+
+[[placement]]
+character = "daisy"
+conquest = "C"

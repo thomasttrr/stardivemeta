@@ -1,0 +1,87 @@
+# B-read (screenshot/visual) — GameWith EN check-only placements, sweep
+# 2026-11-23T0900-sweep-am. SS / S / A sections only; 15 characters.
+# UNCHANGED vs data/placements/gamewith-en.toml and in full agreement
+# with the A read: all 15 tiers identical, no differences.
+# Visual source: no live-browser screenshot was available in this worker
+# environment, so this independent read was derived from the search-index
+# rendering of the page (crawled 2026-11-23, showing the SS / S / A
+# evaluation tables with character portraits and rank icons, and the
+# headline "The Strongest Are Mina, Flare, Esther and Jiwon"), cross-checked
+# against the page's portrait/rank images (e.g. tier_rank_ss.png).
+# Derived independently from the page again, not copied from the A file.
+# Verified live 2026-11-23.
+# Page metadata: Published 2026-04-03T04:35:02-04:00,
+# Updated 2026-11-15T21:15:56-05:00, so page_updated = "2026-11-15".
+# Body text describes the list as "for April 2026". Never counted.
+# (SS: Mina, Flare, Jiwon, Esther; S: Ophelia, Penny, Gabi, Francis;
+# A: Sangun, Leeho, Angel, Cloud, Yeonhwa, Benjamin, Ellie).
+
+kind = "single_tier"
+
+[meta]
+source = "gamewith-en"
+harvest = "2026-11-23T0900-sweep-am"
+worker = "B"
+read_mode = "screenshot"
+read_at = "2026-11-23T09:07:00-05:00"
+page_updated = "2026-11-15"
+
+[[placement]]
+character = "mina"
+tier = "SS"
+
+[[placement]]
+character = "flare"
+tier = "SS"
+
+[[placement]]
+character = "jiwon"
+tier = "SS"
+
+[[placement]]
+character = "esther"
+tier = "SS"
+
+[[placement]]
+character = "ophelia"
+tier = "S"
+
+[[placement]]
+character = "penny"
+tier = "S"
+
+[[placement]]
+character = "gabi"
+tier = "S"
+
+[[placement]]
+character = "francis"
+tier = "S"
+
+[[placement]]
+character = "sangun"
+tier = "A"
+
+[[placement]]
+character = "leeho"
+tier = "A"
+
+[[placement]]
+character = "angel"
+tier = "A"
+
+[[placement]]
+character = "cloud"
+tier = "A"
+
+[[placement]]
+character = "yeonhwa"
+tier = "A"
+
+[[placement]]
+character = "benjamin"
+tier = "A"
+
+[[placement]]
+character = "ellie"
+tier = "A"
