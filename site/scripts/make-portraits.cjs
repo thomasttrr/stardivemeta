@@ -7,8 +7,8 @@
 // scratch copy covered a known rect of its original, so they map back exactly.
 const {execFileSync}=require('child_process');const fs=require('fs');const path=require('path');
 const [assets,outDir]=process.argv.slice(2);
-const F={cloud:[38,31,.26],daisy:[42,22,.2],esther:[41,13,.2],flare:[52,18,.13],francis:[40,13,.17],gabi:[45,20,.13],jiwon:[47,22,.22],leeho:[32,20,.15],mina:[58,27,.13],nagi:[56,20,.14],narae:[50,20,.2],ophelia:[47,21,.18],penny:[28,42,.22],reina:[62,25,.15],sangun:[64,13,.12],verna:[56,17,.18],yeonhwa:[51,13,.2],chloe:[56,33,.22],isabella:[53,35,.2],vivian:[48,27,.17],brisshell:[47,32,.18],mabel:[44,50,.22],'verna-summer-dive':[50,28,.17],'francis-summer-dive':[65,39,.15],benjamin:[60,37,.4],sera:[43,37,.45],ellie:[47,48,.5],bonnie:[47,47,.5],angel:[47,50,.45]};
-const CARD={chloe:'chloe',isabella:'isabella',vivian:'vivian',brisshell:'brisshell',mabel:'mabel','verna-summer-dive':'verna_summer','francis-summer-dive':'francis_summer'};
+const F={cloud:[38,31,.26],daisy:[42,22,.2],esther:[41,13,.2],flare:[52,18,.13],francis:[40,13,.17],gabi:[45,20,.13],jiwon:[47,22,.22],leeho:[32,20,.15],mina:[58,27,.13],nagi:[56,20,.14],narae:[50,20,.2],ophelia:[47,21,.18],penny:[28,42,.22],reina:[62,25,.15],sangun:[64,13,.12],verna:[56,17,.18],yeonhwa:[51,13,.2],chloe:[56,33,.22],isabella:[53,35,.2],vivian:[48,27,.17],brisshell:[47,32,.18],mabel:[44,50,.22],'verna-summer-dive':[50,28,.17],'francis-summer-dive':[65,39,.15],'m-a-d':[38,38,.25],benjamin:[60,37,.4],sera:[43,37,.45],ellie:[47,48,.5],bonnie:[47,47,.5],angel:[47,50,.45]};
+const CARD={'m-a-d':'mad',chloe:'chloe',isabella:'isabella',vivian:'vivian',brisshell:'brisshell',mabel:'mabel','verna-summer-dive':'verna_summer','francis-summer-dive':'francis_summer'};
 const BUST=['benjamin','sera','ellie','bonnie','angel'];
 const FILL=0.62,CY=0.52,OUT=320;
 const size=f=>execFileSync('ffprobe',['-v','error','-select_streams','v:0','-show_entries','stream=width,height','-of','csv=p=0',f]).toString().trim().split(',').map(Number);

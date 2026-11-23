@@ -21,6 +21,7 @@ const ART = new Set([
   'isabella',
   'jiwon',
   'leeho',
+  'm-a-d',
   'mabel',
   'mina',
   'nagi',

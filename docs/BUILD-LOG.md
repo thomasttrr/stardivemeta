@@ -228,3 +228,4 @@ Format: one line per task — task id, date, commit, how it was checked (plan A.
     - check-dist OK (46 pages).
     - pa11y WCAG2AA 0 errors on the 18-page set.
     - Every hunt probe re-run against the fix: each finding now behaves as intended.
+- M.A.D portrait · 2026-11-23 · Medallion portrait for m-a-d added: source is her official forum introduction card (forum.netmarble.com/stardive_gl/view/21/783, posted 2026-11-11), archived at design-assets/characters/forum/mad_hero.jpg — the same forum-card route as Chloe and Isabella, because the official site's character section still carries only the 17 pre-launch renders. Focal [38,38,.25] set in site/scripts/make-portraits.cjs (CARD 'm-a-d' -> 'mad'); output site/public/img/own/art/m-a-d.webp (320x320) and 'm-a-d' added to the ART set in site/src/lib/portraits.ts. Crop verified by eye: face centred, no card text or logo in frame.
