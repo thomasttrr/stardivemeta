@@ -1,16 +1,19 @@
-# Working dataset — gacha.gg check-only placements (aggregate, median of 9 lists),
-# transcribed from docs/inputs/mongil-tier-list-consensus-2026-10-29.md
-# lines 216-220. Updated Oct 29, 2026; 24 characters. Never counted:
-# it aggregates Kaiden and mongil.gg, so counting it would double-count.
-# Refresh check, sweep 2026-10-29T2105-sweep-pm (checkonly-refresh.md):
-# page stamp still "Updated 29 October 2026", rows verified UNCHANGED.
+# gacha.gg check-only placements — merged from the 2026-11-19T2345-sweep-pm
+# harvest (merge rule: structured fields equal worker A's read; B's
+# screenshot read agreed 0 blocking / 0 warnings). A read
+# 2026-11-19T23:45:00-05:00 (rendered text); B read
+# 2026-11-19T23:48:02-05:00 (screenshot). Page stamp
+# "Updated 19 November 2026"; 24 characters. Changes vs the previous
+# merged file: francis A -> B, sangun A -> B, angel C -> B,
+# yeonhwa C -> B. Never counted: it aggregates Kaiden and mongil.gg,
+# so counting it would double-count.
 
 kind = "single_tier"
 
 [meta]
 source = "gacha-gg"
-harvest = "2026-10-29"
-read_at = "2026-10-29T21:10:00-04:00"
+harvest = "2026-11-19T2345-sweep-pm"
+read_at = "2026-11-19T23:45:00-05:00"
 
 [[placement]]
 character = "esther"
@@ -41,15 +44,7 @@ character = "verna-summer-dive"
 tier = "A"
 
 [[placement]]
-character = "francis"
-tier = "A"
-
-[[placement]]
 character = "gabi"
-tier = "A"
-
-[[placement]]
-character = "sangun"
 tier = "A"
 
 [[placement]]
@@ -57,7 +52,15 @@ character = "benjamin"
 tier = "B"
 
 [[placement]]
+character = "francis"
+tier = "B"
+
+[[placement]]
 character = "penny"
+tier = "B"
+
+[[placement]]
+character = "sangun"
 tier = "B"
 
 [[placement]]
@@ -66,14 +69,14 @@ tier = "B"
 
 [[placement]]
 character = "angel"
-tier = "C"
-
-[[placement]]
-character = "nagi"
-tier = "C"
+tier = "B"
 
 [[placement]]
 character = "yeonhwa"
+tier = "B"
+
+[[placement]]
+character = "nagi"
 tier = "C"
 
 [[placement]]

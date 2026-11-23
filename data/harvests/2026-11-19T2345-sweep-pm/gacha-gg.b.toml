@@ -1,0 +1,111 @@
+# B-read (screenshot) — gacha.gg overall tier list, sweep 2026-11-19T2345-sweep-pm.
+# Independent read by worker B from the live rendered page alone:
+# https://www.gacha.gg/mongil-star-dive/tier-list
+# Page stamp as shown: "Updated 19 November 2026".
+# Total shown on page: 24 characters. M.A.D. does NOT appear.
+
+kind = "single_tier"
+
+[meta]
+source = "gacha-gg"
+harvest = "2026-11-19T2345-sweep-pm"
+worker = "B"
+read_mode = "screenshot"
+read_at = "2026-11-19T23:48:02-05:00"
+page_updated = "2026-11-19"
+
+[[placement]]
+character = "narae"
+tier = "S"
+
+[[placement]]
+character = "esther"
+tier = "S"
+
+[[placement]]
+character = "mina"
+tier = "S"
+
+[[placement]]
+character = "jiwon"
+tier = "S"
+
+[[placement]]
+character = "flare"
+tier = "S"
+
+[[placement]]
+character = "ophelia"
+tier = "A"
+
+[[placement]]
+character = "verna-summer-dive"
+tier = "A"
+
+[[placement]]
+character = "gabi"
+tier = "A"
+
+[[placement]]
+character = "benjamin"
+tier = "B"
+
+[[placement]]
+character = "francis"
+tier = "B"
+
+[[placement]]
+character = "penny"
+tier = "B"
+
+[[placement]]
+character = "sangun"
+tier = "B"
+
+[[placement]]
+character = "francis-summer-dive"
+tier = "B"
+
+[[placement]]
+character = "angel"
+tier = "B"
+
+[[placement]]
+character = "yeonhwa"
+tier = "B"
+
+[[placement]]
+character = "nagi"
+tier = "C"
+
+[[placement]]
+character = "bonnie"
+tier = "C"
+
+[[placement]]
+character = "cloud"
+tier = "C"
+
+[[placement]]
+character = "ellie"
+tier = "C"
+
+[[placement]]
+character = "leeho"
+tier = "C"
+
+[[placement]]
+character = "sera"
+tier = "C"
+
+[[placement]]
+character = "reina"
+tier = "C"
+
+[[placement]]
+character = "verna"
+tier = "C"
+
+[[placement]]
+character = "daisy"
+tier = "D"
