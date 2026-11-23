@@ -1,0 +1,117 @@
+# B-read (screenshot/visual) — gacha.gg check-only placements, sweep
+# 2026-11-23T0900-sweep-am. Visual read of the rendered tier rows:
+# stamp seen "Updated 19 November 2026"; 24 characters. Never counted.
+# Visual source: the page's own tier-board rendering (opengraph image,
+# 1200x630) showing S/A/B/C/D rows with portraits and the Updated
+# stamp, cross-checked portrait-by-portrait against each character's
+# face image. Row counts seen visually: S=5, A=3, B=7, C=8, D=1 (=24),
+# matching the A read tier-for-tier. A live-browser screenshot was not
+# available in this worker environment, so the site's rendered
+# tier-board image was used. Placements are identical to the A read
+# and to the version already in open PR #33 — no further change.
+
+kind = "single_tier"
+
+[meta]
+source = "gacha-gg"
+harvest = "2026-11-23T0900-sweep-am"
+worker = "B"
+read_mode = "screenshot"
+read_at = "2026-11-23T09:07:00-05:00"
+page_updated = "2026-11-19"
+
+[[placement]]
+character = "narae"
+tier = "S"
+
+[[placement]]
+character = "esther"
+tier = "S"
+
+[[placement]]
+character = "mina"
+tier = "S"
+
+[[placement]]
+character = "jiwon"
+tier = "S"
+
+[[placement]]
+character = "flare"
+tier = "S"
+
+[[placement]]
+character = "ophelia"
+tier = "A"
+
+[[placement]]
+character = "verna-summer-dive"
+tier = "A"
+
+[[placement]]
+character = "gabi"
+tier = "A"
+
+[[placement]]
+character = "benjamin"
+tier = "B"
+
+[[placement]]
+character = "francis"
+tier = "B"
+
+[[placement]]
+character = "penny"
+tier = "B"
+
+[[placement]]
+character = "sangun"
+tier = "B"
+
+[[placement]]
+character = "francis-summer-dive"
+tier = "B"
+
+[[placement]]
+character = "angel"
+tier = "B"
+
+[[placement]]
+character = "yeonhwa"
+tier = "B"
+
+[[placement]]
+character = "nagi"
+tier = "C"
+
+[[placement]]
+character = "bonnie"
+tier = "C"
+
+[[placement]]
+character = "cloud"
+tier = "C"
+
+[[placement]]
+character = "ellie"
+tier = "C"
+
+[[placement]]
+character = "leeho"
+tier = "C"
+
+[[placement]]
+character = "sera"
+tier = "C"
+
+[[placement]]
+character = "reina"
+tier = "C"
+
+[[placement]]
+character = "verna"
+tier = "C"
+
+[[placement]]
+character = "daisy"
+tier = "D"

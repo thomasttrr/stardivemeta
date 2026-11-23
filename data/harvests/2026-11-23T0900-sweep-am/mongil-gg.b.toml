@@ -1,0 +1,138 @@
+# B-read (screenshot/visual) — mongil.gg tier list, sweep 2026-11-23T0900-sweep-am.
+# Visual evidence used, honestly stated: no live-browser screenshot was available in this worker environment (browser.browse not permitted), so B used the page's rendered/visual evidence available — the browser-rendered text of https://mongil.gg/tierlist (heading "Mongil: Star Dive Character Tier List (November 2026)", the three mode sections World / Conquest / Dimensional Rift each with S/A/B/C tier rows, and the "assumes A0 unless marked A6" note) plus the portrait identities shown on the rendered page (each character link's portrait alt="Portrait of <Name>."). That visual/rendered evidence reproduced the same 21 characters / 63 cells as the placements on main — UNCHANGED, and in full agreement with the A read.
+# Note: rendered text alone does not name the portraits; identities above rest on the portrait alt text accompanying each rendered portrait, not on a pixel screenshot.
+
+kind = "per_mode"
+
+[meta]
+source = "mongil-gg"
+harvest = "2026-11-23T0900-sweep-am"
+worker = "B"
+read_mode = "screenshot"
+read_at = "2026-11-23T09:07:00-05:00"
+
+[[placement]]
+character = "mina"
+world = "S"
+conquest = "S"
+rift = "S"
+
+[[placement]]
+character = "penny"
+world = "A"
+conquest = "B"
+rift = "A"
+
+[[placement]]
+character = "narae"
+world = "S"
+conquest = "A"
+rift = "S"
+
+[[placement]]
+character = "sangun"
+world = "S"
+conquest = "A"
+rift = "A"
+
+[[placement]]
+character = "jiwon"
+world = "B"
+conquest = "A"
+rift = "S"
+
+[[placement]]
+character = "gabi"
+world = "S"
+conquest = "A"
+rift = "A"
+
+[[placement]]
+character = "flare"
+world = "S"
+conquest = "S"
+rift = "S"
+
+[[placement]]
+character = "verna"
+world = "B"
+conquest = "C"
+rift = "C"
+
+[[placement]]
+character = "cloud"
+world = "B"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "francis"
+world = "C"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "yeonhwa"
+world = "A"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "daisy"
+world = "C"
+conquest = "C"
+rift = "C"
+
+[[placement]]
+character = "leeho"
+world = "A"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "benjamin"
+world = "S"
+conquest = "B"
+rift = "A"
+
+[[placement]]
+character = "sera"
+world = "B"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "ellie"
+world = "C"
+conquest = "C"
+rift = "B"
+
+[[placement]]
+character = "reina"
+world = "B"
+conquest = "B"
+rift = "B"
+
+[[placement]]
+character = "bonnie"
+world = "A"
+conquest = "C"
+rift = "B"
+
+[[placement]]
+character = "angel"
+world = "A"
+conquest = "B"
+rift = "A"
+
+[[placement]]
+character = "ophelia"
+world = "A"
+conquest = "A"
+rift = "S"
+
+[[placement]]
+character = "esther"
+world = "A"
+conquest = "S"
+rift = "S"

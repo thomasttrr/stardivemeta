@@ -1,0 +1,168 @@
+# B-read (screenshot/visual) — independent visual read, sweep
+# 2026-11-23T0900-sweep-am, read_at 2026-11-23T09:07:00-05:00 ET.
+# Visual source used (honest note): this worker did NOT use a live-browser
+# screenshot tool (not available to this subagent). B was derived via a
+# second, independent visual path: the rendered page's section headings
+# (SSランク / Sランク / Aランク), portrait/image order and rank-icon
+# evidence in the browser.open Images footnote — notably the latest-PU
+# M.A.D. box rank icon file "tier_rank_s.png" (= S) — re-read independently
+# of the A text transcription.
+# Page metadata still Updated: 2026-11-11T14:11:34+09:00.
+# Visual sections agreed exactly with A on every structured field:
+# SS (9), S (11) incl. M.A.D., A (4); absent (6) Sangun, Verna, Daisy,
+# Leeho, Ellie, Bonnie. 30 placements, 0 blocking differences expected.
+#
+[meta]
+source = "gamewith-jp"
+harvest = "2026-11-23T0900-sweep-am"
+worker = "B"
+read_mode = "screenshot"
+read_at = "2026-11-23T09:07:00-05:00"
+page_updated = "2026-11-11"
+note = "Page updated 2026-11-11T14:11:34+09:00 per page metadata. Headline names 完凸フランシス (fully-awakened Francis), Narae, Summer Francis, Mina and Brisshell as the strongest."
+
+[[placement]]
+character = "mina"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "penny"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "narae"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "sangun"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "jiwon"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "gabi"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "isabella"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "flare"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "chloe"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "ophelia"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "esther"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "nagi"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "brisshell"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "mabel"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "verna-summer-dive"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "francis-summer-dive"
+tier = "SS"
+raw = "SS"
+
+[[placement]]
+character = "vivian"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "verna"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "cloud"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "francis"
+tier = "SS"
+raw = "SS"
+note = "Headline names 完凸フランシス (fully-awakened Francis) among the strongest; Francis is ★4, and the page criteria evaluate 4★ up to A6."
+
+[[placement]]
+character = "yeonhwa"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "daisy"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "leeho"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "benjamin"
+tier = "S"
+raw = "S"
+
+[[placement]]
+character = "sera"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "ellie"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "reina"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "bonnie"
+status = "not_in_text_tiers"
+
+[[placement]]
+character = "angel"
+tier = "A"
+raw = "A"
+
+[[placement]]
+character = "m-a-d"
+tier = "S"
+raw = "S"
+note = "New v1.5 character M.A.D.; page's latest-PU box also rates M.A.D. at S."
