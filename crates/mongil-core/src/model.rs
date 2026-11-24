@@ -167,6 +167,10 @@ pub struct Roster {
 pub struct Character {
     pub id: String,
     pub name: String,
+    /// One short, plain player-facing line: why this character sits in
+    /// their tier. Our own words (2026-11-24 clean-guide direction);
+    /// shown on the board's character page.
+    pub why: Option<String>,
     /// Variant link, e.g. `francis-summer-dive` has `base_of = "francis"`.
     pub base_of: Option<String>,
     /// Only set when sourced (T2.8); each fact carries its sources.

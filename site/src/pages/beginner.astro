@@ -1,32 +1,32 @@
 ---
-// Beginner page (plan T3.7 + §B.5 Beginner; lists computed in
+// Beginner page (clean guide, 2026-11-24; lists computed in
 // mongil-core/src/derive.rs and emitted as tierlist.json.derived).
 // Per D-3 there is NO reroll section: rarity/pool data is not
-// two-source verified, so `derived.beginner.reroll` is null and the
-// section below renders only if that ever changes.
+// verified, so `derived.beginner.reroll` is null and the section
+// below renders only if that ever changes.
 import Base from '../layouts/Base.astro';
 import CharacterChip from '../components/CharacterChip.astro';
-import EvidenceDialogs from '../components/EvidenceDialogs.astro';
-import { charactersById, data, tierDisplay } from '../lib/data';
+import { charactersById, data, displayTier, tierDisplay } from '../lib/data';
 
 const beginner = data.derived.beginner;
 const byId = (id: string) => charactersById.get(id)!;
 ---
 
-<Base description="What the MONGIL: STAR DIVE tier lists say about characters at low investment. This is not pull advice." title="Beginner – StarDiveMeta" path="/beginner/">
+<Base description="New to MONGIL: STAR DIVE? The characters that carry a new account, the ones that repay investment, and answers to common first questions." title="Beginner – StarDiveMeta" path="/beginner/">
   <h1 class="page-title">New players</h1>
   <p class="built">
-    This is not pull advice. It's what the lists say about low investment.
+    Not pull advice — just who carries a new account, and who pays off
+    later.
   </p>
 
   <section>
-    <h2>Lists agree these are strong at Low</h2>
-    <p class="rule">S or A tier at Low, and the lists agree (Solid).</p>
+    <h2>Strong from the start</h2>
+    <p class="rule">Top tiers even with little invested. Safe first picks.</p>
     <div class="cards">
       {
         beginner.agreed_low.map((id) => {
           const c = byId(id);
-          return <CharacterChip character={c} result={c.results.low} eager />;
+          return <CharacterChip character={c} tier={displayTier(c)} eager />;
         })
       }
     </div>
@@ -34,7 +34,7 @@ const byId = (id: string) => charactersById.get(id)!;
 
   <section>
     <h2>Get better with investment</h2>
-    <p class="rule">Their Max tier is higher than their Low tier.</p>
+    <p class="rule">These climb as you invest — awakenings and their signature weapon.</p>
     <ul class="panel-list rise">
       {
         beginner.rise.map((r) => (
@@ -50,15 +50,16 @@ const byId = (id: string) => charactersById.get(id)!;
   </section>
 
   <section>
-    <h2>Lists disagree on these at Low</h2>
+    <h2>Worth a second look</h2>
     <p class="rule">
-      Contested at Low. Tap one to see what each list says.
+      Strong for some teams and modes, weaker for others. Tap one for
+      the short reason.
     </p>
     <div class="cards">
       {
         beginner.contested_low.map((id) => {
           const c = byId(id);
-          return <CharacterChip character={c} result={c.results.low} />;
+          return <CharacterChip character={c} tier={displayTier(c)} />;
         })
       }
     </div>
@@ -71,7 +72,7 @@ const byId = (id: string) => charactersById.get(id)!;
         <div class="cards">
           {beginner.reroll.map((entry) => {
             const c = byId(entry.id);
-            return <CharacterChip character={c} result={c.results.low} />;
+            return <CharacterChip character={c} tier={displayTier(c)} />;
           })}
         </div>
       </section>
@@ -92,11 +93,9 @@ const byId = (id: string) => charactersById.get(id)!;
       </p>
       <h3>Which character should I reroll for?</h3>
       <p>
-        We do not name one. Only one of the lists we track publishes a
-        reroll pick, and this site never presents a single source as
-        settled — the same two-source rule as everything else here.
-        What the lists do agree on is in the first section above:
-        characters that are strong at Low investment.
+        Anyone in "Strong from the start" above. They carry a new
+        account without heavy investment, which is what a reroll is
+        for.
       </p>
       <h3>I am stuck in the 魑魅魍魎 quest. Is it bugged?</h3>
       <p>
@@ -111,19 +110,17 @@ const byId = (id: string) => charactersById.get(id)!;
       <p>
         Finish the opening story until pulls and the permanent banner
         unlock, then redeem any working codes — the{' '}
-        <a href="/codes/">Codes page</a> only lists a code as Active
-        when two separate sites say it works. After that, the sections above show what the lists rate
-        at Low investment, which is where a new account plays.
+        <a href="/codes/">Codes page</a> lists what is active right
+        now. After that, the sections above show who is strong with
+        little invested, which is where a new account plays.
       </p>
     </div>
   </section>
 
   <p class="built">
-    Every section on this page comes from the same scores as the tier
-    list, picked by the rule in its heading. The full rules are on the <a href="/rules/">Rules page</a>.
+    Every pick on this page comes from the same tier list on the home
+    page.
   </p>
-
-  <EvidenceDialogs />
 </Base>
 
 <style>

@@ -1,10 +1,11 @@
 ---
-// Per-character evidence page (plan T3.3, D-1): the same dossier
-// component as the board dialog, as its own linkable page.
+// Character page (clean guide, 2026-11-24): portrait, name, tier, and
+// the short reason — nothing else. The "why" is our own line from
+// data/roster.toml.
 import Base from '../../layouts/Base.astro';
-import EvidencePanel from '../../components/EvidencePanel.astro';
-import TierHistory from '../../components/TierHistory.astro';
-import { data, LABEL_WORD, LEVEL_NAME, LEVELS } from '../../lib/data';
+import Medallion from '../../components/Medallion.astro';
+import Sparkle from '../../components/Sparkle.astro';
+import { data, displayTier } from '../../lib/data';
 import type { Character } from '../../types/contract/Character';
 
 export function getStaticPaths() {
@@ -18,31 +19,87 @@ interface Props {
   character: Character;
 }
 const { character: c } = Astro.props;
-
-// "Low: A · Contested, High: …" — the dossier's own summary line
-// (a mode-split or unranked result has no tier letter, only its label).
-const placements = LEVELS.map((lv) => {
-  const r = c.results[lv];
-  const letter = r.tier === 'MODE_SPLIT' || r.tier === 'UNRANKED' ? '' : `${r.tier} · `;
-  return `${LEVEL_NAME[lv]}: ${letter}${LABEL_WORD[r.label]}`;
-}).join(', ');
-const description = `${c.name} in MONGIL: STAR DIVE. ${placements}. What each tier list says, side by side.`;
+const tier = displayTier(c);
+const tierWord = tier === 'Unranked' ? 'Not ranked yet' : `Tier ${tier}`;
+const released = c.released_on
+  ? new Intl.DateTimeFormat('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      timeZone: 'UTC',
+    }).format(new Date(`${c.released_on}T00:00:00Z`))
+  : null;
+const description = c.why
+  ? `${c.name} in MONGIL: STAR DIVE — ${tierWord}. ${c.why}`
+  : `${c.name} in MONGIL: STAR DIVE — ${tierWord}.`;
 ---
 
 <Base
-  title={`${c.name} Tier – MONGIL: STAR DIVE – StarDiveMeta`}
+  title={`${c.name} – ${tierWord} – MONGIL: STAR DIVE – StarDiveMeta`}
   description={description}
   path={`/c/${c.id}/`}
   width="prose"
 >
-  <div class="page-panel">
-    <EvidencePanel character={c} asPage eager />
+  <p class="back"><a href="/">← Back to the tier list</a></p>
+  <div class="char-head">
+    <div class="char-med"><Medallion id={c.id} name={c.name} eager /></div>
+    <h1 class="page-title">{c.name}</h1>
+    <span class="star-rule" aria-hidden="true"><Sparkle /></span>
+    <p class="tier-pill">{tierWord}</p>
+    {c.is_new && <p class="new-tag">New this version</p>}
   </div>
-  <TierHistory character={c} />
+  {c.why && <p class="why">{c.why}</p>}
+  {released && <p class="released">Released {released}</p>}
 </Base>
 
 <style>
-  .page-panel {
-    margin-top: 18px;
+  .back {
+    margin: 18px 0 0;
+    font-size: var(--text-note);
+  }
+  .char-head {
+    text-align: center;
+    margin-top: 14px;
+    --med: 132px;
+  }
+  .char-med {
+    display: flex;
+    justify-content: center;
+  }
+  .char-head .page-title {
+    margin-top: 12px;
+  }
+  .char-head .star-rule {
+    margin-top: 8px;
+  }
+  .tier-pill {
+    display: inline-block;
+    margin: 14px 0 0;
+    padding: 8px 22px;
+    border-radius: var(--radius-pill);
+    background: var(--pill);
+    box-shadow: inset 0 0 0 1px var(--pill-rim);
+    color: var(--text);
+    font-weight: var(--weight-bold);
+    font-size: var(--text-tagline);
+  }
+  .new-tag {
+    color: var(--sub);
+    font-size: var(--text-note);
+    margin: 8px 0 0;
+  }
+  .why {
+    font-size: var(--text-tagline);
+    line-height: 1.55;
+    text-align: center;
+    margin: 22px auto 0;
+    max-width: 34em;
+    text-wrap: balance;
+  }
+  .released {
+    color: var(--sub);
+    font-size: var(--text-note);
+    text-align: center;
+    margin: 14px 0 0;
   }
 </style>

@@ -124,6 +124,7 @@ fn mk_character(id: &str) -> Character {
     Character {
         id: id.to_string(),
         name: format!("Name {id}"),
+        why: None,
         base_of: None,
         released_on: None,
         released_on_sources: vec![],

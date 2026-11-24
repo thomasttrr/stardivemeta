@@ -519,6 +519,7 @@ pub fn build_tierlist(ds: &Dataset) -> TierList {
             Character {
                 id: character.id.clone(),
                 name: character.name.clone(),
+                why: character.why.clone(),
                 released_on: character.released_on.clone(),
                 // T4.2's 45-day "new" rule, against the build date.
                 is_new: is_new_release(

@@ -36,26 +36,11 @@ fn tier_colors(tier: &str) -> (&'static str, &'static str) {
     }
 }
 
-/// Label glyph colours in the PNG (the glyph shape differs per label
-/// too — colour is never the only signal).
-fn glyph_color(label: &str) -> &'static str {
-    match label {
-        "SOLID" => "#3fd0c9",
-        "CONTESTED" => "#ef6aa5",
-        "SPECULATION" => "#8d99ae",
-        "MODE_SPLIT" => "#7bd88f",
-        _ => SUB,
-    }
-}
-
-/// One character chip: display name + confidence-label glyph.
+/// One character chip: the display name, nothing else (clean guide,
+/// 2026-11-24 — no confidence glyphs on the PNGs anymore).
 #[derive(Clone, Debug, PartialEq)]
 pub struct ChipView {
     pub name: String,
-    /// Contract label: SOLID / CONTESTED / SPECULATION / MODE_SPLIT / UNRANKED.
-    pub label: String,
-    /// ● / ◐ / ○ / ⇄ / —.
-    pub glyph: String,
 }
 
 /// One tier row of a board (only non-empty rows are rendered).
@@ -129,10 +114,10 @@ fn row_height(row: &RowView) -> f64 {
 }
 
 /// Estimated chip width at 19px Inter semibold. Deliberately generous
-/// (0.56em average advance + padding + glyph) so the flow layout never
+/// (0.56em average advance + padding) so the flow layout never
 /// under-allocates; the layout test pins the real boards to 2 lines.
 fn chip_width(chip: &ChipView) -> f64 {
-    30.0 + 26.0 + chip.name.chars().count() as f64 * 10.6
+    44.0 + chip.name.chars().count() as f64 * 10.6
 }
 
 /// Lay chips out in lines inside the chips area; returns one Vec of
@@ -156,46 +141,6 @@ fn flow(chips: &[ChipView], area_w: f64) -> Vec<Vec<(&ChipView, f64)>> {
     lines
 }
 
-/// The label glyph drawn as vector shapes (Inter has no ◐/⇄ glyphs,
-/// so font text would render as tofu). Centered at (cx, cy); `r` is
-/// the circle radius / half-size of the mark.
-fn glyph_shapes(label: &str, cx: f64, cy: f64, r: f64, color: &str) -> String {
-    match label {
-        "SOLID" => format!("<circle cx=\"{cx:.1}\" cy=\"{cy:.1}\" r=\"{r:.1}\" fill=\"{color}\"/>"),
-        "CONTESTED" => format!(
-            "<circle cx=\"{cx:.1}\" cy=\"{cy:.1}\" r=\"{r:.1}\" fill=\"none\" stroke=\"{color}\" stroke-width=\"1.6\"/>\
-             <path d=\"M {cx:.1} {t:.1} A {r:.1} {r:.1} 0 0 0 {cx:.1} {b:.1} Z\" fill=\"{color}\"/>",
-            t = cy - r,
-            b = cy + r
-        ),
-        "SPECULATION" => format!(
-            "<circle cx=\"{cx:.1}\" cy=\"{cy:.1}\" r=\"{r:.1}\" fill=\"none\" stroke=\"{color}\" stroke-width=\"1.6\"/>"
-        ),
-        "MODE_SPLIT" => {
-            let w = r * 1.25;
-            let dy = r * 0.52;
-            let ah = r * 0.62; // arrowhead size
-            format!(
-                "<path d=\"M {l:.1} {t:.1} H {rgt:.1} M {rgt:.1} {t:.1} l -{ah:.1} -{ah2:.1} M {rgt:.1} {t:.1} l -{ah:.1} {ah2:.1}\" stroke=\"{color}\" stroke-width=\"{sw:.1}\" fill=\"none\"/>\
-                 <path d=\"M {rgt:.1} {b:.1} H {l:.1} M {l:.1} {b:.1} l {ah:.1} -{ah2:.1} M {l:.1} {b:.1} l {ah:.1} {ah2:.1}\" stroke=\"{color}\" stroke-width=\"{sw:.1}\" fill=\"none\"/>",
-                l = cx - w,
-                rgt = cx + w,
-                t = cy - dy,
-                b = cy + dy,
-                ah2 = ah * 0.62,
-                sw = (r * 0.24).max(1.4)
-            )
-        }
-        _ => format!(
-            "<rect x=\"{:.1}\" y=\"{:.1}\" width=\"{:.1}\" height=\"{:.1}\" fill=\"{color}\"/>",
-            cx - r,
-            cy - r * 0.14,
-            r * 2.0,
-            r * 0.28
-        ),
-    }
-}
-
 /// Render one tier row band whose top edge is `y` (band height ROW_H).
 fn row_svg(row: &RowView, y: f64) -> String {
     let (fill, on) = tier_colors(&row.tier);
@@ -205,27 +150,17 @@ fn row_svg(row: &RowView, y: f64) -> String {
         "<rect x=\"{MARGIN}\" y=\"{:.0}\" width=\"{BADGE_W}\" height=\"96\" rx=\"12\" fill=\"{fill}\"/>",
         y + 12.0
     ));
-    if row.tier == "MODE_SPLIT" || row.tier == "UNRANKED" {
-        let label = if row.tier == "MODE_SPLIT" {
-            "MODE_SPLIT"
-        } else {
-            "UNRANKED"
-        };
-        s.push_str(&glyph_shapes(
-            label,
-            MARGIN + BADGE_W / 2.0,
-            y + 12.0 + 36.0,
-            15.0,
-            on,
-        ));
-    } else {
-        s.push_str(&format!(
-            "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"42\" font-weight=\"900\" fill=\"{on}\" text-anchor=\"middle\">{}</text>",
-            MARGIN + BADGE_W / 2.0,
-            y + 12.0 + 56.0,
-            esc(&row.tier)
-        ));
-    }
+    let badge = match row.tier.as_str() {
+        "MODE_SPLIT" => "Split",
+        "UNRANKED" => "New",
+        t => t,
+    };
+    s.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"42\" font-weight=\"900\" fill=\"{on}\" text-anchor=\"middle\">{}</text>",
+        MARGIN + BADGE_W / 2.0,
+        y + 12.0 + 56.0,
+        esc(badge)
+    ));
     s.push_str(&format!(
         "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"13\" font-weight=\"700\" fill=\"{on}\" text-anchor=\"middle\">{} {}</text>",
         MARGIN + BADGE_W / 2.0,
@@ -250,49 +185,7 @@ fn row_svg(row: &RowView, y: f64) -> String {
                 cy + 29.0,
                 esc(&chip.name)
             ));
-            s.push_str(&glyph_shapes(
-                &chip.label,
-                cx + w - 19.0,
-                cy + CHIP_H / 2.0,
-                7.0,
-                glyph_color(&chip.label),
-            ));
         }
-    }
-    s
-}
-
-fn legend_svg(y: f64) -> String {
-    // Two items per line in fixed columns; each item is a vector glyph
-    // plus a text segment (§B.5 Home legend wording).
-    let items: [(&str, &str, &str); 4] = [
-        ("SOLID", "●", "Solid — the lists agree within 1 tier."),
-        (
-            "CONTESTED",
-            "◐",
-            "Contested — the lists are more than 1 tier apart.",
-        ),
-        (
-            "SPECULATION",
-            "○",
-            "Speculation — only 1 list has placed them so far.",
-        ),
-        (
-            "MODE_SPLIT",
-            "⇄",
-            "Mode-split — strong in one mode, weak in the other.",
-        ),
-    ];
-    let mut s = String::new();
-    for (i, (label, _glyph, text)) in items.iter().enumerate() {
-        let col_x = if i % 2 == 0 { MARGIN } else { 628.0 };
-        let baseline = y + (i / 2) as f64 * 26.0;
-        s.push_str(&glyph_shapes(label, col_x + 8.0, baseline - 5.0, 7.0, SUB));
-        s.push_str(&format!(
-            "<text x=\"{:.0}\" y=\"{baseline:.0}\" font-size=\"17\" fill=\"{SUB}\">{}</text>",
-            col_x + 26.0,
-            esc(text)
-        ));
     }
     s
 }
@@ -326,12 +219,10 @@ pub fn render_board_png(board: &BoardView) -> Result<Vec<u8>, RenderError> {
         "<rect width=\"{WIDTH}\" height=\"{height}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{MARGIN}\" y=\"58\" font-size=\"40\" font-weight=\"800\" fill=\"{TEXT}\">MONGIL: STAR DIVE — combined tier list</text>"
+        "<text x=\"{MARGIN}\" y=\"58\" font-size=\"40\" font-weight=\"800\" fill=\"{TEXT}\">MONGIL: STAR DIVE — tier list</text>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{MARGIN}\" y=\"92\" font-size=\"21\" fill=\"{SUB}\">Investment: {} · v{} · 3 lists · {}</text>",
-        esc(&board.level_name),
-        esc(&board.method_version),
+        "<text x=\"{MARGIN}\" y=\"92\" font-size=\"21\" fill=\"{SUB}\">Updated {}</text>",
         esc(&board.date_text)
     ));
     let mut y = HEADER_H;
@@ -339,8 +230,6 @@ pub fn render_board_png(board: &BoardView) -> Result<Vec<u8>, RenderError> {
         svg.push_str(&row_svg(row, y));
         y += row_height(row);
     }
-    let legend_y = y + 28.0;
-    svg.push_str(&legend_svg(legend_y));
     svg.push_str(&footer_svg(height));
     svg.push_str("</svg>");
     rasterize(&svg, WIDTH, height)
@@ -370,15 +259,6 @@ fn sf_tier_colors(tier: &str) -> (&'static str, &'static str) {
     }
 }
 
-fn sf_glyph_color(label: &str) -> &'static str {
-    match label {
-        "SOLID" => "#9fe6cf",
-        "CONTESTED" => "#ffb3c2",
-        "SPECULATION" => "#b9b0e2",
-        "MODE_SPLIT" => "#e3d2ff",
-        _ => SF_SUB,
-    }
-}
 
 /// The site's four-point sparkle path (24×24 viewBox), drawn at
 /// (x, y) with the given scale and fill.
@@ -469,13 +349,6 @@ fn og_row_svg(row: &RowView, y: f64) -> String {
                 cy + 29.0,
                 esc(&chip.name)
             ));
-            s.push_str(&glyph_shapes(
-                &chip.label,
-                cx + w - 19.0,
-                cy + CHIP_H / 2.0,
-                7.0,
-                sf_glyph_color(&chip.label),
-            ));
         }
     }
     s
@@ -539,11 +412,11 @@ pub fn render_og_png(low: &BoardView) -> Result<Vec<u8>, RenderError> {
         "<text x=\"{MARGIN}\" y=\"140\" font-family=\"Cardo\" font-size=\"68\" font-weight=\"700\" fill=\"{SF_TEXT}\">StarDive<tspan fill=\"{SF_LAVENDER}\">Meta</tspan></text>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{MARGIN}\" y=\"188\" font-size=\"27\" fill=\"{SF_SUB}\">Every list disagrees. We show you by how much.</text>"
+        "<text x=\"{MARGIN}\" y=\"188\" font-size=\"27\" fill=\"{SF_SUB}\">Who's worth building — and why.</text>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{MARGIN}\" y=\"224\" font-size=\"20\" fill=\"{SF_SUB}\">MONGIL: STAR DIVE — combined tier list · Low investment · v{}</text>",
-        esc(&low.method_version)
+        "<text x=\"{MARGIN}\" y=\"224\" font-size=\"20\" fill=\"{SF_SUB}\">MONGIL: STAR DIVE — tier list · Updated {}</text>",
+        esc(&low.date_text)
     ));
     let mut y = 246.0;
     for tier in ["S", "A"] {
@@ -596,12 +469,8 @@ fn rasterize(svg: &str, width: u32, height: u32) -> Result<Vec<u8>, RenderError>
 mod tests {
     use super::*;
 
-    fn chip(name: &str, label: &str, glyph: &str) -> ChipView {
-        ChipView {
-            name: name.into(),
-            label: label.into(),
-            glyph: glyph.into(),
-        }
+    fn chip(name: &str) -> ChipView {
+        ChipView { name: name.into() }
     }
 
     /// The current Low board (names + labels from the T2.2 harvest
@@ -611,57 +480,57 @@ mod tests {
             RowView {
                 tier: "S".into(),
                 chips: vec![
-                    chip("Narae", "SOLID", "●"),
-                    chip("Chloe", "SOLID", "●"),
-                    chip("Isabella", "SOLID", "●"),
-                    chip("Brisshell", "SOLID", "●"),
+                    chip("Narae"),
+                    chip("Chloe"),
+                    chip("Isabella"),
+                    chip("Brisshell"),
                 ],
             },
             RowView {
                 tier: "A".into(),
                 chips: vec![
-                    chip("Mina", "CONTESTED", "◐"),
-                    chip("Esther", "CONTESTED", "◐"),
-                    chip("Francis", "CONTESTED", "◐"),
-                    chip("Ophelia", "CONTESTED", "◐"),
-                    chip("Francis: Summer Dive!", "CONTESTED", "◐"),
-                    chip("Verna: Summer Dive!", "SOLID", "●"),
+                    chip("Mina"),
+                    chip("Esther"),
+                    chip("Francis"),
+                    chip("Ophelia"),
+                    chip("Francis: Summer Dive!"),
+                    chip("Verna: Summer Dive!"),
                 ],
             },
             RowView {
                 tier: "B".into(),
                 chips: vec![
-                    chip("Benjamin", "SOLID", "●"),
-                    chip("Jiwon", "CONTESTED", "◐"),
-                    chip("Mabel", "SOLID", "●"),
-                    chip("Cloud", "SOLID", "●"),
-                    chip("Yeonhwa", "CONTESTED", "◐"),
-                    chip("Gabi", "CONTESTED", "◐"),
-                    chip("Flare", "CONTESTED", "◐"),
-                    chip("Penny", "CONTESTED", "◐"),
-                    chip("Nagi", "CONTESTED", "◐"),
-                    chip("Ellie", "SOLID", "●"),
-                    chip("Vivian", "SOLID", "●"),
+                    chip("Benjamin"),
+                    chip("Jiwon"),
+                    chip("Mabel"),
+                    chip("Cloud"),
+                    chip("Yeonhwa"),
+                    chip("Gabi"),
+                    chip("Flare"),
+                    chip("Penny"),
+                    chip("Nagi"),
+                    chip("Ellie"),
+                    chip("Vivian"),
                 ],
             },
             RowView {
                 tier: "C".into(),
                 chips: vec![
-                    chip("Reina", "SOLID", "●"),
-                    chip("Sera", "SOLID", "●"),
-                    chip("Sangun", "CONTESTED", "◐"),
-                    chip("Bonnie", "SOLID", "●"),
-                    chip("Leeho", "SOLID", "●"),
-                    chip("Verna", "SOLID", "●"),
+                    chip("Reina"),
+                    chip("Sera"),
+                    chip("Sangun"),
+                    chip("Bonnie"),
+                    chip("Leeho"),
+                    chip("Verna"),
                 ],
             },
             RowView {
                 tier: "D".into(),
-                chips: vec![chip("Daisy", "SOLID", "●")],
+                chips: vec![chip("Daisy")],
             },
             RowView {
                 tier: "MODE_SPLIT".into(),
-                chips: vec![chip("Angel", "MODE_SPLIT", "⇄")],
+                chips: vec![chip("Angel")],
             },
         ];
         BoardView {

@@ -1,15 +1,11 @@
 ---
-// Codes page (plan T4.1 + §B.5 Codes). Statuses are computed in Rust
-// (emit → codes.json): Active needs two independent sources agreeing
-// within 7 days; anything thinner is Unconfirmed and is never
-// presented as working. The "How to redeem" section appears only
-// when two sources give identical steps — not verified yet, so it
-// is omitted.
+// Codes page (clean guide, 2026-11-24). Statuses are computed in Rust
+// (emit → codes.json) and checked daily; the page shows the code, the
+// reward, and the dates — no source names.
 import Base from '../layouts/Base.astro';
 import CodeList from '../components/CodeList.astro';
 import { codesFile, fmtDate, stampFrom, titleMonth } from '../lib/data';
 
-const names = new Map(codesFile.sources.map((s) => [s.id, s.name]));
 const active = codesFile.codes.filter((c) => c.status === 'active');
 const unconfirmed = codesFile.codes.filter((c) => c.status === 'unconfirmed');
 const expired = codesFile.codes.filter((c) => c.status === 'expired');
@@ -26,7 +22,7 @@ const expiredRecent = expired.filter((entry) => {
 
 <Base
   title={`MONGIL: STAR DIVE Codes (${titleMonth()}) – StarDiveMeta`}
-  description="MONGIL: STAR DIVE redeem codes, checked every day. A code is listed as active when two separate sites say it works."
+  description="MONGIL: STAR DIVE redeem codes, checked every day, with rewards and expiry dates."
   path="/codes/"
 >
   <h1 class="page-title">MONGIL: STAR DIVE codes</h1>
@@ -43,8 +39,8 @@ const expiredRecent = expired.filter((entry) => {
     {
       active.length > 0 ? (
         <>
-          <p class="rule">Two separate sites say these work.</p>
-          <CodeList entries={active} variant="active" names={names} now={now} />
+          <p class="rule">Checked and working.</p>
+          <CodeList entries={active} variant="active" now={now} />
         </>
       ) : (
         <p class="empty" data-panel>
@@ -60,12 +56,11 @@ const expiredRecent = expired.filter((entry) => {
       <section>
         <h2>Unconfirmed</h2>
         <p class="rule">
-          Only one site lists these, or sites disagree. They may not work.
+          Not fully checked yet. They may not work.
         </p>
         <CodeList
           entries={unconfirmed}
           variant="unconfirmed"
-          names={names}
           now={now}
         />
       </section>
@@ -83,7 +78,6 @@ const expiredRecent = expired.filter((entry) => {
           <CodeList
             entries={expired}
             variant="expired"
-            names={names}
             now={now}
           />
         </details>

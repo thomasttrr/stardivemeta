@@ -268,3 +268,33 @@ export function flagSummary(row: EvidenceRow): string | null {
   }
   return parts.length > 0 ? parts.join(' · ') : null;
 }
+
+/** The one published tier for a character (clean guide, 2026-11-24):
+ * the Low board's tier. A mode-split character is placed by their
+ * overall score band — the same S ≥3.5 / A ≥3.0 / B ≥2.0 / C ≥1.0
+ * bands the board has always used — and their why line names the
+ * split. Unranked stays unranked. */
+export type DisplayTier = 'S' | 'A' | 'B' | 'C' | 'D' | 'Unranked';
+export function displayTier(c: Character): DisplayTier {
+  const r = c.results.low;
+  if (r.tier === 'MODE_SPLIT') {
+    const s = r.score ?? 0;
+    return s >= 3.5 ? 'S' : s >= 3.0 ? 'A' : s >= 2.0 ? 'B' : s >= 1.0 ? 'C' : 'D';
+  }
+  return r.tier === 'UNRANKED' ? 'Unranked' : r.tier;
+}
+
+/** The single clean board: every character in their display tier,
+ * keeping the board's existing order inside each rack. */
+export const cleanBoard: Record<'S' | 'A' | 'B' | 'C' | 'D' | 'UNRANKED', string[]> = (() => {
+  const out: Record<string, string[]> = { S: [], A: [], B: [], C: [], D: [], UNRANKED: [] };
+  const b = data.boards.low;
+  for (const key of ['S', 'A', 'B', 'C', 'D', 'MODE_SPLIT', 'UNRANKED'] as const) {
+    for (const id of b[key]) {
+      const c = charactersById.get(id)!;
+      const t = displayTier(c);
+      out[t === 'Unranked' ? 'UNRANKED' : t].push(id);
+    }
+  }
+  return out as Record<'S' | 'A' | 'B' | 'C' | 'D' | 'UNRANKED', string[]>;
+})();

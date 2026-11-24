@@ -281,6 +281,9 @@ pub struct EvidenceRow {
 pub struct Character {
     pub id: String,
     pub name: String,
+    /// Short plain-language reason for the character's tier (our own
+    /// words, from `data/roster.toml`); the character page shows it.
+    pub why: Option<String>,
     pub released_on: Option<String>,
     pub is_new: bool,
     pub results: Results,

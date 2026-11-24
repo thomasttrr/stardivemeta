@@ -1,41 +1,28 @@
 ---
-// One investment level's tier board (plan T3.2): an open section per tier —
-// a tinted lens with the tier letter and count, then the chip grid
-// (DESIGN.md "Tier rack"). Empty rows hide. Styles: global.css.
-import type { Character } from '../types/contract/Character';
-import type { Level } from '../types/contract/Level';
-import type { TierBoard as TierBoardData } from '../types/contract/TierBoard';
-import { charactersById } from '../lib/data';
+// The one tier board (clean guide, 2026-11-24): an open section per
+// tier — a tinted lens with the tier letter and count, then the chip
+// grid (DESIGN.md "Tier rack"). Empty rows hide. Styles: global.css.
+import { charactersById, cleanBoard } from '../lib/data';
 import CharacterChip from './CharacterChip.astro';
 import TierLens from './TierLens.astro';
 
-interface Props {
-  board: TierBoardData;
-  level: Level;
-  /** Character map to resolve chips against. Defaults to the live
-   * data; history pages pass the snapshot's frozen characters (T4.3). */
-  characters?: Map<string, Character>;
-}
-const { board, level, characters = charactersById } = Astro.props;
-
-const ROWS: (keyof TierBoardData)[] = ['S', 'A', 'B', 'C', 'D', 'MODE_SPLIT', 'UNRANKED'];
-const heading = (k: keyof TierBoardData) =>
-  k === 'MODE_SPLIT' ? 'mode-split' : k === 'UNRANKED' ? 'unranked' : k;
+const ROWS = ['S', 'A', 'B', 'C', 'D', 'UNRANKED'] as const;
+const heading = (k: string) => (k === 'UNRANKED' ? 'Not ranked yet' : `Tier ${k}`);
 ---
 
 <div class="tierboard">
   {
-    ROWS.filter((key) => board[key].length > 0).map((key, rackIdx) => (
+    ROWS.filter((key) => cleanBoard[key].length > 0).map((key, rackIdx) => (
       <section class="rack" data-tier={key}>
-        <h2 class="sr-only">Tier {heading(key)}</h2>
-        <TierLens tier={key} count={board[key].length} />
+        <h2 class="sr-only">{heading(key)}</h2>
+        <TierLens tier={key} count={cleanBoard[key].length} />
         <div class="cards">
-          {board[key].map((id) => {
-            const c = characters.get(id)!;
+          {cleanBoard[key].map((id) => {
+            const c = charactersById.get(id)!;
             return (
               <CharacterChip
                 character={c}
-                result={c.results[level]}
+                tier={key === 'UNRANKED' ? 'not ranked yet' : key}
                 eager={rackIdx === 0}
               />
             );

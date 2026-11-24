@@ -1,104 +1,42 @@
 ---
-// Home tier board (plan T3.2 + §B.5 Home). All three level boards are
-// static HTML; <html data-level> + CSS decide which one shows (D-2).
+// Home tier board (clean guide, 2026-11-24): one list, plain tiers,
+// a short reason for every character on their own page. No sources,
+// no scoring labels, no investment toggle on the surface.
 import Base from '../layouts/Base.astro';
 import TierBoard from '../components/TierBoard.astro';
-import LevelToggle from '../components/LevelToggle.astro';
-import Legend from '../components/Legend.astro';
 import Stamp from '../components/Stamp.astro';
 import Sparkle from '../components/Sparkle.astro';
-import EvidenceDialogs from '../components/EvidenceDialogs.astro';
-import { LEVELS, data, stampChecked, titleMonth } from '../lib/data';
+import { data, stampChecked, titleMonth } from '../lib/data';
 
-const stamp = `Lists last checked ${stampChecked()} · v${data.method.version} · Game version ${data.game_version}`;
+const stamp = `Updated ${stampChecked()} · Game version ${data.game_version}`;
 ---
 
 <Base
   title={`MONGIL: STAR DIVE Tier List (${titleMonth()}) – StarDiveMeta`}
-  description="Every list disagrees. We show you by how much. The MONGIL: STAR DIVE tier list, combined from Pocket Gamer, Kaiden and GameWith JP."
+  description="A clean MONGIL: STAR DIVE tier list for players: plain tiers, a short reason for every character, plus codes and banner dates."
   path="/"
 >
   <section class="hero">
     <h1 class="display">MONGIL: STAR DIVE <span>tier list</span></h1>
     <span class="star-rule" aria-hidden="true"><Sparkle /></span>
-    <p class="tagline">Every list disagrees. We show you by how much.</p>
+    <p class="tagline">Who's worth building — and why.</p>
     <p class="built">
-      Combined from Pocket Gamer, Kaiden and GameWith JP. Tap a character to
-      see what each list says.
+      One list, plain tiers. Tap a character for the short reason behind
+      their tier.
     </p>
   </section>
-  <LevelToggle />
 
-  {
-    LEVELS.map((lv) => (
-      <div class={`lvl lvl-${lv}`}>
-        <TierBoard board={data.boards[lv]} level={lv} />
-      </div>
-    ))
-  }
+  <TierBoard />
 
-  <script is:inline>
-    // Moved-since-last-visit markers: remember the tier each character
-    // was in per level (localStorage sdm.tiers.<level>); on a later
-    // visit, chips whose tier changed get the quiet .moved sparkle.
-    // First visit only records — no markers. No surface text is added;
-    // the change is named in the chip's aria-label only.
-    (function () {
-      try {
-        ['low', 'high', 'max'].forEach(function (lv) {
-          var board = document.querySelector('.lvl-' + lv + ' .tierboard');
-          if (!board) return;
-          var now = {};
-          board.querySelectorAll('.rack').forEach(function (rack) {
-            var tier = rack.getAttribute('data-tier');
-            rack.querySelectorAll('.chip').forEach(function (chip) {
-              now[chip.getAttribute('data-slug')] = tier;
-            });
-          });
-          var key = 'sdm.tiers.' + lv;
-          var prev = null;
-          try {
-            prev = JSON.parse(localStorage.getItem(key) || 'null');
-          } catch (e) {}
-          if (prev) {
-            board.querySelectorAll('.chip').forEach(function (chip) {
-              var slug = chip.getAttribute('data-slug');
-              if (prev[slug] && prev[slug] !== now[slug]) {
-                chip.classList.add('moved');
-                chip.setAttribute(
-                  'aria-label',
-                  chip.getAttribute('aria-label') + '; moved since your last visit',
-                );
-              }
-            });
-          }
-          try {
-            localStorage.setItem(key, JSON.stringify(now));
-          } catch (e) {}
-        });
-      } catch (e) {}
-    })();
-  </script>
-
-  <Legend />
   <Stamp text={stamp} />
 
   <ul class="pill-links">
-    <li><a class="pill-link" href="/table/">See the full table</a></li>
-    <li><a class="pill-link" href="/rules/">How we score</a></li>
-    <li><a class="pill-link" href="/notes/">What moved this week</a></li>
-    {
-      /* One link per investment level; <html data-level> shows the one
-         matching the board on screen (Low without JS). */
-      LEVELS.map((lv) => (
-        <li class={`lvl lvl-${lv}`}>
-          <a class="pill-link" href={`/img/generated/tierlist-${lv}.png`}>Download this list (PNG)</a>
-        </li>
-      ))
-    }
+    <li><a class="pill-link" href="/beginner/">New player? Start here</a></li>
+    <li><a class="pill-link" href="/codes/">Codes</a></li>
+    <li>
+      <a class="pill-link" href="/img/generated/tierlist-low.png">Download this list (PNG)</a>
+    </li>
   </ul>
-
-  <EvidenceDialogs />
 </Base>
 
 <style>
@@ -138,9 +76,9 @@ const stamp = `Lists last checked ${stampChecked()} · v${data.method.version} �
   }
 
   /* Short screens (an unfolded iPhone Duo is only ~626px tall): slim
-     the opening — smaller title, tighter gaps, no "Combined from…"
-     line — so the S tier row shows without scrolling. Screens of a
-     normal height keep the full opening. */
+     the opening — smaller title, tighter gaps, no intro line — so the
+     S tier row shows without scrolling. Screens of a normal height
+     keep the full opening. */
   @media (max-height: 700px) {
     .hero {
       padding-top: 10px;

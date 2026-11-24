@@ -14,9 +14,6 @@ interface Props {
   description?: string;
   /** Canonical path, e.g. "/" or "/c/francis/". */
   path: string;
-  /** Board scripts: the level restore + evidence dialogs. Set false
-   * for pages with neither (plan T3.5 table). */
-  levelScript?: boolean;
   /** Column width: "wide" for boards and tables, "prose" for reading. */
   width?: 'wide' | 'prose';
   /** Keep the page out of search (the 404 page): robots noindex, and
@@ -26,9 +23,8 @@ interface Props {
 
 const {
   title,
-  description = 'Every list disagrees. We show you by how much.',
+  description = 'A clean MONGIL: STAR DIVE tier list for players: plain tiers, a short reason for every character, plus codes and banner dates.',
   path,
-  levelScript = true,
   width = 'wide',
   noindex = false,
 } = Astro.props;
@@ -44,27 +40,17 @@ const favicon =
 
 const nav = [
   { href: '/', label: 'Tier list' },
-  { href: '/conquest/', label: 'Conquest' },
-  { href: '/rift/', label: 'Rift' },
-  { href: '/table/', label: 'Table' },
   { href: '/beginner/', label: 'Beginner' },
   { href: '/codes/', label: 'Codes' },
   { href: '/banner/', label: 'New characters' },
-  { href: '/rules/', label: 'Rules' },
 ];
-const footerNav = [
-  { href: '/history/', label: 'History' },
-  { href: '/notes/', label: 'Notes' },
-  { href: '/corrections/', label: 'Corrections' },
-  { href: '/data/', label: 'Data' },
-  { href: '/about/', label: 'About' },
-];
+const footerNav = [{ href: '/about/', label: 'About' }];
 const current = (href: string) =>
   href === '/' ? path === '/' : path.startsWith(href);
 ---
 
 <!doctype html>
-<html lang="en" data-level="low">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -81,23 +67,6 @@ const current = (href: string) =>
     {!noindex && <meta property="og:url" content={canonical} />}
     <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary_large_image" />
-    {
-      levelScript && (
-        <script is:inline>
-          document.documentElement.classList.add('js');
-          try {
-            var q = new URLSearchParams(location.search).get('level');
-            var l = q || localStorage.getItem('sdm.level');
-            if (l === 'low' || l === 'high' || l === 'max') {
-              document.documentElement.dataset.level = l;
-              if (q) {
-                try { localStorage.setItem('sdm.level', l); } catch (e) {}
-              }
-            }
-          } catch (e) {}
-        </script>
-      )
-    }
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -152,13 +121,6 @@ const current = (href: string) =>
       </footer>
     </div>
 
-    {
-      levelScript && (
-        <script>
-          import '../scripts/dialog.ts';
-        </script>
-      )
-    }
   </body>
 </html>
 

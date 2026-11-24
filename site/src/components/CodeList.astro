@@ -1,88 +1,31 @@
 ---
-// One section of the codes page (plan T4.1 + §B.5 Codes): a list of
-// code cards for one computed status. Statuses arrive computed from
-// Rust (codes.json); this component only formats sightings.
+// One section of the codes page (clean guide, 2026-11-24): code cards
+// for one status. Cards show the code, the reward, and the dates —
+// no source names anywhere. Statuses arrive computed from Rust
+// (codes.json); this component only formats.
 import type { CodeEntry } from '../types/contract/CodeEntry';
 import { fmtDate } from '../lib/data';
 
 interface Props {
   entries: CodeEntry[];
   variant: 'active' | 'unconfirmed' | 'expired';
-  /** Source id → display name (from the codes.json registry). */
-  names: Map<string, string>;
   /** Build instant, for the expired section's 30-day window. */
   now: number;
 }
-const { entries, variant, names, now } = Astro.props;
+const { entries, variant, now } = Astro.props;
 
-const nameOf = (id: string) => names.get(id) ?? id;
-
-/** The freshest observation per source. */
-function latestPerSource(entry: CodeEntry) {
-  const bySource = new Map<string, CodeEntry['observations'][number]>();
-  for (const obs of entry.observations) {
-    const prev = bySource.get(obs.source);
-    if (!prev || Date.parse(obs.seen_at) > Date.parse(prev.seen_at)) {
-      bySource.set(obs.source, obs);
-    }
-  }
-  return [...bySource.values()];
-}
-
-/** "Confirmed by {s1}, {s2}": the freshest active sighting of the
- * first two independence groups (§B.5). */
-function confirmedBy(entry: CodeEntry): string {
-  const byGroup = new Map<string, CodeEntry['observations'][number]>();
-  for (const obs of latestPerSource(entry)) {
-    if (obs.status !== 'active') continue;
-    const prev = byGroup.get(obs.group);
-    if (!prev || Date.parse(obs.seen_at) > Date.parse(prev.seen_at)) {
-      byGroup.set(obs.group, obs);
-    }
-  }
-  const witnesses = [...byGroup.values()]
-    .sort((a, b) => Date.parse(b.seen_at) - Date.parse(a.seen_at))
-    .slice(0, 2)
-    .map((o) => nameOf(o.source));
-  return witnesses.join(', ');
-}
-
-const STATUS_WORD: Record<string, string> = {
-  active: 'active',
-  expired: 'expired',
-  not_listed: 'not listed',
-};
-
-/** One-line summary for an Unconfirmed card: how many sites list the
- * code, how many say expired, and when it was last checked — all from
- * the freshest sighting per source. The per-site lines sit behind it,
- * one tap away, instead of repeating down the card. */
-function summaryFor(entry: CodeEntry): string {
-  const latest = latestPerSource(entry);
-  const listing = latest.filter((o) => o.status === 'active').length;
-  const expired = latest.filter((o) => o.status === 'expired').length;
-  // The freshest sighting's own date, sliced from its timestamp like
-  // the per-site lines below — re-deriving it in UTC would shift the
-  // day for evening sightings in negative-offset zones.
+/** "Last checked {date}" from the freshest sighting of the code. */
+function lastChecked(entry: CodeEntry): string {
   const lastSeen = [...entry.observations]
     .sort((a, b) => Date.parse(b.seen_at) - Date.parse(a.seen_at))[0]
     .seen_at.slice(0, 10);
-  const parts = [
-    listing === 0
-      ? 'No sites list it'
-      : `${listing} ${listing === 1 ? 'site lists' : 'sites list'} it`,
-  ];
-  if (expired > 0) {
-    parts.push(`${expired} ${expired === 1 ? 'says' : 'say'} expired`);
-  }
-  parts.push(`Last checked ${fmtDate(lastSeen)}`);
-  return parts.join(' · ');
+  return `Last checked ${fmtDate(lastSeen)}`;
 }
 
 const DAY = 86_400_000;
 const visible = entries.filter((entry) => {
   if (variant !== 'expired') return true;
-  // Expired section shows only the last 30 days (§B.5).
+  // Expired section shows only the last 30 days.
   const latest = Math.max(
     ...entry.observations.map((o) => Date.parse(o.seen_at)),
   );
@@ -113,7 +56,7 @@ const visible = entries.filter((entry) => {
         {variant === 'active' && (
           <>
             <p class="line" data-active-only>
-              Reward: {entry.reward.text} (via {nameOf(entry.reward.source)})
+              Reward: {entry.reward.text}
             </p>
             {entry.expires_at && (
               <p class="line" data-exp-line>
@@ -121,24 +64,12 @@ const visible = entries.filter((entry) => {
               </p>
             )}
             <p class="line dim" data-active-only>
-              Confirmed by {confirmedBy(entry)}
+              {lastChecked(entry)}
             </p>
           </>
         )}
         {variant === 'unconfirmed' && (
-          <details class="sightings-fold">
-            <summary>{summaryFor(entry)}</summary>
-            <ul class="sightings">
-              {latestPerSource(entry)
-                .sort((a, b) => nameOf(a.source).localeCompare(nameOf(b.source)))
-                .map((o) => (
-                  <li>
-                    {nameOf(o.source)}: {STATUS_WORD[o.status] ?? o.status}, seen{' '}
-                    {fmtDate(o.seen_at.slice(0, 10))}
-                  </li>
-                ))}
-            </ul>
-          </details>
+          <p class="line dim">{lastChecked(entry)}</p>
         )}
         {variant === 'expired' && (
           <p class="line dim">
@@ -231,24 +162,5 @@ const visible = entries.filter((entry) => {
   }
   .line.dim {
     color: var(--sub);
-  }
-  .sightings {
-    list-style: none;
-    margin: 8px 0 0;
-    padding: 0;
-    color: var(--sub);
-    font-size: var(--text-note);
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
-  .sightings-fold summary {
-    margin-top: 8px;
-    color: var(--sub);
-    font-size: var(--text-note);
-    cursor: pointer;
-  }
-  .sightings-fold summary:hover {
-    color: var(--text);
   }
 </style>

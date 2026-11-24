@@ -17,90 +17,105 @@
 [[character]]
 id = "mina"
 name = "Mina"
+why = "Needs investment to hit her ceiling — but that ceiling is the highest in the game, and she is also its best breaker."
 released_on = "2026-04-29"
 released_on_sources = ["https://game8.co/games/mongil-star-dive/archives/592077", "https://www.pocketgamer.com/mongil-star-dive/"]
 
 [[character]]
 id = "penny"
 name = "Penny"
+why = "A solid on-field Lightning DPS, simply outshone by the stronger Lightning options."
 released_on = "2026-04-15"
 released_on_sources = ["https://gamewith.net/mongil-stardive/73714", "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"]
 
 [[character]]
 id = "narae"
 name = "Narae"
+why = "The best teammate in the game — her huge Ice damage buffs lift almost any main DPS she plays with."
 released_on = "2026-05-27"
 released_on_sources = ["https://www.gamedeveloper.com/press-release/mongil-star-dive-flaunches-major-update-featuring-narae-and-new-story-chapter-flowers-blooming-from-scars-", "https://game8.co/games/mongil-star-dive/archives/594868"]
 
 [[character]]
 id = "sangun"
 name = "Sangun"
+why = "A melee Wind fighter who pulls enemies together and summons a tiger for escalating strikes — a fun kit with modest numbers."
 released_on = "2026-04-15"
 released_on_sources = ["https://gamewith.net/mongil-stardive/73714", "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"]
 
 [[character]]
 id = "jiwon"
 name = "Jiwon"
+why = "Grants infinite stamina for dash-cancel Wind teams, but her buffs are weak below A4 and she does little outside Wind teams."
 released_on = "2026-04-15"
 released_on_sources = ["https://gamewith.net/mongil-stardive/73714", "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"]
 
 [[character]]
 id = "gabi"
 name = "Gabi"
+why = "Slow — the slowest in the game — but her charged-up basic attack hits extremely hard."
 released_on = "2026-04-15"
 released_on_sources = ["https://gamewith.net/mongil-stardive/73714", "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"]
 
 [[character]]
 id = "isabella"
 name = "Isabella"
+why = "Top-end Ice damage with very high breaking power, and she can burst from off-field too."
 released_on = "2026-09-30"
 released_on_sources = ["https://www.invenglobal.com/articles/26667/mongil-star-dive-version-14-update-adds-isabella-and-new-region", "https://www.capsulecomputers.com.au/2026/10/mongil-star-dive-launches-version-1-4-update-featuring-new-character-isabella/"]
 
 [[character]]
 id = "flare"
 name = "Flare"
+why = "Held back by slow ultimate uptime, but her A1 ultimate's defense shred is arguably the best in the game."
 released_on = "2026-04-15"
 released_on_sources = ["https://gamewith.net/mongil-stardive/73714", "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"]
 
 [[character]]
 id = "chloe"
 name = "Chloe"
+why = "Fast, relentless melee Wind damage — she builds energy as she punches and spends it on high-tempo burst states."
 released_on = "2026-10-21"
 released_on_sources = ["https://www.invenglobal.com/articles/27503/mongil-star-dive-adds-five-star-wind-fighter-chloe-in-new-update", "https://finalweapon.net/2026/10/21/mongil-star-dive-5-star-fighter-character-chloe/"]
 
 [[character]]
 id = "ophelia"
 name = "Ophelia"
+why = "Steady, easy-to-play Ice damage that keeps ticking while she is swapped out — and she scales very well with dupes."
 released_on = "2026-04-15"
 released_on_sources = ["https://gamewith.net/mongil-stardive/73714", "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"]
 
 [[character]]
 id = "esther"
 name = "Esther"
+why = "The game's only real Wind main DPS, chaining cancellable enhanced attacks through her smoke."
 released_on = "2026-04-15"
 released_on_sources = ["https://game8.co/games/mongil-star-dive/archives/592077", "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"]
 
 [[character]]
 id = "nagi"
 name = "Nagi"
+why = "Low damage on her own; her place is at A2 and up as a defense-shredding sidegrade in Wind teams."
 released_on = "2026-06-17"
 released_on_sources = ["https://game8.co/games/mongil-star-dive/archives/591697", "https://finalweapon.net/tag/mongil-star-dive/"]
 
 [[character]]
 id = "brisshell"
 name = "Brisshell"
+why = "Monstrous damage numbers, permanent Earth affliction, and a defense shred from A1 — she works as a main DPS or a support."
 released_on = "2026-08-20"
 released_on_sources = ["https://finalweapon.net/tag/mongil-star-dive/", "https://casualoldgamer.com/2026/08/13/mongil-star-dive-version-1-3-revealed-brishell-major-qol-changes-and-a-bigger-1-4-ahead/"]
 
 [[character]]
 id = "mabel"
 name = "Mabel"
+why = "Very high breaking power, but her kit only comes together at A4 — where she becomes a powerhouse."
 released_on = "2026-07-29"
 released_on_sources = ["https://finalweapon.net/tag/mongil-star-dive/", "https://thisisgamesea.com/news/pr-news/mongil-star-dive-mabel-5-star-update/"]
 
 [[character]]
 id = "verna-summer-dive"
 name = "Verna: Summer Dive!"
+why = "A strong Fire main DPS who is great value early — she matches low-investment Mina, though Mina passes her at high awakenings."
 base_of = "verna"
 released_on = "2026-07-08"
 released_on_sources = ["https://www.gamedeveloper.com/press-release/mongil-star-dive-releases-major-version-1-2-summer-update-featuring-two-new-5-star-characters", "https://mmohuts.com/news/mongil-star-dives-version-1-2-update-adds-summer-event-two-5-star-characters"]
@@ -108,6 +123,7 @@ released_on_sources = ["https://www.gamedeveloper.com/press-release/mongil-star-
 [[character]]
 id = "francis-summer-dive"
 name = "Francis: Summer Dive!"
+why = "The best Earth support at any investment: attack, Earth damage, and attack speed for the whole team."
 base_of = "francis"
 released_on = "2026-07-08"
 released_on_sources = ["https://www.gamedeveloper.com/press-release/mongil-star-dive-releases-major-version-1-2-summer-update-featuring-two-new-5-star-characters", "https://mmohuts.com/news/mongil-star-dives-version-1-2-update-adds-summer-event-two-5-star-characters"]
@@ -115,70 +131,83 @@ released_on_sources = ["https://www.gamedeveloper.com/press-release/mongil-star-
 [[character]]
 id = "vivian"
 name = "Vivian"
+why = "A Fire buffer whose signature weapon does most of the work — attack and crit damage for Fire teams."
 released_on = "2026-09-09"
 released_on_sources = ["https://www.invenglobal.com/tag/Mongil%3A+STAR+DIVE", "https://finalweapon.net/tag/mongil-star-dive/"]
 
 [[character]]
 id = "verna"
 name = "Verna"
+why = "Simple, steady Fire damage with no gimmicks — consistent, just not spectacular."
 released_on = "2026-04-15"
 released_on_sources = ["https://driffle.com/blog/mongil-star-dive-tier-list/", "https://game8.co/games/mongil-star-dive/archives/592077"]
 
 [[character]]
 id = "cloud"
 name = "Cloud"
+why = "Stores up damage during downtime and lets it go in long bursts — with some of the highest breaking power in the game."
 released_on = "2026-04-15"
 released_on_sources = ["https://game8.co/games/mongil-star-dive/archives/592077", "https://gamewith.net/mongil-stardive/73714"]
 
 [[character]]
 id = "francis"
 name = "Francis"
+why = "The game's premier support: huge heals, plus a big attack boost for whoever you switch to next."
 released_on = "2026-04-15"
 released_on_sources = ["https://game8.co/games/mongil-star-dive/archives/592077", "https://gamewith.net/mongil-stardive/73714"]
 
 [[character]]
 id = "yeonhwa"
 name = "Yeonhwa"
+why = "A zero-field-time sub-DPS: from A1 she keeps a defense shred and Lightning affliction up almost constantly, in any team."
 released_on = "2026-04-15"
 released_on_sources = ["https://game8.co/games/mongil-star-dive/archives/592077", "https://gamewith.net/mongil-stardive/73714"]
 
 [[character]]
 id = "daisy"
 name = "Daisy"
+why = "A plain healer with no buffs to offer — Francis outclasses her, and her only unique trick is a revive at A6."
 released_on = "2026-04-15"
 released_on_sources = ["https://game8.co/games/mongil-star-dive/archives/592077", "https://driffle.com/blog/mongil-star-dive-tier-list/"]
 
 [[character]]
 id = "leeho"
 name = "Leeho"
+why = "Keeps a Fire resistance shred up well, but he is outclassed both as a main DPS and as a support."
 
 [[character]]
 id = "benjamin"
 name = "Benjamin"
+why = "A 4-star powerhouse — his skill cooldown nearly vanishes, so he mashes it for very high damage."
 released_on = "2026-04-15"
 released_on_sources = ["https://gamewith.net/mongil-stardive/73714", "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"]
 
 [[character]]
 id = "sera"
 name = "Sera"
+why = "A powerhouse with Ophelia's signature weapon — and quite weak without it."
 
 [[character]]
 id = "ellie"
 name = "Ellie"
+why = "Massive bouncing damage at higher dupes, plus effortless off-field damage from her floating candies."
 
 [[character]]
 id = "reina"
 name = "Reina"
+why = "A decent Lightning DPS and breaker, outclassed by her peers — her best trick is how little field time she needs as a sub-DPS."
 released_on = "2026-04-15"
 released_on_sources = ["https://game8.co/games/mongil-star-dive/archives/592077", "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"]
 
 [[character]]
 id = "bonnie"
 name = "Bonnie"
+why = "Strong Wind affliction and crit damage at A2, but she needs a long time on-field to set up her tag-out."
 
 [[character]]
 id = "angel"
 name = "Angel"
+why = "Deals main-DPS-level damage from off-field — a star in Rift, but weak in Conquest, so she lands mid-table overall."
 released_on = "2026-04-15"
 released_on_sources = ["https://gamewith.net/mongil-stardive/73714", "https://ch.netmarble.com/Eng/Newsroom/Detail?post_seq=6645&bbs_code=1020"]
 
@@ -193,6 +222,7 @@ released_on_sources = ["https://gamewith.net/mongil-stardive/73714", "https://ch
 [[character]]
 id = "m-a-d"
 name = "M.A.D"
+why = "The new Fire assassin of version 1.5, built for big burst damage."
 released_on = "2026-11-11"
 released_on_sources = ["https://www.gamespress.com/MONGIL-STAR-DIVE-ADDS-NEW-5-STAR-CHARACTER-MAD-IN-VERSION-15-UPDATE", "https://www.invenglobal.com/articles/28456/mongil-star-dive-adds-new-5-star-character-in-version-15-update"]
 

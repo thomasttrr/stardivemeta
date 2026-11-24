@@ -6,7 +6,12 @@ import type { Results } from "./Results";
 /**
  * One character with per-level results and full evidence.
  */
-export type Character = { id: string, name: string, released_on: string | null, is_new: boolean, results: Results, modes: Modes, evidence: Array<EvidenceRow>, 
+export type Character = { id: string, name: string, 
+/**
+ * Short plain-language reason for the character's tier (our own
+ * words, from `data/roster.toml`); the character page shows it.
+ */
+why: string | null, released_on: string | null, is_new: boolean, results: Results, modes: Modes, evidence: Array<EvidenceRow>, 
 /**
  * Ids of errata (`data/errata.toml`) that mention this character.
  */

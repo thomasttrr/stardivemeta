@@ -1,27 +1,21 @@
 ---
-// New characters page (plan T4.2 + §B.5 Banner). One line per
-// character who is new (released within 45 days of the build) or
-// still thinly covered (fewer than 2 lists have placed them at Low),
-// plus the current banner and the debut history from banners.json.
-// Evidence only — this page carries no pull verdict (Package B).
+// New characters page (clean guide, 2026-11-24): the current banner,
+// what's coming next, the newest characters with their tiers, and
+// the debut history. Dates only — no source names, no verdicts.
 import Base from '../layouts/Base.astro';
 import Medallion from '../components/Medallion.astro';
 import {
   banners,
-  charactersById,
   data,
+  displayTier,
   fmtDate,
-  LABEL_WORD,
-  tierDisplay,
   upcoming,
 } from '../lib/data';
 
 const today = new Date().toISOString().slice(0, 10);
 
-// Characters the page lists: new, or Low coverage under 2 (§B.5).
-const listed = data.characters.filter(
-  (c) => c.is_new || c.results.low.coverage < 2,
-);
+// The newest characters (released within 45 days of the build).
+const listed = data.characters.filter((c) => c.is_new);
 
 // The current banner: the banner that started most recently, while it
 // has not ended. Several older debut entries have no recorded end date;
@@ -35,12 +29,6 @@ const current =
     ? latestStarted
     : undefined;
 
-// Banner sources are stored as URLs and none is a tier-list source, so
-// the label is the source's host name (e.g. prydwen.gg).
-const sourceLabel = (url: string) =>
-  url.startsWith('http') ? new URL(url).hostname.replace(/^www\./, '') : url;
-const currentChar = current ? charactersById.get(current.character) : undefined;
-
 // Debut history, newest first.
 const debuts = [...banners].sort((a, b) => b.start.localeCompare(a.start));
 
@@ -50,11 +38,10 @@ const debuts = [...banners].sort((a, b) => b.start.localeCompare(a.start));
 const next = upcoming.filter((u) => u.date >= today);
 ---
 
-<Base description="New MONGIL: STAR DIVE characters and the current banner. We add a new character's placements as each list ranks them." title="New characters – StarDiveMeta" path="/banner/">
+<Base description="New MONGIL: STAR DIVE characters, the current banner, and what's coming next." title="New characters – StarDiveMeta" path="/banner/">
   <h1 class="page-title">New characters</h1>
   <p class="built">
-    We add a new character's placements as each list ranks them. No
-    verdicts here — just what the lists say so far.
+    The current banner, what's coming next, and the newest characters.
   </p>
 
   {
@@ -68,16 +55,9 @@ const next = upcoming.filter((u) => u.date >= today);
           </span>
           <span class="dim">
             {fmtDate(current.start)}
-            {current.end && ` – ${fmtDate(current.end)}`} (via{' '}
-            {sourceLabel(current.source)})
+            {current.end && ` – ${fmtDate(current.end)}`}
           </span>
         </p>
-        {currentChar && (
-          <p class="rule">
-            {currentChar.results.low.coverage} of 3 lists have placed them so
-            far.
-          </p>
-        )}
       </section>
     )
   }
@@ -92,9 +72,7 @@ const next = upcoming.filter((u) => u.date >= today);
               <span class="nm">{u.title}</span>
               <span class="dim">{fmtDate(u.date)}</span>
             </p>
-            <p class="rule">
-              {u.note} (via {u.source})
-            </p>
+            <p class="rule">{u.note}</p>
           </div>
         ))}
       </section>
@@ -102,35 +80,24 @@ const next = upcoming.filter((u) => u.date >= today);
   }
 
   <section>
-    <h2>New and still being ranked</h2>
+    <h2>New this version</h2>
     {
       listed.length === 0 ? (
         <p class="empty" data-panel>No new characters right now.</p>
       ) : (
         <ul class="panel-list chars">
-          {listed.map((c) => {
-            const r = c.results.low;
-            return (
-              <li class="panel-row split vcent" data-panel>
-                <span class="nm who">
-                  <Medallion id={c.id} name={c.name} />
-                  {c.name}
-                </span>
-                <span class="facts">
-                  {r.coverage} of 3 lists have placed them
-                  {r.coverage > 0 && (
-                    <>
-                      {' '}
-                      · {tierDisplay(r.tier)} · {LABEL_WORD[r.label]}
-                    </>
-                  )}
-                  {r.coverage === 0 && <> · Not placed yet</>}
-                  {' · '}
-                  <a href={`/c/${c.id}/`}>See the evidence</a>
-                </span>
-              </li>
-            );
-          })}
+          {listed.map((c) => (
+            <li class="panel-row split vcent" data-panel>
+              <span class="nm who">
+                <Medallion id={c.id} name={c.name} />
+                {c.name}
+              </span>
+              <span class="facts">
+                Tier {displayTier(c)} ·{' '}
+                <a href={`/c/${c.id}/`}>See why</a>
+              </span>
+            </li>
+          ))}
         </ul>
       )
     }
@@ -156,8 +123,7 @@ const next = upcoming.filter((u) => u.date >= today);
       }
     </ul>
     <p class="rule">
-      Banner dates are as the sources report them; placements are on
-      each character's page.
+      Each character's tier and the short reason are on their page.
     </p>
   </section>
 </Base>
@@ -190,8 +156,6 @@ const next = upcoming.filter((u) => u.date >= today);
   }
   .chars .facts a {
     color: var(--link);
-    /* Keep "See the evidence" whole: on phone cards it wrapped
-       mid-phrase ("See the / evidence"). */
     white-space: nowrap;
   }
   /* Rows that name a character carry a small round portrait, so the

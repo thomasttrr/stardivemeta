@@ -1,44 +1,27 @@
 ---
-// One character chip (plan T3.2, DESIGN.md "Character chip"): the
-// medallion portrait, the name, and the label mark + word — nothing
-// else on the board surface. Tier, score and list count are in the
-// aria-label and one tap away in the evidence dialog. A link to
-// /c/<slug>/ that dialog.ts upgrades to the dialog. On mode pages the
-// label line becomes the small Overall-at-Low line (T3.4).
-// Styles: global.css "Character chip".
+// One character chip (clean guide, 2026-11-24): the medallion portrait
+// and the name — nothing else on the board surface. The tier comes
+// from the rack the chip sits in; the short reason is one tap away on
+// the character page. Styles: global.css "Character chip".
 import type { Character } from '../types/contract/Character';
-import type { Result } from '../types/contract/Result';
-import { LABEL_WORD, tierDisplay } from '../lib/data';
-import LabelMark from './LabelMark.astro';
 import Medallion from './Medallion.astro';
 
 interface Props {
   character: Character;
-  /** The result this chip summarises (board level, or Low on mode pages). */
-  result: Result;
-  /** Show the "Overall …" line (mode pages). */
-  overallLine?: boolean;
+  /** The rack this chip sits in, for the accessible name. */
+  tier: string;
   /** Eager-load the portrait (the board's first rack is above the fold). */
   eager?: boolean;
 }
-const { character: c, result: r, overallLine = false, eager = false } = Astro.props;
-const word = LABEL_WORD[r.label];
-const tierWord = r.tier === 'MODE_SPLIT' ? 'mode-split' : r.tier === 'UNRANKED' ? 'unranked' : r.tier;
-const srText = `${c.name}: tier ${tierWord}, ${word}, score ${r.score_display ?? '—'} of 4, ${r.coverage} lists`;
+const { character: c, tier, eager = false } = Astro.props;
 ---
 
 <a
   class="chip"
   href={`/c/${c.id}/`}
   data-slug={c.id}
-  data-label={r.label}
-  data-dialog={`ev-${c.id}`}
-  aria-label={srText}
+  aria-label={`${c.name}: tier ${tier}`}
 >
   <Medallion id={c.id} name={c.name} eager={eager} />
   <span class="chip-name">{c.name}</span>
-  <span class="chip-sub">
-    <span class="mk"><LabelMark label={r.label} size={11} /></span>
-    {overallLine ? `Overall ${tierDisplay(r.tier)}` : r.label === 'SPECULATION' ? '1 list' : word}
-  </span>
 </a>

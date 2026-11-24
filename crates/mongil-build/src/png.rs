@@ -7,32 +7,12 @@
 //! directory is gitignored; Astro copies it into `dist/`).
 
 use mongil_core::load::load_dataset;
-use mongil_core::method::{compute, Label, TierBand};
+use mongil_core::method::{compute, TierBand};
 use mongil_core::model::Level;
 use mongil_render::{BoardView, ChipView, RowView};
 use std::collections::BTreeMap;
 use std::path::Path;
 use std::process::ExitCode;
-
-fn label_str(label: Label) -> &'static str {
-    match label {
-        Label::Solid => "SOLID",
-        Label::Contested => "CONTESTED",
-        Label::Speculation => "SPECULATION",
-        Label::ModeSplit => "MODE_SPLIT",
-        Label::Unranked => "UNRANKED",
-    }
-}
-
-fn glyph(label: Label) -> &'static str {
-    match label {
-        Label::Solid => "●",
-        Label::Contested => "◐",
-        Label::Speculation => "○",
-        Label::ModeSplit => "⇄",
-        Label::Unranked => "—",
-    }
-}
 
 fn tier_key(band: TierBand) -> &'static str {
     match band {
@@ -134,7 +114,24 @@ pub fn run(data_dir: &Path, out_dir: &Path) -> ExitCode {
             .iter()
             .map(|c| (c.id.as_str(), c))
             .collect();
-        let mut rows = Vec::new();
+        // Clean guide (2026-11-24): chips carry names only. On the Low
+        // board — the site's one published list — a mode-split
+        // character sits in their overall score band (S 3.5+,
+        // A 3.0+, B 2.0+, C 1.0+) instead of a separate row.
+        let display_band = |band: TierBand, score: Option<f64>| -> TierBand {
+            if level == Level::Low && band == TierBand::ModeSplit {
+                match score.unwrap_or(0.0) {
+                    s if s >= 3.5 => TierBand::S,
+                    s if s >= 3.0 => TierBand::A,
+                    s if s >= 2.0 => TierBand::B,
+                    s if s >= 1.0 => TierBand::C,
+                    _ => TierBand::D,
+                }
+            } else {
+                band
+            }
+        };
+        let mut grouped: Vec<(TierBand, Vec<ChipView>)> = Vec::new();
         for band in [
             TierBand::S,
             TierBand::A,
@@ -145,24 +142,34 @@ pub fn run(data_dir: &Path, out_dir: &Path) -> ExitCode {
             TierBand::Unranked,
         ] {
             let ids = result.boards.get(&band).cloned().unwrap_or_default();
-            if ids.is_empty() {
-                continue;
+            for id in &ids {
+                let c = by_id[id.as_str()];
+                let target = display_band(band, c.score);
+                let chip = ChipView { name: c.name.clone() };
+                match grouped.iter_mut().find(|(b, _)| *b == target) {
+                    Some((_, chips)) => chips.push(chip),
+                    None => grouped.push((target, vec![chip])),
+                }
             }
-            let chips = ids
-                .iter()
-                .map(|id| {
-                    let c = by_id[id.as_str()];
-                    ChipView {
-                        name: c.name.clone(),
-                        label: label_str(c.label).to_string(),
-                        glyph: glyph(c.label).to_string(),
-                    }
-                })
-                .collect();
-            rows.push(RowView {
-                tier: tier_key(band).to_string(),
-                chips,
-            });
+        }
+        let mut rows = Vec::new();
+        for band in [
+            TierBand::S,
+            TierBand::A,
+            TierBand::B,
+            TierBand::C,
+            TierBand::D,
+            TierBand::ModeSplit,
+            TierBand::Unranked,
+        ] {
+            if let Some((_, chips)) = grouped.iter().find(|(b, _)| *b == band) {
+                if !chips.is_empty() {
+                    rows.push(RowView {
+                        tier: tier_key(band).to_string(),
+                        chips: chips.clone(),
+                    });
+                }
+            }
         }
         views.insert(
             level,
