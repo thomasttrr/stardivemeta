@@ -973,3 +973,23 @@ status = "active"
 seen_at = "2026-11-05T10:15:00-05:00"
 claim_date = "2026-11-05"
 url = "https://www.youtube.com/live/_XpMNaGwPmc"
+
+# Announced in the Nov 25, 2026 Dev Lounge Talk stream (official
+# MONGIL: STAR DIVE DEV TALK channel, @mongillive): the coupon was
+# shown on screen only (~1:08:55) and no reward was stated, so
+# reward is empty. Expiry as announced: usable until Dec 2, 2026,
+# 08:30 KST — that is Dec 1, 2026, 23:30 UTC. A single official
+# observation so far, so the emit engine caps it at Unconfirmed
+# until a second independent source lists it (same as MAKEANDDESTROY).
+[[code]]
+code = "OVERCLOCKING"
+reward = ""
+reward_source = "official"
+expires_at = "2026-12-01T23:30:00Z"
+expires_source = "official"
+[[code.observation]]
+source = "official"
+status = "active"
+seen_at = "2026-11-25T07:45:00-05:00"
+claim_date = "2026-11-25"
+url = "https://www.youtube.com/watch?v=3g4dtLRYuEs"

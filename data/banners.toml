@@ -100,3 +100,14 @@ title = "Dev Lounge Talk — new character reveal"
 date = "2026-11-25"
 note = "Official developer stream (10:00 UTC) revealing a new character and new content, with a live Q&A."
 source = "Netmarble (official announcement)"
+
+[[banner]]
+character = "rue"
+start = "2026-12-02"
+source = "https://www.prydwen.gg/other-games/mongil-star-dive/banners"
+
+[[upcoming]]
+title = "Rue arrives"
+date = "2026-12-02"
+note = "The second new character of version 1.5: a close-range Lightning support, the Glitch's sharp-tongued waitress."
+source = "Netmarble (official announcement)"

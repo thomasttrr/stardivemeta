@@ -226,3 +226,10 @@ why = "The new Fire assassin of version 1.5, built for big burst damage."
 released_on = "2026-11-11"
 released_on_sources = ["https://www.gamespress.com/MONGIL-STAR-DIVE-ADDS-NEW-5-STAR-CHARACTER-MAD-IN-VERSION-15-UPDATE", "https://www.invenglobal.com/articles/28456/mongil-star-dive-adds-new-5-star-character-in-version-15-update"]
 
+
+[[character]]
+id = "rue"
+name = "Rue"
+why = "The second new character of version 1.5: a close-range Lightning support who fights on ice skates — not ranked yet."
+released_on = "2026-12-02"
+released_on_sources = ["https://www.youtube.com/watch?v=3g4dtLRYuEs", "https://www.youtube.com/watch?v=ynjTiykislI"]
