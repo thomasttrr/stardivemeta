@@ -13,19 +13,25 @@
 #                               30-minute grace). Workflow: `git log -1
 #                               --format=%cI`. Locally likewise.
 #   CODES_CHECKED_AT_OVERRIDE   Acceptance-test hook (T5.2): pretend
-#   SOURCES_CHECKED_AT_OVERRIDE build.json carried this timestamp instead.
-#                               Only ever set by a manual workflow run.
+#                               build.json carried this codes timestamp
+#                               instead. Only ever set by a manual
+#                               workflow run.
 #   FAILURES_FILE               Where to write failed check names, one per
 #                               line (default: health-failures.txt). The
 #                               workflow turns the first into an issue title.
 #
-# The five checks (plan T5.2):
+# The four checks (plan T5.2, revised 2026-11-28):
 #   (1) build.json returns 200;
 #   (2) build.json.commit == main HEAD, or HEAD is younger than 30 min;
-#   (3) codes_checked_at is less than 30 h old;
-#   (4) sources_checked_at is less than 30 h old (the sweep heartbeat —
-#       if X's workspace dies, the sweeps stop and this notices);
-#   (5) /, /codes/ and /c/narae/ return 200 and contain the disclaimer.
+#   (3) codes_checked_at is less than 50 h old (the nightly codes +
+#       patch watch stamps it on every run — if the watch dies, this
+#       notices within two missed nights);
+#   (4) /, /codes/ and /c/narae/ return 200 and contain the disclaimer.
+#
+# The old sources_checked_at check was removed 2026-11-28: the tier
+# sweeps that stamped it were retired 2026-11-24 when the site became
+# a clean editorial tier list, so the check failed daily on a
+# heartbeat that no longer exists.
 #
 # Exit 0 = all pass. Exit 1 = at least one failed (names in FAILURES_FILE).
 set -u
@@ -34,7 +40,8 @@ SITE_URL="${SITE_URL:-https://staging.stardivemeta.pages.dev}"
 SITE_URL="${SITE_URL%/}"
 FAILURES_FILE="${FAILURES_FILE:-health-failures.txt}"
 DISCLAIMER="Fan-made site. Not an official MONGIL: STAR DIVE or Netmarble site."
-MAX_STAMP_AGE_SECONDS=$((30 * 3600))
+MAX_STAMP_AGE_SECONDS=$((50 * 3600))
+MAX_STAMP_AGE_HOURS=50
 
 : > "$FAILURES_FILE"
 fail() { echo "FAIL: $1 — $2"; echo "$1" >> "$FAILURES_FILE"; }
@@ -69,7 +76,7 @@ else
   fi
 fi
 
-# --- (3)+(4) stamp freshness ----------------------------------------------
+# --- (3) stamp freshness ---------------------------------------------------
 check_stamp() {
   local name="$1" field="$2" override="$3" value epoch age
   value="$override"
@@ -85,13 +92,12 @@ check_stamp() {
   if [ "$age" -lt "$MAX_STAMP_AGE_SECONDS" ]; then
     pass "$name fresh (${age}s old)"
   else
-    fail "$name" "$field is ${age}s old (limit 30 h) — value ${value}"
+    fail "$name" "$field is ${age}s old (limit ${MAX_STAMP_AGE_HOURS} h) — value ${value}"
   fi
 }
 check_stamp "codes check" "codes_checked_at" "${CODES_CHECKED_AT_OVERRIDE:-}"
-check_stamp "sources check" "sources_checked_at" "${SOURCES_CHECKED_AT_OVERRIDE:-}"
 
-# --- (5) key pages live + disclaimer ---------------------------------------
+# --- (4) key pages live + disclaimer ---------------------------------------
 for path in "/" "/codes/" "/c/narae/"; do
   page_body="$(mktemp)"
   page_code="$(curl -sS -o "$page_body" -w '%{http_code}' "$SITE_URL$path" 2>/dev/null || echo 000)"

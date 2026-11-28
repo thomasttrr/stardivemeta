@@ -1,5 +1,5 @@
 # Health (plan T5.2): daily outside check that the deployed site is
-# current and the sweep heartbeat is alive. Failures open or update a
+# current and the nightly codes watch is alive. Failures open or update a
 # GitHub issue labelled `health`; a clean run closes any open `health`
 # issue. There are no messages on green — X's jobs relay open health
 # issues to Tom (docs/RUNBOOK.md).
@@ -7,7 +7,7 @@
 # Schedule note: GitHub cron is UTC only, and the plan fixes this one
 # at 0 15 * * * UTC = 10:00 EST / 11:00 EDT. The one-hour seasonal
 # drift is the plan's own choice (T5.2 states it) — the check is a
-# 30-hour heartbeat, so an hour either way does not matter.
+# 50-hour heartbeat, so an hour either way does not matter.
 #
 # Site target: the HEALTH_SITE_URL repo variable when set, else the
 # staging URL. T6.4 sets the variable to https://stardivemeta.com at
@@ -23,10 +23,6 @@ on:
         description: "Acceptance test (T5.2): pretend build.json's codes_checked_at is this ISO timestamp"
         required: false
         type: string
-      sources_checked_at_override:
-        description: "Acceptance test (T5.2): pretend build.json's sources_checked_at is this ISO timestamp"
-        required: false
-        type: string
 
 permissions:
   contents: read
@@ -40,12 +36,11 @@ jobs:
         with:
           ref: main
 
-      - name: Run the five health checks (T5.2)
+      - name: Run the four health checks (T5.2)
         id: checks
         env:
           SITE_URL: ${{ vars.HEALTH_SITE_URL || 'https://staging.stardivemeta.pages.dev' }}
           CODES_CHECKED_AT_OVERRIDE: ${{ inputs.codes_checked_at_override }}
-          SOURCES_CHECKED_AT_OVERRIDE: ${{ inputs.sources_checked_at_override }}
           FAILURES_FILE: ${{ runner.temp }}/health-failures.txt
         run: |
           echo "MAIN_HEAD_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"

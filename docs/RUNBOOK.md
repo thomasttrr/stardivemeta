@@ -25,7 +25,7 @@ DST is handled by the zone, never by a fixed UTC offset (A.0 rule 7).
 | `stardivemeta-sweep-pm` | daily 23:45 | Sweep procedure, **pm mode**: no stamp-only commits; also commits if a code's `expires_at` passed since the last build | PR only if something changed |
 | `stardivemeta-notes-draft` | Mon 09:30 | `mongil-build note` from the last published note's snapshot to the latest snapshot | zero changes → `auto` note in a data PR; changes → PR `notes/<date>` labelled `needs-tom` |
 | `stardivemeta-digest` | Mon 10:00 | One message to Tom (format below), only if there is something to approve or report | message, or silence |
-| health workflow | daily 15:00 UTC (10:00 EST / 11:00 EDT) | The five checks in `scripts/health-check.sh` against the staging URL (repo variable `HEALTH_SITE_URL` after launch) | GitHub issue labelled `health` on failure; closes it on green |
+| health workflow | daily 15:00 UTC (10:00 EST / 11:00 EDT) | The four checks in `scripts/health-check.sh` against the staging URL (repo variable `HEALTH_SITE_URL` after launch) | GitHub issue labelled `health` on failure; closes it on green |
 
 The **merge step** belongs to whichever job opened the PR (see
 "Sweep procedure", step 10).
@@ -145,9 +145,10 @@ with the project name. There are no messages on green.
   accepts the 10:00/11:00 ET seasonal drift), plus manual dispatch.
 - Checks live in `scripts/health-check.sh` so they can be run by
   hand: build.json 200; build commit == main HEAD (30-minute grace);
-  `codes_checked_at` < 30 h; `sources_checked_at` < 30 h (the sweep
-  heartbeat — a dead X workspace gets noticed); `/`, `/codes/`,
-  `/c/narae/` 200 + disclaimer.
+  `codes_checked_at` < 50 h (the nightly codes watch stamps it every
+  run — a dead watch gets noticed); `/`, `/codes/`, `/c/narae/` 200
+  + disclaimer. The old `sources_checked_at` check was removed
+  2026-11-28 — the sweeps that stamped it were retired 2026-11-24.
 - Failure → open or comment on a GitHub issue titled
   `StarDiveMeta health: <check> failed`, labelled `health`.
   All-pass → close any open `health` issue.
