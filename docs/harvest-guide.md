@@ -1,5 +1,15 @@
 # Harvest Guide — how each source is read
 
+> **STATUS — RETIRED 2026-11-24.** The twice-daily sweeps this guide
+> governed were retired in the 2026-11-24 direction change: the site
+> is now an editorial tier-list guide, tier changes are Tom's call,
+> and the only remaining watch is a lean daily codes + patch watch
+> (see `docs/RUNBOOK.md`). This guide is kept unchanged below as the
+> historical record of the consensus-era harvest rules. Note that the
+> bot User-Agent quoted in it points at stardivemeta.com, which is
+> not a registered domain.
+
+
 This is the rulebook for a sweep: how to turn each tier-list source
 into a harvest file, how the two independent reads are compared, and
 what happens when a source can't be read. It expands plan §B.4; the

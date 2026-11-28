@@ -4,53 +4,60 @@ Drafts only. Tom posts these from his own accounts at launch.
 Replace `[URL]` with the real site address when it's live.
 No pull advice, no hype — same plain words as the site.
 
+Corrected 2026-11-27: the site is a clean editorial tier-list guide
+(the 2026-11-24 direction). It no longer combines other sites' lists,
+shows no source names, no agreement labels, and no investment toggle —
+the drafts below now describe the site as it actually is.
+
 ---
 
 ## 1. X post (short)
 
-Every MONGIL: STAR DIVE tier list disagrees.
-StarDiveMeta combines three of them — Pocket Gamer, Kaiden, GameWith JP — into one board, and shows where they agree and where they don't.
-Fan-made. Updated twice a day.
+A clean MONGIL: STAR DIVE tier list: one board, plain tiers, and a
+short reason for every character — in our own words.
+Plus the current codes and banner dates.
+Fan-made. Not official.
 [URL]
 
 ---
 
 ## 2. Community post (Reddit / Discord)
 
-**Every list disagrees. We show you by how much.**
+**One tier list, with the reason for every placement.**
 
-I kept opening three different tier lists for MONGIL: STAR DIVE and getting three different answers, so I built a site that puts them together instead of picking one.
+Most tier lists just give you a letter. StarDiveMeta gives every
+character a plain tier and a short reason why, written by us — one
+list, kept current as the game changes.
 
-StarDiveMeta takes Pocket Gamer, Kaiden, and GameWith JP, converts each list to the same scale, and averages them with equal weight. Every character page shows each list's actual placement, the date, and the notes behind it. You see the receipts, not just the result.
+Every character has their own page: their tier, the short reason
+behind it, and when they were released. There's also a beginner page
+for new accounts, a codes page (codes are listed as Active only once
+they've been confirmed, with a clearly marked Unconfirmed section),
+and a page for the current banner and what's coming next.
 
-Each character gets one plain label:
-Solid means the lists agree. Contested means they're more than a tier apart. Speculation means only one list has placed them so far.
+Fan-made site. Not an official MONGIL: STAR DIVE or Netmarble site.
+Game names and terms belong to their owners.
 
-There's also an investment toggle — Low, High, Max — because tiers change with awakenings and weapon investment. Only Kaiden rates by investment, so the other two lists stay fixed when you switch.
-
-The codes page lists codes as Active only when two independent sources confirm them, with a separate, clearly marked Unconfirmed section.
-
-Fan-made site. Not an official MONGIL: STAR DIVE or Netmarble site. Game names and terms belong to their owners.
-
-If a placement looks wrong, tell me — every claim links back to its source, and corrections are logged in public.
+If a placement looks wrong, tell me — the list is editorial, and
+feedback is how it gets better.
 
 [URL]
 
 ---
 
-## 3. Follow-up post template (first update after launch)
+## 3. Follow-up post template (tier changes after an update)
 
-Reusable for each movers note. Fill in the [brackets].
+Reusable when the board changes. Fill in the [brackets].
 
-**What moved: [date range]**
+**What moved: [date]**
 
-The lists updated, so the board did too. [N] changes this time.
+The game changed, so the board did too. [N] changes this time.
 
-Biggest move: [Character] went from [tier] to [tier] at [Low/High/Max] — [source] moved them to [placement] on [date].
-Also: [Character] is now [label — Solid/Contested/Speculation] ([one-line reason, e.g. "two lists now agree within a tier"]).
-[Character] stays the most argued-about: [source A] says [placement], [source B] says [placement].
+Biggest move: [Character] went from [tier] to [tier] — [one-line
+reason, in our words].
+Also: [Character] joins the list at [tier] ([one-line reason]).
 
-Full note, with a link to the list behind every change: [URL]/notes/
 Board: [URL]
+[Character]'s page: [URL]/c/[character]/
 
 Fan-made. Not an official MONGIL: STAR DIVE or Netmarble site.

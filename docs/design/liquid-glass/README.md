@@ -8,7 +8,10 @@ https://claude.ai/artifact/DERYEKZrVzPbtY1rGsj5G4 (private to the owner).
 - `Mobile.dc.html` is the same page at 390px.
 - `canvas.json` is the canvas layout.
 
-This mock was the starting point. The site now implements the direction for
-real: React islands, a Three.js / React Three Fiber refraction shader and
-Motion springs. See `docs/DESIGN.md`. Before/after screenshots are in
+This mock was a starting point only. The Liquid Glass direction was
+**rejected** (Tom's call, 2026-10-31) and replaced by the Starfield
+direction, which is what the site implements: a static Astro build with
+no React islands, no Three.js, and no Motion — those packages were
+removed with the glass theme. See `docs/DESIGN.md` for the design the
+site actually uses. Before/after screenshots are in
 `docs/design/screenshots/`.
